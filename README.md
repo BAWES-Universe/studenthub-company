@@ -1,2 +1,2 @@
-# payroll-admin
-Frontend app for the Admin portal
+# payroll-company
+Frontend app for the Company portal
