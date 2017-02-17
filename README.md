@@ -1,2 +1,2 @@
-# payroll-company
-Frontend Ionic app for the company to log hours, generate invoices, and make payments
+# payroll-admin
+Frontend app for the Admin portal
