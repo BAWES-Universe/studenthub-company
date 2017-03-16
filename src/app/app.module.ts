@@ -9,10 +9,14 @@ import { LoginPage } from '../pages/start-pages/login/login';
 // Pages when logged in
 import { NavigationPage } from '../pages/logged-in/navigation/navigation';
 import { HomePage } from '../pages/logged-in/home/home';
+import { CandidateListPage } from '../pages/logged-in/candidate/candidate-list/candidate-list';
+
 
 // Providers / Services
 import { AuthService } from '../providers/auth.service';
 import { ConfigService } from '../providers/config.service';
+import { AuthHttpService } from '../providers/logged-in/authhttp.service';
+import { CandidateService } from '../providers/logged-in/candidate.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,8 @@ import { ConfigService } from '../providers/config.service';
     LoginPage,
     // Logged In
     NavigationPage,
-    HomePage
+    HomePage,
+    CandidateListPage
   ],
   entryComponents: [
     MyApp,
@@ -29,7 +34,8 @@ import { ConfigService } from '../providers/config.service';
     LoginPage,
     // Logged In
     NavigationPage,
-    HomePage
+    HomePage,
+    CandidateListPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -38,7 +44,9 @@ import { ConfigService } from '../providers/config.service';
       {provide: ErrorHandler, useClass: IonicErrorHandler},
       Storage, // Ionic Storage
       AuthService, // Handles all Authorization
-      ConfigService // Handles Environment-specific Variables
+      ConfigService, // Handles Environment-specific Variables
+      CandidateService,
+      AuthHttpService
   ],
   bootstrap: [IonicApp]
 })
