@@ -11,7 +11,7 @@
 <ion-content>
   <ion-list>
     <ion-item-sliding *ngFor="let candidateMember of candidate">
-      <button ion-item>
+      <button ion-item (click)="rowSelected(candidateMember)">
         {{ candidateMember.candidate_name}}
       </button>  
     </ion-item-sliding>
