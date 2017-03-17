@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ModalController } from 'ionic-angular';
 
-
+import { CandidateViewPage } from '../candidate-view/candidate-view';
 // Providers
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 // Models
@@ -40,6 +40,14 @@ export class CandidateListPage {
       }
       // this.candidate = response;
       loader.dismiss();
+    });
+  }
+
+  rowSelected(model) {
+    console.log(model);
+    // Load Detail Page
+    this.navCtrl.push(CandidateViewPage, {
+      'model': model
     });
   }
 
