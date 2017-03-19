@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button icon-only (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ operation }}</ion-title>
+    <ion-buttons right>
+      <button ion-button clear color="primary" (click)="save()">
+        Save
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form>
+    <ion-card >
+      <ion-card-content>
+        <ion-grid>
+            <ion-row>
+              <ion-col col-4>Name</ion-col>
+              <ion-col col-4>Hours</ion-col>
+              <ion-col col-4>Bonus</ion-col>
+            </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngFor="let candidateMember of candidatesObj; let i= index ">
+      <ion-card-content>
+        <ion-grid>
+            <ion-row>
+              <ion-col col-4>{{ candidateMember.candidate_name }}</ion-col>
+              <ion-col col-4><ion-input type="number" placeholder="Hours" value="0" [(ngModel)]="hours[i]" [ngModelOptions]="{standalone: true}"></ion-input></ion-col>
+
+              <ion-col col-4><ion-input type="number"  placeholder="Bonus" value="0" [(ngModel)]="bonus[i]" [ngModelOptions]="{standalone: true}"></ion-input></ion-col>
+            </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </form>
+  <ion-list>
+      <button ion-item>
+       Total Hours : {{totalHours()}}
+      </button>  
+  </ion-list>
+</ion-content>
+
+
+<!-- [1,2]
+[3,2]
+candidates.lengt
+id ho[i b[i]
+
+
+new [{},{} -->
