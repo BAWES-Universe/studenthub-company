@@ -4,6 +4,7 @@ import { MenuController, NavController } from 'ionic-angular';
 // Page Imports
 import { HomePage } from '../home/home';
 import { CandidateListPage } from '../candidate/candidate-list/candidate-list';
+import { TransferListPage } from '../transfer/transfer-list/transfer-list';
 
 
 // Services
@@ -29,6 +30,9 @@ export class NavigationPage {
       case "candidate":
         this.rootPage = CandidateListPage;
         break;
+      case "transfer":
+        this.rootPage = TransferListPage;
+        break;  
     }
     this._menuCtrl.close();
  }
