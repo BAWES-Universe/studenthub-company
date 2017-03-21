@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, LoadingController, ModalController, AlertController } from 'ionic-angular';
+
 
 //Pages
 import { TransferFormPage } from '../transfer-form/transfer-form';
@@ -11,7 +12,7 @@ import { CandidateService } from '../../../../providers/logged-in/candidate.serv
 
 
 // Models
-import { Transfer } from '../../../../models/transfer';
+import { Transfer, TransferListModel } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
 import { Store } from '../../../../models/store';
 import { Subcompanies } from '../../../../models/store';
@@ -22,12 +23,13 @@ import { Subcompanies } from '../../../../models/store';
 })
 export class TransferListPage {
 
-  public transfer: Transfer[];
-   public candidate: Candidate[];
+  public transfer: TransferListModel[];
+  public candidate: Candidate[];
+  public transferDateFormats: TransferListModel[];
 
   public storeList: Store[];
   public subcompaniesList: Subcompanies[];
-  public dataList: { stores: Store[], subcompanies: Subcompanies[]};
+  public dataList: { stores: Store[], subcompanies: Subcompanies[] };
 
 
   constructor(
@@ -36,6 +38,7 @@ export class TransferListPage {
     public candidateService: CandidateService,
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
+    private alertCtrl: AlertController
   ) { }
 
   ionViewDidLoad() {
@@ -53,24 +56,6 @@ export class TransferListPage {
     });
   }
 
-//  loadData() {
-//     // Load list of candidate
-//     this.candidate = [];
-//     let loader = this._loadingCtrl.create();
-//     loader.present();
-//     this.candidateService.list().subscribe(response => {
-//       //  this.dataList=response;
-//       this.storeList = response.stores;
-//       this.subcompaniesList = response.subcompanies;
-//       for (let store of response.stores) {
-//         for (let cand of store.candidates) {
-//           this.candidate.push(cand);
-//         }
-//       }
-//       // this.candidate = response;
-//       loader.dismiss();
-//     });
-//   }
 
   create() {
     let candidate = [];
@@ -97,15 +82,26 @@ export class TransferListPage {
     modal.present();
   }
   //Transfers details for each transfer_id
-  transferDetails(transfer_id:number) {
- // Transfers  Detail Page
-    this.navCtrl.push(TransferViewPage, {
-      'model': transfer_id
-    });
+  transferDetails(transfer_id: number, status: string) {
+
+    if (status == undefined) {
+      // Transfers  Detail Page
+      this.navCtrl.push(TransferViewPage, {
+        'model': transfer_id,
+        'transferData': this.transfer
+      });
+    } else {
+      let alert = this.alertCtrl.create({
+        title: '',
+        subTitle: 'Payment  already intiated',
+        buttons: ['OK']
+      });
+      alert.present();
+    }
 
   }
 
 
- 
+
 
 }

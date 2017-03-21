@@ -21,5 +21,18 @@ export class TransferDetails {
     candidate_email: string;
 }
 
+export class TransferListModel {
+    transfer_id: string;
+    company_id: string;
+    transfer_status: string;
+    transfer_created_at: string;
+    transfer_updated_at: string;
+    company_name: string;
+    company_email: string;
+    edit_transfer_status: string;
+}
+
+
+
 
 

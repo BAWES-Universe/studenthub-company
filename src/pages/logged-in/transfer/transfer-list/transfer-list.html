@@ -9,15 +9,14 @@
 </ion-header>
 
 <ion-content>
-
   <ion-list>
-    <ion-item-sliding *ngFor="let transferMember of transfer">
-      <button ion-item (click)="transferDetails(transferMember.transfer_id)">
+    <ion-item-sliding *ngFor="let transferMember of transfer |  orderBy:'transfer_id'">
+      <button ion-item (click)="transferDetails(transferMember.transfer_id,transferMember.edit_transfer_status)">
         Transfer Status:{{ transferMember.transfer_status}}<br>
         Transfer Created: {{ transferMember.transfer_created_at}}<br>
-        Transfer Updated: {{ transferMember.transfer_updated_at}}          
+        Transfer Updated: {{ transferMember.transfer_updated_at}}  <br>         
+           <b>{{transferMember.edit_transfer_status}}  </b>     
       </button>
-
       <ion-item-options side="right">
         <button ion-button color="alert" (click)="transferDetails(transferMember.transfer_id)">
           <ion-icon name="trash"></ion-icon>
@@ -26,56 +25,8 @@
       </ion-item-options>
 
     </ion-item-sliding>
-  </ion-list> 
+  </ion-list>
 </ion-content>
-
-
-
-
-<!--<ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle="left">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-
-    <ion-title> Candidate Names</ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content>
-
-  <ion-card *ngFor="let candidateMember of storeList">
-    <span *ngIf="candidateMember.candidates.length!='0'">
-    <ion-card-header>
-      <h2><b>{{ candidateMember.store_name}}</b></h2>
-    </ion-card-header>
-    <ion-list *ngFor="let candidate of candidateMember.candidates">
-      <button ion-item>
-     {{candidate.candidate_name}}
-    </button>
-    </ion-list>
-</span>
-
-  </ion-card>
-
-  <ion-card *ngFor="let subcompany of subcompaniesList">
-    <span *ngIf="subcompany.candidates.length!='0'">
-    <ion-card-header>
-      <h2><b>{{ subcompany.store_name}}</b></h2>
-    </ion-card-header>
-    <ion-list *ngFor="let subcompanyCandidate of subcompany.candidates">
-      <button ion-item>
-     {{subcompanyCandidate.candidate_name}}
-    </button>
-    </ion-list>
-</span>
-
-  </ion-card>
-
-</ion-content>-->
-
-
-
 <ion-footer>
   <button ion-button full (click)="create()">
     Initiate Transfer
