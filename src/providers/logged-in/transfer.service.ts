@@ -34,6 +34,14 @@ export class TransferService {
     return this._authhttp.get(url);
   }
 
+ /**
+   * Make Transfer To Lock Transfer Id
+   * @returns {Observable<any>}
+   */
+  makeTransfertoLock(transfer_id:number): Observable<any>{   
+    let url = `${this._transferEndpoint}/lock/${transfer_id}`;
+    return this._authhttp.patch(url,'');
+  }
 
    /**
    * Save

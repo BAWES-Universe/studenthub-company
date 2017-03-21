@@ -19,7 +19,7 @@
     <p> {{ transferDetails.transfer_status}} </p>
     <ion-item-group *ngFor="let group of transferDetails.candidates | store_name">
       <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
-      <button *ngFor="let resource of group.resources" ion-item (click)="itemTapped($event, team)">        
+      <button *ngFor="let resource of group.resources" ion-item>        
          <ion-row>
             <ion-col > Candidate Name:</ion-col>
              <ion-col >{{resource.candidate_name}}</ion-col>
@@ -35,8 +35,8 @@
   </ion-list>
 </ion-content>
 
-<ion-footer>
-  <button ion-button full (click)="create()">
+<ion-footer *ngIf="transferDetails">
+  <button ion-button full (click)="transferLock(transferDetails.transfer_id)">
     Make a Transfer
   </button>
 </ion-footer>

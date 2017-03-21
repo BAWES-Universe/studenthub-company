@@ -6,7 +6,7 @@ import { TransferService } from '../../../../providers/logged-in/transfer.servic
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 
 // Models
-import { TransferDetails } from '../../../../models/transfer';
+import { TransferDetails, TransferListModel } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
 
 @Component({
@@ -14,8 +14,8 @@ import { Candidate } from '../../../../models/candidate';
   templateUrl: 'transfer-view.html'
 })
 export class TransferViewPage {
-
   public transferDetails: TransferDetails[];
+  public transferData: TransferListModel[];
   public transfer_id: number;
   public candidate: Candidate[];
   constructor(
@@ -29,6 +29,9 @@ export class TransferViewPage {
   ) {
 
     this.transfer_id = params.get('model');
+    this.transferData = params.get('transferData');
+
+
   }
 
   ionViewDidLoad() {
@@ -45,6 +48,23 @@ export class TransferViewPage {
       this.candidate = response.candidates;
       loader.dismiss();
     });
+  }
+
+
+  transferLock(transfer_id: number) {
+    // Load list of transfer
+    let loader = this._loadingCtrl.create();
+    loader.present();
+     this.transferService.makeTransfertoLock(transfer_id).subscribe(response => {
+    this.transferData.forEach((element) => {
+      if (Number(element.transfer_id) == transfer_id) {
+        element.edit_transfer_status = "Payment Intiated";
+      }
+    });
+
+    this.navCtrl.pop();
+    loader.dismiss();
+     });
   }
 
 

@@ -24,6 +24,10 @@ import { TransferService } from '../providers/logged-in/transfer.service';
 
 
 import { GroupByPipe } from '../pages/logged-in/transfer/groupby-pipe';
+import { SortPipe } from '../pages/logged-in/transfer/timestamp-pipe';
+
+
+
 
 @NgModule({
   declarations: [
@@ -38,7 +42,8 @@ import { GroupByPipe } from '../pages/logged-in/transfer/groupby-pipe';
     TransferListPage,
     TransferFormPage,
     TransferViewPage,
-    GroupByPipe
+    GroupByPipe,
+    SortPipe
   ],
   entryComponents: [
     MyApp,

@@ -19,7 +19,7 @@ export class CandidateService {
    * List of all staff
    * @returns {Observable<any>}
    */
-  list(): Observable<any>{
+  list(): Observable<any> {
     let url = this._candidateEndpoint;
     return this._authhttp.get(url);
   }
