@@ -26,6 +26,16 @@ export class TransferService {
   }
 
    /**
+   * Details of each transfer_id
+   * @returns {Observable<any>}
+   */
+  transferIdDetails(transfer_id:number): Observable<any>{
+    let url = `${this._transferEndpoint}/${transfer_id}`;
+    return this._authhttp.get(url);
+  }
+
+
+   /**
    * Save
    * @param {Transfer} model
    * @returns {Observable<any>}

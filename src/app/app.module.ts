@@ -13,12 +13,17 @@ import { CandidateListPage } from '../pages/logged-in/candidate/candidate-list/c
 import { CandidateViewPage } from '../pages/logged-in/candidate/candidate-view/candidate-view';
 import { TransferListPage } from '../pages/logged-in/transfer/transfer-list/transfer-list';
 import { TransferFormPage } from '../pages/logged-in/transfer/transfer-form/transfer-form';
+import { TransferViewPage } from '../pages/logged-in/transfer/transfer-view/transfer-view';
+
 // Providers / Services
 import { AuthService } from '../providers/auth.service';
 import { ConfigService } from '../providers/config.service';
 import { AuthHttpService } from '../providers/logged-in/authhttp.service';
 import { CandidateService } from '../providers/logged-in/candidate.service';
 import { TransferService } from '../providers/logged-in/transfer.service';
+
+
+import { GroupByPipe } from '../pages/logged-in/transfer/groupby-pipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +36,9 @@ import { TransferService } from '../providers/logged-in/transfer.service';
     CandidateListPage,
     CandidateViewPage,
     TransferListPage,
-    TransferFormPage
+    TransferFormPage,
+    TransferViewPage,
+    GroupByPipe
   ],
   entryComponents: [
     MyApp,
@@ -43,7 +50,8 @@ import { TransferService } from '../providers/logged-in/transfer.service';
     CandidateListPage,
     CandidateViewPage,
     TransferListPage,
-    TransferFormPage
+    TransferFormPage,
+    TransferViewPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)

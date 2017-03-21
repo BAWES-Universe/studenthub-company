@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle="left">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Transfer Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list *ngIf="transferDetails">
+    <h5>transfer_created_at</h5>
+    <p> {{ transferDetails.transfer_created_at}}</p>
+
+    <h5>transfer_updated_at</h5>
+    <p>{{ transferDetails.transfer_updated_at}}</p>
+
+    <h5>transfer_status</h5>
+    <p> {{ transferDetails.transfer_status}} </p>
+    <ion-item-group *ngFor="let group of transferDetails.candidates | store_name">
+      <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
+      <button *ngFor="let resource of group.resources" ion-item (click)="itemTapped($event, team)">        
+         <ion-row>
+            <ion-col > Candidate Name:</ion-col>
+             <ion-col >{{resource.candidate_name}}</ion-col>
+        </ion-row>
+      <ion-row>
+      <ion-col > Candidate Email:</ion-col>
+        <ion-col>{{resource.candidate_email}}</ion-col>
+     </ion-row>
+      </button>
+      <br>
+    </ion-item-group>
+
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <button ion-button full (click)="create()">
+    Make a Transfer
+  </button>
+</ion-footer>
