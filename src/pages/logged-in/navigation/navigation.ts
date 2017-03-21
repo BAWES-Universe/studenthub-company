@@ -23,23 +23,25 @@ export class NavigationPage {
   constructor(
     private _auth: AuthService,
     private _menuCtrl: MenuController
-  ){}
+  ) { }
 
-  loadPage(pageName: string){
-    switch(pageName){
+  loadPage(pageName: string) {
+    switch (pageName) {
       case "candidate":
         this.rootPage = CandidateListPage;
         break;
       case "transfer":
         this.rootPage = TransferListPage;
-        break;  
+        break;
     }
     this._menuCtrl.close();
- }
+  }
+
+
   /**
    * Log Agent out of the app
    */
-  logout(){
+  logout() {
     this._auth.logout();
   }
 

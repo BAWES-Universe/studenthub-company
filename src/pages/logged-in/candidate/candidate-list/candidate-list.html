@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header >
   <ion-navbar>
     <button ion-button menuToggle="left">
       <ion-icon name="menu"></ion-icon>
@@ -8,18 +8,25 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content >
   <ion-list>
     <ion-item-sliding *ngFor="let candidateMember of candidate">
       <button ion-item (click)="rowSelected(candidateMember)">
         {{ candidateMember.candidate_name}}
-      </button>  
+      </button>
     </ion-item-sliding>
-</ion-list>
+  </ion-list>
 </ion-content>
 
+
+
+
+
+
+
+
 <ion-footer>
- <!--  <button ion-button full (click)="create()">
+  <!--  <button ion-button full (click)="create()">
     Create
   </button> -->
 </ion-footer>
