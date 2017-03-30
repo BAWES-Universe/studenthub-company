@@ -4,11 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Transfer Details</ion-title>
-      <ion-buttons right *ngIf="invoiceDetails">
-      <button ion-button clear color="primary" (click)="edit(invoiceDetails)">
-        Edit
-      </button>
-    </ion-buttons>
+     
   </ion-navbar>
 </ion-header>
 
@@ -65,8 +61,4 @@
   </ion-list>
 </ion-content>
 
-<ion-footer *ngIf="invoiceDetails">
-  <button ion-button full (click)="transferLock(invoiceDetails.invoice_id)">
-    Make a Transfer
-  </button>
-</ion-footer>
+

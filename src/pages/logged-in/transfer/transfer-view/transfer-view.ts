@@ -57,18 +57,7 @@ export class TransferViewPage {
     });
   }
 
-  /**
-  * Calculating Total cost
-  */
-  transferLock(invoice_id: number) {
-    // Load list of transfer
-    let loader = this._loadingCtrl.create();
-    loader.present();
-    this.transferService.makeTransfertoLock(invoice_id).subscribe(response => {
-      this.navCtrl.pop();
-      loader.dismiss();
-    });
-  }
+ 
 
   // Calculating Total cost     
   totalCost(hourly_rate, hours, bonus, transfer_cost) {
