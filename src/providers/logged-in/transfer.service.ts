@@ -12,7 +12,7 @@ import { Transfer } from '../../models/transfer';
 @Injectable()
 export class TransferService {
 
-  private _transferEndpoint: string = "/transfers";
+  private _transferEndpoint: string = "/invoices";
 
   constructor(private _authhttp: AuthHttpService) { }
 
@@ -21,25 +21,25 @@ export class TransferService {
    * @returns {Observable<any>}
    */
   list(): Observable<any>{
-    let url = this._transferEndpoint;
+    let url = `${this._transferEndpoint}`;
     return this._authhttp.get(url);
   }
 
    /**
-   * Details of each transfer_id
+   * Details of each invoice_id
    * @returns {Observable<any>}
    */
-  transferIdDetails(transfer_id:number): Observable<any>{
-    let url = `${this._transferEndpoint}/${transfer_id}`;
+  transferIdDetails(invoice_id:number): Observable<any>{   
+    let url = `${this._transferEndpoint}/${invoice_id}`;
     return this._authhttp.get(url);
   }
 
  /**
-   * Make Transfer To Lock Transfer Id
+   * Make Transfer To Lock Invoice Id
    * @returns {Observable<any>}
    */
-  makeTransfertoLock(transfer_id:number): Observable<any>{   
-    let url = `${this._transferEndpoint}/lock/${transfer_id}`;
+  makeTransfertoLock(invoice_id:number): Observable<any>{   
+    let url = `${this._transferEndpoint}/lock/${invoice_id}`;
     return this._authhttp.patch(url,'');
   }
 

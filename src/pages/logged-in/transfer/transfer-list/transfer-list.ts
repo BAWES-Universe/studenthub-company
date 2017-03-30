@@ -12,7 +12,7 @@ import { CandidateService } from '../../../../providers/logged-in/candidate.serv
 
 
 // Models
-import { Transfer, TransferListModel } from '../../../../models/transfer';
+import { Transfer, TransferListModel, InvoiceListModel } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
 import { Store } from '../../../../models/store';
 import { Subcompanies } from '../../../../models/store';
@@ -24,6 +24,8 @@ import { Subcompanies } from '../../../../models/store';
 export class TransferListPage {
 
   public transfer: TransferListModel[];
+  public invoices: InvoiceListModel[];
+
   public candidate: Candidate[];
   public transferDateFormats: TransferListModel[];
 
@@ -42,16 +44,18 @@ export class TransferListPage {
   ) { }
 
   ionViewDidLoad() {
+    // this.loadData();   
+  }
+  ionViewWillEnter() {
     this.loadData();
   }
-
 
   loadData() {
     // Load list of transfer
     let loader = this._loadingCtrl.create();
     loader.present();
     this.transferService.list().subscribe(response => {
-      this.transfer = response;
+      this.invoices = response;
       loader.dismiss();
     });
   }
@@ -60,17 +64,21 @@ export class TransferListPage {
   create() {
     let candidate = [];
     this.candidateService.list().subscribe(response => {
-      console.log(response.stores);
-      for (let store of response.stores) {
-        for (let cand of store.candidates) {
-          candidate.push(cand);
-        }
+      console.log(response);
+      for (let store of response) {
+       // for (let cand of store.candidates) {
+          candidate.push(store);
+       // }
       }
     });
     let modal = this._modalCtrl.create(TransferFormPage, {
       model: new Transfer(),
-      candidates: candidate
+      candidates: candidate,
+      editModel: false
     });
+
+
+
     // Refresh List if required
     modal.onDidDismiss(data => {
       if (data) {
@@ -81,10 +89,12 @@ export class TransferListPage {
     });
     modal.present();
   }
+
+
   //Transfers details for each transfer_id
   transferDetails(transfer_id: number, status: string) {
 
-    if (status == undefined) {
+    if (status == '10') {
       // Transfers  Detail Page
       this.navCtrl.push(TransferViewPage, {
         'model': transfer_id,
