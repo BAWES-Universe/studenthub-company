@@ -3,12 +3,9 @@ import { NavController, ViewController, LoadingController, AlertController, NavP
 // Forms
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidator } from '../../../../validators/custom.validator';
-// // Providers
-// import { CandidateService } from '../../../../providers/logged-in/candidate.service';
-// import { BankService } from '../../../../providers/logged-in/bank.service';
 
 // Models
-import { Transfer } from '../../../../models/transfer';
+import { Transfer, InvoiceModel, InvoiceCandidateMember } from '../../../../models/transfer';
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 
 @Component({
@@ -21,10 +18,15 @@ export class TransferFormPage {
   public operation: string;
   public form: FormGroup;
   public candidatesObj;
+  public invoiceCandidatesObj;
   public candidates: any = []
   public hours: any = [];
   public bonus: any = [];
-  // public transferObj = [{hours:0,bonus:0}];
+  public hourly_rate: any = [];
+  public invoiceModel: InvoiceModel;
+  public editForm: boolean;
+
+  public invoiceCandidateMember: InvoiceCandidateMember[];
 
   constructor(
     params: NavParams,
@@ -36,27 +38,43 @@ export class TransferFormPage {
     private _alertCtrl: AlertController,
   ) {
 
-    // this.form = this._fb.group({
-    //   });
-
     // Load the passed model if available
     this.model = params.get('model');
-    this.candidatesObj = params.get('candidates') 
+    this.candidatesObj = params.get('candidates')
+    this.invoiceModel = params.get('invoiceModel');
+    this.editForm = params.get('editModel');
+
+    if(this.editForm){
+      this.invoiceCandidatesObj = this.invoiceModel.candidates;
+    }
+    
+
   }
-  
+
   /**
    * Total Hours in KD
    */
   totalHours() {
-    var sum = this.hours.reduce((a, b) => parseInt(a) + parseInt(b), 0); 
-    return sum*2;
+    var sum = this.hours.reduce((a, b) => Number(a) + Number(b), 0);
+    var bonus = this.bonus.reduce((a, b) => Number(a) + Number(b), 0);
+    return sum + bonus;
+  }
+
+  /**
+ * Total Amount in KD
+ */
+  totalAmount() {
+    var sum = this.hours.reduce((a, b) => Number(a) + Number(b), 0);
+    var bonus = this.bonus.reduce((a, b) => Number(a) + Number(b), 0);
+    var hourly_rate = this.hourly_rate.reduce((a, b) => Number(a) + Number(b), 0);
+    return (sum + bonus) * 2;
   }
 
 
-   /**
-   * Save the model
-   */
-  save(){
+  /**
+  * Save the model
+  */
+  save() {
     let loader = this._loadingCtrl.create();
     loader.present();
     this.candidatesObj.forEach((value,index) => {
