@@ -4,20 +4,24 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Transfer Details</ion-title>
+      <ion-buttons right *ngIf="invoiceDetails">
+      <button ion-button clear color="primary" (click)="edit(invoiceDetails)">
+        Edit
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list *ngIf="transferDetails">
-    <h5>transfer_created_at</h5>
-    <p> {{ transferDetails.transfer_created_at}}</p>
+  <ion-list *ngIf="invoiceDetails">
+    <button ion-item>
+    Transfer Created : {{ invoiceDetails.invoice_created_at}}<br> 
+    Transfer Updated :{{ invoiceDetails.invoice_updated_at}}<br>    
+    Total:{{ invoiceDetails.total}}<br> 
+    Invoice Status:{{ invoiceDetails.invoice_status}}<br>
 
-    <h5>transfer_updated_at</h5>
-    <p>{{ transferDetails.transfer_updated_at}}</p>
-
-    <h5>transfer_status</h5>
-    <p> {{ transferDetails.transfer_status}} </p>
-    <ion-item-group *ngFor="let group of transferDetails.candidates | store_name">
+      </button>
+    <ion-item-group *ngFor="let group of invoiceDetails.candidates | store_name">
       <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
       <button *ngFor="let resource of group.resources" ion-item>        
          <ion-row>
@@ -26,8 +30,34 @@
         </ion-row>
       <ion-row>
       <ion-col > Candidate Email:</ion-col>
-        <ion-col>{{resource.candidate_email}}</ion-col>
+        <ion-col >{{resource.candidate_email}}</ion-col>
      </ion-row>
+
+      <!--<ion-row>
+      <ion-col > hourly_rate:</ion-col>
+        <ion-col>{{resource.hourly_rate}}</ion-col>
+     </ion-row>-->
+
+      <ion-row>
+      <ion-col > hours:</ion-col>
+        <ion-col>{{resource.hours}}</ion-col>
+     </ion-row>
+
+      <ion-row>
+      <ion-col > bonus:</ion-col>
+        <ion-col>{{resource.bonus}}</ion-col>
+     </ion-row>
+
+      <ion-row>
+      <ion-col > transfer_cost:</ion-col>
+        <ion-col>{{resource.transfer_cost}}</ion-col>
+     </ion-row>
+
+       <ion-row>
+      <ion-col > Total:</ion-col>
+        <ion-col >{{totalCost(resource.hourly_rate,resource.hours,resource.bonus,resource.transfer_cost)}}</ion-col>
+     </ion-row>
+
       </button>
       <br>
     </ion-item-group>
@@ -35,8 +65,8 @@
   </ion-list>
 </ion-content>
 
-<ion-footer *ngIf="transferDetails">
-  <button ion-button full (click)="transferLock(transferDetails.transfer_id)">
+<ion-footer *ngIf="invoiceDetails">
+  <button ion-button full (click)="transferLock(invoiceDetails.invoice_id)">
     Make a Transfer
   </button>
 </ion-footer>

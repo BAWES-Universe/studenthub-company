@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController, LoadingController, AlertController } from 'ionic-angular';
 
+//Pages
+import { TransferFormPage } from '../../../../pages/logged-in/transfer/transfer-form/transfer-form';
+
 // Providers
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 
 // Models
-import { TransferDetails, TransferListModel } from '../../../../models/transfer';
+import { TransferDetails, TransferListModel, InvoiceModel } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
 
 @Component({
@@ -16,6 +19,9 @@ import { Candidate } from '../../../../models/candidate';
 export class TransferViewPage {
   public transferDetails: TransferDetails[];
   public transferData: TransferListModel[];
+
+  public invoiceDetails: InvoiceModel[];
+
   public transfer_id: number;
   public candidate: Candidate[];
   constructor(
@@ -44,29 +50,39 @@ export class TransferViewPage {
     let loader = this._loadingCtrl.create();
     loader.present();
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
-      this.transferDetails = response;
-      this.candidate = response.candidates;
+      //this.transferDetails = response;
+      // this.candidate = response.candidates;
+      this.invoiceDetails = response;
       loader.dismiss();
     });
   }
 
-
-  transferLock(transfer_id: number) {
+  /**
+  * Calculating Total cost
+  */
+  transferLock(invoice_id: number) {
     // Load list of transfer
     let loader = this._loadingCtrl.create();
     loader.present();
-     this.transferService.makeTransfertoLock(transfer_id).subscribe(response => {
-    this.transferData.forEach((element) => {
-      if (Number(element.transfer_id) == transfer_id) {
-        element.edit_transfer_status = "Payment Intiated";
-      }
+    this.transferService.makeTransfertoLock(invoice_id).subscribe(response => {
+      this.navCtrl.pop();
+      loader.dismiss();
     });
-
-    this.navCtrl.pop();
-    loader.dismiss();
-     });
   }
 
+  // Calculating Total cost     
+  totalCost(hourly_rate, hours, bonus, transfer_cost) {
+    return (2 * (Number(hours) + Number(bonus)) - Number(transfer_cost));
+  }
+
+
+    edit(invoiceDetails:any){     
+        // Transfers  Detail Page
+      this.navCtrl.push(TransferFormPage, {
+        'invoiceModel': invoiceDetails,
+        'editModel': true
+      });
+    }
 
 }
 
