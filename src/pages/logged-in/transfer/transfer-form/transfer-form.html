@@ -48,7 +48,24 @@
       </ion-card>
     </div>
 
-  
+    <div *ngIf="editForm">
+      <ion-card *ngFor="let invoiceCandidateMember of invoiceCandidatesObj; let i= index ">
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-4>{{ invoiceCandidateMember.candidate_name }}</ion-col>
+              <ion-col col-4>
+                <ion-input type="number" placeholder="Hours" value="0" [(ngModel)]="invoiceCandidateMember.hours" [ngModelOptions]="{standalone: true}"></ion-input>
+              </ion-col>
+
+              <ion-col col-4>
+                <ion-input type="number" placeholder="Bonus" value="0" [(ngModel)]="invoiceCandidateMember.bonus" [ngModelOptions]="{standalone: true}"></ion-input>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </div>
   </form>
 
   <ion-list *ngIf="!editForm">
@@ -57,5 +74,10 @@
         Total Amount : {{totalAmount()}} in KD
       </button>
   </ion-list>
- 
+  <ion-list *ngIf="editForm">
+    <button ion-item>
+       Total Hours : {{invoiceTotalHours()}}<br>
+        Total Amount : {{invoiceTotalAmount()}} in KD
+      </button>
+  </ion-list>
 </ion-content>

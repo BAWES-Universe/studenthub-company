@@ -64,7 +64,7 @@ export class AuthHttpService {
   patch(endpointUrl: string, params: any): Observable<any> {
     const url = this._config.apiBaseUrl + endpointUrl;
     return this._http.patch(url, JSON.stringify(params), { headers: this._buildAuthHeaders() })
-      .catch((err) => this._handleError(err))
+      .catch((err) => this._handleError(err)) 
       .take(1)
       .map((res: Response) => res.json());
   }

@@ -44,10 +44,10 @@ export class TransferFormPage {
     this.invoiceModel = params.get('invoiceModel');
     this.editForm = params.get('editModel');
 
-    if(this.editForm){
+    if (this.editForm) {
       this.invoiceCandidatesObj = this.invoiceModel.candidates;
     }
-    
+
 
   }
 
@@ -70,6 +70,34 @@ export class TransferFormPage {
     return (sum + bonus) * 2;
   }
 
+  /**
+ * Edit Form Total Hours in KD
+ */
+  invoiceTotalHours() {
+    var sum = 0;
+    var elementsum = 0;
+    this.invoiceCandidatesObj.forEach((element) => {
+      elementsum = Number(element.hours) + Number(element.bonus);
+      sum = Number(sum) + Number(elementsum);
+    });
+    return Number(sum);
+  }
+
+  /**
+   * Edit Form Total Amount in KD
+   */
+  invoiceTotalAmount() {
+    var sum = 0;
+    var elementsum = 0;
+    this.invoiceCandidatesObj.forEach((element) => {
+      elementsum = Number(element.hours) + Number(element.bonus);
+      sum = Number(sum) + Number(elementsum);
+    });
+    return Number((sum)) * 2;
+  }
+
+
+
 
   /**
   * Save the model
@@ -77,28 +105,46 @@ export class TransferFormPage {
   save() {
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.candidatesObj.forEach((value,index) => {
-      this.candidates.push({
-        candidate_id: value.candidate_id,
-        hours: this.hours[index],
-        bonus: this.bonus[index]
+    if (this.invoiceCandidatesObj) {
+      this.invoiceCandidatesObj.forEach((value, index) => {
+        this.candidates.push({
+          candidate_id: Number(value.candidate_id),
+          hours: Number(value.hours),
+          bonus: Number(value.bonus),
+          hourly_rate: Number(value.hourly_rate)
+        });
       });
-    });
+
+    } else {
+      this.candidatesObj.forEach((value, index) => {
+        this.candidates.push({
+          candidate_id: value.candidate_id,
+          hours: this.hours[index],
+          bonus: this.bonus[index],
+          hourly_rate: this.hourly_rate[index]
+        });
+      });
+
+    }
     console.log(this.candidates);
     let action
-    action = this.transferService.save(this.candidates);
-     action.subscribe(jsonResponse => {
+    if (this.invoiceCandidatesObj)
+      action = this.transferService.updateInvoice(this.candidates, Number(this.invoiceModel.invoice_id));
+    else
+      action = this.transferService.save(this.candidates);
+
+    action.subscribe(jsonResponse => {
       loader.dismiss();
       console.log(jsonResponse);
       // On Success
-      if(jsonResponse.operation == "success"){
+      if (jsonResponse.operation == "success") {
         // Close the page
         let data = { 'refresh': true };
         this._viewCtrl.dismiss(data);
       }
 
       // On Failure
-      if(jsonResponse.operation == "error"){
+      if (jsonResponse.operation == "error") {
         let prompt = this._alertCtrl.create({
           message: JSON.stringify(jsonResponse.message),
           buttons: ["Ok"]
@@ -106,7 +152,8 @@ export class TransferFormPage {
         prompt.present();
       }
     });
-  } 
+  }
+
 
   //close the model
   close() {

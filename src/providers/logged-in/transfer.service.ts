@@ -56,4 +56,18 @@ export class TransferService {
     return this._authhttp.post(postUrl, params);
   }
 
+
+ /**
+   * Save
+   * @param {Transfer} model
+   * @returns {Observable<any>}
+   */
+  updateInvoice(model: Transfer,invoice_id:Number): Observable<any>{
+    let postUrl = `${this._transferEndpoint}/${invoice_id}`;
+    let params = {
+      "candidates": model
+    };
+    return this._authhttp.patch(postUrl, params);
+  }
+
 }
