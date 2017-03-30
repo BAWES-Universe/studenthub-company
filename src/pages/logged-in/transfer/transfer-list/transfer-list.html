@@ -10,15 +10,27 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let transferMember of transfer |  orderBy:'transfer_id'">
-      <button ion-item (click)="transferDetails(transferMember.transfer_id,transferMember.edit_transfer_status)">
-        Transfer Status:{{ transferMember.transfer_status}}<br>
-        Transfer Created: {{ transferMember.transfer_created_at}}<br>
-        Transfer Updated: {{ transferMember.transfer_updated_at}}  <br>         
-           <b>{{transferMember.edit_transfer_status}}  </b>     
-      </button>
+    <ion-item-sliding *ngFor="let transferMember of invoices |  orderBy:'invoice_created_at'">
+      {{transferMember.invoice_status}}
+      <ion-item>
+        <span *ngIf="transferMember.invoice_status=='10'"> Transfer Initiated </span>
+        <span *ngIf="transferMember.invoice_status=='1'"> Payment Sent </span>
+        <span *ngIf="transferMember.invoice_status=='2'"> Payment Received </span>
+        <span *ngIf="transferMember.invoice_status=='3'"> Salary distribution in progress </span>
+        <span *ngIf="transferMember.invoice_status=='4'"> Transfer Completed </span>
+        <span *ngIf="transferMember.invoice_status=='5'"> Transfer Locked </span>
+
+        <button ion-item [ngClass]="{'my-class': transferMember.invoice_status=='1' }" (click)="transferDetails(transferMember.invoice_id,transferMember.invoice_status)">       
+        Transfer Created: {{ transferMember.invoice_created_at}}<br>
+        Transfer Updated: {{ transferMember.invoice_updated_at}}  <br>  
+        Total: {{ transferMember.total}}  
+        </button>
+      </ion-item>
+
+
+
       <ion-item-options side="right">
-        <button ion-button color="alert" (click)="transferDetails(transferMember.transfer_id)">
+        <button ion-button color="alert" (click)="transferDetails(transferMember.invoice_id)">
           <ion-icon name="trash"></ion-icon>
           Details
         </button>

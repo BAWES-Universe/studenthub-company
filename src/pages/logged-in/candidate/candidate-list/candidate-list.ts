@@ -43,13 +43,17 @@ export class CandidateListPage {
     loader.present();
     this.candidateService.list().subscribe(response => {
       //  this.dataList=response;
-      this.storeList = response.stores;
-      this.subcompaniesList = response.subcompanies;
-      for (let store of response.stores) {
-        for (let cand of store.candidates) {
-          this.candidate.push(cand);
-        }
+      // this.storeList = response.stores;
+      // this.subcompaniesList = response.subcompanies;
+       this.storeList = response;
+     // this.subcompaniesList = response.subcompanies;
+     // if(){
+      for (let store of response) {
+       // for (let cand of store.candidates) {
+          this.candidate.push(store);
+      //  }
       }
+    //  }
       // this.candidate = response;
       loader.dismiss();
     });
