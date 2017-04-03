@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Transfer Details</ion-title>
-    <ion-buttons right *ngIf="invoiceDetails">
+    <ion-buttons right *ngIf="invoiceDetails && transferStatus==='10'">
       <button ion-button clear color="primary" (click)="edit(invoiceDetails)">
         Edit
       </button>
@@ -65,8 +65,22 @@
   </ion-list>
 </ion-content>
 
-<ion-footer *ngIf="invoiceDetails">
+<ion-footer *ngIf="invoiceDetails && transferStatus==='10'">
   <button ion-button full (click)="transferLock(invoiceDetails.invoice_id)">
-    Make a Transfer
+   Lock Transfer
+  </button>
+</ion-footer>
+
+
+<ion-footer *ngIf="invoiceDetails && transferStatus==='5'">
+  <button ion-button full (click)="paymentSent(invoiceDetails.invoice_id)">
+    Payment Sent
+  </button>
+</ion-footer>
+
+
+<ion-footer *ngIf="invoiceDetails && transferStatus==='4'">
+  <button ion-button full (click)="generateInvoice(invoiceDetails.invoice_id)">
+    Generate Invoice
   </button>
 </ion-footer>

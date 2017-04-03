@@ -24,6 +24,8 @@ export class TransferViewPage {
 
   public transfer_id: number;
   public candidate: Candidate[];
+  public transferStatus: any;
+
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
@@ -36,6 +38,7 @@ export class TransferViewPage {
 
     this.transfer_id = params.get('model');
     this.transferData = params.get('transferData');
+    this.transferStatus = params.get('status');
 
 
   }
@@ -69,19 +72,43 @@ export class TransferViewPage {
     });
   }
 
+  /**
+ * Marking Invoice as Payment Sent  */
+  paymentSent(invoice_id: number) {
+    let loader = this._loadingCtrl.create();
+    loader.present();
+    this.transferService.makePaymentSent(invoice_id).subscribe(response => {
+      this.navCtrl.pop();
+      loader.dismiss();
+    });
+  }
+
+  /**
+* Generate  Invoice   */
+  generateInvoice(invoice_id: number) {
+    let loader = this._loadingCtrl.create();
+    loader.present();
+    this.transferService.generateInvoiceCopy(invoice_id).subscribe(response => {
+      this.navCtrl.pop();
+      loader.dismiss();
+    });
+  }
+
+
+
   // Calculating Total cost     
   totalCost(hourly_rate, hours, bonus, transfer_cost) {
     return (2 * (Number(hours) + Number(bonus)) - Number(transfer_cost));
   }
 
 
-    edit(invoiceDetails:any){     
-        // Transfers  Detail Page
-      this.navCtrl.push(TransferFormPage, {
-        'invoiceModel': invoiceDetails,
-        'editModel': true
-      });
-    }
+  edit(invoiceDetails: any) {
+    // Transfers  Detail Page
+    this.navCtrl.push(TransferFormPage, {
+      'invoiceModel': invoiceDetails,
+      'editModel': true
+    });
+  }
 
 }
 

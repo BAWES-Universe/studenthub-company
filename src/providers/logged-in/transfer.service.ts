@@ -45,6 +45,29 @@ export class TransferService {
     return this._authhttp.patch(url, '');
   }
 
+
+  /**
+      * Mark Invoice as Payment Sent
+       * @param {number} invoice_id
+      * @returns {Observable<any>}
+      */
+  makePaymentSent(invoice_id: number): Observable<any> {
+    let url = `${this._transferEndpoint}/payment-sent/${invoice_id}`;
+    return this._authhttp.patch(url, '');
+  }
+
+  /**
+     * Generating Invoice copy
+      * @param {number} invoice_id
+     * @returns {Observable<any>}
+     */
+  generateInvoiceCopy(invoice_id: number): Observable<any> {
+    let url = `${this._transferEndpoint}/pdf/${invoice_id}`;
+    return this._authhttp.pdfget(url,invoice_id);
+  }
+
+
+
   /**
   * Save
   * @param {Transfer} model
