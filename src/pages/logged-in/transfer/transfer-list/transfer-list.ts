@@ -66,9 +66,9 @@ export class TransferListPage {
     this.candidateService.list().subscribe(response => {
       console.log(response);
       for (let store of response) {
-       // for (let cand of store.candidates) {
-          candidate.push(store);
-       // }
+       
+        candidate.push(store);
+       
       }
     });
     let modal = this._modalCtrl.create(TransferFormPage, {
@@ -93,22 +93,12 @@ export class TransferListPage {
 
   //Transfers details for each transfer_id
   transferDetails(transfer_id: number, status: string) {
-
-    if (status == '10') {
-      // Transfers  Detail Page
-      this.navCtrl.push(TransferViewPage, {
-        'model': transfer_id,
-        'transferData': this.transfer
-      });
-    } else {
-      let alert = this.alertCtrl.create({
-        title: '',
-        subTitle: 'Payment  already intiated',
-        buttons: ['OK']
-      });
-      alert.present();
-    }
-
+    // Transfers  Detail Page
+    this.navCtrl.push(TransferViewPage, {
+      'model': transfer_id,
+      'transferData': this.transfer,
+      'status': status
+    });
   }
 
 

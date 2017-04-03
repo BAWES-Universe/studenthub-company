@@ -22,7 +22,7 @@ export class ConfigService {
     platform.ready().then(() => {
       if (platform.is('cordova')) {
         this.initProdEnvironment();
-      }else{
+      } else {
         this.initDevEnvironment();
       }
     });
@@ -46,7 +46,7 @@ export class ConfigService {
    */
   initProdEnvironment(platform?: string){
     // this.apiBaseUrl = "https://payroll-company.studenthub.co/v1";
-    this.apiBaseUrl = "https://payroll-company.studenthub.co/v1";
+    this.apiBaseUrl = "http://payroll-company.dev.studenthub.co/v1";
 
     this.setupDeviceSpecificConfigs();
   }
