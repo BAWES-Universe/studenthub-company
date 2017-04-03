@@ -131,7 +131,7 @@ export class TransferFormPage {
     //Transfer Update/Edit form
     if (this.invoiceCandidatesObj)
       action = this.transferService.updateInvoice(this.candidates, Number(this.invoiceModel.invoice_id));
-   //Transfer Create form
+    //Transfer Create form
     else
       action = this.transferService.save(this.candidates);
 
