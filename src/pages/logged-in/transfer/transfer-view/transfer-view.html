@@ -14,13 +14,23 @@
 
 <ion-content padding>
   <ion-list *ngIf="invoiceDetails">
+    
     <button ion-item>
-    Transfer Created : {{ invoiceDetails.invoice_created_at}}<br> 
-    Transfer Updated :{{ invoiceDetails.invoice_updated_at}}<br>    
-    Total:{{ invoiceDetails.total}}<br> 
-    Invoice Status:{{ invoiceDetails.invoice_status}}<br>
+      Transfer Created : {{ invoiceDetails.invoice_created_at}}<br> 
+      Transfer Updated :{{ invoiceDetails.invoice_updated_at}}<br>    
+      Total:{{ invoiceDetails.total}}<br> 
 
-      </button>
+      Invoice Status:
+      <span *ngIf="invoiceDetails.invoice_status=='10'"> Transfer Initiated </span>
+      <span *ngIf="invoiceDetails.invoice_status=='1'"> Payment Sent </span>
+      <span *ngIf="invoiceDetails.invoice_status=='2'"> Payment Received </span>
+      <span *ngIf="invoiceDetails.invoice_status=='3'"> Salary distribution in progress </span>
+      <span *ngIf="invoiceDetails.invoice_status=='4'"> Transfer Completed </span>
+      <span *ngIf="invoiceDetails.invoice_status=='5'"> Transfer Locked </span>
+      <br>
+
+    </button>
+
     <ion-item-group *ngFor="let group of invoiceDetails.candidates | store_name">
       <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
       <button *ngFor="let resource of group.resources" ion-item>        
