@@ -34,7 +34,7 @@
         <ion-card-content>
           <ion-grid>
             <ion-row>
-              <ion-col col-4>{{ candidateMember.candidate_name }}</ion-col>
+              <ion-col col-4><ion-label fixed>{{ candidateMember.candidate_name }}</ion-label></ion-col>
               <ion-col col-4>
                 <ion-input type="number" placeholder="Hours" value="0" [(ngModel)]="hours[i]" [ngModelOptions]="{standalone: true}"></ion-input>
               </ion-col>
@@ -53,7 +53,7 @@
         <ion-card-content>
           <ion-grid>
             <ion-row>
-              <ion-col col-4>{{ invoiceCandidateMember.candidate_name }}</ion-col>
+              <ion-col col-4><ion-label fixed>{{ invoiceCandidateMember.candidate_name }}</ion-label></ion-col>
               <ion-col col-4>
                 <ion-input type="number" placeholder="Hours" value="0" [(ngModel)]="invoiceCandidateMember.hours" [ngModelOptions]="{standalone: true}"></ion-input>
               </ion-col>
