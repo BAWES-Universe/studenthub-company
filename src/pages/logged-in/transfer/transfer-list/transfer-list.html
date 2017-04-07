@@ -27,10 +27,17 @@
         Total: {{ transferMember.total}}  
         </button>
       </ion-item>
-
-
-    </ion-item-sliding>
+    </ion-item-sliding>    
   </ion-list>
+
+  <ion-row text-center>
+    <div class="pagination-wrapper">
+      <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+        {{ page }}
+      </button>
+    </div>
+  </ion-row>
+
 </ion-content>
 <ion-footer>
   <button ion-button full (click)="create()">

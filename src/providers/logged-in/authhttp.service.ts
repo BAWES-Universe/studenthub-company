@@ -27,6 +27,21 @@ export class AuthHttpService {
     private _platform: Platform,
     private _events: Events
   ) { }
+  
+  /**
+   * Requests via GET verb
+   * @param {string} endpointUrl
+   * @returns {Observable<any>}
+   */
+  getRaw(endpointUrl: string): Observable<any> {
+    const url = this._config.apiBaseUrl + endpointUrl;
+    return this._http.get(url, { headers: this._buildAuthHeaders() })
+      .catch((err) => this._handleError(err))
+      .take(1)
+      .map((res: Response) => {
+        return res;
+      });
+  }
 
   /**
    * Requests via GET verb
@@ -38,7 +53,9 @@ export class AuthHttpService {
     return this._http.get(url, { headers: this._buildAuthHeaders() })
       .catch((err) => this._handleError(err))
       .take(1)
-      .map((res: Response) => res.json());
+      .map((res: Response) => {
+        return res.json();
+      });
   }
 
   /**

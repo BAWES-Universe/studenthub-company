@@ -23,6 +23,10 @@ import { Subcompanies } from '../../../../models/store';
 })
 export class TransferListPage {
 
+  public pageCount = 0;
+  public currentPage = 1;
+  public pages: number[] = [];
+
   public transfer: TransferListModel[];
   public invoices: InvoiceListModel[];
 
@@ -47,19 +51,37 @@ export class TransferListPage {
     // this.loadData();   
   }
   ionViewWillEnter() {
-    this.loadData();
+    this.loadData(this.currentPage);
   }
 
-  loadData() {
+  loadData(page: number) {
     // Load list of transfer
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.transferService.list().subscribe(response => {
-      this.invoices = response;
+    this.transferService.list(page).subscribe(response => {
+
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+      this.pages = [];
+
+      for(var i = 1; i <= this.pageCount; i++){
+         this.pages.push(i);
+      }
+
+      this.invoices = response.json();
+      
       loader.dismiss();
     });
   }
 
+  pageLinkColor(page: number) {
+
+    if(page == this.currentPage) 
+      return 'light';
+    
+    return '';
+  }
 
   create() {
     let candidate = [];
@@ -77,19 +99,16 @@ export class TransferListPage {
       editModel: false
     });
 
-
-
     // Refresh List if required
     modal.onDidDismiss(data => {
       if (data) {
         if (data.refresh) {
-          this.loadData();
+          this.loadData(this.currentPage);
         }
       }
     });
     modal.present();
   }
-
 
   //Transfers details for each transfer_id
   transferDetails(transfer_id: number, status: string) {
@@ -100,8 +119,4 @@ export class TransferListPage {
       'status': status
     });
   }
-
-
-
-
 }
