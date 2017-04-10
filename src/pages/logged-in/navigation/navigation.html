@@ -11,13 +11,17 @@
 
     <ion-list>
       <ion-list-header>Personal</ion-list-header>
+      <button ion-item (click)="loadPage('store')">
+        <ion-icon name="list" item-left></ion-icon>
+            Stores
+      </button>
       <button ion-item (click)="loadPage('candidate')">
         <ion-icon name="person" item-left></ion-icon>
-            Candidate
+            Candidates
       </button>
       <button ion-item (click)="loadPage('transfer')">
         <ion-icon name="repeat" item-left></ion-icon>
-            Transfer
+            Transfers
       </button>
       <button ion-item (click)="logout()">
         <ion-icon name="ios-log-out" item-left></ion-icon>

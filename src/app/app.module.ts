@@ -17,6 +17,8 @@ import { LoginPage } from '../pages/start-pages/login/login';
 // Pages when logged in
 import { NavigationPage } from '../pages/logged-in/navigation/navigation';
 import { HomePage } from '../pages/logged-in/home/home';
+import { StoreListPage } from '../pages/logged-in/store/store-list/store-list';
+import { StoreViewPage } from '../pages/logged-in/store/store-view/store-view';
 import { CandidateListPage } from '../pages/logged-in/candidate/candidate-list/candidate-list';
 import { CandidateViewPage } from '../pages/logged-in/candidate/candidate-view/candidate-view';
 import { TransferListPage } from '../pages/logged-in/transfer/transfer-list/transfer-list';
@@ -29,6 +31,7 @@ import { ConfigService } from '../providers/config.service';
 import { AuthHttpService } from '../providers/logged-in/authhttp.service';
 import { CandidateService } from '../providers/logged-in/candidate.service';
 import { TransferService } from '../providers/logged-in/transfer.service';
+import { StoreService } from '../providers/logged-in/store.service';
 
 import { GroupByPipe } from '../pages/logged-in/transfer/groupby-pipe';
 import { SortPipe } from '../pages/logged-in/transfer/timestamp-pipe';
@@ -47,6 +50,8 @@ const cloudSettings: CloudSettings = {
     // Logged In
     NavigationPage,
     HomePage,
+    StoreListPage,
+    StoreViewPage,
     CandidateListPage,
     CandidateViewPage,
     TransferListPage,
@@ -63,6 +68,8 @@ const cloudSettings: CloudSettings = {
     // Logged In
     NavigationPage,
     HomePage,
+    StoreListPage,
+    StoreViewPage,
     CandidateListPage,
     CandidateViewPage,
     TransferListPage,
@@ -84,6 +91,7 @@ const cloudSettings: CloudSettings = {
       // Custom
       AuthService, // Handles all Authorization
       ConfigService, // Handles Environment-specific Variables
+      StoreService,
       CandidateService,
       TransferService,
       AuthHttpService

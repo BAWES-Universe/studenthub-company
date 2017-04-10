@@ -1,0 +1,34 @@
+<ion-header >
+  <ion-navbar>
+    <button ion-button menuToggle="left">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Stores</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+  <ion-list>
+    <ion-item-sliding *ngFor="let store of stores">
+      <button ion-item (click)="rowSelected(store)">
+        {{ store.store_name }}
+      </button>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-row text-center>
+    <div class="pagination-wrapper">
+      <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+        {{ page }}
+      </button>
+    </div>
+  </ion-row>
+
+</ion-content>
+
+<ion-footer>
+  <!--  <button ion-button full (click)="create()">
+    Create
+  </button> -->
+</ion-footer>
