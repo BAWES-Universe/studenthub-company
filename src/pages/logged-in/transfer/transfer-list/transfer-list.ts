@@ -69,6 +69,11 @@ export class TransferListPage {
          this.pages.push(i);
       }
 
+      //hide if no page = 1 
+
+      if(this.pageCount == 1)
+        this.pages = [];
+
       this.invoices = response.json();
       
       loader.dismiss();
@@ -85,7 +90,7 @@ export class TransferListPage {
 
   create() {
     let candidate = [];
-    this.candidateService.list().subscribe(response => {
+    this.candidateService.listAll().subscribe(response => {
       console.log(response);
       for (let store of response) {
        

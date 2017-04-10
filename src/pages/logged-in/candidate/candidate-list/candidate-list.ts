@@ -15,7 +15,11 @@ import { Subcompanies } from '../../../../models/store';
 })
 export class CandidateListPage {
 
-  public candidate: Candidate[];
+  public pageCount = 0;
+  public currentPage = 1;
+  public pages: number[] = [];
+
+  public candidates: Candidate[];
   public stateTransferName: string;
   public storeList: Store[];
   public subcompaniesList: Subcompanies[];
@@ -33,24 +37,39 @@ export class CandidateListPage {
   }
 
   ionViewDidLoad() {
-    this.loadData();
+    this.loadData(this.currentPage);
   }
 
-  loadData() {
+  loadData(page: number) {
     // Load list of candidate
-    this.candidate = [];
+    this.candidates = [];
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.candidateService.list().subscribe(response => {
+    this.candidateService.list(page).subscribe(response => {
+
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+      this.pages = [];
+
+      for(var i = 1; i <= this.pageCount; i++){
+         this.pages.push(i);
+      }
+
+      //hide if no page = 1 
+
+      if(this.pageCount == 1)
+        this.pages = [];
+
       //  this.dataList=response;
       // this.storeList = response.stores;
       // this.subcompaniesList = response.subcompanies;
-       this.storeList = response;
+       
      // this.subcompaniesList = response.subcompanies;
      // if(){
-      for (let store of response) {
+      for (let candidate of response.json()) {
        // for (let cand of store.candidates) {
-          this.candidate.push(store);
+          this.candidates.push(candidate);
       //  }
       }
     //  }
@@ -59,8 +78,16 @@ export class CandidateListPage {
     });
   }
 
+  pageLinkColor(page: number) {
+
+    if(page == this.currentPage) 
+      return 'light';
+    
+    return '';
+  }
+
   rowSelected(model) {
-    console.log(model);
+    
     // Load Detail Page
     this.navCtrl.push(CandidateViewPage, {
       'model': model

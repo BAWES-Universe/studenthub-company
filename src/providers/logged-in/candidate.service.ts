@@ -16,12 +16,21 @@ export class CandidateService {
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
-   * List of all staff
+   * List of all candidates
    * @returns {Observable<any>}
    */
-  list(): Observable<any> {
-    let url = this._candidateEndpoint;
-    return this._authhttp.get(url);
+  list(page: number): Observable<any> {
+    let url = this._candidateEndpoint + '?page=' + page;
+    return this._authhttp.getRaw(url);
   }
 
+  /**
+   * List of all candidates with pagination 
+   * @returns {Observable<any>}
+   */
+  listAll(): Observable<any> {
+    let url = this._candidateEndpoint + '/all';
+    return this._authhttp.getRaw(url);
+  }  
 }
+
