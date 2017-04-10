@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ModalController, AlertController } from 'ionic-angular';
 
-
 //Pages
 import { TransferFormPage } from '../transfer-form/transfer-form';
 import { TransferViewPage } from '../transfer-view/transfer-view';
@@ -15,7 +14,6 @@ import { CandidateService } from '../../../../providers/logged-in/candidate.serv
 import { Transfer, TransferListModel, InvoiceListModel } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
 import { Store } from '../../../../models/store';
-import { Subcompanies } from '../../../../models/store';
 
 @Component({
   selector: 'page-transfer-list',
@@ -34,10 +32,7 @@ export class TransferListPage {
   public transferDateFormats: TransferListModel[];
 
   public storeList: Store[];
-  public subcompaniesList: Subcompanies[];
-  public dataList: { stores: Store[], subcompanies: Subcompanies[] };
-
-
+  
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,

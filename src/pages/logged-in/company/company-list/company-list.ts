@@ -1,36 +1,34 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ModalController, NavParams } from 'ionic-angular';
 
-import { CandidateViewPage } from '../candidate-view/candidate-view';
+import { CompanyViewPage } from '../company-view/company-view';
+
 // Providers
-import { CandidateService } from '../../../../providers/logged-in/candidate.service';
+import { CompanyService } from '../../../../providers/logged-in/company.service';
+
 // Models
-import { Candidate } from '../../../../models/candidate';
-import { Store } from '../../../../models/store';
+import { Company } from '../../../../models/company';
 
 @Component({
-  selector: 'page-candidate-list',
-  templateUrl: 'candidate-list.html'
+  selector: 'page-company-list',
+  templateUrl: 'company-list.html'
 })
-export class CandidateListPage {
+export class CompanyListPage {
 
   public pageCount = 0;
   public currentPage = 1;
   public pages: number[] = [];
 
-  public candidates: Candidate[];
-  public stateTransferName: string;
-  public storeList: Store[];
+  public companies: Company[];
 
   constructor(
     public navCtrl: NavController,
-    public candidateService: CandidateService,
+    public companyService: CompanyService,
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
     public params: NavParams,
   ) {
-    this.stateTransferName = params.get('model');
-
+    
   }
 
   ionViewDidLoad() {
@@ -38,11 +36,11 @@ export class CandidateListPage {
   }
 
   loadData(page: number) {
-    // Load list of candidate
-    this.candidates = [];
+
+    this.companies = [];
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.candidateService.list(page).subscribe(response => {
+    this.companyService.list(page).subscribe(response => {
 
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
       this.currentPage = response.headers.get('X-Pagination-Current-Page');
@@ -58,8 +56,8 @@ export class CandidateListPage {
       if(this.pageCount == 1)
         this.pages = [];
 
-      this.candidates = response.json();
-    
+      this.companies = response.json();
+
       loader.dismiss();
     });
   }
@@ -75,7 +73,7 @@ export class CandidateListPage {
   rowSelected(model) {
     
     // Load Detail Page
-    this.navCtrl.push(CandidateViewPage, {
+    this.navCtrl.push(CompanyViewPage, {
       'model': model
     });
   }
