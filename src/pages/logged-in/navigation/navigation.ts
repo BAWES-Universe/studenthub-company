@@ -5,7 +5,7 @@ import { MenuController, NavController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { CandidateListPage } from '../candidate/candidate-list/candidate-list';
 import { TransferListPage } from '../transfer/transfer-list/transfer-list';
-
+import { StoreListPage } from '../store/store-list/store-list';
 
 // Services
 import { AuthService } from '../../../providers/auth.service';
@@ -27,6 +27,9 @@ export class NavigationPage {
 
   loadPage(pageName: string) {
     switch (pageName) {
+      case "store":
+        this.rootPage = StoreListPage;
+        break;
       case "candidate":
         this.rootPage = CandidateListPage;
         break;
