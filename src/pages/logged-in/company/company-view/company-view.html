@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle="left">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>{{ company.company_name }}</ion-title>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h5>Id</h5>
+  <p>{{ company.company_id }}</p>
+
+  <h5>Company</h5>
+  <p>{{ company.company_name }}</p>
+
+  <h5>Email</h5>
+  <p>{{ company.company_email }}</p>
+
+  <h5>Stores</h5>
+  <ion-list>
+    <ion-item-sliding *ngFor="let store of stores">
+      <button ion-item (click)="storeSelected(store)">
+        {{ store.store_name}}
+      </button>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-row text-center>
+    <div class="pagination-wrapper">
+      <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+        {{ page }}
+      </button>
+    </div>
+  </ion-row>
+
+</ion-content>
