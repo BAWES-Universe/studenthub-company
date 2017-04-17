@@ -30,7 +30,7 @@ export class CandidateService {
    */
   listAll(): Observable<any> {
     let url = this._candidateEndpoint + '/all';
-    return this._authhttp.getRaw(url);
+    return this._authhttp.get(url);
   }  
 }
 

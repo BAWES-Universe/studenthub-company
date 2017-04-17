@@ -84,30 +84,30 @@ export class TransferListPage {
   }
 
   create() {
-    let candidate = [];
+    
     this.candidateService.listAll().subscribe(response => {
+
       console.log(response);
-      for (let store of response) {
-       
-        candidate.push(store);
-       
-      }
-    });
-    let modal = this._modalCtrl.create(TransferFormPage, {
-      model: new Transfer(),
-      candidates: candidate,
-      editModel: false
+      
+      let modal = this._modalCtrl.create(TransferFormPage, {
+        model: new Transfer(),
+        candidates: response,
+        editModel: false
+      });
+
+      // Refresh List if required
+      modal.onDidDismiss(data => {
+        if (data) {
+          if (data.refresh) {
+            this.loadData(this.currentPage);
+          }
+        }
+      });
+      
+      modal.present();
     });
 
-    // Refresh List if required
-    modal.onDidDismiss(data => {
-      if (data) {
-        if (data.refresh) {
-          this.loadData(this.currentPage);
-        }
-      }
-    });
-    modal.present();
+
   }
 
   //Transfers details for each transfer_id

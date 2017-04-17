@@ -96,9 +96,6 @@ export class TransferFormPage {
     return Number((sum)) * 2;
   }
 
-
-
-
   /**
   * Save the model
   */
