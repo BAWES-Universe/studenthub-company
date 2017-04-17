@@ -21,10 +21,11 @@
         <span *ngIf="transferMember.invoice_status=='5'"> Transfer Locked </span>
 
         <button ion-item [ngClass]="{'my-class': transferMember.invoice_status=='1' }" (click)="transferDetails(transferMember.invoice_id,transferMember.invoice_status)">  
-        Transfer Id : {{ transferMember.invoice_id}}<br>     
+        Transfer Id : {{ transferMember.invoice_id}}<br>    
+        Company: {{ transferMember.company_name }} <br> 
+        Total: {{ transferMember.company_total}} <br>   
         Transfer Created: {{ transferMember.invoice_created_at}}<br>
-        Transfer Updated: {{ transferMember.invoice_updated_at}}  <br>  
-        Total: {{ transferMember.total}}  
+        Transfer Updated: {{ transferMember.invoice_updated_at}}          
         </button>
       </ion-item>
     </ion-item-sliding>    

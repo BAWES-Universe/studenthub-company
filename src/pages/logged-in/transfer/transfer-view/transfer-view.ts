@@ -89,7 +89,7 @@ export class TransferViewPage {
     let loader = this._loadingCtrl.create();
     loader.present();
     this.transferService.generateInvoiceCopy(invoice_id).subscribe(response => {
-      this.navCtrl.pop();
+      //this.navCtrl.pop();
       loader.dismiss();
     });
   }
@@ -98,7 +98,7 @@ export class TransferViewPage {
 
   // Calculating Total cost     
   totalCost(hourly_rate, hours, bonus, transfer_cost) {
-    return (2 * (Number(hours) + Number(bonus)) - Number(transfer_cost));
+    return (2 * Number(hours)) + Number(bonus) + Number(transfer_cost);
   }
 
 

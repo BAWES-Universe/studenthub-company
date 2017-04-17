@@ -68,16 +68,4 @@
     </div>
   </form>
 
-  <ion-list *ngIf="!editForm">
-    <button ion-item>
-       Total Hours : {{totalHours()}}<br>
-        Total Amount : {{totalAmount()}} in KD
-      </button>
-  </ion-list>
-  <ion-list *ngIf="editForm">
-    <button ion-item>
-       Total Hours : {{invoiceTotalHours()}}<br>
-        Total Amount : {{invoiceTotalAmount()}} in KD
-      </button>
-  </ion-list>
 </ion-content>

@@ -14,11 +14,15 @@
 
 <ion-content padding>
   <ion-list *ngIf="invoiceDetails">
-    
+
     <button ion-item>
+      
+      Company name : {{ invoiceDetails.company_name}}<br> 
+      Company email : {{ invoiceDetails.company_email}}<br> 
+
       Transfer Created : {{ invoiceDetails.invoice_created_at}}<br> 
       Transfer Updated :{{ invoiceDetails.invoice_updated_at}}<br>    
-      Total:{{ invoiceDetails.total}}<br> 
+      Total:{{ invoiceDetails.company_total}}<br> 
 
       Invoice Status:
       <span *ngIf="invoiceDetails.invoice_status=='10'"> Transfer Initiated </span>
@@ -49,23 +53,23 @@
      </ion-row>-->
 
       <ion-row>
-      <ion-col > hours:</ion-col>
+      <ion-col > Hours:</ion-col>
         <ion-col>{{resource.hours}}</ion-col>
      </ion-row>
 
       <ion-row>
-      <ion-col > bonus:</ion-col>
+      <ion-col > Bonus:</ion-col>
         <ion-col>{{resource.bonus}}</ion-col>
      </ion-row>
 
       <ion-row>
-      <ion-col > transfer_cost:</ion-col>
+      <ion-col > Transfer Cost:</ion-col>
         <ion-col>{{resource.transfer_cost}}</ion-col>
      </ion-row>
 
        <ion-row>
       <ion-col > Total:</ion-col>
-        <ion-col >{{totalCost(resource.hourly_rate,resource.hours,resource.bonus,resource.transfer_cost)}}</ion-col>
+        <ion-col >{{ totalCost(2, resource.hours, resource.bonus, resource.transfer_cost) }}</ion-col>
      </ion-row>
 
       </button>
