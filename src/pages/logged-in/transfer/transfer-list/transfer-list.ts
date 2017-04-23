@@ -49,6 +49,9 @@ export class TransferListPage {
     this.loadData(this.currentPage);
   }
 
+  /**
+   * Load Transfer Data
+   */
   loadData(page: number) {
     // Load list of transfer
     let loader = this._loadingCtrl.create();
@@ -75,42 +78,33 @@ export class TransferListPage {
     });
   }
 
+  /**
+   * Renders the color based on page number
+   */
   pageLinkColor(page: number) {
-
     if(page == this.currentPage) 
       return 'light';
     
     return '';
   }
 
-  create() {
-    
+  /**
+   * Loads form to initiate a new transfer
+   */
+  createNewTransfer() {
     this.candidateService.listAll().subscribe(response => {
-
-      console.log(response);
-      
-      let modal = this._modalCtrl.create(TransferFormPage, {
+      //console.log(response);
+      this.navCtrl.push(TransferFormPage, {
         model: new Transfer(),
         candidates: response,
         editModel: false
       });
-
-      // Refresh List if required
-      modal.onDidDismiss(data => {
-        if (data) {
-          if (data.refresh) {
-            this.loadData(this.currentPage);
-          }
-        }
-      });
-      
-      modal.present();
     });
-
-
   }
 
-  //Transfers details for each transfer_id
+  /**
+   * Transfers details for each transfer_id
+   */
   transferDetails(transfer_id: number, status: string) {
     // Transfers  Detail Page
     this.navCtrl.push(TransferViewPage, {
