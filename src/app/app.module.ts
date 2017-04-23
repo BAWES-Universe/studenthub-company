@@ -36,8 +36,9 @@ import { TransferService } from '../providers/logged-in/transfer.service';
 import { StoreService } from '../providers/logged-in/store.service';
 import { CompanyService } from '../providers/logged-in/company.service';
 
-import { GroupByPipe } from '../pages/logged-in/transfer/groupby-pipe';
-import { SortPipe } from '../pages/logged-in/transfer/timestamp-pipe';
+// Pipes
+import { GroupByPipe } from '../pipes/groupby-pipe';
+import { SortPipe } from '../pipes/timestamp-pipe';
 
 const cloudSettings: CloudSettings = {
   'core': {
