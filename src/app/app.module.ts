@@ -16,7 +16,6 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/start-pages/login/login';
 // Pages when logged in
 import { NavigationPage } from '../pages/logged-in/navigation/navigation';
-import { HomePage } from '../pages/logged-in/home/home';
 
 import { CompanyListPage } from '../pages/logged-in/company/company-list/company-list';
 import { CompanyViewPage } from '../pages/logged-in/company/company-view/company-view';
@@ -53,7 +52,6 @@ const cloudSettings: CloudSettings = {
     LoginPage,
     // Logged In
     NavigationPage,
-    HomePage,
     CompanyListPage,
     CompanyViewPage,
     StoreListPage,
@@ -73,7 +71,6 @@ const cloudSettings: CloudSettings = {
     LoginPage,
     // Logged In
     NavigationPage,
-    HomePage,
     CompanyListPage,
     CompanyViewPage,
     StoreListPage,
