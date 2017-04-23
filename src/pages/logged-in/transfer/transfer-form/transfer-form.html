@@ -12,55 +12,40 @@
 <ion-content padding>
 
   <form>
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col col-4>Name</ion-col>
-            <ion-col col-4>Hours</ion-col>
-            <ion-col col-4>Bonus (KWD)</ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4><b>Name</b></ion-col>
+        <ion-col col-4><b>Hours</b></ion-col>
+        <ion-col col-4><b>Bonus (KWD)</b></ion-col>
+      </ion-row>
 
     <div *ngIf="!editForm">
-      <ion-card *ngFor="let candidateMember of candidatesObj; let i= index ">
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col col-4><ion-label fixed>{{ candidateMember.candidate_name }}</ion-label></ion-col>
-              <ion-col col-4>
-                <ion-input type="number" placeholder="Hours" value="0" [(ngModel)]="hours[i]" [ngModelOptions]="{standalone: true}"></ion-input>
-              </ion-col>
+      <ion-row *ngFor="let candidateMember of candidatesObj; let i= index">
+        <ion-col col-4><ion-label fixed>{{ candidateMember.candidate_name }}</ion-label></ion-col>
+        <ion-col col-4>
+          <ion-input type="number" placeholder="Hours" value="0" [(ngModel)]="hours[i]" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-col>
 
-              <ion-col col-4>
-                <ion-input type="number" placeholder="Bonus (KWD)" value="0" [(ngModel)]="bonus[i]" [ngModelOptions]="{standalone: true}"></ion-input>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
+        <ion-col col-4>
+          <ion-input type="number" placeholder="Bonus (KWD)" value="0" [(ngModel)]="bonus[i]" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-col>
+      </ion-row>
     </div>
 
     <div *ngIf="editForm">
-      <ion-card *ngFor="let invoiceCandidateMember of invoiceCandidatesObj; let i= index ">
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col col-4><ion-label fixed>{{ invoiceCandidateMember.candidate_name }}</ion-label></ion-col>
-              <ion-col col-4>
-                <ion-input type="number" placeholder="Hours" value="0" [(ngModel)]="invoiceCandidateMember.hours" [ngModelOptions]="{standalone: true}"></ion-input>
-              </ion-col>
+      <ion-row *ngFor="let invoiceCandidateMember of invoiceCandidatesObj; let i= index ">
+        <ion-col col-4><ion-label fixed>{{ invoiceCandidateMember.candidate_name }}</ion-label></ion-col>
+        <ion-col col-4>
+          <ion-input type="number" placeholder="Hours" value="0" [(ngModel)]="invoiceCandidateMember.hours" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-col>
 
-              <ion-col col-4>
-                <ion-input type="number" placeholder="Bonus" value="0" [(ngModel)]="invoiceCandidateMember.bonus" [ngModelOptions]="{standalone: true}"></ion-input>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
+        <ion-col col-4>
+          <ion-input type="number" placeholder="Bonus" value="0" [(ngModel)]="invoiceCandidateMember.bonus" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-col>
+      </ion-row>
     </div>
+
+    </ion-grid>
   </form>
 
 </ion-content>
