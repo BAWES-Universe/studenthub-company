@@ -12,7 +12,7 @@
   <ion-list>
     <ion-item-sliding *ngFor="let transferMember of invoices |  orderBy:'invoice_created_at'">
       <ion-item>
-        <span *ngIf="transferMember.invoice_status=='10'"> Transfer Initiated </span>
+        <span *ngIf="transferMember.invoice_status=='10'"> Draft </span>
         <span *ngIf="transferMember.invoice_status=='1'"> Payment Sent </span>
         <span *ngIf="transferMember.invoice_status=='2'"> Payment Received </span>
         <span *ngIf="transferMember.invoice_status=='3'"> Salary distribution in progress </span>

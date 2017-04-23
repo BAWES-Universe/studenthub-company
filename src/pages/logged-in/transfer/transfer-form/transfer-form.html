@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{ operation }}</ion-title>
+    <ion-title>{{ operation? operation : "New Transfer" }}</ion-title>
     <ion-buttons right>
       <button ion-button clear color="primary" (click)="save()">
         Save
@@ -18,7 +18,7 @@
           <ion-row>
             <ion-col col-4>Name</ion-col>
             <ion-col col-4>Hours</ion-col>
-            <ion-col col-4>Bonus</ion-col>
+            <ion-col col-4>Bonus (KWD)</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -35,7 +35,7 @@
               </ion-col>
 
               <ion-col col-4>
-                <ion-input type="number" placeholder="Bonus" value="0" [(ngModel)]="bonus[i]" [ngModelOptions]="{standalone: true}"></ion-input>
+                <ion-input type="number" placeholder="Bonus (KWD)" value="0" [(ngModel)]="bonus[i]" [ngModelOptions]="{standalone: true}"></ion-input>
               </ion-col>
             </ion-row>
           </ion-grid>
