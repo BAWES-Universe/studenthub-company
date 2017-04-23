@@ -25,7 +25,7 @@
       Total:{{ invoiceDetails.company_total}}<br> 
 
       Invoice Status:
-      <span *ngIf="invoiceDetails.invoice_status=='10'"> Transfer Initiated </span>
+      <span *ngIf="invoiceDetails.invoice_status=='10'"> Draft </span>
       <span *ngIf="invoiceDetails.invoice_status=='1'"> Payment Sent </span>
       <span *ngIf="invoiceDetails.invoice_status=='2'"> Payment Received </span>
       <span *ngIf="invoiceDetails.invoice_status=='3'"> Salary distribution in progress </span>
