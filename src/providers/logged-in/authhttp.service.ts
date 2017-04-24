@@ -77,8 +77,6 @@ export class AuthHttpService {
         var filename = `Invoice ${invoice_id} Details.pdf`;
         saveAs(blob, filename);
       });
-
-
   }
 
 

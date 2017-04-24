@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, ViewController, LoadingController, AlertController, NavParams } from 'ionic-angular';
+
 // Forms
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomValidator } from '../../../../validators/custom.validator';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 // Models
 import { Transfer, InvoiceModel, InvoiceCandidateMember } from '../../../../models/transfer';
@@ -22,7 +22,6 @@ export class TransferFormPage {
   public candidates: any = []
   public hours: any = [];
   public bonus: any = [];
-  public hourly_rate: any = [];
   public invoiceModel: InvoiceModel;
   public editForm: boolean;
 
@@ -66,7 +65,6 @@ export class TransferFormPage {
   totalAmount() {
     var sum = this.hours.reduce((a, b) => Number(a) + Number(b), 0);
     var bonus = this.bonus.reduce((a, b) => Number(a) + Number(b), 0);
-    var hourly_rate = this.hourly_rate.reduce((a, b) => Number(a) + Number(b), 0);
     return (sum + bonus) * 2;
   }
 
@@ -107,8 +105,7 @@ export class TransferFormPage {
         this.candidates.push({
           candidate_id: Number(value.candidate_id),
           hours: Number(value.hours),
-          bonus: Number(value.bonus),
-          hourly_rate: Number(value.hourly_rate)
+          bonus: Number(value.bonus)
         });
       });
 
@@ -117,8 +114,7 @@ export class TransferFormPage {
         this.candidates.push({
           candidate_id: value.candidate_id,
           hours: this.hours[index],
-          bonus: this.bonus[index],
-          hourly_rate: this.hourly_rate[index]
+          bonus: this.bonus[index]
         });
       });
 
