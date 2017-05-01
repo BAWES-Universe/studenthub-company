@@ -6,30 +6,24 @@ import { TransferFormPage } from '../../../../pages/logged-in/transfer/transfer-
 
 // Providers
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
-import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 
 // Models
-import { TransferDetails, TransferListModel, InvoiceModel } from '../../../../models/transfer';
-import { Candidate } from '../../../../models/candidate';
+import { Transfer, Invoice } from '../../../../models/transfer';
 
 @Component({
   selector: 'page-transfer-view',
   templateUrl: 'transfer-view.html'
 })
 export class TransferViewPage {
-  public transferDetails: TransferDetails[];
-  public transferData: TransferListModel[];
-
-  public invoiceDetails: InvoiceModel[];
 
   public transfer_id: number;
-  public candidate: Candidate[];
-  public transferStatus: any;
+  public transferDetails: Transfer[];
+  public invoices: Invoice[] = []; //unpaid invoices 
+  public receipts: Invoice[] = []; //paid invoices 
 
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
-    public candidateService: CandidateService,
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
     public params: NavParams,
@@ -37,10 +31,6 @@ export class TransferViewPage {
   ) {
 
     this.transfer_id = params.get('model');
-    this.transferData = params.get('transferData');
-    this.transferStatus = params.get('status');
-
-
   }
 
   ionViewDidLoad() {
@@ -53,9 +43,16 @@ export class TransferViewPage {
     let loader = this._loadingCtrl.create();
     loader.present();
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
-      //this.transferDetails = response;
-      // this.candidate = response.candidates;
-      this.invoiceDetails = response;
+      this.transferDetails = response;
+
+      response.invoices.forEach((value, index) => {
+        if(value.invoice_status == 'paid') {
+          this.receipts.push(value);
+        }else{
+          this.invoices.push(value);
+        }
+      });
+
       loader.dismiss();
     });
   }
@@ -83,32 +80,43 @@ export class TransferViewPage {
     });
   }
 
-  /**
-* Generate  Invoice   */
-  generateInvoice(invoice_id: number) {
+  /** 
+   * Donwload Receipt
+   */
+  downloadReceipt(invoice_id: number) {
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.transferService.generateInvoiceCopy(invoice_id).subscribe(response => {
+    this.transferService.downloadReceipt(invoice_id).subscribe(response => {
       //this.navCtrl.pop();
       loader.dismiss();
     });
   }
 
-
-
-  // Calculating Total cost     
-  totalCost(hourly_rate, hours, bonus, transfer_cost) {
-    return (2 * Number(hours)) + Number(bonus) + Number(transfer_cost);
+  /** 
+   * Donwload invoice
+   */
+  downloadInvoice(invoice_id: number) {
+    let loader = this._loadingCtrl.create();
+    loader.present();
+    this.transferService.downloadInvoice(invoice_id).subscribe(response => {
+      //this.navCtrl.pop();
+      loader.dismiss();
+    });
   }
 
-
-  edit(invoiceDetails: any) {
+  edit(transferDetails: any) {
     // Transfers  Detail Page
     this.navCtrl.push(TransferFormPage, {
-      'invoiceModel': invoiceDetails,
+      'model': transferDetails,
       'editModel': true
     });
   }
 
+  /**
+   * Calculating Total per Candidate
+   */     
+  total(candidate) {
+    return (Number(candidate.company_hourly_rate) * Number(candidate.hours)) + Number(candidate.bonus);
+  }
 }
 
