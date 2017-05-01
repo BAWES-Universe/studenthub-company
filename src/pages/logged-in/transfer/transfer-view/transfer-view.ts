@@ -29,8 +29,12 @@ export class TransferViewPage {
     public params: NavParams,
     public alertCtrl: AlertController
   ) {
-
     this.transfer_id = params.get('model');
+<<<<<<< HEAD
+=======
+    this.transferData = params.get('transferData');
+    this.transferStatus = params.get('status');
+>>>>>>> c0b62a01649f5f26e92956199070a25ba49c13e7
   }
 
   ionViewDidLoad() {
@@ -58,7 +62,8 @@ export class TransferViewPage {
   }
 
   /**
-  * Transfer Locking  */
+   * Transfer Locking  
+   */
   transferLock(invoice_id: number) {
     // Load list of transfer
     let loader = this._loadingCtrl.create();
@@ -70,7 +75,8 @@ export class TransferViewPage {
   }
 
   /**
- * Marking Invoice as Payment Sent  */
+   * Marking Invoice as Payment Sent  
+   */
   paymentSent(invoice_id: number) {
     let loader = this._loadingCtrl.create();
     loader.present();
@@ -80,10 +86,17 @@ export class TransferViewPage {
     });
   }
 
+<<<<<<< HEAD
   /** 
    * Donwload Receipt
    */
   downloadReceipt(invoice_id: number) {
+=======
+  /**
+   * Generate Invoice
+   */
+  generateInvoice(invoice_id: number) {
+>>>>>>> c0b62a01649f5f26e92956199070a25ba49c13e7
     let loader = this._loadingCtrl.create();
     loader.present();
     this.transferService.downloadReceipt(invoice_id).subscribe(response => {
@@ -92,6 +105,7 @@ export class TransferViewPage {
     });
   }
 
+<<<<<<< HEAD
   /** 
    * Donwload invoice
    */
@@ -104,8 +118,17 @@ export class TransferViewPage {
     });
   }
 
+  /**
+   * Calculating Total cost
+   */     
+  totalCost(hourly_rate, hours, bonus, transfer_cost) {
+    return (2 * Number(hours)) + Number(bonus) + Number(transfer_cost);
+  }
+
+  /**
+   * Load the Transfer form page to edit the transfer details
+   */
   edit(transferDetails: any) {
-    // Transfers  Detail Page
     this.navCtrl.push(TransferFormPage, {
       'model': transferDetails,
       'editModel': true

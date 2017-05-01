@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { MenuController, NavController } from 'ionic-angular';
 
 // Page Imports
-import { HomePage } from '../home/home';
 import { CandidateListPage } from '../candidate/candidate-list/candidate-list';
 import { TransferListPage } from '../transfer/transfer-list/transfer-list';
 import { StoreListPage } from '../store/store-list/store-list';
@@ -17,7 +16,7 @@ import { AuthService } from '../../../providers/auth.service';
 })
 export class NavigationPage {
 
-  rootPage: any = HomePage;
+  rootPage: any = TransferListPage;
 
   @ViewChild('loggedInContent') nav: NavController
 

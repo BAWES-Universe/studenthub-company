@@ -16,7 +16,6 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/start-pages/login/login';
 // Pages when logged in
 import { NavigationPage } from '../pages/logged-in/navigation/navigation';
-import { HomePage } from '../pages/logged-in/home/home';
 
 import { CompanyListPage } from '../pages/logged-in/company/company-list/company-list';
 import { CompanyViewPage } from '../pages/logged-in/company/company-view/company-view';
@@ -37,8 +36,9 @@ import { TransferService } from '../providers/logged-in/transfer.service';
 import { StoreService } from '../providers/logged-in/store.service';
 import { CompanyService } from '../providers/logged-in/company.service';
 
-import { GroupByPipe } from '../pages/logged-in/transfer/groupby-pipe';
-import { SortPipe } from '../pages/logged-in/transfer/timestamp-pipe';
+// Pipes
+import { GroupByPipe } from '../pipes/groupby-pipe';
+import { SortPipe } from '../pipes/timestamp-pipe';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -53,7 +53,6 @@ const cloudSettings: CloudSettings = {
     LoginPage,
     // Logged In
     NavigationPage,
-    HomePage,
     CompanyListPage,
     CompanyViewPage,
     StoreListPage,
@@ -73,7 +72,6 @@ const cloudSettings: CloudSettings = {
     LoginPage,
     // Logged In
     NavigationPage,
-    HomePage,
     CompanyListPage,
     CompanyViewPage,
     StoreListPage,

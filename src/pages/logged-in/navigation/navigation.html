@@ -1,44 +1,44 @@
-<!-- Menu Left -->
-<ion-menu #menuLeft side="left" type="overlay" [content]="loggedInContent">
-  <ion-header>
-    <ion-toolbar text-center style="height:auto;">
-      <img margin class='logo' src="assets/logo.png" />
-      <h3>Payroll Company</h3>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
+<ion-split-pane>
+  <!-- Menu Left -->
+  <ion-menu #menuLeft side="left" type="overlay" [content]="loggedInContent">
+    <ion-header>
+      <ion-toolbar text-center style="height:auto;">
+        <img margin class='logo' src="assets/logo.png" />
+        <h3>Payroll Company</h3>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
 
 
-    <ion-list>
-      <ion-list-header>Personal</ion-list-header>
-      <button ion-item (click)="loadPage('company')">
-        <ion-icon name="list" item-left></ion-icon>
-            Sub companies
-      </button>
-      <button ion-item (click)="loadPage('store')">
-        <ion-icon name="list" item-left></ion-icon>
-            Stores
-      </button>
-      <button ion-item (click)="loadPage('candidate')">
-        <ion-icon name="person" item-left></ion-icon>
-            Candidates
-      </button>
-      <button ion-item (click)="loadPage('transfer')">
-        <ion-icon name="repeat" item-left></ion-icon>
-            Transfers
-      </button>
-      <button ion-item (click)="logout()">
-        <ion-icon name="ios-log-out" item-left></ion-icon>
-        Logout
-      </button>
+      <ion-list>
+        <ion-list-header>Personal</ion-list-header>
+        <button ion-item (click)="loadPage('transfer')">
+          <ion-icon name="repeat" item-left></ion-icon>
+              Transfers
+        </button>
+        <button ion-item (click)="loadPage('candidate')">
+          <ion-icon name="person" item-left></ion-icon>
+              Employees
+        </button>
+        <button ion-item (click)="loadPage('company')">
+          <ion-icon name="list" item-left></ion-icon>
+              Sub companies
+        </button>
+        <button ion-item (click)="loadPage('store')">
+          <ion-icon name="list" item-left></ion-icon>
+              Stores
+        </button>
+        
+        <button ion-item (click)="logout()">
+          <ion-icon name="ios-log-out" item-left></ion-icon>
+          Logout
+        </button>
 
-    </ion-list>
-  </ion-content>
-</ion-menu>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
 
-<ion-nav #loggedInContent
-  swipeBackEnabled="true"
-  [root]="rootPage"></ion-nav>
+  <ion-nav #loggedInContent swipeBackEnabled="true" [root]="rootPage" main></ion-nav>
 
-
+</ion-split-pane>
   
