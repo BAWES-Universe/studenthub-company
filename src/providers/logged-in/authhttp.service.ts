@@ -61,10 +61,10 @@ export class AuthHttpService {
   /**
   * Requests via PDF GET verb
   * @param {string} endpointUrl
-  * @param {number} invoice_id
+  * @param {string} filename
   * @returns {Observable<any>}
   */
-  pdfget(endpointUrl: string, invoice_id: number): Observable<any> {
+  pdfget(endpointUrl: string, filename: string): Observable<any> {
     const url = this._config.apiBaseUrl + endpointUrl;
     const bearerToken = this._auth.getAccessToken();
     return this._http.get(url, {
@@ -74,7 +74,6 @@ export class AuthHttpService {
       (response) => { // download file
         var blob = new Blob([response.blob()], { type: 'application/pdf' });
         //file name to dowanload/generate invoice 
-        var filename = `Invoice ${invoice_id} Details.pdf`;
         saveAs(blob, filename);
       });
   }

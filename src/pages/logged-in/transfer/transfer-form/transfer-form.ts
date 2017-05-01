@@ -5,7 +5,7 @@ import { NavController, ViewController, LoadingController, AlertController, NavP
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 // Models
-import { Transfer, InvoiceModel, InvoiceCandidateMember } from '../../../../models/transfer';
+import { Transfer } from '../../../../models/transfer';
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { TransferService } from '../../../../providers/logged-in/transfer.servic
 })
 export class TransferFormPage {
 
-  public model: Transfer;
+  public transfer: Transfer;
   public operation: string;
   public form: FormGroup;
   public candidatesObj;
@@ -22,10 +22,7 @@ export class TransferFormPage {
   public candidates: any = []
   public hours: any = [];
   public bonus: any = [];
-  public invoiceModel: InvoiceModel;
   public editForm: boolean;
-
-  public invoiceCandidateMember: InvoiceCandidateMember[];
 
   constructor(
     params: NavParams,
@@ -38,60 +35,13 @@ export class TransferFormPage {
   ) {
 
     // Load the passed model if available
-    this.model = params.get('model');
+    this.transfer = params.get('model');
     this.candidatesObj = params.get('candidates')
-    this.invoiceModel = params.get('invoiceModel');
     this.editForm = params.get('editModel');
 
     if (this.editForm) {
-      this.invoiceCandidatesObj = this.invoiceModel.candidates;
+      this.invoiceCandidatesObj = this.transfer.candidates;
     }
-
-
-  }
-
-  /**
-   * Total Hours in KD
-   */
-  totalHours() {
-    var sum = this.hours.reduce((a, b) => Number(a) + Number(b), 0);
-    var bonus = this.bonus.reduce((a, b) => Number(a) + Number(b), 0);
-    return sum + bonus;
-  }
-
-  /**
- * Total Amount in KD
- */
-  totalAmount() {
-    var sum = this.hours.reduce((a, b) => Number(a) + Number(b), 0);
-    var bonus = this.bonus.reduce((a, b) => Number(a) + Number(b), 0);
-    return (sum + bonus) * 2;
-  }
-
-  /**
- * Edit Form Total Hours in KD
- */
-  invoiceTotalHours() {
-    var sum = 0;
-    var elementsum = 0;
-    this.invoiceCandidatesObj.forEach((element) => {
-      elementsum = Number(element.hours) + Number(element.bonus);
-      sum = Number(sum) + Number(elementsum);
-    });
-    return Number(sum);
-  }
-
-  /**
-   * Edit Form Total Amount in KD
-   */
-  invoiceTotalAmount() {
-    var sum = 0;
-    var elementsum = 0;
-    this.invoiceCandidatesObj.forEach((element) => {
-      elementsum = Number(element.hours) + Number(element.bonus);
-      sum = Number(sum) + Number(elementsum);
-    });
-    return Number((sum)) * 2;
   }
 
   /**
@@ -119,18 +69,18 @@ export class TransferFormPage {
       });
 
     }
-    console.log(this.candidates);
+    
     let action
     //Transfer Update/Edit form
     if (this.invoiceCandidatesObj)
-      action = this.transferService.updateInvoice(this.candidates, Number(this.invoiceModel.invoice_id));
+      action = this.transferService.updateInvoice(this.candidates, Number(this.transfer.transfer_id));
     //Transfer Create form
     else
       action = this.transferService.save(this.candidates);
 
     action.subscribe(jsonResponse => {
       loader.dismiss();
-      console.log(jsonResponse);
+      
       // On Success
       if (jsonResponse.operation == "success") {
         // Close the page

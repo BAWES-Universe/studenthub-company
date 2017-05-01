@@ -9,11 +9,8 @@ import { TransferViewPage } from '../transfer-view/transfer-view';
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 
-
 // Models
-import { Transfer, TransferListModel, InvoiceListModel } from '../../../../models/transfer';
-import { Candidate } from '../../../../models/candidate';
-import { Store } from '../../../../models/store';
+import { Transfer } from '../../../../models/transfer';
 
 @Component({
   selector: 'page-transfer-list',
@@ -25,14 +22,8 @@ export class TransferListPage {
   public currentPage = 1;
   public pages: number[] = [];
 
-  public transfer: TransferListModel[];
-  public invoices: InvoiceListModel[];
+  public transfers: Transfer[];  
 
-  public candidate: Candidate[];
-  public transferDateFormats: TransferListModel[];
-
-  public storeList: Store[];
-  
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
@@ -69,7 +60,7 @@ export class TransferListPage {
       if(this.pageCount == 1)
         this.pages = [];
 
-      this.invoices = response.json();
+      this.transfers = response.json();
       
       loader.dismiss();
     });
@@ -87,8 +78,6 @@ export class TransferListPage {
     
     this.candidateService.listAll().subscribe(response => {
 
-      console.log(response);
-      
       let modal = this._modalCtrl.create(TransferFormPage, {
         model: new Transfer(),
         candidates: response,
@@ -106,17 +95,13 @@ export class TransferListPage {
       
       modal.present();
     });
-
-
   }
 
   //Transfers details for each transfer_id
-  transferDetails(transfer_id: number, status: string) {
+  transferDetails(transfer_id: number) {
     // Transfers  Detail Page
     this.navCtrl.push(TransferViewPage, {
-      'model': transfer_id,
-      'transferData': this.transfer,
-      'status': status
+      'model': transfer_id
     });
   }
 }

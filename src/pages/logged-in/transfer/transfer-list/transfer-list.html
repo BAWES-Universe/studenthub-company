@@ -10,22 +10,22 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let transferMember of invoices |  orderBy:'invoice_created_at'">
-      {{transferMember.invoice_status}}
+    <ion-item-sliding *ngFor="let transfer of transfers |  orderBy:'transfer_created_at'">
+      {{transfer.transfer_status}}
       <ion-item>
-        <span *ngIf="transferMember.invoice_status=='10'"> Transfer Initiated </span>
-        <span *ngIf="transferMember.invoice_status=='1'"> Payment Sent </span>
-        <span *ngIf="transferMember.invoice_status=='2'"> Payment Received </span>
-        <span *ngIf="transferMember.invoice_status=='3'"> Salary distribution in progress </span>
-        <span *ngIf="transferMember.invoice_status=='4'"> Transfer Completed </span>
-        <span *ngIf="transferMember.invoice_status=='5'"> Transfer Locked </span>
+        <span *ngIf="transfer.transfer_status=='10'"> Transfer Initiated </span>
+        <span *ngIf="transfer.transfer_status=='1'"> Payment Sent </span>
+        <span *ngIf="transfer.transfer_status=='2'"> Payment Received </span>
+        <span *ngIf="transfer.transfer_status=='3'"> Salary distribution in progress </span>
+        <span *ngIf="transfer.transfer_status=='4'"> Transfer Completed </span>
+        <span *ngIf="transfer.transfer_status=='5'"> Transfer Locked </span>
 
-        <button ion-item [ngClass]="{'my-class': transferMember.invoice_status=='1' }" (click)="transferDetails(transferMember.invoice_id,transferMember.invoice_status)">  
-        Transfer Id : {{ transferMember.invoice_id}}<br>    
-        Company: {{ transferMember.company_name }} <br> 
-        Total: {{ transferMember.company_total}} <br>   
-        Transfer Created: {{ transferMember.invoice_created_at}}<br>
-        Transfer Updated: {{ transferMember.invoice_updated_at}}          
+        <button ion-item [ngClass]="{'my-class': transfer.transfer_status=='1' }" (click)="transferDetails(transfer.transfer_id)">  
+        Transfer Id : {{ transfer.transfer_id}}<br>    
+        Company: {{ transfer.company_name }} <br> 
+        Total: {{ transfer.company_total}} <br>   
+        Transfer Created: {{ transfer.transfer_created_at}}<br>
+        Transfer Updated: {{ transfer.transfer_updated_at}}          
         </button>
       </ion-item>
     </ion-item-sliding>    
