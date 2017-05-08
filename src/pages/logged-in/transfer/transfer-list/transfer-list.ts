@@ -36,6 +36,7 @@ export class TransferListPage {
   ionViewDidLoad() {
     // this.loadData();   
   }
+  
   ionViewWillEnter() {
     this.loadData(this.currentPage);
   }

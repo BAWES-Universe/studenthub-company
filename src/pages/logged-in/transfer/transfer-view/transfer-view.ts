@@ -30,17 +30,11 @@ export class TransferViewPage {
     public alertCtrl: AlertController
   ) {
     this.transfer_id = params.get('model');
-<<<<<<< HEAD
-=======
-    this.transferData = params.get('transferData');
-    this.transferStatus = params.get('status');
->>>>>>> c0b62a01649f5f26e92956199070a25ba49c13e7
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.loadData();
   }
-
 
   loadData() {
     // Load list of transfer
@@ -86,17 +80,10 @@ export class TransferViewPage {
     });
   }
 
-<<<<<<< HEAD
   /** 
    * Donwload Receipt
    */
   downloadReceipt(invoice_id: number) {
-=======
-  /**
-   * Generate Invoice
-   */
-  generateInvoice(invoice_id: number) {
->>>>>>> c0b62a01649f5f26e92956199070a25ba49c13e7
     let loader = this._loadingCtrl.create();
     loader.present();
     this.transferService.downloadReceipt(invoice_id).subscribe(response => {
@@ -105,7 +92,6 @@ export class TransferViewPage {
     });
   }
 
-<<<<<<< HEAD
   /** 
    * Donwload invoice
    */
