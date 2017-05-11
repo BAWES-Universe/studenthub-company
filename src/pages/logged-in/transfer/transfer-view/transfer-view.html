@@ -68,6 +68,14 @@
         <ion-col >{{ total(resource) }}</ion-col>
      </ion-row>
 
+      <ion-row>
+        <ion-col> Paid to Candidate? :</ion-col>
+        <ion-col>
+          <span *ngIf="resource.paid=='1'"> Yes </span>
+          <span *ngIf="resource.paid=='0'"> No </span>
+        </ion-col>
+     </ion-row>
+
       </button>
       <br>
     </ion-item-group>
