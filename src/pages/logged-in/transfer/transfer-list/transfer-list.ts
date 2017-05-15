@@ -66,8 +66,10 @@ export class TransferListPage {
 
       this.transfers = response.json();
       
-      loader.dismiss();
-    });
+      },
+    error => {},
+    () => {loader.dismiss();}
+    );
   }
 
   /**

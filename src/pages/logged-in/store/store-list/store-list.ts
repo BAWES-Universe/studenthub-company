@@ -59,8 +59,10 @@ export class StoreListPage {
           this.stores.push(store);
       }
 
-      loader.dismiss();
-    });
+    },
+    error => {},
+    () => {loader.dismiss();}
+    );
   }
 
   pageLinkColor(page: number) {
