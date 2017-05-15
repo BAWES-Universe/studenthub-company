@@ -118,10 +118,3 @@
     Payment Sent
   </button>
 </ion-footer>
-
-
-<ion-footer *ngIf="transferDetails && transferDetails.transfer_status==='4'">
-  <button ion-button full (click)="generateInvoice(transferDetails.transfer_id)">
-    Generate Invoice
-  </button>
-</ion-footer>
