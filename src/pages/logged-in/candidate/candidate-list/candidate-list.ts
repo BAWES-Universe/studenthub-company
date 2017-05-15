@@ -59,9 +59,10 @@ export class CandidateListPage {
         this.pages = [];
 
       this.candidates = response.json();
-    
-      loader.dismiss();
-    });
+    },
+    error => {},
+    () => {loader.dismiss();}
+    );
   }
 
   pageLinkColor(page: number) {

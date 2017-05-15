@@ -4,6 +4,10 @@ export class Candidate {
     store_id: number;
     store_name: string;
     bank_id: number;
+    university_id: number;
+    country_id: number;
+    age: number;
+    company_name: string;
     bank_account_name: string;
     candidate_iban: string;
     candidate_name: string;

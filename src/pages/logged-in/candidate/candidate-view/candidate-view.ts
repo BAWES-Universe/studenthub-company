@@ -13,8 +13,7 @@ import { CandidateService } from '../../../../providers/logged-in/candidate.serv
 export class CandidateViewPage {
 
   public candidate: Candidate;
-
-
+  public permanentBucketUrl = "https://sh-payroll.s3.eu-west-2.amazonaws.com/";
   constructor(
     public navCtrl: NavController,
     private _modalCtrl: ModalController,
