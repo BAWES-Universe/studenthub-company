@@ -18,7 +18,6 @@ export class TransferFormPage {
   public operation: string;
   public form: FormGroup;
   public candidatesObj;
-  public invoiceCandidatesObj;
   public candidates: any = []
   public hours: any = [];
   public bonus: any = [];
@@ -39,8 +38,29 @@ export class TransferFormPage {
     this.candidatesObj = params.get('candidates')
     this.editForm = params.get('editModel');
 
+    //get hours and bonus value from transfer if edit page 
     if (this.editForm) {
-      this.invoiceCandidatesObj = this.transfer.candidates;
+      
+      var data = {};
+
+      for(let i of this.transfer.candidates) {        
+        data['candiate-' + i.candidate_id] = [];
+        data['candiate-' + i.candidate_id]['hours'] = i.hours;
+        data['candiate-' + i.candidate_id]['bonus'] = i.hours;
+      }
+
+      let i = 0;
+
+      for(let j of this.candidatesObj) 
+      {
+        if(data['candiate-' + j.candidate_id])
+        {
+          this.hours[i] = data['candiate-' + j.candidate_id]['hours'];
+          this.bonus[i] = data['candiate-' + j.candidate_id]['bonus'];
+        }
+        
+        i++;        
+      }
     }
   }
 
@@ -50,29 +70,18 @@ export class TransferFormPage {
   save() {
     let loader = this._loadingCtrl.create();
     loader.present();
-    if (this.invoiceCandidatesObj) {
-      this.invoiceCandidatesObj.forEach((value, index) => {
-        this.candidates.push({
-          candidate_id: Number(value.candidate_id),
-          hours: Number(value.hours),
-          bonus: Number(value.bonus)
-        });
-      });
 
-    } else {
-      this.candidatesObj.forEach((value, index) => {
-        this.candidates.push({
-          candidate_id: value.candidate_id,
-          hours: this.hours[index],
-          bonus: this.bonus[index]
-        });
+    this.candidatesObj.forEach((value, index) => {
+      this.candidates.push({
+        candidate_id: value.candidate_id,
+        hours: this.hours[index],
+        bonus: this.bonus[index]
       });
-
-    }
+    });
     
     let action
     //Transfer Update/Edit form
-    if (this.invoiceCandidatesObj)
+    if (this.editForm)
       action = this.transferService.updateInvoice(this.candidates, Number(this.transfer.transfer_id));
     //Transfer Create form
     else
