@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, ResponseContentType, RequestOptions } from '@angular/http';
+import { Http, Headers, Response, ResponseContentType } from '@angular/http';
 import { Platform, Events } from 'ionic-angular';
 
 import { saveAs } from 'file-saver';
