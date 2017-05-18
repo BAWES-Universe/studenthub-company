@@ -70,7 +70,6 @@ export class TransferFormPage {
   save() {
     let loader = this._loadingCtrl.create();
     loader.present();
-
     this.candidatesObj.forEach((value, index) => {
       this.candidates.push({
         candidate_id: value.candidate_id,
