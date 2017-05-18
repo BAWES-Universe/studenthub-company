@@ -46,7 +46,7 @@ export class TransferFormPage {
       for(let i of this.transfer.candidates) {        
         data['candiate-' + i.candidate_id] = [];
         data['candiate-' + i.candidate_id]['hours'] = i.hours;
-        data['candiate-' + i.candidate_id]['bonus'] = i.hours;
+        data['candiate-' + i.candidate_id]['bonus'] = i.bonus;
       }
 
       let i = 0;
