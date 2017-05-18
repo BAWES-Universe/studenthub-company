@@ -10,15 +10,20 @@
 </ion-header>
 
 <ion-content padding>
-  <h5>Id</h5>
-  <p>{{ company.company_id }}</p>
-
-  <h5>Company</h5>
-  <p>{{ company.company_name }}</p>
-
-  <h5>Email</h5>
-  <p>{{ company.company_email }}</p>
-
+  <ion-list>
+    <ion-item>
+      <h5>Id</h5>
+      <p>{{ company.company_id }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Company</h5>
+      <p>{{ company.company_name }}</p>
+    </ion-item>
+    <ion-item *ngIf="company && company.company_email">
+      <h5>Email</h5>
+      <p>{{ company.company_email }}</p>
+    </ion-item>
+  </ion-list>
   <h5>Stores</h5>
   <ion-list>
     <ion-item-sliding *ngFor="let store of stores">
