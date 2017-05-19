@@ -3,7 +3,6 @@ import { NavController, ViewController, LoadingController, AlertController } fro
 
 // Providers
 import { AccountService } from '../../../../providers/logged-in/account.service';
-import { HomePage } from '../../home/home';
 
 // Forms
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
