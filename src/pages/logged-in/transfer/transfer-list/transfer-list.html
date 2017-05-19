@@ -11,75 +11,51 @@
 
 <ion-content>
 
+  <div padding>
+   <ion-segment [(ngModel)]="draft">
+        <ion-segment-button value="drafts">
+          Drafts
+        </ion-segment-button>
+        <ion-segment-button value="completed">
+          Completed
+        </ion-segment-button>
+      </ion-segment>
+  </div>
 
-  <!--<ion-list>-->
-
-
-<div padding>
- <ion-segment [(ngModel)]="draft">
-      <ion-segment-button value="drafts">
-        Drafts
-      </ion-segment-button>
-      <ion-segment-button value="completed">
-        Completed
-      </ion-segment-button>
-    </ion-segment>
-</div>
-
-
-      <div [ngSwitch]="draft">
-        <ion-list *ngSwitchCase="'drafts'">
-            <ion-item-sliding *ngFor="let transfer of transfers |  orderBy:'transfer_created_at'">
-                 {{transfer.transfer_status}}
-               <button ion-item *ngIf="transfer.transfer_status!=='4'" (click)="transferDetails(transfer.transfer_id)">  
-                    KWD {{transfer.company_total}}
-                    <ion-badge item-right *ngIf="transfer.company_total.length > 0 " >
-                        <span *ngIf="transfer.transfer_status=='10'"> Draft </span>
-                        <span *ngIf="transfer.transfer_status=='1'"> Payment Sent </span>
-                        <span *ngIf="transfer.transfer_status=='2'"> Payment Received </span>
-                        <span *ngIf="transfer.transfer_status=='3'"> Salary distribution in progress </span>
-                        <span *ngIf="transfer.transfer_status=='5'"> Transfer Locked </span>
-                    </ion-badge>
-                    <p>Created: {{transfer.transfer_created_at}} </p>
-              </button>
-            </ion-item-sliding>    
-         </ion-list>
-
-
-       <ion-list *ngSwitchCase="'completed'">
-            <ion-item-sliding *ngFor="let transfer of transfers |  orderBy:'transfer_created_at'">
-                 {{transfer.transfer_status}}
-               <button ion-item *ngIf="transfer.transfer_status =='4'" (click)="transferDetails(transfer.transfer_id)">  
-                    KWD {{transfer.company_total}} 
-                    <ion-badge item-right *ngIf="transfer.company_total.length > 0 " >
-                        <span *ngIf="transfer.transfer_status=='4'"> Transfer Completed </span>
-                    
-                    </ion-badge>
-                    <p>Created: {{transfer.transfer_created_at}} </p>
-              </button>
-            </ion-item-sliding>    
-         </ion-list>
-       </div>
-          
-
-
-    <!--<ion-item-sliding *ngFor="let transfer of transfers |  orderBy:'transfer_created_at'">
-      {{transfer.transfer_status}}
-        <button ion-item (click)="transferDetails(transfer.transfer_id)">  
-          Total: {{transfer.company_total}} 
-               <ion-badge item-right *ngIf="transfer.company_total.length > 0" >
-            <span *ngIf="transfer.transfer_status=='10'"> Draft </span>
-            <span *ngIf="transfer.transfer_status=='1'"> Payment Sent </span>
-            <span *ngIf="transfer.transfer_status=='2'"> Payment Received </span>
-            <span *ngIf="transfer.transfer_status=='3'"> Salary distribution in progress </span>
-            <span *ngIf="transfer.transfer_status=='4'"> Transfer Completed </span>
-            <span *ngIf="transfer.transfer_status=='5'"> Transfer Locked </span>
-             </ion-badge>
-              <p>Created: {{transfer.transfer_created_at}} </p>
+  <div [ngSwitch]="draft">
+    <ion-list *ngSwitchCase="'drafts'">
+        <ion-item-sliding *ngFor="let transfer of transfers |  orderBy:'transfer_created_at'">
+             {{transfer.transfer_status}}
+           <button ion-item *ngIf="transfer.transfer_status!=='4'" (click)="transferDetails(transfer.transfer_id)">  
+                KWD {{transfer.company_total}}
+                <ion-badge item-right>
+                    <span *ngIf="transfer.transfer_status=='10'"> Draft </span>
+                    <span *ngIf="transfer.transfer_status=='1'"> Payment Sent </span>
+                    <span *ngIf="transfer.transfer_status=='2'"> Payment Received </span>
+                    <span *ngIf="transfer.transfer_status=='3'"> Salary distribution in progress </span>
+                    <span *ngIf="transfer.transfer_status=='5'"> Transfer Locked </span>
+                </ion-badge>
+                <p>Created: {{transfer.transfer_created_at}} </p>
           </button>
-    </ion-item-sliding>    
-  </ion-list>-->
+        </ion-item-sliding>    
+    </ion-list>
 
+
+    <ion-list *ngSwitchCase="'completed'">
+        <ion-item-sliding *ngFor="let transfer of transfers |  orderBy:'transfer_created_at'">
+             {{transfer.transfer_status}}
+           <button ion-item *ngIf="transfer.transfer_status =='4'" (click)="transferDetails(transfer.transfer_id)">  
+                KWD {{transfer.company_total}} 
+                <ion-badge item-right *ngIf="transfer.company_total.length > 0 " >
+                    <span *ngIf="transfer.transfer_status=='4'"> Transfer Completed </span>
+                
+                </ion-badge>
+                <p>Created: {{transfer.transfer_created_at}} </p>
+          </button>
+        </ion-item-sliding>    
+    </ion-list>
+  </div>
+      
   <ion-row text-center>
     <div class="pagination-wrapper">
       <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
