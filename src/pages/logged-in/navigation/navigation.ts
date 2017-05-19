@@ -6,6 +6,7 @@ import { CandidateListPage } from '../candidate/candidate-list/candidate-list';
 import { TransferListPage } from '../transfer/transfer-list/transfer-list';
 import { StoreListPage } from '../store/store-list/store-list';
 import { CompanyListPage } from '../company/company-list/company-list';
+import { ChangePassword } from '../account/change-password/change-password';
 
 // Services
 import { AuthService } from '../../../providers/auth.service';
@@ -38,6 +39,9 @@ export class NavigationPage {
         break;
       case "transfer":
         this.rootPage = TransferListPage;
+        break;
+      case "change-password":
+        this.rootPage = ChangePassword;
         break;
     }
     this._menuCtrl.close();

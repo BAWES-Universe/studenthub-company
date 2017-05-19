@@ -26,6 +26,7 @@ import { CandidateViewPage } from '../pages/logged-in/candidate/candidate-view/c
 import { TransferListPage } from '../pages/logged-in/transfer/transfer-list/transfer-list';
 import { TransferFormPage } from '../pages/logged-in/transfer/transfer-form/transfer-form';
 import { TransferViewPage } from '../pages/logged-in/transfer/transfer-view/transfer-view';
+import { ChangePassword } from '../pages/logged-in/account/change-password/change-password';
 
 // Providers / Services
 import { AuthService } from '../providers/auth.service';
@@ -35,6 +36,7 @@ import { CandidateService } from '../providers/logged-in/candidate.service';
 import { TransferService } from '../providers/logged-in/transfer.service';
 import { StoreService } from '../providers/logged-in/store.service';
 import { CompanyService } from '../providers/logged-in/company.service';
+import { AccountService } from '../providers/logged-in/account.service';
 
 // Pipes
 import { GroupByPipe } from '../pipes/groupby-pipe';
@@ -62,6 +64,7 @@ const cloudSettings: CloudSettings = {
     TransferListPage,
     TransferFormPage,
     TransferViewPage,
+    ChangePassword,
     // Pipes
     GroupByPipe,
     SortPipe
@@ -80,7 +83,8 @@ const cloudSettings: CloudSettings = {
     CandidateViewPage,
     TransferListPage,
     TransferFormPage,
-    TransferViewPage
+    TransferViewPage,
+    ChangePassword
   ],
   imports: [
     BrowserModule,
@@ -101,7 +105,8 @@ const cloudSettings: CloudSettings = {
       StoreService,
       CandidateService,
       TransferService,
-      AuthHttpService
+      AuthHttpService,
+      AccountService
   ],
   bootstrap: [IonicApp]
 })
