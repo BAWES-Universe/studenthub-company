@@ -17,7 +17,7 @@ import { Transfer } from '../../../../models/transfer';
   templateUrl: 'transfer-list.html'
 })
 export class TransferListPage {
-
+  draft: string = "drafts";
   public pageCount = 0;
   public currentPage = 1;
   public pages: number[] = [];
