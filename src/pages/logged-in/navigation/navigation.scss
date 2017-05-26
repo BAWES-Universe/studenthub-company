@@ -1,4 +1,11 @@
 page-navigation {
-  .logo{width:120px;}
-  h3{margin-top:0;}
+
+  ion-menu{
+    .logo{width:120px;}
+    h3{margin-top:0; color:white;}
+
+    ion-header{
+      .toolbar-background{background: #4354a5;}
+    }
+  }
 }

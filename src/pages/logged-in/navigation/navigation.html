@@ -3,15 +3,15 @@
   <ion-menu #menuLeft side="left" type="overlay" [content]="loggedInContent">
     <ion-header>
       <ion-toolbar text-center style="height:auto;">
-        <img margin class='logo' src="assets/logo.png" />
-        <h3>Payroll Company</h3>
+        <img class='logo' src="assets/icon.png" />
+        <h3>Company Payroll</h3>
       </ion-toolbar>
     </ion-header>
     <ion-content>
 
-
       <ion-list>
-        <ion-list-header>Personal</ion-list-header>
+        <ion-list-header>Management</ion-list-header>
+
         <button ion-item (click)="loadPage('transfer')">
           <ion-icon name="repeat" item-left></ion-icon>
               Transfers
@@ -28,6 +28,9 @@
           <ion-icon name="list" item-left></ion-icon>
               Stores
         </button>
+
+        <ion-list-header>Account</ion-list-header>
+
         <button ion-item (click)="loadPage('change-password')">
           <ion-icon name="key" item-left></ion-icon>
               Change Password
