@@ -42,7 +42,10 @@ $colors: (
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
+.list-header-md{
+  margin-bottom:0 !important;
+  border-bottom: 1px solid rgb(222, 222, 222);
+}
 
 
 
