@@ -12,6 +12,9 @@
   <ion-list>
     <ion-item-sliding *ngFor="let candidateMember of candidates">
       <button ion-item (click)="rowSelected(candidateMember)">
+    <ion-avatar item-left>
+        <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{candidateMember.candidate_personal_photo}}">
+    </ion-avatar>
         {{ candidateMember.candidate_name}}
       </button>
     </ion-item-sliding>
