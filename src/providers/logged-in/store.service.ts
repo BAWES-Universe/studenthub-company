@@ -30,5 +30,15 @@ export class StoreService {
     let url = this._storeEndpoint + '/' + company_id + '?page=' + page;
     return this._authhttp.getRaw(url);
   }
+
+
+  /**
+   * List of all stores by company id
+   * @returns {Observable<any>}
+   */
+  listByCompanyStore(page: number): Observable<any> {
+    let url = this._storeEndpoint + '/company-store' + '?page=' + page;
+    return this._authhttp.get(url);
+  }
 }
 
