@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ModalController, NavParams } from 'ionic-angular';
 
+//page
 import { StoreViewPage } from '../store-view/store-view';
-
+import { CompanyViewPage } from '../../company/company-view/company-view';
 // Providers
 import { StoreService } from '../../../../providers/logged-in/store.service';
+
 // Models
 import { Store } from '../../../../models/store';
+import { Company } from '../../../../models/company';
 
 @Component({
   selector: 'page-store-list',
@@ -19,6 +22,8 @@ export class StoreListPage {
   public pages: number[] = [];
 
   public stores: Store[];
+  public companies: Company[];
+  public title: string; 
 
   constructor(
     public navCtrl: NavController,
@@ -26,9 +31,7 @@ export class StoreListPage {
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
     public params: NavParams,
-  ) {
-   
-  }
+  ) {}
 
   ionViewDidLoad() {
     this.loadData(this.currentPage);
@@ -39,26 +42,13 @@ export class StoreListPage {
     this.stores = [];
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.storeService.list(page).subscribe(response => {
-
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
-
-      this.pages = [];
-
-      for(var i = 1; i <= this.pageCount; i++){
-         this.pages.push(i);
+    this.storeService.listByCompanyStore(page).subscribe(response => {
+        this.title = response.type;
+      if (response.type == 'Company') {
+        this.companies = response.results;
+      } else {
+        this.stores = response.results;
       }
-
-      //hide if no page = 1 
-
-      if(this.pageCount == 1)
-        this.pages = [];
-
-      for (let store of response.json()) {
-          this.stores.push(store);
-      }
-
     },
     error => {},
     () => {loader.dismiss();}
@@ -77,6 +67,12 @@ export class StoreListPage {
     
     // Load Detail Page
     this.navCtrl.push(StoreViewPage, {
+      'model': model
+    });
+  }
+  companySelected(model) {
+    // Load Detail Page
+    this.navCtrl.push(CompanyViewPage, {
       'model': model
     });
   }
