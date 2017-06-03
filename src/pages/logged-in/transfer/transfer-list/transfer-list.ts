@@ -84,7 +84,16 @@ export class TransferListPage {
    * Organise the transfers into groups based on transfer status
    */
   organiseTransfers(){
-    for (let transfer of this.transfers ) {
+    // Clear existing transfer arrays 
+    this.draftTransfers = [];
+    this.lockTransfers = [];
+    this.receivedTransfers = [];
+    this.sentTransfers = [];
+    this.inProgressTransfers = [];
+    this.completedTransfers = [];
+
+    // Loop through entire transfer list and update
+    for (let transfer of this.transfers) {
       switch(transfer.transfer_status){
         case this.transferService.STATUS_INITIATED:
           this.draftTransfers.push(transfer);
