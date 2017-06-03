@@ -64,27 +64,6 @@
           </button>
         </ion-item-sliding>  
       </div>  
-
-      <div *ngIf="sentTransfers.length > 0">
-        <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
-        <ion-item-sliding *ngFor="let transfer of sentTransfers">
-          <button ion-item (click)="transferDetails(transfer.transfer_id)">  
-              {{transfer.transfer_created_at}}
-              <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-          </button>
-        </ion-item-sliding>  
-      </div>  
-
-
-      <div *ngIf="sentTransfers.length > 0">
-        <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
-        <ion-item-sliding *ngFor="let transfer of sentTransfers">
-          <button ion-item (click)="transferDetails(transfer.transfer_id)">  
-              {{transfer.transfer_created_at}}
-              <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-          </button>
-        </ion-item-sliding>  
-      </div>  
     </ion-list>
 
     <ion-list *ngSwitchCase="'completed'">
