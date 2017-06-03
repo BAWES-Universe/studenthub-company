@@ -13,6 +13,13 @@ export class TransferService {
 
   private _transferEndpoint: string = "/transfers";
 
+  public STATUS_PAYMENT_SENT = 1;
+  public STATUS_PAYMENT_RECEIVED = 2;
+  public STATUS_SALARY_DISTRIBUTION_IN_PROGRESS = 3;
+  public STATUS_TRANSFER_COMPLETE = 4;
+  public STATUS_LOCK = 5;
+  public STATUS_INITIATED = 10;
+
   constructor(private _authhttp: AuthHttpService) { }
 
   /**

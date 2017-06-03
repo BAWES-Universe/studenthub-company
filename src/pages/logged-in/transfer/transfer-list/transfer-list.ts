@@ -17,12 +17,19 @@ import { Transfer } from '../../../../models/transfer';
   templateUrl: 'transfer-list.html'
 })
 export class TransferListPage {
-  draft: string = "drafts";
+  inProgress: string = "In Progress";
   public pageCount = 0;
   public currentPage = 1;
   public pages: number[] = [];
 
   public transfers: Transfer[];  
+
+  public completedTransfers: Transfer[] = [];
+  public receivedTransfers: Transfer[] = [];
+  public inProgressTransfers: Transfer[] = [];
+  public draftTransfers: Transfer[] = [];
+  public sentTransfers: Transfer[] = [];
+  public lockTransfers: Transfer[] = [];
 
   constructor(
     public navCtrl: NavController,
@@ -65,11 +72,40 @@ export class TransferListPage {
         this.pages = [];
 
       this.transfers = response.json();
+      this.organiseTransfers();
       
       },
     error => {},
     () => {loader.dismiss();}
     );
+  }
+
+  /**
+   * Organise the transfers into groups based on transfer status
+   */
+  organiseTransfers(){
+    for (let transfer of this.transfers ) {
+      switch(transfer.transfer_status){
+        case this.transferService.STATUS_INITIATED:
+          this.draftTransfers.push(transfer);
+          break;
+        case this.transferService.STATUS_LOCK:
+          this.lockTransfers.push(transfer);
+          break;
+        case this.transferService.STATUS_PAYMENT_RECEIVED:
+          this.receivedTransfers.push(transfer);
+          break;
+        case this.transferService.STATUS_PAYMENT_SENT:
+          this.sentTransfers.push(transfer);
+          break;
+        case this.transferService.STATUS_SALARY_DISTRIBUTION_IN_PROGRESS:
+          this.inProgressTransfers.push(transfer);
+          break;
+        case this.transferService.STATUS_TRANSFER_COMPLETE:
+          this.completedTransfers.push(transfer);
+          break;
+      }      
+    }
   }
 
   /**
