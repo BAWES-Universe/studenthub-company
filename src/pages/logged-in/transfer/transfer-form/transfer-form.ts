@@ -32,7 +32,6 @@ export class TransferFormPage {
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
   ) {
-
     // Load the passed model if available
     this.transfer = params.get('model');
     this.candidatesObj = params.get('candidates')
@@ -40,27 +39,23 @@ export class TransferFormPage {
 
     //get hours and bonus value from transfer if edit page 
     if (this.editForm) {
-      
       var data = {};
 
-      for(let i of this.transfer.candidates) {        
-        data['candiate-' + i.candidate_id] = [];
-        data['candiate-' + i.candidate_id]['hours'] = i.hours;
-        data['candiate-' + i.candidate_id]['bonus'] = i.bonus;
+      for(let candidate of this.transfer.candidates) {        
+        data['candiate-' + candidate.candidate_id] = [];
+        data['candiate-' + candidate.candidate_id]['hours'] = candidate.hours;
+        data['candiate-' + candidate.candidate_id]['bonus'] = candidate.bonus;
       }
 
       let i = 0;
-
-      for(let j of this.candidatesObj) 
-      {
-        if(data['candiate-' + j.candidate_id])
-        {
+      for(let j of this.candidatesObj) {
+        if(data['candiate-' + j.candidate_id]) {
           this.hours[i] = data['candiate-' + j.candidate_id]['hours'];
           this.bonus[i] = data['candiate-' + j.candidate_id]['bonus'];
         }
-        
         i++;        
       }
+
     }
   }
 
@@ -108,7 +103,9 @@ export class TransferFormPage {
   }
 
 
-  //close the model
+  /**
+   * Close the Modal / View
+   */
   close() {
     let data = { 'refresh': false };
     this._viewCtrl.dismiss(data);
