@@ -34,8 +34,10 @@ export class TransferFormPage {
   ) {
     // Load the passed model if available
     this.transfer = params.get('model');
-    this.candidatesObj = params.get('candidates')
+    this.candidatesObj = params.get('candidates');
     this.editForm = params.get('editModel');
+
+    console.log(this.candidatesObj);
 
     //get hours and bonus value from transfer if edit page 
     if (this.editForm) {
@@ -102,6 +104,14 @@ export class TransferFormPage {
     });
   }
 
+  /**
+   * Cast value to integer, return 0 by default
+   * @param value 
+   */
+  parseNumber(value){
+    if(!value) return 0;
+    return Number(value);
+  }
 
   /**
    * Close the Modal / View
