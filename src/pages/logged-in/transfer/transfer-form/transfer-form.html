@@ -21,12 +21,29 @@
         <h2>{{ candidate.candidate_name }}</h2>
       </ion-item>
 
-      <ion-input type="number" placeholder="Hours" #hoursInput
-        [(ngModel)]="hours[i]" [ngModelOptions]="{standalone: true}"></ion-input>
-      <ion-input type="number" placeholder="Bonus (KWD)" #bonusInput
-        [(ngModel)]="bonus[i]" [ngModelOptions]="{standalone: true}"></ion-input>
-      
-      <p>KWD {{ parseNumber(hoursInput.value) + parseNumber(bonusInput.value) }}</p>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4 col-sm-3>
+            <ion-item>
+              <ion-label stacked>Hours Worked</ion-label>
+              <ion-input type="number" #hoursInput
+                [(ngModel)]="hours[i]" [ngModelOptions]="{standalone: true}"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col col-4 col-sm-3>
+            <ion-item>
+              <ion-label stacked>Bonus (KWD)</ion-label>
+              <ion-input type="number" #bonusInput
+                [(ngModel)]="bonus[i]" [ngModelOptions]="{standalone: true}"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col col-4 col-sm-3 offset-sm-3>
+            <ion-item>
+              KWD {{ (parseNumber(hoursInput.value) * 2) + parseNumber(bonusInput.value) }}
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
     </ion-card>
       
