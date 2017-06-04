@@ -1,4 +1,4 @@
-import { Candidate } from '../models/candidate'
+import { Candidate } from './candidate'
 
 export class Store {
     store_id: number;
@@ -6,5 +6,4 @@ export class Store {
     store_name: string;
     store_status:number;
     candidates:Candidate[];
-
 }

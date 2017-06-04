@@ -1,3 +1,5 @@
+import { TransferCandidate } from './transfer-candidate'
+import { Invoice } from './invoice'
 
 export class Transfer {
     transfer_id: number;
@@ -12,17 +14,4 @@ export class Transfer {
     transfer_updated_at: string;
     candidates: TransferCandidate[];
     invoices: Invoice[];
-}
-
-export class TransferCandidate {
-    candidate_id: number;
-    hours: number;
-    bonus: number
-}
-
-export class Invoice {
-    invoice_id: number;
-    transfer_id: number;
-    invoice_Date: string;
-    invoice_status: string;
 }

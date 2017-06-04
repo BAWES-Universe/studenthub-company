@@ -8,7 +8,8 @@ import { TransferFormPage } from '../../../../pages/logged-in/transfer/transfer-
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 
 // Models
-import { Transfer, Invoice } from '../../../../models/transfer';
+import { Transfer } from '../../../../models/transfer';
+import { Invoice } from '../../../../models/invoice';
 
 @Component({
   selector: 'page-transfer-view',
