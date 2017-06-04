@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 // Models
 import { Transfer } from '../../../../models/transfer';
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
+import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 
 @Component({
   selector: 'page-transfer-form',
@@ -27,6 +28,7 @@ export class TransferFormPage {
     params: NavParams,
     public navCtrl: NavController,
     public transferService: TransferService,
+    public candidateService: CandidateService,
     private _viewCtrl: ViewController,
     private _fb: FormBuilder,
     private _loadingCtrl: LoadingController,
@@ -34,12 +36,34 @@ export class TransferFormPage {
   ) {
     // Load the passed model if available
     this.transfer = params.get('model');
-    this.candidatesObj = params.get('candidates');
     this.editForm = params.get('editModel');
 
+    // Load List of All Candidates Assigned to this Company
+    this._loadCandidateListThenInitialize();
+  }
+
+  /**
+   * Load List of All Candidates Assigned to this Company
+   * Initialise the form once loaded.
+   */
+  private _loadCandidateListThenInitialize(){
+    let loader = this._loadingCtrl.create();
+    loader.present();
+
+    this.candidateService.listAll().subscribe(response => {
+      this.candidatesObj = response;
+      this._init();
+      loader.dismiss();
+    });
+  }
+
+  /**
+   * Initialize the page.
+   */
+  private _init(){
     console.log(this.candidatesObj);
 
-    //get hours and bonus value from transfer if edit page 
+    // Get hours and bonus value from transfer if edit page 
     if (this.editForm) {
       var data = {};
 
@@ -57,7 +81,6 @@ export class TransferFormPage {
         }
         i++;        
       }
-
     }
   }
 
