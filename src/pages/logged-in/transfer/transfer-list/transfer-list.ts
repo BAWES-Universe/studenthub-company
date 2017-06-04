@@ -7,7 +7,6 @@ import { TransferViewPage } from '../transfer-view/transfer-view';
 
 // Providers
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
-import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 
 // Models
 import { Transfer } from '../../../../models/transfer';
@@ -34,7 +33,6 @@ export class TransferListPage {
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
-    public candidateService: CandidateService,
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
     private alertCtrl: AlertController
@@ -66,8 +64,7 @@ export class TransferListPage {
          this.pages.push(i);
       }
 
-      //hide if no page = 1 
-
+      //hide if page = 1 
       if(this.pageCount == 1)
         this.pages = [];
 
@@ -131,20 +128,16 @@ export class TransferListPage {
    * Loads form to initiate a new transfer
    */
   createNewTransfer() {
-    this.candidateService.listAll().subscribe(response => {
-
-      //console.log(response);
-      this.navCtrl.push(TransferFormPage, {
-        model: new Transfer(),
-        candidates: response,
-        editModel: false
-      });
+    this.navCtrl.push(TransferFormPage, {
+      model: new Transfer(),
+      editModel: false
     });
   }
 
-  //Transfers details for each transfer_id
+  /**
+   * Display Transfers Detail Page for transfer_id
+   */
   transferDetails(transfer_id: number) {
-    // Transfers  Detail Page
     this.navCtrl.push(TransferViewPage, {
       'model': transfer_id
     });

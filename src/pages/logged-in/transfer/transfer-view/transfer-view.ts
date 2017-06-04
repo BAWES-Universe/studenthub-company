@@ -6,7 +6,6 @@ import { TransferFormPage } from '../../../../pages/logged-in/transfer/transfer-
 
 // Providers
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
-import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 
 // Models
 import { Transfer, Invoice } from '../../../../models/transfer';
@@ -25,7 +24,6 @@ export class TransferViewPage {
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
-    public candidateService: CandidateService,
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
     public params: NavParams,
@@ -120,12 +118,9 @@ export class TransferViewPage {
    * Load the Transfer form page to edit the transfer details
    */
   edit(transferDetails: any) {
-    this.candidateService.listAll().subscribe(response => {
-      this.navCtrl.push(TransferFormPage, {
-        'model': transferDetails,
-        'candidates': response,
-        'editModel': true
-      });
+    this.navCtrl.push(TransferFormPage, {
+      'model': transferDetails,
+      'editModel': true
     });
   }
 
