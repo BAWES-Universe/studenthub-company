@@ -64,12 +64,28 @@ export class TransferViewPage {
    */
   transferLock(invoice_id: number) {
     // Load list of transfer
-    let loader = this._loadingCtrl.create();
-    loader.present();
-    this.transferService.makeTransfertoLock(invoice_id).subscribe(response => {
-      this.navCtrl.pop();
-      loader.dismiss();
+    let alert = this.alertCtrl.create({
+      title: 'Confirm Locking Transfer',
+      message: "By locking the transfer, you'll be generating the final payment invoices for this transfer, are you sure?",
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            let loader = this._loadingCtrl.create();
+            loader.present();
+            this.transferService.makeTransfertoLock(invoice_id).subscribe(response => {
+              this.navCtrl.pop();
+              loader.dismiss();
+            });
+          }
+        }
+      ]
     });
+    alert.present();  
   }
 
   /**
