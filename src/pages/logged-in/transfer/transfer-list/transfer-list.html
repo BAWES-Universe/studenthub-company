@@ -32,6 +32,15 @@
               {{transfer.transfer_created_at}}
               <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
           </button>
+          <ion-item-options>
+              <button ion-button (click)="transferDetails(transfer.transfer_id)">
+                View
+              </button>
+              <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
+                *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
+                Delete
+              </button>
+            </ion-item-options>
         </ion-item-sliding>  
       </div>  
 
@@ -42,6 +51,15 @@
               {{transfer.transfer_created_at}}
               <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
           </button>
+          <ion-item-options>
+              <button ion-button (click)="transferDetails(transfer.transfer_id)">
+                View
+              </button>
+              <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
+                *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
+                Delete
+              </button>
+            </ion-item-options>
         </ion-item-sliding>  
       </div>  
 
@@ -52,6 +70,15 @@
               {{transfer.transfer_created_at}}
               <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
           </button>
+          <ion-item-options>
+              <button ion-button (click)="transferDetails(transfer.transfer_id)">
+                View
+              </button>
+              <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
+                *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
+                Delete
+              </button>
+            </ion-item-options>
         </ion-item-sliding>  
       </div>  
 
@@ -62,6 +89,15 @@
               {{transfer.transfer_created_at}}
               <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
           </button>
+          <ion-item-options>
+              <button ion-button (click)="transferDetails(transfer.transfer_id)">
+                View
+              </button>
+              <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
+                *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
+                Delete
+              </button>
+           </ion-item-options>
         </ion-item-sliding>  
       </div>  
     </ion-list>
@@ -75,6 +111,15 @@
                 {{transfer.transfer_created_at}}
                 <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
             </button>
+            <ion-item-options>
+              <button ion-button (click)="transferDetails(transfer.transfer_id)">
+                View
+              </button>
+              <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
+                *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
+                Delete
+              </button>
+            </ion-item-options>
           </ion-item-sliding>  
         </div>  
     </ion-list>
@@ -83,7 +128,6 @@
   <ion-row text-center>
     <div class="pagination-wrapper">
       <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
-        
         {{ page }}
       </button>
     </div>
