@@ -25,7 +25,8 @@
   <div [ngSwitch]="draft">
     <ion-list *ngSwitchCase="'drafts'">
         <ion-item-sliding *ngFor="let transfer of transfers |  orderBy:'transfer_created_at'">
-             {{transfer.transfer_status}}
+           {{transfer.transfer_status}}
+             
            <button ion-item *ngIf="transfer.transfer_status!=='4'" (click)="transferDetails(transfer.transfer_id)">  
                 KWD {{transfer.company_total}}
                 <ion-badge item-right>
@@ -36,7 +37,19 @@
                     <span *ngIf="transfer.transfer_status=='5'"> Transfer Locked </span>
                 </ion-badge>
                 <p>Created: {{transfer.transfer_created_at}} </p>
-          </button>
+           </button>
+           
+           <ion-item-options>
+             <button ion-button (click)="transferDetails(transfer.transfer_id)">
+               View
+             </button>
+             
+             <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
+               *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
+               Delete
+             </button>
+
+           </ion-item-options>
         </ion-item-sliding>    
     </ion-list>
 
@@ -52,6 +65,18 @@
                 </ion-badge>
                 <p>Created: {{transfer.transfer_created_at}} </p>
           </button>
+
+          <ion-item-options>
+            <button ion-button (click)="transferDetails(transfer.transfer_id)">
+               View
+             </button>
+             
+             <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
+               *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
+               Delete
+             </button>
+          </ion-item-options>
+
         </ion-item-sliding>    
     </ion-list>
   </div>

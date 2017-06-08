@@ -88,7 +88,6 @@ export class TransferService {
     return this._authhttp.post(postUrl, params);
   }
 
-
   /**
     * Update or Edit Transfer Form
     * @param {Transfer} model
@@ -103,4 +102,13 @@ export class TransferService {
     return this._authhttp.patch(postUrl, params);
   }
 
+  /**
+   * Delete Transfer 
+   * @param {number} transfer_id
+   * @returns {Observable<any>}
+   */
+  delete(transfer_id: number): Observable<any> {
+    let url = `${this._transferEndpoint}/${transfer_id}`;
+    return this._authhttp.delete(url);
+  }
 }

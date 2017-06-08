@@ -129,6 +129,46 @@ export class TransferViewPage {
     });
   }
 
+  
+  delete(transfer_id: number) {
+
+    let alert = this.alertCtrl.create({
+    title: 'Confirm delete',
+    message: 'Do you really want to delete this transfer?',
+    buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.deleteConfirmed(transfer_id);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  deleteConfirmed(transfer_id) {
+    let loader = this._loadingCtrl.create();
+    loader.present();
+    this.transferService.delete(transfer_id).subscribe(response => {
+      loader.dismiss();
+      
+      if(response.operation == 'success'){
+        this.navCtrl.pop();
+      }else{
+        let alert = this.alertCtrl.create({
+            message: response.message,
+            buttons: ['Okay']
+          });
+          alert.present();
+      }
+    });
+  }
+
   /**
    * Calculating Total per Candidate
    */     
