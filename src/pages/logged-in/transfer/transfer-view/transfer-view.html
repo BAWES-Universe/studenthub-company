@@ -106,7 +106,7 @@
 
 </ion-content>
 
-<ion-footer *ngIf="transferDetails && (transferDetails.transfer_status==='10' || transferDetails.transfer_status==='5')">
+<ion-footer *ngIf="transferDetails && (transferDetails.transfer_status==='10')">
   <button ion-button full (click)="transferLock(transferDetails.transfer_id)">
    Lock Transfer
   </button>
