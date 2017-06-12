@@ -111,7 +111,7 @@
    Lock Transfer
   </button>
 
-  <button ion-button full color="danger" (click)="delete(transferDetails.transfer_id)">
+  <button ion-button full color="danger" (click)="delete(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status==='10')">
     Delete
   </button>         
 </ion-footer>
