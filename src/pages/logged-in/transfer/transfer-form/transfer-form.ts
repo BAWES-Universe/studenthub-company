@@ -61,8 +61,7 @@ export class TransferFormPage {
    * Initialize the page.
    */
   private _init(){
-    console.log(this.candidatesObj);
-
+    
     // Get hours and bonus value from transfer if edit page 
     if (this.editForm) {
       var data = {};
