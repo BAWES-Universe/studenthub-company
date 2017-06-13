@@ -14,9 +14,7 @@
 
 <ion-content padding>
   <ion-list *ngIf="transferDetails">
-
     <button ion-item>
-      
       Company name : {{ transferDetails.company_name}}<br> 
       Company email : {{ transferDetails.company_email}}<br> 
 
@@ -31,9 +29,7 @@
       <span *ngIf="transferDetails.transfer_status=='3'"> Salary distribution in progress </span>
       <span *ngIf="transferDetails.transfer_status=='4'"> Transfer Completed </span>
       <span *ngIf="transferDetails.transfer_status=='5'"> Transfer Locked </span>
-
       <br>
-
     </button>
 
     <ion-item-group *ngFor="let group of transferDetails.candidates | store_name">
@@ -101,23 +97,29 @@
       </button>
     </ion-item-sliding>
   </ion-list>
- 
   <br />
-
 </ion-content>
 
-<ion-footer *ngIf="transferDetails && (transferDetails.transfer_status==='10' || transferDetails.transfer_status==='5')">
-  <button ion-button full (click)="transferLock(transferDetails.transfer_id)">
-   Lock Transfer
-  </button>
+<ion-footer 
+  *ngIf="transferDetails && 
+  ((transferDetails.transfer_status==='10') || (transferDetails.transfer_status==='5'))">
+    <button ion-button full 
+      (click)="transferLock(transferDetails.transfer_id)" 
+      *ngIf="transferDetails && (transferDetails.transfer_status==='10')">
+    Lock Transfer
+    </button>
 
-  <button ion-button full color="danger" (click)="delete(transferDetails.transfer_id)">
-    Delete
-  </button>
+    <button ion-button full 
+      (click)="paymentSent(transferDetails.transfer_id)" 
+      *ngIf="transferDetails && (transferDetails.transfer_status==='5')">
+      Payment Sent
+    </button>
 
-  <button ion-button full (click)="paymentSent(transferDetails.transfer_id)">
-    Payment Sent
-  </button>           
+    <button ion-button full color="danger" 
+      (click)="delete(transferDetails.transfer_id)" 
+      *ngIf="transferDetails && (transferDetails.transfer_status==='10')">
+      Delete
+    </button>
 </ion-footer>
 
 
