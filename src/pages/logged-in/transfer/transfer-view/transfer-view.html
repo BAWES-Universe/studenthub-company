@@ -64,18 +64,17 @@
         <ion-col >{{ total(resource) }}</ion-col>
      </ion-row>
 
-      <ion-row>
+      <ion-row *ngIf="transferDetails.transfer_status=='3' || transferDetails.transfer_status=='4'">
         <ion-col> Paid to Candidate? :</ion-col>
         <ion-col>
           <span *ngIf="resource.paid=='1'"> Yes </span>
           <span *ngIf="resource.paid=='0'"> No </span>
         </ion-col>
      </ion-row>
-
       </button>
       <br>
     </ion-item-group>
- 
+
   </ion-list>
 
   <h3 *ngIf="invoices.length > 0">Invoices</h3>
@@ -89,7 +88,7 @@
   </ion-list>
 
   <h3 *ngIf="receipts.length > 0">Receipts</h3>
-  
+
   <ion-list>
     <ion-item-sliding *ngFor="let receipt of receipts">
       <button ion-item (click)="downloadReceipt(receipt.invoice_id)">
@@ -100,26 +99,17 @@
   <br />
 </ion-content>
 
-<ion-footer 
-  *ngIf="transferDetails && 
+<ion-footer *ngIf="transferDetails && 
   ((transferDetails.transfer_status==='10') || (transferDetails.transfer_status==='5'))">
-    <button ion-button full 
-      (click)="transferLock(transferDetails.transfer_id)" 
-      *ngIf="transferDetails && (transferDetails.transfer_status==='10')">
+  <button ion-button full (click)="transferLock(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status==='10')">
     Lock Transfer
     </button>
 
-    <button ion-button full 
-      (click)="paymentSent(transferDetails.transfer_id)" 
-      *ngIf="transferDetails && (transferDetails.transfer_status==='5')">
+  <button ion-button full (click)="paymentSent(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status==='5')">
       Payment Sent
     </button>
 
-    <button ion-button full color="danger" 
-      (click)="delete(transferDetails.transfer_id)" 
-      *ngIf="transferDetails && (transferDetails.transfer_status==='10')">
+  <button ion-button full color="danger" (click)="delete(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status==='10')">
       Delete
     </button>
 </ion-footer>
-
-
