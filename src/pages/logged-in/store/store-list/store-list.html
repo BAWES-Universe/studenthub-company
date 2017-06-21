@@ -12,6 +12,7 @@
     <ion-item-sliding *ngFor="let company of companies">
       <button ion-item (click)="companySelected(company)">
         {{ company.company_name }}
+        
         <ion-badge item-right *ngIf="company.candidates && company.candidates.length > 0">
           {{ company.candidates.length }} candidates
         </ion-badge>

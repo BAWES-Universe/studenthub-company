@@ -28,7 +28,10 @@
   <ion-list>
     <ion-item-sliding *ngFor="let store of stores">
       <button ion-item (click)="storeSelected(store)">
-        {{ store.store_name}}
+        {{ store.store_name}}        
+        <ion-badge item-right *ngIf="store.candidates && store.candidates.length > 0">
+          {{ store.candidates.length }} candidates
+        </ion-badge>
       </button>
     </ion-item-sliding>
   </ion-list>
