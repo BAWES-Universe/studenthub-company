@@ -97,16 +97,16 @@
 </ion-content>
 
 <ion-footer *ngIf="transferDetails && 
-  ((transferDetails.transfer_status==='10') || (transferDetails.transfer_status==='5'))">
-  <button ion-button full (click)="transferLock(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status==='10')">
+  ((transferDetails.transfer_status=='10') || (transferDetails.transfer_status=='5'))">
+  <button ion-button full (click)="transferLock(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
     Lock Transfer
     </button>
 
-  <button ion-button full (click)="paymentSent(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status==='5')">
+  <button ion-button full (click)="paymentSent(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status=='5')">
       Payment Sent
     </button>
 
-  <button ion-button full color="danger" (click)="delete(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status==='10')">
+  <button ion-button full color="danger" (click)="delete(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
       Delete
     </button>
 </ion-footer>
