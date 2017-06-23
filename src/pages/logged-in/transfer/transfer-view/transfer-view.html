@@ -32,7 +32,7 @@
       <br>
     </button>
 
-    <ion-item-group *ngFor="let group of transferDetails.transferCandidate | store_name">
+    <ion-item-group *ngFor="let group of transferDetails.transferCandidates | store_name">
       <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
       <button *ngFor="let resource of group.resources" ion-item>        
          <ion-row>
