@@ -12,6 +12,6 @@ export class Transfer {
     transfer_status: number;
     transfer_created_at: string;
     transfer_updated_at: string;
-    candidates: TransferCandidate[];
+    transferCandidates: TransferCandidate[];
     invoices: Invoice[];
 }
