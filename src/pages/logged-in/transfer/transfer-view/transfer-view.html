@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Transfer Details</ion-title>
-    <ion-buttons right *ngIf="transferDetails && transferDetails.transfer_status==='10'">
+    <ion-buttons right *ngIf="transferDetails && transferDetails.transfer_status=='10'">
       <button ion-button clear color="primary" (click)="edit(transferDetails)">
         Edit
       </button>
@@ -32,16 +32,16 @@
       <br>
     </button>
 
-    <ion-item-group *ngFor="let group of transferDetails.transferCandidate | store_name">
+    <ion-item-group *ngFor="let group of transferDetails.transferCandidates | store_name">
       <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
       <button *ngFor="let resource of group.resources" ion-item>        
          <ion-row>
             <ion-col > Candidate Name:</ion-col>
-             <ion-col >{{resource.candidate_name}}</ion-col>
+             <ion-col >{{resource.candidate.candidate_name}}</ion-col>
         </ion-row>
       <ion-row>
       <ion-col > Candidate Email:</ion-col>
-        <ion-col >{{resource.candidate_email}}</ion-col>
+        <ion-col >{{resource.candidate.candidate_email}}</ion-col>
      </ion-row>
 
       <!--<ion-row>

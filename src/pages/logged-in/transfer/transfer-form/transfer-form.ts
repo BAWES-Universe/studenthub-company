@@ -66,7 +66,7 @@ export class TransferFormPage {
     if (this.editForm) {
       var data = {};
 
-      for(let candidate of this.transfer.candidates) {        
+      for(let candidate of this.transfer.transferCandidates) {        
         data['candiate-' + candidate.candidate_id] = [];
         data['candiate-' + candidate.candidate_id]['hours'] = candidate.hours;
         data['candiate-' + candidate.candidate_id]['bonus'] = candidate.bonus;

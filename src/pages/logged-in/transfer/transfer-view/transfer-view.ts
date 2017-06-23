@@ -46,8 +46,8 @@ export class TransferViewPage {
       
       this.receipts = [];
       this.invoices = [];
-      
-      response.invoices.forEach((value, index) => {
+    
+      response.childTransferInvoices.forEach((value, index) => {
         if(value.invoice_status == 'paid') {
           this.receipts.push(value);
         }else{
