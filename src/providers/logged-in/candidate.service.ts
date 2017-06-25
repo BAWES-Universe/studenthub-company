@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { AuthHttpService } from './authhttp.service';
 
 /**
- * Manages Staff Functionality on the server
+ * Candidate API on Server
  */
 @Injectable()
 export class CandidateService {
@@ -17,18 +17,10 @@ export class CandidateService {
    * List of all candidates
    * @returns {Observable<any>}
    */
-  list(page: number): Observable<any> {
-    let url = this._candidateEndpoint + '?page=' + page;
-    return this._authhttp.getRaw(url);
-  }
-
-  /**
-   * List of all candidates with pagination 
-   * @returns {Observable<any>}
-   */
-  listAll(): Observable<any> {
-    let url = this._candidateEndpoint + '/all';
+  list(): Observable<any> {
+    let url = `${this._candidateEndpoint}?expand=store,university,country,company,bank`;
     return this._authhttp.get(url);
   }
+
 }
 

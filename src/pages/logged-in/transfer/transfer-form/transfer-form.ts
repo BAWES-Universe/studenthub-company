@@ -50,7 +50,7 @@ export class TransferFormPage {
     let loader = this._loadingCtrl.create();
     loader.present();
 
-    this.candidateService.listAll().subscribe(response => {
+    this.candidateService.list().subscribe(response => {
       this.candidatesObj = response;
       this._init();
       loader.dismiss();
@@ -61,7 +61,6 @@ export class TransferFormPage {
    * Initialize the page.
    */
   private _init(){
-    
     // Get hours and bonus value from transfer if edit page 
     if (this.editForm) {
       var data = {};
