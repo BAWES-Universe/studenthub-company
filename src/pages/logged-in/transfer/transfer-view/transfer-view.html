@@ -13,63 +13,42 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list *ngIf="transferDetails">
-    <button ion-item>
-      Transfer Created : {{ transferDetails.transfer_created_at}}<br> 
-      Transfer Updated :{{ transferDetails.transfer_updated_at}}<br>    
-      Total:{{ transferDetails.company_total}}<br> 
+  <div *ngIf="transferDetails">
+    <p text-right>
+      Created on {{ transferDetails.transfer_created_at}}<br> 
+      Updated on {{ transferDetails.transfer_updated_at}}<br>    
+    </p>
 
-      Transfer Status:
+    <h2 text-center>
       <span *ngIf="transferDetails.transfer_status=='10'"> Transfer Initiated </span>
       <span *ngIf="transferDetails.transfer_status=='1'"> Payment Sent </span>
       <span *ngIf="transferDetails.transfer_status=='2'"> Payment Received </span>
       <span *ngIf="transferDetails.transfer_status=='3'"> Salary distribution in progress </span>
       <span *ngIf="transferDetails.transfer_status=='4'"> Transfer Completed </span>
       <span *ngIf="transferDetails.transfer_status=='5'"> Transfer Locked </span>
-      <br>
-    </button>
+    </h2>
 
+    <h4 text-center>
+      KWD {{ transferDetails.company_total}}
+    </h4>
+  </div>
+
+  <ion-list *ngIf="transferDetails">
     <ion-item-group *ngFor="let group of transferDetails.transferCandidates | store_name">
       <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
-      <button *ngFor="let resource of group.resources" ion-item>        
-         <ion-row>
-            <ion-col > Candidate Name:</ion-col>
-             <ion-col >{{resource.candidate.candidate_name}}</ion-col>
-        </ion-row>
-      <ion-row>
-      <ion-col > Candidate Email:</ion-col>
-        <ion-col >{{resource.candidate.candidate_email}}</ion-col>
-     </ion-row>
+      <button ion-item *ngFor="let resource of group.resources" 
+        (click)="loadCandidateDetail(resource.candidate)">        
+        <p>{{resource.candidate.candidate_name}}</p>
+        <p>{{resource.candidate.candidate_email}}</p>
+        <p>{{ resource.hours }} hours worked</p>
+        <p>Bonus KWD: {{resource.bonus}}</p>
+        <p>Total KWD: {{ total(resource) }}</p>
 
-      <!--<ion-row>
-      <ion-col > hourly_rate:</ion-col>
-        <ion-col>{{resource.hourly_rate}}</ion-col>
-     </ion-row>-->
-
-      <ion-row>
-      <ion-col > Hours:</ion-col>
-        <ion-col>{{ resource.hours }}</ion-col>
-     </ion-row>
-
-      <ion-row>
-      <ion-col > Bonus:</ion-col>
-        <ion-col>{{resource.bonus}}</ion-col>
-     </ion-row>
-
-      <ion-row>
-        <ion-col > Total:</ion-col>
-        <ion-col >{{ total(resource) }}</ion-col>
-     </ion-row>
-
-      <ion-row *ngIf="transferDetails.transfer_status=='3' || transferDetails.transfer_status=='4'">
-        <ion-col> Paid to Candidate? :</ion-col>
-        <ion-col>
-          <span *ngIf="resource.paid=='1'"> Yes </span>
-          <span *ngIf="resource.paid=='0'"> No </span>
-        </ion-col>
-     </ion-row>
+        <p *ngIf="transferDetails.transfer_status=='3' || transferDetails.transfer_status=='4'">
+          <span *ngIf="resource.paid=='1'"> Yes paid to candidate </span>
+          <span *ngIf="resource.paid=='0'"> Not paid to candidate yet </span>
+        </p>
       </button>
-      <br>
     </ion-item-group>
 
   </ion-list>

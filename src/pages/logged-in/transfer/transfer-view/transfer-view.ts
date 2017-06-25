@@ -3,6 +3,7 @@ import { NavController, NavParams, ModalController, LoadingController, AlertCont
 
 //Pages
 import { TransferFormPage } from '../../../../pages/logged-in/transfer/transfer-form/transfer-form';
+import { CandidateViewPage } from '../../../../pages/logged-in/candidate/candidate-view/candidate-view';
 
 // Providers
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
@@ -178,6 +179,16 @@ export class TransferViewPage {
           });
           alert.present();
       }
+    });
+  }
+
+  /**
+   * On Candidate Selected
+   * @param model 
+   */
+  loadCandidateDetail(model) {
+    this.navCtrl.push(CandidateViewPage, {
+      'model': model
     });
   }
 
