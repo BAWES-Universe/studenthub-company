@@ -19,9 +19,12 @@ import { Invoice } from '../../../../models/invoice';
 export class TransferViewPage {
 
   public transfer_id: number;
-  public transferDetails: Transfer[];
+  public transferDetails: Transfer;
   public invoices: Invoice[] = []; //unpaid invoices 
   public receipts: Invoice[] = []; //paid invoices 
+
+  public transferStatus = "";
+  public transferStatusDescription = "";
 
   constructor(
     public navCtrl: NavController,
@@ -44,7 +47,8 @@ export class TransferViewPage {
     loader.present();
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
       this.transferDetails = response;
-      
+      this._updateTransferStatus();
+
       this.receipts = [];
       this.invoices = [];
     
@@ -58,6 +62,34 @@ export class TransferViewPage {
 
       loader.dismiss();
     });
+  }
+
+  /**
+   * Update transfer status and description based on return value from API
+   */
+  private _updateTransferStatus(){
+    switch(this.transferDetails.transfer_status){
+      case 10: // Draft
+        this.transferStatus = "Transfer Draft";
+        this.transferStatusDescription = "Once you're done inputting hours worked by your assigned employees, lock the transfer to receive invoices to initiate transfer.";
+        break;
+      case 5: // Transfer Locked
+        this.transferStatus = "Waiting for your payment";
+        this.transferStatusDescription = "Please find your invoices below.";
+        break;
+      case 1: // Payment Sent
+        this.transferStatus = "Payment Sent";
+        this.transferStatusDescription = "Waiting for bank to verify payment received to start distribution of payment.";
+        break;
+      case 3: // Distribution in Progress
+        this.transferStatus = "Distribution in Progress";
+        this.transferStatusDescription = "Your payment has been received and is currently being distributed to your assigned employees.";
+        break;
+      case 4: // Transfer Complete
+        this.transferStatus = "Transfer Complete";
+        this.transferStatusDescription = "All done!";
+        break;
+    }
   }
 
   /**

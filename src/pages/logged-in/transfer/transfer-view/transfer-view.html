@@ -13,16 +13,11 @@
 </ion-header>
 
 <ion-content>
-
-  <ion-toolbar *ngIf="transferDetails">
-    <ion-title text-center>
-      <span *ngIf="transferDetails.transfer_status=='10'"> Transfer Initiated </span>
-      <span *ngIf="transferDetails.transfer_status=='1'"> Payment Sent </span>
-      <span *ngIf="transferDetails.transfer_status=='2'"> Payment Received </span>
-      <span *ngIf="transferDetails.transfer_status=='3'"> Transfer Distribution in Progress </span>
-      <span *ngIf="transferDetails.transfer_status=='4'"> Transfer Completed </span>
-      <span *ngIf="transferDetails.transfer_status=='5'"> Transfer Locked </span>
+  <ion-toolbar padding text-center *ngIf="transferDetails">
+    <ion-title>
+      {{transferStatus}}
     </ion-title>
+    <span>{{transferStatusDescription}}</span>
   </ion-toolbar>
 
   <ion-toolbar *ngIf="transferDetails">
