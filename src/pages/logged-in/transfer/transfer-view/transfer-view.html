@@ -3,7 +3,7 @@
     <button ion-button menuToggle="left">
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Transfer Details</ion-title>
+    <ion-title>Transfer Detail</ion-title>
     <ion-buttons right *ngIf="transferDetails && transferDetails.transfer_status=='10'">
       <button ion-button clear color="primary" (click)="edit(transferDetails)">
         Edit
@@ -12,80 +12,101 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <div *ngIf="transferDetails">
-    <p text-right>
-      Created on {{ transferDetails.transfer_created_at}}<br> 
-      Updated on {{ transferDetails.transfer_updated_at}}<br>    
-    </p>
+<ion-content>
 
-    <h2 text-center>
+  <ion-toolbar *ngIf="transferDetails">
+    <ion-title text-center>
       <span *ngIf="transferDetails.transfer_status=='10'"> Transfer Initiated </span>
       <span *ngIf="transferDetails.transfer_status=='1'"> Payment Sent </span>
       <span *ngIf="transferDetails.transfer_status=='2'"> Payment Received </span>
-      <span *ngIf="transferDetails.transfer_status=='3'"> Salary distribution in progress </span>
+      <span *ngIf="transferDetails.transfer_status=='3'"> Transfer Distribution in Progress </span>
       <span *ngIf="transferDetails.transfer_status=='4'"> Transfer Completed </span>
       <span *ngIf="transferDetails.transfer_status=='5'"> Transfer Locked </span>
-    </h2>
+    </ion-title>
+  </ion-toolbar>
 
-    <h4 text-center>
-      KWD {{ transferDetails.company_total}}
-    </h4>
+  <ion-toolbar *ngIf="transferDetails">
+    <ion-grid>
+      <ion-row justify-content-around>
+        <ion-col col-6 col-md-3>
+          <b>Transfer ID</b> <br/> {{ transferDetails.transfer_id}}
+        </ion-col>
+        <ion-col col-6 col-md-3>
+          <b>Transfer Total</b> <br/> KWD {{ transferDetails.company_total}}
+        </ion-col>
+        <ion-col col-6 col-md-3>
+          <b>Created on</b> <br/> {{ transferDetails.transfer_created_at}}
+        </ion-col>
+        <ion-col col-6 col-md-3>
+          <b>Updated on</b> <br/> {{ transferDetails.transfer_updated_at}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+  
+  <!--Invoices -->
+  <div class="invoices" *ngIf="invoices.length > 0" padding>
+    <h4>Invoices</h4>
+    <ion-list>
+      <ion-item-sliding *ngFor="let invoice of invoices">
+        <button ion-item (click)="downloadInvoice(invoice.invoice_id)">
+          Download Invoice #{{ invoice.invoice_id }}
+        </button>
+      </ion-item-sliding>
+    </ion-list>
   </div>
 
+  <!-- Receipts -->
+  <div class="receipts" *ngIf="receipts.length > 0" padding>
+    <h4>Receipts</h4>
+    <ion-list>
+      <ion-item-sliding *ngFor="let receipt of receipts">
+        <button ion-item (click)="downloadReceipt(receipt.invoice_id)">
+          Download Receipt #{{ receipt.invoice_id }}
+        </button>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+
+  <!-- Transfer Details made to each Candidate -->
   <ion-list *ngIf="transferDetails">
     <ion-item-group *ngFor="let group of transferDetails.transferCandidates | store_name">
       <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
       <button ion-item *ngFor="let resource of group.resources" 
-        (click)="loadCandidateDetail(resource.candidate)">        
-        <p>{{resource.candidate.candidate_name}}</p>
-        <p>{{resource.candidate.candidate_email}}</p>
-        <p>{{ resource.hours }} hours worked</p>
-        <p>Bonus KWD: {{resource.bonus}}</p>
-        <p>Total KWD: {{ total(resource) }}</p>
+        (click)="loadCandidateDetail(resource.candidate)">
 
-        <p *ngIf="transferDetails.transfer_status=='3' || transferDetails.transfer_status=='4'">
-          <span *ngIf="resource.paid=='1'"> Yes paid to candidate </span>
-          <span *ngIf="resource.paid=='0'"> Not paid to candidate yet </span>
-        </p>
+        <ion-avatar item-left *ngIf="resource.candidate.candidate_personal_photo_thumb">
+          <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{resource.candidate.candidate_personal_photo_thumb}}"/>
+        </ion-avatar>
+
+        <h2>{{resource.candidate.candidate_name}}</h2>
+
+        <p>{{ resource.hours | number }} hours</p>
+        <p *ngIf="resource.bonus">Bonus KWD {{resource.bonus | number}}</p>
+        <p><b>Total KWD {{ total(resource) }}</b></p>
+
+        <ion-badge item-right 
+          [color]="resource.paid=='1'?'secondary':'dark'"
+          *ngIf="transferDetails.transfer_status=='3' || transferDetails.transfer_status=='4'">
+          <ion-icon name="checkmark-circle-outline" *ngIf="resource.paid=='1'"></ion-icon>
+          <span *ngIf="resource.paid=='0'"> Transfer in progress </span>
+        </ion-badge>
       </button>
     </ion-item-group>
-
   </ion-list>
 
-  <h3 *ngIf="invoices.length > 0">Invoices</h3>
-
-  <ion-list>
-    <ion-item-sliding *ngFor="let invoice of invoices">
-      <button ion-item (click)="downloadInvoice(invoice.invoice_id)">
-        Download Invoice #{{ invoice.invoice_id }}
-      </button>
-    </ion-item-sliding>
-  </ion-list>
-
-  <h3 *ngIf="receipts.length > 0">Receipts</h3>
-
-  <ion-list>
-    <ion-item-sliding *ngFor="let receipt of receipts">
-      <button ion-item (click)="downloadReceipt(receipt.invoice_id)">
-        Download Receipt #{{ receipt.invoice_id }}
-      </button>
-    </ion-item-sliding>
-  </ion-list>
-  <br />
 </ion-content>
 
-<ion-footer *ngIf="transferDetails && 
-  ((transferDetails.transfer_status=='10') || (transferDetails.transfer_status=='5'))">
+<ion-footer *ngIf="transferDetails && ((transferDetails.transfer_status=='10') || (transferDetails.transfer_status=='5'))">
   <button ion-button full (click)="transferLock(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
     Lock Transfer
-    </button>
+  </button>
 
   <button ion-button full (click)="paymentSent(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status=='5')">
-      Payment Sent
-    </button>
+    Payment Sent
+  </button>
 
   <button ion-button full color="danger" (click)="delete(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
-      Delete
-    </button>
+    Delete
+  </button>
 </ion-footer>
