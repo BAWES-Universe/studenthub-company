@@ -1,16 +1,13 @@
 import { Store } from './store';
+import { Company } from './company';
 import { University } from './university';
 import { Country } from './country';
 
 export class Candidate {
     candidate_id: number;
-    candidate_uid: string;
     store_id: number;
-    bank_id: number;
-    university_id: number;
+    university_id: number;    
     country_id: number;
-    bank_account_name: string;
-    candidate_iban: string;
     candidate_name: string;
     candidate_name_ar: string;
     candidate_personal_photo: string;
@@ -23,10 +20,10 @@ export class Candidate {
     candidate_civil_expiry_date: string;
     candidate_civil_photo_front: string;
     candidate_civil_photo_back: string;
-    candidate_hourly_rate: string;
-    candidate_status: string;
+    age: number;
     approved: number;
     store: Store;
+    company: Company;
     university: University;
     country: Country;
 }
