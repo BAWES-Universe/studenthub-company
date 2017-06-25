@@ -22,6 +22,8 @@ export class Candidate {
     candidate_civil_photo_back: string;
     age: number;
     approved: number;
+
+    // Related
     store: Store;
     company: Company;
     university: University;

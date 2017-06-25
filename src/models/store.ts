@@ -8,6 +8,8 @@ export class Store {
     store_status: number;
     store_created_at: string;
     store_updated_at: string;
+
+    // Related
     candidates: Candidate[];
     company: Company;
 }
