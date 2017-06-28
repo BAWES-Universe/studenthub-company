@@ -45,7 +45,7 @@
     <ion-list>
       <ion-item-sliding *ngFor="let invoice of invoices">
         <button ion-item (click)="downloadInvoice(invoice.invoice_id)">
-          Download Invoice #{{ invoice.invoice_id }}
+          Download Invoice #{{ invoice.invoice_id }} - KWD {{invoice.company_total}}
         </button>
       </ion-item-sliding>
     </ion-list>
@@ -57,7 +57,7 @@
     <ion-list>
       <ion-item-sliding *ngFor="let receipt of receipts">
         <button ion-item (click)="downloadReceipt(receipt.invoice_id)">
-          Download Receipt #{{ receipt.invoice_id }}
+          Download Receipt #{{ receipt.invoice_id }} - KWD {{receipt.company_total}}
         </button>
       </ion-item-sliding>
     </ion-list>
