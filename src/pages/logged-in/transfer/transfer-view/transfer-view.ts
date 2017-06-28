@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, LoadingController, AlertController,ToastController } from 'ionic-angular';
 
 //Pages
 import { TransferFormPage } from '../../../../pages/logged-in/transfer/transfer-form/transfer-form';
@@ -32,7 +32,8 @@ export class TransferViewPage {
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
     public params: NavParams,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public _toastCtrl:ToastController
   ) {
     this.transfer_id = params.get('model');
   }
@@ -111,7 +112,14 @@ export class TransferViewPage {
             let loader = this._loadingCtrl.create();
             loader.present();
             this.transferService.makeTransfertoLock(invoice_id).subscribe(response => {
-              this.navCtrl.pop();
+              
+              let toast = this._toastCtrl.create({
+                message: response.message,
+                duration: 3000
+              });
+              toast.present();
+              
+              this.loadData();
               loader.dismiss();
             });
           }
@@ -128,7 +136,14 @@ export class TransferViewPage {
     let loader = this._loadingCtrl.create();
     loader.present();
     this.transferService.makePaymentSent(invoice_id).subscribe(response => {
-      this.navCtrl.pop();
+      
+      let toast = this._toastCtrl.create({
+        message: response.message,
+        duration: 3000
+      });
+      toast.present();
+
+      this.loadData();
       loader.dismiss();
     });
   }
