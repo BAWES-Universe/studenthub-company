@@ -37,7 +37,7 @@ export class TransferService {
   * @returns {Observable<any>}
   */
   transferIdDetails(invoice_id: number): Observable<any> {
-    let url = `${this._transferEndpoint}/${invoice_id}?expand=transferCandidates,childTransferInvoices`;
+    let url = `${this._transferEndpoint}/${invoice_id}?expand=transferCandidates,invoices`;
     return this._authhttp.get(url);
   }
 
