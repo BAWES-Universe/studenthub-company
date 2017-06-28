@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController, LoadingController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, ViewController, LoadingController, AlertController, NavParams,ToastController } from 'ionic-angular';
 
 // Forms
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -33,6 +33,7 @@ export class TransferFormPage {
     private _fb: FormBuilder,
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
+    public _toastCtrl:ToastController
   ) {
     // Load the passed model if available
     this.transfer = params.get('model');
@@ -110,6 +111,13 @@ export class TransferFormPage {
       // On Success
       if (jsonResponse.operation == "success") {
         // Close the page
+
+        let toast = this._toastCtrl.create({
+          message: jsonResponse.message,
+          duration: 3000
+        });
+        toast.present();
+
         let data = { 'refresh': true };
         this._viewCtrl.dismiss(data);
       }
