@@ -11,5 +11,5 @@ export class Transfer {
 
     // Related
     transferCandidates: TransferCandidate[];
-    childTransferInvoices: Invoice[];
+    invoices: Invoice[];
 }
