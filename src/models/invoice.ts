@@ -3,4 +3,5 @@ export class Invoice {
     transfer_id: number;
     invoice_date: string;
     invoice_status: string;
+    invoice_total: number;
 }

@@ -14,7 +14,6 @@ export class TransferCandidate {
     bonus: string;
     paid: number;
     total_paid: number;
-    transfer_cost: number;
 
     // Related
     candidate: Candidate;
