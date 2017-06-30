@@ -115,7 +115,7 @@ export class TransferFormPage {
      * Otherwise create a new transfer
      */
     let action = this.transfer.transfer_id? 
-        this.transferService.updateInvoice(candidatesToSendToServer, Number(this.transfer.transfer_id)) :
+        this.transferService.updateTransfer(candidatesToSendToServer, Number(this.transfer.transfer_id)) :
         this.transferService.save(candidatesToSendToServer);
 
     action.subscribe(jsonResponse => {
