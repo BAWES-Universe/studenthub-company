@@ -122,21 +122,17 @@ export class TransferFormPage {
     action.subscribe(jsonResponse => {
       loader.dismiss();
       
-      // On Success
+      // On Success. Show Toast with the response message and close the page
       if (jsonResponse.operation == "success") {
-        // Close the page
-
         let toast = this._toastCtrl.create({
           message: jsonResponse.message,
           duration: 3000
         });
         toast.present();
-
-        let data = { 'refresh': true };
-        this._viewCtrl.dismiss(data);
+        this.close();
       }
 
-      // On Failure
+      // On Failure, show an alert with the error message
       if (jsonResponse.operation == "error") {
         let prompt = this._alertCtrl.create({
           message: JSON.stringify(jsonResponse.message),
@@ -157,7 +153,7 @@ export class TransferFormPage {
   }
 
   /**
-   * Close the Modal / View
+   * Close the Page
    */
   close() {
     let data = { 'refresh': false };
