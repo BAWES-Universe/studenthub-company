@@ -66,7 +66,7 @@ export class TransferService {
    */
   downloadInvoice(invoice_id: number): Observable<any> {
     let url = `${this._transferEndpoint}/pdf/${invoice_id}`;
-    return this._authhttp.pdfget(url, 'Invoice ' + invoice_id + ' Details.pdf');
+    return this._authhttp.pdfget(url, 'Invoice ' + invoice_id + '.pdf');
   }
 
   /**
@@ -76,7 +76,7 @@ export class TransferService {
    */
   downloadReceipt(invoice_id: number): Observable<any> {
     let url = `${this._transferEndpoint}/pdf/${invoice_id}`;
-    return this._authhttp.pdfget(url, 'Receipt ' + invoice_id + ' Details.pdf');
+    return this._authhttp.pdfget(url, 'Receipt ' + invoice_id + '.pdf');
   }
 
   /**
