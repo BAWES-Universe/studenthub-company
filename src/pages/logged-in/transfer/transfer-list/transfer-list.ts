@@ -77,8 +77,11 @@ export class TransferListPage {
     );
   }
 
+  /**
+   * Delete the transfer as specified by transfer_id
+   * @param transfer_id 
+   */
   delete(transfer_id: number) {
-
     let alert = this.alertCtrl.create({
     title: 'Confirm delete',
     message: 'Do you really want to delete this transfer?',
@@ -98,6 +101,10 @@ export class TransferListPage {
     alert.present();
   }
 
+  /**
+   * Confirm the transfer deletion
+   * @param transfer_id 
+   */
   deleteConfirmed(transfer_id) {
     let loader = this._loadingCtrl.create();
     loader.present();

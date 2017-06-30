@@ -185,8 +185,7 @@ export class TransferViewPage {
    */
   edit(transferDetails: any) {
     this.navCtrl.push(TransferFormPage, {
-      'model': transferDetails,
-      'editModel': true
+      'model': transferDetails
     });
   }
 

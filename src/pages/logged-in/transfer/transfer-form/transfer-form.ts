@@ -14,15 +14,16 @@ import { CandidateService } from '../../../../providers/logged-in/candidate.serv
   templateUrl: 'transfer-form.html'
 })
 export class TransferFormPage {
-
   public transfer: Transfer;
   public operation: string;
-  public form: FormGroup;
+
   public candidatesObj;
   public candidates: any = []
   public hours: any = [];
   public bonus: any = [];
-  public editForm: boolean;
+
+  // Doesn't seem to be in use
+  public form: FormGroup;
 
   constructor(
     params: NavParams,
@@ -37,7 +38,6 @@ export class TransferFormPage {
   ) {
     // Load the passed model if available
     this.transfer = params.get('model');
-    this.editForm = params.get('editModel');
 
     // Load List of All Candidates Assigned to this Company
     this._loadCandidateListThenInitialize();
@@ -62,10 +62,9 @@ export class TransferFormPage {
    * Initialize the page.
    */
   private _init(){
-    // Get hours and bonus value from transfer if edit page 
-    if (this.editForm) {
+    // Get previous hours and bonus values from the Transfer if we are editing an existing transfer 
+    if (this.transfer.transferCandidates) {
       var data = {};
-
       for(let candidate of this.transfer.transferCandidates) {        
         data['candiate-' + candidate.candidate_id] = [];
         data['candiate-' + candidate.candidate_id]['hours'] = candidate.hours;
@@ -97,13 +96,13 @@ export class TransferFormPage {
       });
     });
     
-    let action
-    //Transfer Update/Edit form
-    if (this.editForm)
-      action = this.transferService.updateInvoice(this.candidates, Number(this.transfer.transfer_id));
-    //Transfer Create form
-    else
-      action = this.transferService.save(this.candidates);
+    /**
+     * Update the transfer data if it already exists
+     * Otherwise create a new transfer
+     */
+    let action = this.transfer.transfer_id? 
+        this.transferService.updateInvoice(this.candidates, Number(this.transfer.transfer_id)) :
+        this.transferService.save(this.candidates);
 
     action.subscribe(jsonResponse => {
       loader.dismiss();
