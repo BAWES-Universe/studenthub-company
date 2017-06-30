@@ -175,8 +175,7 @@ export class TransferListPage {
    */
   createNewTransfer() {
     this.navCtrl.push(TransferFormPage, {
-      model: new Transfer(),
-      editModel: false
+      model: new Transfer()
     });
   }
 

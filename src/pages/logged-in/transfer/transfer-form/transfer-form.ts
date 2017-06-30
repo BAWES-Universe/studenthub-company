@@ -18,9 +18,12 @@ import { CandidateService } from '../../../../providers/logged-in/candidate.serv
 })
 export class TransferFormPage {
   public transfer: Transfer;
-  public operation: string;
 
+  // List of All Candidates Assigned to Work for Company
   public allCandidatesAssignedToCompany: Candidate[];
+
+  // Page Title depends on Operation (Create vs Edit Transfer)
+  public pageTitle: string = "New Transfer";
 
   public hours: any = [];
   public bonus: any = [];
@@ -39,8 +42,14 @@ export class TransferFormPage {
     private _alertCtrl: AlertController,
     public _toastCtrl:ToastController
   ) {
-    // Load the passed model if available
+    // Load the passed model (required)
     this.transfer = params.get('model');
+    if(!this.transfer){
+      throw new Error('Transfer model is required to load the transfer form page. Either pass in an existing Transfer model or send a new Transfer() model');
+    }
+
+    // Update Page Title if Editing a Transfer that already exists in backend
+    if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer Detail";
 
     // Load List of All Candidates Assigned to this Company
     this._loadCandidateListThenInitialize();
