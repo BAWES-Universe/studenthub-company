@@ -76,7 +76,7 @@ export class TransferViewPage {
         break;
       case 5: // Transfer Locked
         this.transferStatus = "Waiting for your payment";
-        this.transferStatusDescription = "Please find your invoices below.";
+        this.transferStatusDescription = "Invoices for this transfer have been sent to you and are available for download below.";
         break;
       case 1: // Payment Sent
         this.transferStatus = "Payment Sent";

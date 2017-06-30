@@ -45,7 +45,7 @@ export class TransferFormPage {
     }
 
     // Update Page Title if Editing a Transfer that already exists in backend
-    if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer Detail";
+    if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer";
 
     // Load List of All Candidates Assigned to this Company
     this._loadCandidateListThenInitialize();

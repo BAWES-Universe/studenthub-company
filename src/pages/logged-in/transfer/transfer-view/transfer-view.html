@@ -22,7 +22,7 @@
     <div>{{transferStatusDescription}}</div>
 
     <!-- If Transfer Locked -->
-    <button ion-button outline
+    <button ion-button outline icon-left
       (click)="paymentSent(transferDetails.transfer_id)" 
       *ngIf="transferDetails && (transferDetails.transfer_status=='5')">
       <ion-icon name="checkmark-circle-outline"></ion-icon>
@@ -30,14 +30,15 @@
     </button>
 
     <!-- If Transfer Draft -->
-    <button ion-button outline 
+    <button ion-button outline
       (click)="edit(transferDetails)" 
       *ngIf="transferDetails && transferDetails.transfer_status=='10'">
       Edit Transfer
     </button>
-    <button ion-button outline 
+    <button ion-button outline icon-left
       (click)="transferLock(transferDetails.transfer_id)" 
       *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
+      <ion-icon name="lock"></ion-icon>
       Lock Transfer
     </button>
   </ion-toolbar>
