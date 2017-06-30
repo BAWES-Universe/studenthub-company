@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, ViewController, LoadingController, AlertController, NavParams,ToastController } from 'ionic-angular';
-
-// Forms
-import { FormBuilder, FormGroup } from '@angular/forms';
-
 // Models
 import { Transfer } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
-
 // Services
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
@@ -25,11 +20,13 @@ export class TransferFormPage {
   // Page Title depends on Operation (Create vs Edit Transfer)
   public pageTitle: string = "New Transfer";
 
+  // Used to map hours and bonus input fields then send to server
   public hours: any = [];
   public bonus: any = [];
 
-  // Doesn't seem to be in use
-  public form: FormGroup;
+  // Total Price for Transfer
+  public total: number = 0;
+  public companyHourlyCost: number = 2;
 
   constructor(
     params: NavParams,
@@ -37,7 +34,6 @@ export class TransferFormPage {
     public transferService: TransferService,
     public candidateService: CandidateService,
     private _viewCtrl: ViewController,
-    private _fb: FormBuilder,
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
     public _toastCtrl:ToastController
@@ -92,6 +88,9 @@ export class TransferFormPage {
         i++;        
       }
     }
+
+    // Calculate the total price
+    this.calculateTotal();
   }
 
   /**
@@ -141,6 +140,17 @@ export class TransferFormPage {
         prompt.present();
       }
     });
+  }
+
+  /**
+   * Total Price Calculation based on Input Hours
+   * Call this function whenever you need to re-calculate the price
+   */
+  calculateTotal(){
+    let priceForHours = this.hours.reduce((a, b) => a + b, 0) * this.companyHourlyCost;
+    let priceForBonus = this.bonus.reduce((a, b) => a + b, 0);
+
+    this.total = priceForHours + priceForBonus;
   }
 
   /**

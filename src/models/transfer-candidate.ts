@@ -9,9 +9,9 @@ export class TransferCandidate {
     company_id: number;
     company_name: string;
     company_email: string;
-    company_hourly_rate: string;
-    hours: string;
-    bonus: string;
+    company_hourly_rate: number;
+    hours: number;
+    bonus: number;
     paid: number;
     total_paid: number;
 
