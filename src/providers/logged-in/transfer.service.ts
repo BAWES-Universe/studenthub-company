@@ -96,14 +96,14 @@ export class TransferService {
 
   /**
     * Update or Edit Transfer Form
-    * @param {Transfer} model
-    * @param {Number} transfer_id
-    * @returns {Observable<any>}
+    * @param { Any } candidates
+    * @param { Number } transfer_id
+    * @returns { Observable<any> }
     */
-  updateTransfer(model: Transfer, transfer_id: Number): Observable<any> {
+  updateTransfer(candidates: any, transfer_id: Number): Observable<any> {
     let postUrl = `${this._transferEndpoint}/${transfer_id}`;
     let params = {
-      "candidates": model
+      "candidates": candidates
     };
     return this._authhttp.patch(postUrl, params);
   }
