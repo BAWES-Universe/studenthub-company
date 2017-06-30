@@ -96,7 +96,7 @@ export class TransferViewPage {
   /**
    * Transfer Locking  
    */
-  transferLock(invoice_id: number) {
+  transferLock(transfer_id: number) {
     // Load list of transfer
     let alert = this.alertCtrl.create({
       title: 'Confirm Locking Transfer',
@@ -111,7 +111,7 @@ export class TransferViewPage {
           handler: () => {
             let loader = this._loadingCtrl.create();
             loader.present();
-            this.transferService.makeTransfertoLock(invoice_id).subscribe(response => {
+            this.transferService.makeTransfertoLock(transfer_id).subscribe(response => {
               
               let toast = this._toastCtrl.create({
                 message: response.message,
@@ -130,12 +130,12 @@ export class TransferViewPage {
   }
 
   /**
-   * Marking Invoice as Payment Sent  
+   * Marking Transfer as Payment Sent  
    */
-  paymentSent(invoice_id: number) {
+  paymentSent(transfer_id: number) {
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.transferService.makePaymentSent(invoice_id).subscribe(response => {
+    this.transferService.makePaymentSent(transfer_id).subscribe(response => {
       
       let toast = this._toastCtrl.create({
         message: response.message,

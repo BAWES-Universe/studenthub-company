@@ -32,32 +32,32 @@ export class TransferService {
   }
 
   /**
-  * Details of each invoice_id
-   * @param {number} invoice_id
+  * Details of each Transfer
+   * @param {number} transfer_id
   * @returns {Observable<any>}
   */
-  transferIdDetails(invoice_id: number): Observable<any> {
-    let url = `${this._transferEndpoint}/${invoice_id}?expand=transferCandidates,invoices`;
+  transferIdDetails(transfer_id: number): Observable<any> {
+    let url = `${this._transferEndpoint}/${transfer_id}?expand=transferCandidates,invoices`;
     return this._authhttp.get(url);
   }
 
   /**
-    * Make Transfer To Lock Invoice Id
-     * @param {number} invoice_id
+    * Make Transfer To Lock Transfer
+     * @param {number} transfer_id
     * @returns {Observable<any>}
     */
-  makeTransfertoLock(invoice_id: number): Observable<any> {
-    let url = `${this._transferEndpoint}/lock/${invoice_id}`;
+  makeTransfertoLock(transfer_id: number): Observable<any> {
+    let url = `${this._transferEndpoint}/lock/${transfer_id}`;
     return this._authhttp.patch(url, '');
   }
 
   /**
     * Mark Invoice as Payment Sent
-    * @param {number} invoice_id
+    * @param {number} transfer_id
     * @returns {Observable<any>}
     */
-  makePaymentSent(invoice_id: number): Observable<any> {
-    let url = `${this._transferEndpoint}/payment-sent/${invoice_id}`;
+  makePaymentSent(transfer_id: number): Observable<any> {
+    let url = `${this._transferEndpoint}/payment-sent/${transfer_id}`;
     return this._authhttp.patch(url, '');
   }
 
@@ -97,11 +97,11 @@ export class TransferService {
   /**
     * Update or Edit Transfer Form
     * @param {Transfer} model
-    * @param {Number} invoice_id
+    * @param {Number} transfer_id
     * @returns {Observable<any>}
     */
-  updateInvoice(model: Transfer, invoice_id: Number): Observable<any> {
-    let postUrl = `${this._transferEndpoint}/${invoice_id}`;
+  updateTransfer(model: Transfer, transfer_id: Number): Observable<any> {
+    let postUrl = `${this._transferEndpoint}/${transfer_id}`;
     let params = {
       "candidates": model
     };
