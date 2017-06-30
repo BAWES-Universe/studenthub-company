@@ -148,8 +148,9 @@ export class TransferViewPage {
     });
   }
 
-  /** 
-   * Donwload Receipt
+  /**
+   * Download the receipt as specified by invoice_id
+   * @param invoice_id 
    */
   downloadReceipt(invoice_id: number) {
     let loader = this._loadingCtrl.create();
@@ -160,14 +161,14 @@ export class TransferViewPage {
     });
   }
 
-  /** 
-   * Donwload invoice
+  /**
+   * Download the invoice as specified by invoice_id
+   * @param invoice_id 
    */
   downloadInvoice(invoice_id: number) {
     let loader = this._loadingCtrl.create();
     loader.present();
     this.transferService.downloadInvoice(invoice_id).subscribe(response => {
-      //this.navCtrl.pop();
       loader.dismiss();
     });
   }
@@ -190,8 +191,11 @@ export class TransferViewPage {
   }
 
   
+  /**
+   * Delete the transfer
+   * @param transfer_id 
+   */
   delete(transfer_id: number) {
-
     let alert = this.alertCtrl.create({
     title: 'Confirm delete',
     message: 'Do you really want to delete this transfer?',
@@ -211,6 +215,10 @@ export class TransferViewPage {
     alert.present();
   }
 
+  /**
+   * Confirm deletion of the transfer
+   * @param transfer_id 
+   */
   deleteConfirmed(transfer_id) {
     let loader = this._loadingCtrl.create();
     loader.present();
