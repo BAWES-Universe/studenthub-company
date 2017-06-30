@@ -72,7 +72,7 @@ export class TransferViewPage {
     switch(this.transferDetails.transfer_status){
       case 10: // Draft
         this.transferStatus = "Transfer Draft";
-        this.transferStatusDescription = "Once you're done inputting hours worked by your assigned employees, lock the transfer to receive invoices to initiate transfer.";
+        this.transferStatusDescription = "'Lock Transfer' once you are done inputting hours worked by your assigned employees. Invoices will be sent to you after lock.";
         break;
       case 5: // Transfer Locked
         this.transferStatus = "Waiting for your payment";
@@ -99,8 +99,8 @@ export class TransferViewPage {
   transferLock(transfer_id: number) {
     // Load list of transfer
     let alert = this.alertCtrl.create({
-      title: 'Confirm Locking Transfer',
-      message: "By locking the transfer, you'll be generating the final payment invoices for this transfer, are you sure?",
+      title: 'Confirm locking the transfer?',
+      message: "You will no longer be able to edit the transfer once it's locked.",
       buttons: [
         {
           text: 'No',
@@ -196,8 +196,7 @@ export class TransferViewPage {
    */
   delete(transfer_id: number) {
     let alert = this.alertCtrl.create({
-    title: 'Confirm delete',
-    message: 'Do you really want to delete this transfer?',
+    title: 'Do you really want to delete this transfer?',
     buttons: [
         {
           text: 'No',
