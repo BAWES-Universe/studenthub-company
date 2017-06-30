@@ -3,8 +3,6 @@ import { Observable } from 'rxjs/Observable';
 // Services
 import { AuthHttpService } from './authhttp.service';
 
-import { Transfer } from '../../models/transfer';
-
 /**
  * Manages Staff Functionality on the server
  */
@@ -83,24 +81,24 @@ export class TransferService {
 
   /**
   * Save
-  * @param {Transfer} model
+  * @param {candidate_id: number, hours: number, bonus: number} candidates
   * @returns {Observable<any>}
   */
-  save(model: Transfer): Observable<any> {
+  save(candidates: {candidate_id: number, hours: number, bonus: number}): Observable<any> {
     let postUrl = `${this._transferEndpoint}`;
     let params = {
-      "candidates": model
+      "candidates": candidates
     };
     return this._authhttp.post(postUrl, params);
   }
 
   /**
     * Update or Edit Transfer Form
-    * @param { Any } candidates
+    * @param {candidate_id: number, hours: number, bonus: number} candidates
     * @param { Number } transfer_id
     * @returns { Observable<any> }
     */
-  updateTransfer(candidates: any, transfer_id: Number): Observable<any> {
+  updateTransfer(candidates: {candidate_id: number, hours: number, bonus: number}, transfer_id: Number): Observable<any> {
     let postUrl = `${this._transferEndpoint}/${transfer_id}`;
     let params = {
       "candidates": candidates
@@ -109,7 +107,7 @@ export class TransferService {
   }
 
   /**
-   * Delete Transfer 
+   * Delete Transfer
    * @param {number} transfer_id
    * @returns {Observable<any>}
    */
