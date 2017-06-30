@@ -6,6 +6,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 // Models
 import { Transfer } from '../../../../models/transfer';
+import { Candidate } from '../../../../models/candidate';
+
+// Services
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 
@@ -17,8 +20,8 @@ export class TransferFormPage {
   public transfer: Transfer;
   public operation: string;
 
-  public candidatesObj;
-  public candidates: any = []
+  public allCandidatesAssignedToCompany: Candidate[];
+
   public hours: any = [];
   public bonus: any = [];
 
@@ -52,7 +55,7 @@ export class TransferFormPage {
     loader.present();
 
     this.candidateService.list().subscribe(response => {
-      this.candidatesObj = response;
+      this.allCandidatesAssignedToCompany = response;
       this._init();
       loader.dismiss();
     });
@@ -72,7 +75,7 @@ export class TransferFormPage {
       }
 
       let i = 0;
-      for(let j of this.candidatesObj) {
+      for(let j of this.allCandidatesAssignedToCompany) {
         if(data['candiate-' + j.candidate_id]) {
           this.hours[i] = data['candiate-' + j.candidate_id]['hours'];
           this.bonus[i] = data['candiate-' + j.candidate_id]['bonus'];
@@ -88,8 +91,11 @@ export class TransferFormPage {
   save() {
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.candidatesObj.forEach((value, index) => {
-      this.candidates.push({
+
+    let candidatesToSendToServer: any = [];
+
+    this.allCandidatesAssignedToCompany.forEach((value, index) => {
+      candidatesToSendToServer.push({
         candidate_id: value.candidate_id,
         hours: this.hours[index],
         bonus: this.bonus[index]
@@ -101,8 +107,8 @@ export class TransferFormPage {
      * Otherwise create a new transfer
      */
     let action = this.transfer.transfer_id? 
-        this.transferService.updateInvoice(this.candidates, Number(this.transfer.transfer_id)) :
-        this.transferService.save(this.candidates);
+        this.transferService.updateInvoice(candidatesToSendToServer, Number(this.transfer.transfer_id)) :
+        this.transferService.save(candidatesToSendToServer);
 
     action.subscribe(jsonResponse => {
       loader.dismiss();

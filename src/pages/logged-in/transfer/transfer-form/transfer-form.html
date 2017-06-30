@@ -13,7 +13,7 @@
 
   <form>
 
-    <ion-card *ngFor="let candidate of candidatesObj; let i = index">
+    <ion-card *ngFor="let candidate of allCandidatesAssignedToCompany; let i = index">
       <ion-item>
         <ion-avatar item-left>
           <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{candidate.candidate_personal_photo_thumb}}">
