@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 // Services
 import { AuthHttpService } from './authhttp.service';
+// Model
+import { Transfer } from '../../models/transfer';
 
 /**
  * Manages Staff Functionality on the server
@@ -81,27 +83,26 @@ export class TransferService {
 
   /**
   * Save
-  * @param {candidate_id: number, hours: number, bonus: number} candidates
+  * @param { Transfer } transfer
   * @returns {Observable<any>}
   */
-  save(candidates: {candidate_id: number, hours: number, bonus: number}): Observable<any> {
+  save(transfer: Transfer): Observable<any> {
     let postUrl = `${this._transferEndpoint}`;
     let params = {
-      "candidates": candidates
+      "candidates": transfer.transferCandidates
     };
     return this._authhttp.post(postUrl, params);
   }
 
   /**
     * Update or Edit Transfer Form
-    * @param {candidate_id: number, hours: number, bonus: number} candidates
-    * @param { Number } transfer_id
+    * @param { Transfer } transfer
     * @returns { Observable<any> }
     */
-  updateTransfer(candidates: {candidate_id: number, hours: number, bonus: number}, transfer_id: Number): Observable<any> {
-    let postUrl = `${this._transferEndpoint}/${transfer_id}`;
+  updateTransfer(transfer: Transfer): Observable<any> {
+    let postUrl = `${this._transferEndpoint}/${transfer.transfer_id}`;
     let params = {
-      "candidates": candidates
+      "candidates": transfer.transferCandidates
     };
     return this._authhttp.patch(postUrl, params);
   }

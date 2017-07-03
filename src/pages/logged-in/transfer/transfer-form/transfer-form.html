@@ -13,12 +13,12 @@
 
   <form>
 
-    <ion-card *ngFor="let candidate of allCandidatesAssignedToCompany; let i = index">
+    <ion-card *ngFor="let transferCandidateRecord of transfer.transferCandidates">
       <ion-item>
         <ion-avatar item-left>
-          <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{candidate.candidate_personal_photo_thumb}}">
+          <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{transferCandidateRecord.candidate.candidate_personal_photo_thumb}}">
         </ion-avatar>
-        <h2>{{ candidate.candidate_name }}</h2>
+        <h2>{{ transferCandidateRecord.candidate.candidate_name }}</h2>
       </ion-item>
 
       <ion-grid>
@@ -27,14 +27,14 @@
             <ion-item>
               <ion-label stacked>Hours Worked</ion-label>
               <ion-input type="number" #hoursInput
-                [(ngModel)]="hours[i]" [ngModelOptions]="{standalone: true}"></ion-input>
+                [(ngModel)]="transferCandidateRecord.hours" [ngModelOptions]="{standalone: true}"></ion-input>
             </ion-item>
           </ion-col>
           <ion-col col-4 col-sm-3>
             <ion-item>
               <ion-label stacked>Bonus (KWD)</ion-label>
               <ion-input type="number" #bonusInput
-                [(ngModel)]="bonus[i]" [ngModelOptions]="{standalone: true}"></ion-input>
+                [(ngModel)]="transferCandidateRecord.bonus" [ngModelOptions]="{standalone: true}"></ion-input>
             </ion-item>
           </ion-col>
           <ion-col col-4 col-sm-3 offset-sm-3>
