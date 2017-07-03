@@ -6,6 +6,8 @@ import { Candidate } from '../../../../models/candidate';
 // Services
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
+//Pages
+import { TransferViewPage } from '../transfer-view/transfer-view';
 
 @Component({
   selector: 'page-transfer-form',
@@ -129,6 +131,13 @@ export class TransferFormPage {
         });
         toast.present();
         this.close();
+
+        //create mode
+        if(!this.transfer.transfer_id){
+          this.navCtrl.push(TransferViewPage, {
+            'model': jsonResponse.transfer_id
+          });
+        }
       }
 
       // On Failure, show an alert with the error message
