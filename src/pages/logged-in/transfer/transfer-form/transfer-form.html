@@ -27,8 +27,11 @@
             <ion-item>
               <ion-label stacked>Hours Worked</ion-label>
               <ion-input type="number" #hoursInput
-                [(ngModel)]="hours[i]" [ngModelOptions]="{standalone: true}"></ion-input>
+                [(ngModel)]="hours[i]" [ngModelOptions]="{standalone: true}"></ion-input>              
             </ion-item>
+            <ion-item *ngIf="hours[i] < 0">
+              <span class="error">Invalid value</span>  
+            </ion-item>  
           </ion-col>
           <ion-col col-4 col-sm-3>
             <ion-item>
@@ -36,6 +39,9 @@
               <ion-input type="number" #bonusInput
                 [(ngModel)]="bonus[i]" [ngModelOptions]="{standalone: true}"></ion-input>
             </ion-item>
+            <ion-item *ngIf="bonus[i] < 0">
+              <span class="error">Invalid value</span>  
+            </ion-item>  
           </ion-col>
           <ion-col col-4 col-sm-3 offset-sm-3>
             <ion-item>
