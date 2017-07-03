@@ -3,10 +3,12 @@
     <button ion-button menuToggle="left">
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Transfer Detail</ion-title>
+    <ion-title>Transfer {{ transferDetails?.company_total? "- KWD "+transferDetails.company_total : "" }}</ion-title>
     <ion-buttons right *ngIf="transferDetails && transferDetails.transfer_status=='10'">
-      <button ion-button clear color="primary" (click)="edit(transferDetails)">
-        Edit
+      <button ion-button clear color="danger" 
+        *ngIf="transferDetails && (transferDetails.transfer_status=='10')"
+        (click)="delete(transferDetails.transfer_id)">
+        Delete
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -17,7 +19,28 @@
     <ion-title>
       {{transferStatus}}
     </ion-title>
-    <span>{{transferStatusDescription}}</span>
+    <div>{{transferStatusDescription}}</div>
+
+    <!-- If Transfer Locked -->
+    <button ion-button outline icon-left
+      (click)="paymentSent(transferDetails.transfer_id)" 
+      *ngIf="transferDetails && (transferDetails.transfer_status=='5')">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+      Mark Payment Sent
+    </button>
+
+    <!-- If Transfer Draft -->
+    <button ion-button outline
+      (click)="edit(transferDetails)" 
+      *ngIf="transferDetails && transferDetails.transfer_status=='10'">
+      Edit Transfer
+    </button>
+    <button ion-button outline icon-left
+      (click)="transferLock(transferDetails.transfer_id)" 
+      *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
+      <ion-icon name="lock"></ion-icon>
+      Lock Transfer
+    </button>
   </ion-toolbar>
 
   <ion-toolbar *ngIf="transferDetails">
@@ -91,17 +114,3 @@
   </ion-list>
 
 </ion-content>
-
-<ion-footer *ngIf="transferDetails && ((transferDetails.transfer_status=='10') || (transferDetails.transfer_status=='5'))">
-  <button ion-button full (click)="transferLock(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
-    Lock Transfer
-  </button>
-
-  <button ion-button full (click)="paymentSent(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status=='5')">
-    Payment Sent
-  </button>
-
-  <button ion-button full color="danger" (click)="delete(transferDetails.transfer_id)" *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
-    Delete
-  </button>
-</ion-footer>

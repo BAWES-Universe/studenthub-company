@@ -27,101 +27,46 @@
 
       <div *ngIf="lockTransfers.length > 0">
         <ion-item-divider color="light"><b>Waiting for your payment</b></ion-item-divider>
-        <ion-item-sliding *ngFor="let transfer of lockTransfers">
-          <button ion-item (click)="transferDetails(transfer.transfer_id)">  
-              {{transfer.transfer_created_at}}
-              <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-          </button>
-          <ion-item-options>
-              <button ion-button (click)="transferDetails(transfer.transfer_id)">
-                View
-              </button>
-              <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
-                *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
-                Delete
-              </button>
-            </ion-item-options>
-        </ion-item-sliding>  
+        <button ion-item *ngFor="let transfer of lockTransfers" (click)="transferDetails(transfer.transfer_id)">
+          {{transfer.transfer_created_at}}
+          <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
+        </button>  
       </div>  
 
       <div *ngIf="draftTransfers.length > 0">
         <ion-item-divider color="light"><b>Draft</b></ion-item-divider>
-        <ion-item-sliding *ngFor="let transfer of draftTransfers">
-          <button ion-item (click)="transferDetails(transfer.transfer_id)">  
-              {{transfer.transfer_created_at}}
-              <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-          </button>
-          <ion-item-options>
-              <button ion-button (click)="transferDetails(transfer.transfer_id)">
-                View
-              </button>
-              <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
-                *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
-                Delete
-              </button>
-            </ion-item-options>
-        </ion-item-sliding>  
+        <button ion-item *ngFor="let transfer of draftTransfers" (click)="transferDetails(transfer.transfer_id)">
+          {{transfer.transfer_created_at}}
+          <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
+        </button>  
       </div>  
 
       <div *ngIf="inProgressTransfers.length > 0">
         <ion-item-divider color="light"><b>In Progress</b></ion-item-divider>
-        <ion-item-sliding *ngFor="let transfer of inProgressTransfers">
-          <button ion-item (click)="transferDetails(transfer.transfer_id)">  
-              {{transfer.transfer_created_at}}
-              <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-          </button>
-          <ion-item-options>
-              <button ion-button (click)="transferDetails(transfer.transfer_id)">
-                View
-              </button>
-              <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
-                *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
-                Delete
-              </button>
-            </ion-item-options>
-        </ion-item-sliding>  
+        <button ion-item *ngFor="let transfer of inProgressTransfers" (click)="transferDetails(transfer.transfer_id)">
+          {{transfer.transfer_created_at}}
+          <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
+        </button>
       </div>  
 
       <div *ngIf="sentTransfers.length > 0">
         <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
-        <ion-item-sliding *ngFor="let transfer of sentTransfers">
-          <button ion-item (click)="transferDetails(transfer.transfer_id)">  
-              {{transfer.transfer_created_at}}
-              <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-          </button>
-          <ion-item-options>
-              <button ion-button (click)="transferDetails(transfer.transfer_id)">
-                View
-              </button>
-              <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
-                *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
-                Delete
-              </button>
-           </ion-item-options>
-        </ion-item-sliding>  
-      </div>  
+        <button ion-item *ngFor="let transfer of sentTransfers" (click)="transferDetails(transfer.transfer_id)">
+          {{transfer.transfer_created_at}}
+          <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
+        </button>  
+      </div>
     </ion-list>
 
     <ion-list *ngSwitchCase="'completed'">
         <ion-item-divider color="light"><b>Completed</b></ion-item-divider>
         <ion-item *ngIf="completedTransfers.length == 0">There is no Completed Payment</ion-item>
         <div *ngIf="completedTransfers.length > 0">
-          <ion-item-sliding *ngFor="let transfer of completedTransfers">
-            <button ion-item (click)="transferDetails(transfer.transfer_id)">  
-                {{transfer.transfer_created_at}}
-                <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-            </button>
-            <ion-item-options>
-              <button ion-button (click)="transferDetails(transfer.transfer_id)">
-                View
-              </button>
-              <button ion-button color="danger" (click)="delete(transfer.transfer_id)"
-                *ngIf="transfer && (transfer.transfer_status=='10' || transfer.transfer_status=='5')">
-                Delete
-              </button>
-            </ion-item-options>
-          </ion-item-sliding>  
-        </div>  
+          <button ion-item *ngFor="let transfer of completedTransfers" (click)="transferDetails(transfer.transfer_id)">
+            {{transfer.transfer_created_at}}
+            <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
+          </button>  
+        </div>
     </ion-list>
   </div>
       
@@ -135,6 +80,6 @@
 </ion-content>
 <ion-footer>
   <button ion-button block (click)="createNewTransfer()">
-    Initiate Transfer
+    Create New Transfer
   </button>
 </ion-footer>
