@@ -69,8 +69,6 @@ export class TransferFormPage {
   private _initTransferCandidateList(allCandidatesAssignedToCompany: Candidate[]){
     let allTransferCandidateRecordsMapped: TransferCandidate[] = [];
 
-    // console.log(allCandidatesAssignedToCompany);
-
     // Map all candidate records to an empty TransferCandidate record for a new transfer.
     allCandidatesAssignedToCompany.forEach((candidate: Candidate) => {
       let candidateTransferRecord = new TransferCandidate;
@@ -96,6 +94,9 @@ export class TransferFormPage {
     });
     // Replace the transferCandidates within the transfer with our up to date list
     this.transfer.transferCandidates = updatedTransferRecords;
+
+    // Calculate transfer total
+    this.calculateTotal();
   }
 
   /**
@@ -141,6 +142,18 @@ export class TransferFormPage {
         });
         prompt.present();
       }
+    });
+  }
+
+  /**
+   * Calculate the transfer total based on data input
+   */
+  calculateTotal(){
+    this.total = 0;
+    this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
+      let hours = transferCandidate.hours? this.parseNumber(transferCandidate.hours): 0;
+      let bonus = transferCandidate.bonus? this.parseNumber(transferCandidate.bonus): 0;
+      this.total += (hours * this.companyHourlyCost) + bonus;
     });
   }
 
