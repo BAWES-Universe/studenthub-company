@@ -3,6 +3,7 @@ import { NavController, ViewController, LoadingController, AlertController, NavP
 // Models
 import { Transfer } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
+import { TransferCandidate } from '../../../../models/transfer-candidate';
 // Services
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
@@ -16,15 +17,8 @@ import { TransferViewPage } from '../transfer-view/transfer-view';
 export class TransferFormPage {
   public transfer: Transfer;
 
-  // List of All Candidates Assigned to Work for Company
-  public allCandidatesAssignedToCompany: Candidate[];
-
   // Page Title depends on Operation (Create vs Edit Transfer)
   public pageTitle: string = "New Transfer";
-
-  // Used to map hours and bonus input fields then send to server
-  public hours: any = [];
-  public bonus: any = [];
 
   // Total Price for Transfer
   public total: number = 0;
@@ -62,37 +56,46 @@ export class TransferFormPage {
     loader.present();
 
     this.candidateService.list().subscribe(response => {
-      this.allCandidatesAssignedToCompany = response;
-      this._init();
+      let allCandidatesAssignedToCompany: Candidate[] = response;
+      this._initTransferCandidateList(allCandidatesAssignedToCompany);
       loader.dismiss();
     });
   }
 
   /**
-   * Initialize the page.
+   * Initialize the TransferCandidate list required for this transfer.
+   * @param { Candidate[] } allCandidatesAssignedToCompany 
    */
-  private _init(){
-    // Get previous hours and bonus values from the Transfer if we are editing an existing transfer 
-    if (this.transfer.transferCandidates) {
-      var data = {};
-      for(let candidate of this.transfer.transferCandidates) {        
-        data['candiate-' + candidate.candidate_id] = [];
-        data['candiate-' + candidate.candidate_id]['hours'] = candidate.hours;
-        data['candiate-' + candidate.candidate_id]['bonus'] = candidate.bonus;
-      }
+  private _initTransferCandidateList(allCandidatesAssignedToCompany: Candidate[]){
+    let allTransferCandidateRecordsMapped: TransferCandidate[] = [];
 
-      let i = 0;
-      for(let j of this.allCandidatesAssignedToCompany) {
-        if(data['candiate-' + j.candidate_id]) {
-          this.hours[i] = data['candiate-' + j.candidate_id]['hours'];
-          this.bonus[i] = data['candiate-' + j.candidate_id]['bonus'];
-        }
-        i++;        
-      }
+    // console.log(allCandidatesAssignedToCompany);
+
+    // Map all candidate records to an empty TransferCandidate record for a new transfer.
+    allCandidatesAssignedToCompany.forEach((candidate: Candidate) => {
+      let candidateTransferRecord = new TransferCandidate;
+      candidateTransferRecord.candidate = candidate;
+      candidateTransferRecord.candidate_id = candidate.candidate_id;
+
+      // Append the candidateTransferRecord into the allTransferCandidateRecordsMapped array
+      allTransferCandidateRecordsMapped[candidate.candidate_id] = candidateTransferRecord;
+    });    
+
+    // Get previous hours and bonus values from the Transfer if we are editing an existing transfer 
+    // Add them to the allTransferCandidateRecordsMapped mapped
+    if(this.transfer && this.transfer.transferCandidates){
+      this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
+        allTransferCandidateRecordsMapped[transferCandidate.candidate_id] = transferCandidate;
+      });
     }
 
-    // Calculate the total price
-    this.calculateTotal();
+    // Re-index the TransferCandidate list to avoid issues array length
+    let updatedTransferRecords = [];
+    allTransferCandidateRecordsMapped.forEach(record => {
+      updatedTransferRecords.push(record);
+    });
+    // Replace the transferCandidates within the transfer with our up to date list
+    this.transfer.transferCandidates = updatedTransferRecords;
   }
 
   /**
@@ -101,24 +104,14 @@ export class TransferFormPage {
   save() {
     let loader = this._loadingCtrl.create();
     loader.present();
-
-    let candidatesToSendToServer: any = [];
-
-    this.allCandidatesAssignedToCompany.forEach((value, index) => {
-      candidatesToSendToServer.push({
-        candidate_id: value.candidate_id,
-        hours: this.hours[index],
-        bonus: this.bonus[index]
-      });
-    });
     
     /**
      * Update the transfer data if it already exists
      * Otherwise create a new transfer
      */
     let action = this.transfer.transfer_id? 
-        this.transferService.updateTransfer(candidatesToSendToServer, Number(this.transfer.transfer_id)) :
-        this.transferService.save(candidatesToSendToServer);
+        this.transferService.updateTransfer(this.transfer) :
+        this.transferService.save(this.transfer);
 
     action.subscribe(jsonResponse => {
       loader.dismiss();
@@ -149,17 +142,6 @@ export class TransferFormPage {
         prompt.present();
       }
     });
-  }
-
-  /**
-   * Total Price Calculation based on Input Hours
-   * Call this function whenever you need to re-calculate the price
-   */
-  calculateTotal(){
-    let priceForHours = this.hours.reduce((a, b) => a + b, 0) * this.companyHourlyCost;
-    let priceForBonus = this.bonus.reduce((a, b) => a + b, 0);
-
-    this.total = priceForHours + priceForBonus;
   }
 
   /**
