@@ -26,7 +26,7 @@
           <ion-col col-4 col-sm-3>
             <ion-item>
               <ion-label stacked>Hours Worked</ion-label>
-              <ion-input type="number" #hoursInput
+              <ion-input type="number"
                 [(ngModel)]="transferCandidateRecord.hours" [ngModelOptions]="{standalone: true}"></ion-input>
             </ion-item>
             <ion-item *ngIf="transferCandidateRecord.hours < 0">
@@ -36,7 +36,7 @@
           <ion-col col-4 col-sm-3>
             <ion-item>
               <ion-label stacked>Bonus (KWD)</ion-label>
-              <ion-input type="number" #bonusInput
+              <ion-input type="number"
                 [(ngModel)]="transferCandidateRecord.bonus" [ngModelOptions]="{standalone: true}"></ion-input>
             </ion-item>
             <ion-item *ngIf="transferCandidateRecord.bonus < 0">
@@ -45,7 +45,7 @@
           </ion-col>
           <ion-col col-4 col-sm-3 offset-sm-3>
             <ion-item>
-              KWD {{ (parseNumber(hoursInput.value) * 2) + parseNumber(bonusInput.value) }}
+              KWD {{ (parseNumber(transferCandidateRecord.hours) * 2) + parseNumber(transferCandidateRecord.bonus) }}
             </ion-item>
           </ion-col>
         </ion-row>
