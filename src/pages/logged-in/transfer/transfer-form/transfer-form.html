@@ -4,7 +4,7 @@
     <ion-buttons right>
       <button ion-button clear 
         color="primary" 
-        [disabled]="total == 0"
+        [disabled]="total <= 0"
         (click)="save()">
         Save
       </button>
