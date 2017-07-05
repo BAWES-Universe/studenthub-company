@@ -12,7 +12,6 @@
 <ion-content>
 
   <form>
-
     <ion-card *ngFor="let transferCandidateRecord of transfer.transferCandidates">
       <ion-item>
         <ion-avatar item-left>
@@ -23,36 +22,41 @@
 
       <ion-grid>
         <ion-row>
-          <ion-col col-4 col-sm-3>
+          <!-- Hours Input Column -->
+          <ion-col col-12 col-sm-4>
             <ion-item>
-              <ion-label stacked>Hours Worked</ion-label>
+              <ion-label stacked>
+                Hours Worked
+                <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>  
+              </ion-label>
               <ion-input type="number" (input)="calculateTotal()"
-                [(ngModel)]="transferCandidateRecord.hours" [ngModelOptions]="{standalone: true}"></ion-input>
+                [(ngModel)]="transferCandidateRecord.hours" 
+                [ngModelOptions]="{standalone: true}"></ion-input>
             </ion-item>
-            <ion-item *ngIf="transferCandidateRecord.hours < 0">
-              <span class="error">Invalid value</span>  
-            </ion-item>  
           </ion-col>
-          <ion-col col-4 col-sm-3>
+
+          <!-- Bonus Input Column -->
+          <ion-col col-12 col-sm-4 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
             <ion-item>
-              <ion-label stacked>Bonus (KWD)</ion-label>
+              <ion-label stacked>
+                Bonus (KWD)
+                <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
+              </ion-label>
               <ion-input type="number" (input)="calculateTotal()"
-                [(ngModel)]="transferCandidateRecord.bonus" [ngModelOptions]="{standalone: true}"></ion-input>
+                [(ngModel)]="transferCandidateRecord.bonus" 
+                [ngModelOptions]="{standalone: true}"></ion-input>
             </ion-item>
-            <ion-item *ngIf="transferCandidateRecord.bonus < 0">
-              <span class="error">Invalid value</span>  
-            </ion-item>  
           </ion-col>
-          <ion-col col-4 col-sm-3 offset-sm-3>
+
+          <!-- Total Calculation Column -->
+          <ion-col col-12 col-sm-4 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
             <ion-item>
               KWD {{ (parseNumber(transferCandidateRecord.hours) * 2) + parseNumber(transferCandidateRecord.bonus) }}
             </ion-item>
           </ion-col>
         </ion-row>
       </ion-grid>
-
     </ion-card>
-      
   </form>
 
 </ion-content>
