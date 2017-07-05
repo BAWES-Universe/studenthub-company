@@ -2,7 +2,10 @@
   <ion-navbar>
     <ion-title>{{ pageTitle }}</ion-title>
     <ion-buttons right>
-      <button ion-button clear color="primary" (click)="save()">
+      <button ion-button clear 
+        color="primary" 
+        [disabled]="total == 0"
+        (click)="save()">
         Save
       </button>
     </ion-buttons>
@@ -10,7 +13,6 @@
 </ion-header>
 
 <ion-content>
-
   <form>
     <ion-card *ngFor="let transferCandidateRecord of transfer.transferCandidates">
       <ion-item>
@@ -58,7 +60,6 @@
       </ion-grid>
     </ion-card>
   </form>
-
 </ion-content>
 
 <ion-footer>
