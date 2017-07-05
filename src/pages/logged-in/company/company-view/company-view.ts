@@ -30,7 +30,7 @@ export class CompanyViewPage {
     public alertCtrl: AlertController,
     private _loadingCtrl: LoadingController,
   ) {
-    console.log(params);
+    // console.log(params);
     this.company = params.get('model');
   }
 

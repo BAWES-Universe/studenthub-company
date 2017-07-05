@@ -5,80 +5,90 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-title (click)="organiseTransfers()">Transfer List</ion-title>
+    <ion-title>Transfers</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+  <section class="no-transfers" *ngIf="!transfers || transfers.length == 0">
+    <ion-icon name="ios-filing-outline"></ion-icon>
+    <h2>Create a transfer to start salary distribution</h2>
+    <button ion-button (click)="createNewTransfer()">
+      Create your first transfer
+    </button>
+  </section>
 
-  <div padding>
-   <ion-segment [(ngModel)]="inProgress">
-        <ion-segment-button value="In Progress">
-          In Progress
-        </ion-segment-button>
-        <ion-segment-button value="completed">
-          Completed
-        </ion-segment-button>
-      </ion-segment>
-  </div>
+  <section *ngIf="transfers && transfers.length > 0">
+    <div padding>
+    <ion-segment [(ngModel)]="inProgress">
+          <ion-segment-button value="In Progress">
+            In Progress
+          </ion-segment-button>
+          <ion-segment-button value="completed">
+            Completed
+          </ion-segment-button>
+        </ion-segment>
+    </div>
 
-  <div [ngSwitch]="inProgress">
-    <ion-list *ngSwitchCase="'In Progress'">
+    <div [ngSwitch]="inProgress">
+      <ion-list *ngSwitchCase="'In Progress'">
 
-      <div *ngIf="lockTransfers.length > 0">
-        <ion-item-divider color="light"><b>Waiting for your payment</b></ion-item-divider>
-        <button ion-item *ngFor="let transfer of lockTransfers" (click)="transferDetails(transfer.transfer_id)">
-          {{transfer.transfer_created_at}}
-          <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-        </button>  
-      </div>  
+        <div *ngIf="lockTransfers.length > 0">
+          <ion-item-divider color="light"><b>Waiting for your payment</b></ion-item-divider>
+          <button ion-item *ngFor="let transfer of lockTransfers" (click)="transferDetails(transfer.transfer_id)">
+            {{transfer.transfer_created_at}}
+            <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
+          </button>  
+        </div>  
 
-      <div *ngIf="draftTransfers.length > 0">
-        <ion-item-divider color="light"><b>Draft</b></ion-item-divider>
-        <button ion-item *ngFor="let transfer of draftTransfers" (click)="transferDetails(transfer.transfer_id)">
-          {{transfer.transfer_created_at}}
-          <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-        </button>  
-      </div>  
+        <div *ngIf="draftTransfers.length > 0">
+          <ion-item-divider color="light"><b>Draft</b></ion-item-divider>
+          <button ion-item *ngFor="let transfer of draftTransfers" (click)="transferDetails(transfer.transfer_id)">
+            {{transfer.transfer_created_at}}
+            <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
+          </button>  
+        </div>  
 
-      <div *ngIf="inProgressTransfers.length > 0">
-        <ion-item-divider color="light"><b>In Progress</b></ion-item-divider>
-        <button ion-item *ngFor="let transfer of inProgressTransfers" (click)="transferDetails(transfer.transfer_id)">
-          {{transfer.transfer_created_at}}
-          <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-        </button>
-      </div>  
+        <div *ngIf="inProgressTransfers.length > 0">
+          <ion-item-divider color="light"><b>In Progress</b></ion-item-divider>
+          <button ion-item *ngFor="let transfer of inProgressTransfers" (click)="transferDetails(transfer.transfer_id)">
+            {{transfer.transfer_created_at}}
+            <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
+          </button>
+        </div>  
 
-      <div *ngIf="sentTransfers.length > 0">
-        <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
-        <button ion-item *ngFor="let transfer of sentTransfers" (click)="transferDetails(transfer.transfer_id)">
-          {{transfer.transfer_created_at}}
-          <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-        </button>  
-      </div>
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'completed'">
-        <ion-item-divider color="light"><b>Completed</b></ion-item-divider>
-        <ion-item *ngIf="completedTransfers.length == 0">There is no Completed Payment</ion-item>
-        <div *ngIf="completedTransfers.length > 0">
-          <button ion-item *ngFor="let transfer of completedTransfers" (click)="transferDetails(transfer.transfer_id)">
+        <div *ngIf="sentTransfers.length > 0">
+          <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
+          <button ion-item *ngFor="let transfer of sentTransfers" (click)="transferDetails(transfer.transfer_id)">
             {{transfer.transfer_created_at}}
             <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
           </button>  
         </div>
-    </ion-list>
-  </div>
-      
-  <ion-row text-center>
-    <div class="pagination-wrapper">
-      <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
-        {{ page }}
-      </button>
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'completed'">
+          <ion-item-divider color="light"><b>Completed</b></ion-item-divider>
+          <ion-item *ngIf="completedTransfers.length == 0">There is no Completed Payment</ion-item>
+          <div *ngIf="completedTransfers.length > 0">
+            <button ion-item *ngFor="let transfer of completedTransfers" (click)="transferDetails(transfer.transfer_id)">
+              {{transfer.transfer_created_at}}
+              <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
+            </button>  
+          </div>
+      </ion-list>
     </div>
-  </ion-row>
+        
+    <ion-row text-center>
+      <div class="pagination-wrapper">
+        <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+          {{ page }}
+        </button>
+      </div>
+    </ion-row>
+  </section>
 </ion-content>
-<ion-footer>
+
+<ion-footer *ngIf="transfers && transfers.length > 0">
   <button ion-button block (click)="createNewTransfer()">
     Create New Transfer
   </button>
