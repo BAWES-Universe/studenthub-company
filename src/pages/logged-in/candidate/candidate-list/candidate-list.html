@@ -10,14 +10,12 @@
 
 <ion-content >
   <ion-list>
-    <ion-item-sliding *ngFor="let candidate of candidates">
-      <button ion-item (click)="rowSelected(candidate)">
-        <ion-avatar item-left>
-            <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{candidate.candidate_personal_photo_thumb}}">
-        </ion-avatar>
-        {{ candidate.candidate_name}}
-      </button>
-    </ion-item-sliding>
+    <button ion-item (click)="rowSelected(candidate)" *ngFor="let candidate of candidates">
+      <ion-avatar item-left>
+          <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{candidate.candidate_personal_photo_thumb}}">
+      </ion-avatar>
+      {{ candidate.candidate_name}}
+    </button>
   </ion-list>
 
 </ion-content>

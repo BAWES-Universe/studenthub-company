@@ -24,9 +24,10 @@ export class StoreViewPage {
     this.store = params.get('model');
   }
 
+  /**
+   * Load Detail Page
+   */
   candidateSelected(model) {
-    
-    // Load Detail Page
     this.navCtrl.push(CandidateViewPage, {
       'model': model
     });

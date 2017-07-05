@@ -10,11 +10,11 @@
 
 <ion-content >
   <ion-list>
-    <ion-item-sliding *ngFor="let company of companies">
-      <button ion-item (click)="rowSelected(company)">
-        {{ company.company_name}}
-      </button>
-    </ion-item-sliding>
+    <button ion-item 
+      *ngFor="let company of companies"
+      (click)="rowSelected(company)">
+      {{ company.company_name}}
+    </button>
   </ion-list>
 
   <ion-row text-center>

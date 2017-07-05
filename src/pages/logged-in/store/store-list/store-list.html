@@ -7,34 +7,34 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content >
+<ion-content>
   <ion-list *ngIf="companies">  
-    <ion-item-sliding *ngFor="let company of companies">
-      <button ion-item (click)="companySelected(company)">
-        {{ company.company_name }}
-        
-        <ion-badge item-right *ngIf="company.candidates && company.candidates.length > 0">
-          {{ company.candidates.length }} candidates
-        </ion-badge>
-
-        <ion-badge item-right *ngIf="company.subcompanies && company.subcompanies.length > 0">
-          {{ company.subcompanies.length }} sub-companies
-        </ion-badge>
-        
-        <ion-badge item-right *ngIf="company.stores && company.stores.length > 0">
-          {{ company.stores.length }} stores
-        </ion-badge>
+    <button ion-item 
+      *ngFor="let company of companies"
+      (click)="companySelected(company)">
+      {{ company.company_name }}
+      
+      <!-- Assigned employees count badge -->
+      <ion-badge item-right *ngIf="company.candidates && company.candidates.length > 0">
+        {{ company.candidates.length }} {{ company.candidates.length > 1 ? "employees" : "employee" }}
+      </ion-badge>
+      <!-- Subcompany count badge -->
+      <ion-badge item-right *ngIf="company.subcompanies && company.subcompanies.length > 0">
+        {{ company.subcompanies.length }} {{ company.subcompanies.length > 1 ? "subcompanies" : "subcompany" }}
+      </ion-badge>
+      <!-- Store count badge -->
+      <ion-badge item-right *ngIf="company.stores && company.stores.length > 0">
+        {{ company.stores.length }} {{ company.stores.length > 1 ? "stores" : "store" }}
+      </ion-badge>
     </button>
-    </ion-item-sliding>
   </ion-list>
-
 
   <ion-list *ngIf="stores">
     <ion-item-sliding *ngFor="let store of stores">
       <button ion-item (click)="rowSelected(store)">
         {{ store.store_name }}
         <ion-badge item-right *ngIf="store.candidates.length > 0">
-          {{ store.candidates.length }} candidates
+          {{ store.candidates.length }} {{ store.candidates.length > 1 ? "employees" : "employee" }}
         </ion-badge>
       </button>
     </ion-item-sliding>

@@ -10,32 +10,20 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <h5>Id</h5>
-      <p>{{ company.company_id }}</p>
-    </ion-item>
-    <ion-item>
-      <h5>Company</h5>
-      <p>{{ company.company_name }}</p>
-    </ion-item>
-    <ion-item *ngIf="company && company.company_email">
-      <h5>Email</h5>
-      <p>{{ company.company_email }}</p>
-    </ion-item>
-  </ion-list>
+  <!-- List of Stores -->
   <h5>Stores</h5>
   <ion-list>
-    <ion-item-sliding *ngFor="let store of stores">
-      <button ion-item (click)="storeSelected(store)">
-        {{ store.store_name}}        
-        <ion-badge item-right *ngIf="store.candidates && store.candidates.length > 0">
-          {{ store.candidates.length }} candidates
-        </ion-badge>
-      </button>
-    </ion-item-sliding>
+    <button ion-item 
+      *ngFor="let store of stores"
+      (click)="storeSelected(store)">
+      {{ store.store_name}}        
+      <ion-badge item-right *ngIf="store.candidates && store.candidates.length > 0">
+        {{ store.candidates.length }} {{ store.candidates.length > 1 ? "employees" : "employee" }}
+      </ion-badge>
+    </button>
   </ion-list>
 
+  <!-- Pagination -->
   <ion-row text-center>
     <div class="pagination-wrapper">
       <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">

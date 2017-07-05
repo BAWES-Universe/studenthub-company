@@ -3,26 +3,21 @@
     <button ion-button menuToggle="left">
       <ion-icon name="menu"></ion-icon>
     </button>
-
     <ion-title>{{ store.store_name }}</ion-title>
-
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h5>Id</h5>
-  <p>{{ store.store_id }}</p>
-
-  <h5>Store</h5>
-  <p>{{ store.store_name }}</p>
-
-  <h5>Candidate</h5>
+<ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let candidateMember of store.candidates">
-      <button ion-item (click)="candidateSelected(candidateMember)">
-        {{ candidateMember.candidate_name}}
-      </button>
-    </ion-item-sliding>
+    <ion-item-divider color="light"><b>Assigned Employees</b></ion-item-divider>
+    <button ion-item 
+      *ngFor="let candidateMember of store.candidates"
+      (click)="candidateSelected(candidateMember)">
+      <ion-avatar item-left>
+          <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{candidateMember.candidate_personal_photo_thumb}}">
+      </ion-avatar>
+      {{ candidateMember.candidate_name}}
+    </button>
   </ion-list>
 
 </ion-content>
