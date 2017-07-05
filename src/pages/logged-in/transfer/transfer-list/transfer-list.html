@@ -24,7 +24,7 @@
           <ion-segment-button value="In Progress">
             In Progress
           </ion-segment-button>
-          <ion-segment-button value="completed">
+          <ion-segment-button value="completed" *ngIf="completedTransfers.length > 0">
             Completed
           </ion-segment-button>
         </ion-segment>
@@ -32,7 +32,7 @@
 
     <div [ngSwitch]="inProgress">
       <ion-list *ngSwitchCase="'In Progress'">
-
+        <!-- Locked Transfers, waiting for payment -->
         <div *ngIf="lockTransfers.length > 0">
           <ion-item-divider color="light"><b>Waiting for your payment</b></ion-item-divider>
           <button ion-item *ngFor="let transfer of lockTransfers" (click)="transferDetails(transfer.transfer_id)">
@@ -40,7 +40,7 @@
             <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
           </button>  
         </div>  
-
+        <!-- Transfer Drafts -->
         <div *ngIf="draftTransfers.length > 0">
           <ion-item-divider color="light"><b>Draft</b></ion-item-divider>
           <button ion-item *ngFor="let transfer of draftTransfers" (click)="transferDetails(transfer.transfer_id)">
@@ -48,7 +48,7 @@
             <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
           </button>  
         </div>  
-
+        <!-- Transfers with Distribution in Progress -->
         <div *ngIf="inProgressTransfers.length > 0">
           <ion-item-divider color="light"><b>In Progress</b></ion-item-divider>
           <button ion-item *ngFor="let transfer of inProgressTransfers" (click)="transferDetails(transfer.transfer_id)">
@@ -56,7 +56,7 @@
             <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
           </button>
         </div>  
-
+        <!-- Transfers Where Company Sent Payment -->
         <div *ngIf="sentTransfers.length > 0">
           <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
           <button ion-item *ngFor="let transfer of sentTransfers" (click)="transferDetails(transfer.transfer_id)">
@@ -66,15 +66,16 @@
         </div>
       </ion-list>
 
+      <!-- Completed Transfers -->
       <ion-list *ngSwitchCase="'completed'">
-          <ion-item-divider color="light"><b>Completed</b></ion-item-divider>
-          <ion-item *ngIf="completedTransfers.length == 0">There is no Completed Payment</ion-item>
-          <div *ngIf="completedTransfers.length > 0">
-            <button ion-item *ngFor="let transfer of completedTransfers" (click)="transferDetails(transfer.transfer_id)">
-              {{transfer.transfer_created_at}}
-              <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-            </button>  
-          </div>
+        <div *ngIf="completedTransfers.length > 0">
+          <button ion-item 
+            *ngFor="let transfer of completedTransfers" 
+            (click)="transferDetails(transfer.transfer_id)">
+            {{ transfer.transfer_created_at }}
+            <ion-badge item-right>KWD {{ transfer.company_total }}</ion-badge>
+          </button>
+        </div>
       </ion-list>
     </div>
         
