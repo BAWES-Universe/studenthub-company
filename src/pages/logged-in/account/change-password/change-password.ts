@@ -42,11 +42,12 @@ export class ChangePassword {
    * Attempts to login with the provided email and password
    */
   save(){
-    let loader = this._loadingCtrl.create();
-    loader.present();
-    const oldP = this.passwordForm.value.oldPassword;
-    const newP = this.passwordForm.value.newPassword;
-      if (this.passwordForm.valid) {
+    if (this.passwordForm.valid) {
+      let loader = this._loadingCtrl.create();
+      loader.present();
+      const oldP = this.passwordForm.value.oldPassword;
+      const newP = this.passwordForm.value.newPassword;
+      
         this.accountService.changePassword(oldP, newP).subscribe(res => {
           loader.dismiss();
           if (res.operation == "success") {
@@ -66,6 +67,6 @@ export class ChangePassword {
             alert.present();
           }
         });
-      }
+    }
   }
 }
