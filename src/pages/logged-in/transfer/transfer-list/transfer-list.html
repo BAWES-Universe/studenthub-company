@@ -19,16 +19,14 @@
   </section>
 
   <section *ngIf="transfers && transfers.length > 0">
-    <div padding>
-    <ion-segment [(ngModel)]="inProgress">
-          <ion-segment-button value="In Progress">
-            In Progress
-          </ion-segment-button>
-          <ion-segment-button value="completed" *ngIf="completedTransfers.length > 0">
-            Completed
-          </ion-segment-button>
-        </ion-segment>
-    </div>
+    <ion-segment [(ngModel)]="inProgress" *ngIf="completedTransfers.length > 0">
+      <ion-segment-button value="In Progress">
+        In Progress
+      </ion-segment-button>
+      <ion-segment-button value="completed">
+        Completed
+      </ion-segment-button>
+    </ion-segment>
 
     <div [ngSwitch]="inProgress">
       <ion-list *ngSwitchCase="'In Progress'">
