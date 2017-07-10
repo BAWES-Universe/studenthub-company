@@ -10,6 +10,7 @@ import { ChangePassword } from '../account/change-password/change-password';
 
 // Services
 import { AuthService } from '../../../providers/auth.service';
+import { CandidateService } from '../../../providers/logged-in/candidate.service';
 
 @Component({
   selector: 'page-navigation',
@@ -21,10 +22,17 @@ export class NavigationPage {
 
   @ViewChild('loggedInContent') nav: NavController
 
+  private totalEmployees: number = 0;
+
   constructor(
     private _auth: AuthService,
-    private _menuCtrl: MenuController
-  ) { }
+    private _menuCtrl: MenuController,
+    private candidateService: CandidateService
+  ) { 
+    this.candidateService.total().subscribe(result => {
+      this.totalEmployees = result;
+    });
+  }
 
   loadPage(pageName: string) {
     switch (pageName) {

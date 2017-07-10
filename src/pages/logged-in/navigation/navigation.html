@@ -19,6 +19,9 @@
         <button ion-item (click)="loadPage('candidate')">
           <ion-icon name="person" item-left></ion-icon>
               Employees
+              <ion-badge item-right>
+              {{ totalEmployees }}
+            </ion-badge>
         </button>
         <button ion-item (click)="loadPage('store')">
           <ion-icon name="list" item-left></ion-icon>
