@@ -14,51 +14,53 @@
 
 <ion-content>
   <form>
-    <ion-card *ngFor="let transferCandidateRecord of transfer.transferCandidates">
-      <ion-item>
-        <ion-avatar item-left>
-          <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{transferCandidateRecord.candidate.candidate_personal_photo_thumb}}">
-        </ion-avatar>
-        <h2>{{ transferCandidateRecord.candidate.candidate_name }}</h2>
-      </ion-item>
+    <ion-item-group *ngFor="let group of transfer.transferCandidates | store_id">
+      <ion-item-divider><b>{{ group.name }}</b></ion-item-divider>
+      <ion-card *ngFor="let transferCandidateRecord of group.resources">
+        <ion-item>
+          <ion-avatar item-left>
+            <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{transferCandidateRecord.candidate.candidate_personal_photo_thumb}}">
+          </ion-avatar>
+          <h2>{{ transferCandidateRecord.candidate.candidate_name }}</h2>
+        </ion-item>
+        <ion-grid>
+          <ion-row>
+            <!-- Hours Input Column -->
+            <ion-col col-12 col-sm-4>
+              <ion-item>
+                <ion-label stacked>
+                  Hours Worked
+                  <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>  
+                </ion-label>
+                <ion-input type="number" (input)="calculateTotal()"
+                  [(ngModel)]="transferCandidateRecord.hours" 
+                  [ngModelOptions]="{standalone: true}"></ion-input>
+              </ion-item>
+            </ion-col>
 
-      <ion-grid>
-        <ion-row>
-          <!-- Hours Input Column -->
-          <ion-col col-12 col-sm-4>
-            <ion-item>
-              <ion-label stacked>
-                Hours Worked
-                <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>  
-              </ion-label>
-              <ion-input type="number" (input)="calculateTotal()"
-                [(ngModel)]="transferCandidateRecord.hours" 
-                [ngModelOptions]="{standalone: true}"></ion-input>
-            </ion-item>
-          </ion-col>
+            <!-- Bonus Input Column -->
+            <ion-col col-12 col-sm-4 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
+              <ion-item>
+                <ion-label stacked>
+                  Bonus (KWD)
+                  <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
+                </ion-label>
+                <ion-input type="number" (input)="calculateTotal()"
+                  [(ngModel)]="transferCandidateRecord.bonus" 
+                  [ngModelOptions]="{standalone: true}"></ion-input>
+              </ion-item>
+            </ion-col>
 
-          <!-- Bonus Input Column -->
-          <ion-col col-12 col-sm-4 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
-            <ion-item>
-              <ion-label stacked>
-                Bonus (KWD)
-                <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
-              </ion-label>
-              <ion-input type="number" (input)="calculateTotal()"
-                [(ngModel)]="transferCandidateRecord.bonus" 
-                [ngModelOptions]="{standalone: true}"></ion-input>
-            </ion-item>
-          </ion-col>
-
-          <!-- Total Calculation Column -->
-          <ion-col col-12 col-sm-4 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
-            <ion-item>
-              KWD {{ (parseNumber(transferCandidateRecord.hours) * 2) + parseNumber(transferCandidateRecord.bonus) }}
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card>
+            <!-- Total Calculation Column -->
+            <ion-col col-12 col-sm-4 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
+              <ion-item>
+                KWD {{ (parseNumber(transferCandidateRecord.hours) * 2) + parseNumber(transferCandidateRecord.bonus) }}
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
+    </ion-item-group>
   </form>
 </ion-content>
 
