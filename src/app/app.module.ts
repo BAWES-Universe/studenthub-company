@@ -46,6 +46,7 @@ import { AccountService } from '../providers/logged-in/account.service';
 // Pipes
 import { GroupByPipe } from '../pipes/groupby-pipe';
 import { SortPipe } from '../pipes/timestamp-pipe';
+import { StoreIdPipe } from '../pipes/store-id-pipe';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -72,7 +73,8 @@ const cloudSettings: CloudSettings = {
     ChangePassword,
     // Pipes
     GroupByPipe,
-    SortPipe
+    SortPipe,
+    StoreIdPipe
   ],
   entryComponents: [
     MyApp,
