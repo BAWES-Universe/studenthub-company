@@ -22,5 +22,14 @@ export class CandidateService {
     return this._authhttp.get(url);
   }
 
+  /**
+   * Return total no of candidates
+   * working for them 
+   * @returns {Observable<any>}
+   */
+  total(): Observable<any> {
+    let url = `${this._candidateEndpoint}/total`;
+    return this._authhttp.get(url);
+  }
 }
 
