@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, ViewController, LoadingController, AlertController, NavParams,ToastController } from 'ionic-angular';
+import { Content } from 'ionic-angular';
 // Models
 import { Transfer } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
@@ -15,6 +16,9 @@ import { TransferViewPage } from '../transfer-view/transfer-view';
   templateUrl: 'transfer-form.html'
 })
 export class TransferFormPage {
+  
+  @ViewChild(Content) content: Content;
+
   public transfer: Transfer;
 
   // Page Title depends on Operation (Create vs Edit Transfer)
@@ -99,10 +103,61 @@ export class TransferFormPage {
     this.calculateTotal();
   }
 
+  scrollTo(element:string) {
+    let yOffset = document.getElementById(element).offsetTop;
+    this.content.scrollTo(0, yOffset, 1000)
+  }
+
+  /**
+   * validate candidate data before submit 
+   */
+  validate() {
+    
+    let error = '';
+
+    for (let entry of this.transfer.transferCandidates) {
+      
+      if(!entry.hours || entry.hours == 0) 
+        error = 'You have candidates who have been input to have worked for 0 hour, are they sure?';
+
+      if(entry.hours > 180) 
+        error = 'You have candidates who have been input to have worked for more than 180 hours, are they sure?';
+
+      if(error) {   
+        let prompt = this._alertCtrl.create({
+          message: error,
+          buttons: [
+            {
+              text: 'Show me where',
+              role: 'cancel',
+              handler: () => {
+                this.scrollTo('candidate_' + entry.candidate_id);                                
+              }
+            },
+            {
+              text: 'Yes',
+              role: 'cancel',
+              handler: () => {
+                this.save();
+              }
+            }
+          ]
+        });
+        prompt.present();        
+        break;//no need to iterate
+      }//if error 
+    }
+
+    //if no error
+    if(!error)
+      this.save();
+  }
+
   /**
   * Save the model
   */
   save() {
+    
     let loader = this._loadingCtrl.create();
     loader.present();
     
