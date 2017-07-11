@@ -15,8 +15,8 @@
       {{ company.company_name }}
       
       <!-- Assigned employees count badge -->
-      <ion-badge item-right *ngIf="company.candidates && company.candidates.length > 0">
-        {{ company.candidates.length }} {{ company.candidates.length > 1 ? "employees" : "employee" }}
+      <ion-badge item-right *ngIf="company.total_candidates && company.total_candidates > 0">
+        {{ company.total_candidates }} {{ company.total_candidates > 1 ? "employees" : "employee" }}
       </ion-badge>
       <!-- Subcompany count badge -->
       <ion-badge item-right *ngIf="company.subcompanies && company.subcompanies.length > 0">
