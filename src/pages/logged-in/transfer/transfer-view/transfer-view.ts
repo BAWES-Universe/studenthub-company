@@ -60,7 +60,6 @@ export class TransferViewPage {
           this.invoices.push(value);
         }
       });
-
       loader.dismiss();
     });
   }
