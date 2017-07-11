@@ -32,7 +32,7 @@
                   Hours Worked
                   <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>  
                 </ion-label>
-                <ion-input type="number" (input)="calculateTotal()"
+                <ion-input type="number" min=0 (input)="calculateTotal()"
                   [(ngModel)]="transferCandidateRecord.hours" 
                   [ngModelOptions]="{standalone: true}"></ion-input>
               </ion-item>
@@ -45,7 +45,7 @@
                   Bonus (KWD)
                   <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
                 </ion-label>
-                <ion-input type="number" (input)="calculateTotal()"
+                <ion-input type="number" min=0 (input)="calculateTotal()"
                   [(ngModel)]="transferCandidateRecord.bonus" 
                   [ngModelOptions]="{standalone: true}"></ion-input>
               </ion-item>
