@@ -5,7 +5,7 @@
       <button ion-button clear 
         color="primary" 
         [disabled]="total <= 0"
-        (click)="save()">
+        (click)="validate()">
         Save
       </button>
     </ion-buttons>
@@ -17,7 +17,7 @@
     <ion-item-group *ngFor="let group of transfer.transferCandidates | store_id">
       <ion-item-divider><b>{{ group.name }}</b></ion-item-divider>
       <ion-card *ngFor="let transferCandidateRecord of group.resources">
-        <ion-item>
+        <ion-item id="candidate_{{ transferCandidateRecord.candidate.candidate_id }}">
           <ion-avatar item-left>
             <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{transferCandidateRecord.candidate.candidate_personal_photo_thumb}}">
           </ion-avatar>
