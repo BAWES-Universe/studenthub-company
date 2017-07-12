@@ -4,7 +4,7 @@
     <ion-buttons right>
       <button ion-button clear 
         color="primary" 
-        [disabled]="total <= 0"
+        [disabled]="!form.valid || (total <= 0)"
         (click)="validate()">
         Save
       </button>
@@ -12,14 +12,16 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content *ngIf="ready">
-  <form [formGroup]="form">
+<ion-content>
+  <form [formGroup]="form" *ngIf="ready">
     <!-- store_id pipe returns the transferCandidates grouped by store as object of following format: -->
     <!-- {name: string, resources: TransferCandidate[]} -->
     <ion-item-group *ngFor="let group of transfer.transferCandidates | store_id">
       <ion-item-divider><b>{{ group.name }}</b></ion-item-divider>
-      <ion-card *ngFor="let transferCandidateRecord of group.resources">
-        <ion-item id="candidate_{{ transferCandidateRecord.candidate.candidate_id }}">
+      <ion-card 
+        *ngFor="let transferCandidateRecord of group.resources"
+        id="candidate_{{ transferCandidateRecord.candidate.candidate_id }}">
+        <ion-item>
           <ion-avatar item-left>
             <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{transferCandidateRecord.candidate.candidate_personal_photo_thumb}}">
           </ion-avatar>
@@ -34,7 +36,7 @@
                   Hours Worked
                   <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>  
                 </ion-label>                
-                <ion-input type="number" min=0 (input)="calculateTotal()" 
+                <ion-input type="number" min="0" (input)="calculateTotal()" 
                   [(ngModel)]="transferCandidateRecord.hours"
                   formControlName="hours[{{transferCandidateRecord.candidate.candidate_id}}]">
                 </ion-input>
@@ -48,7 +50,7 @@
                   Bonus (KWD)
                   <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
                 </ion-label>
-                <ion-input type="number" min=0 (input)="calculateTotal()" 
+                <ion-input type="number" min="0" (input)="calculateTotal()" 
                   [(ngModel)]="transferCandidateRecord.bonus"
                   formControlName="bonus[{{transferCandidateRecord.candidate.candidate_id}}]">
                 </ion-input>

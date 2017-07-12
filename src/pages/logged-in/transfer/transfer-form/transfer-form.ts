@@ -22,7 +22,7 @@ export class TransferFormPage {
   @ViewChild(Content) content: Content;
 
   // The form containing entire records
-  public form: FormGroup;
+  public form: FormGroup = new FormGroup({});
   // The Transfer containing all records
   public transfer: Transfer;
 
@@ -134,8 +134,8 @@ export class TransferFormPage {
     let group: any = {};
 
     transferCandidates.forEach(transferCandidate => {
-      group['hours[' + transferCandidate.candidate.candidate_id + ']'] = new FormControl(transferCandidates.hours);
-      group['bonus[' + transferCandidate.candidate.candidate_id + ']'] = new FormControl(transferCandidates.bonus);
+      group['hours[' + transferCandidate.candidate.candidate_id + ']'] = [transferCandidate.hours, Validators.required];
+      group['bonus[' + transferCandidate.candidate.candidate_id + ']'] = [transferCandidate.bonus];
     });
     
     return group;//new FormGroup();
@@ -233,7 +233,6 @@ export class TransferFormPage {
 
   /**
    * Calculate the transfer total based on data input
-   * Also binds the hour input to the model
    */
   calculateTotal(){
     this.total = 0;
