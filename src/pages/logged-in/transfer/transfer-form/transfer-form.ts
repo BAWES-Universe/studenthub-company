@@ -145,7 +145,6 @@ export class TransferFormPage {
    * validate candidate data before submit 
    */
   validate() {
-
     let error = '';
 
     for (let entry of this.transfer.transferCandidates) {
