@@ -22,7 +22,9 @@ export class CustomValidator{
      */
     static negativeNumberValidator(control: AbstractControl): {[key: string]: any}
     {
-        return control.value >= 0 ? null : {'negativeNumberValidation':'Negative number not allowed.'};
+        if(!control.value) return null;
+        
+        return Number(control.value) >= 0 ? null : {'negativeNumberValidation':'Negative number not allowed.'};
     }
 
     /**

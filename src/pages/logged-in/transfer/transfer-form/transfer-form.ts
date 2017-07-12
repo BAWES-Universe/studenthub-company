@@ -129,28 +129,21 @@ export class TransferFormPage {
   }
 
   /**
-   * Scroll to element on page by ID
-   * @param element 
-   */
-  scrollTo(element:string) {
-    let yOffset = document.getElementById(element).offsetTop;
-    this.content.scrollTo(0, yOffset, 1000)
-  }
-
-  /**
-   * validate candidate data before submit 
+   * Validate candidate data before submit 
    */
   validate() {
     let error = '';
 
     for (let entry of this.transfer.transferCandidates) {
-      
+      // Check if any candidates have unset hours or 0 hours set
       if(!entry.hours || entry.hours == 0) 
         error = 'You have candidates who have been input to have worked for 0 hour, are they sure?';
 
+      // Check if any candidates have worked more than 180 hours
       if(entry.hours > 180) 
         error = 'You have candidates who have been input to have worked for more than 180 hours, are they sure?';
 
+      // Prompt to show user where error is or Save if he knows about it.
       if(error) {   
         let prompt = this._alertCtrl.create({
           message: error,
@@ -230,7 +223,7 @@ export class TransferFormPage {
   /**
    * Calculate the transfer total based on data input
    */
-  calculateTotal(){
+  calculateTotal() {
     this.total = 0;
     this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
       let hours = this.parseNumber(transferCandidate.hours);
@@ -246,6 +239,15 @@ export class TransferFormPage {
   parseNumber(value){
     if(!value) return 0;
     return Number(value);
+  }
+
+  /**
+   * Scroll to element on page by ID
+   * @param element 
+   */
+  scrollTo(element:string) {
+    let yOffset = document.getElementById(element).offsetTop;
+    this.content.scrollTo(0, yOffset, 1000)
   }
 
   /**
