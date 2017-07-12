@@ -189,7 +189,6 @@ export class TransferFormPage {
   * Save the model
   */
   save() {
-    
     let loader = this._loadingCtrl.create();
     loader.present();
     
@@ -239,13 +238,8 @@ export class TransferFormPage {
   calculateTotal(){
     this.total = 0;
     this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
-      // Store input values in transfer model
-      transferCandidate.hours = this.parseNumber(this.form.value['hours[' + transferCandidate.candidate.candidate_id + ']']);
-      transferCandidate.bonus = this.parseNumber(this.form.value['bonus[' + transferCandidate.candidate.candidate_id + ']']);
-
-      // Calculate Total
-      let hours = this.parseNumber(this.form.value['hours[' + transferCandidate.candidate.candidate_id + ']']);
-      let bonus = this.parseNumber(this.form.value['bonus[' + transferCandidate.candidate.candidate_id + ']']);
+      let hours = this.parseNumber(transferCandidate.hours);
+      let bonus = this.parseNumber(transferCandidate.bonus);
       this.total += (hours * this.companyHourlyCost) + bonus;
     });
   }
