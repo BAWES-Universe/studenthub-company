@@ -32,7 +32,7 @@
             <!-- Hours Input Column -->
             <ion-col col-12 col-sm-4>
               <ion-item>
-                <ion-label stacked>
+                <ion-label floating>
                   Hours Worked
                   <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>  
                 </ion-label>                
@@ -46,7 +46,7 @@
             <!-- Bonus Input Column -->
             <ion-col col-12 col-sm-4 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
               <ion-item>
-                <ion-label stacked>
+                <ion-label floating>
                   Bonus (KWD)
                   <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
                 </ion-label>
