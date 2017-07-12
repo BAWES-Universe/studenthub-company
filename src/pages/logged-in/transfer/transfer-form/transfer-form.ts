@@ -18,9 +18,12 @@ import { TransferViewPage } from '../transfer-view/transfer-view';
   templateUrl: 'transfer-form.html'
 })
 export class TransferFormPage {
-  
+  // Html Content
   @ViewChild(Content) content: Content;
 
+  // The form containing entire records
+  public form: FormGroup;
+  // The Transfer containing all records
   public transfer: Transfer;
 
   // Page Title depends on Operation (Create vs Edit Transfer)
@@ -29,9 +32,6 @@ export class TransferFormPage {
   // Total Price for Transfer
   public total: number = 0;
   public companyHourlyCost: number = 2;
-
-  // The form containing entire records
-  public form: FormGroup;
 
   // Whether the content is ready to be displayed or not
   public ready: Boolean = false;
@@ -234,17 +234,16 @@ export class TransferFormPage {
 
   /**
    * Calculate the transfer total based on data input
+   * Also binds the hour input to the model
    */
   calculateTotal(){
-        
-    //get input values to transfer model       
-    this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
-      transferCandidate.hours = this.parseNumber(this.form.value['hours[' + transferCandidate.candidate.candidate_id + ']']);
-      transferCandidate.bonus = this.parseNumber(this.form.value['bonus[' + transferCandidate.candidate.candidate_id + ']']);
-    });
-
     this.total = 0;
     this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
+      // Store input values in transfer model
+      transferCandidate.hours = this.parseNumber(this.form.value['hours[' + transferCandidate.candidate.candidate_id + ']']);
+      transferCandidate.bonus = this.parseNumber(this.form.value['bonus[' + transferCandidate.candidate.candidate_id + ']']);
+
+      // Calculate Total
       let hours = this.parseNumber(this.form.value['hours[' + transferCandidate.candidate.candidate_id + ']']);
       let bonus = this.parseNumber(this.form.value['bonus[' + transferCandidate.candidate.candidate_id + ']']);
       this.total += (hours * this.companyHourlyCost) + bonus;
