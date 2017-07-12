@@ -2,7 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, ViewController, LoadingController, AlertController, NavParams,ToastController } from 'ionic-angular';
 import { Content } from 'ionic-angular';
 // Forms
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CustomValidator } from '../../../../validators/custom.validator';
 // Models
 import { Transfer } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
@@ -100,16 +101,26 @@ export class TransferFormPage {
       });
     }
 
-    // Re-index the TransferCandidate list to avoid issues array length
+    // Re-index the TransferCandidate list to avoid issues array length and create required FormControls
     let updatedTransferRecords = [];
+    let formControls: any = {};
     allTransferCandidateRecordsMapped.forEach(record => {
       updatedTransferRecords.push(record);
+
+      // Create Form Controls with validation for this TransferCandidate record
+      formControls['hours[' + record.candidate.candidate_id + ']'] = [record.hours, [
+        Validators.required,
+        CustomValidator.negativeNumberValidator
+      ]];
+      formControls['bonus[' + record.candidate.candidate_id + ']'] = [record.bonus, [
+        CustomValidator.negativeNumberValidator
+      ]];
     });
     // Replace the transferCandidates within the transfer with our up to date list
     this.transfer.transferCandidates = updatedTransferRecords;
 
-    //to formGroup 
-    this.form = this._fb.group(this.toFormGroup(this.transfer.transferCandidates));
+    // Setup the form to use our form controls
+    this.form = this._fb.group(formControls);
 
     // Calculate transfer total
     this.calculateTotal();
@@ -124,21 +135,6 @@ export class TransferFormPage {
   scrollTo(element:string) {
     let yOffset = document.getElementById(element).offsetTop;
     this.content.scrollTo(0, yOffset, 1000)
-  }
-  
-  /**
-   * Convert TransferCandidates to Form Group
-   * @param transferCandidates 
-   */
-  toFormGroup(transferCandidates) {
-    let group: any = {};
-
-    transferCandidates.forEach(transferCandidate => {
-      group['hours[' + transferCandidate.candidate.candidate_id + ']'] = [transferCandidate.hours, Validators.required];
-      group['bonus[' + transferCandidate.candidate.candidate_id + ']'] = [transferCandidate.bonus];
-    });
-    
-    return group;//new FormGroup();
   }
 
   /**
