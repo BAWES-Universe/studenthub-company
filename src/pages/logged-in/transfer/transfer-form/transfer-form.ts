@@ -137,11 +137,11 @@ export class TransferFormPage {
     for (let entry of this.transfer.transferCandidates) {
       // Check if any candidates have unset hours or 0 hours set
       if(!entry.hours || entry.hours == 0) 
-        error = 'You have candidates who have been input to have worked for 0 hour, are they sure?';
+        error = "You have set that some employees haven't worked any hours. Are you sure?";
 
       // Check if any candidates have worked more than 180 hours
       if(entry.hours > 180) 
-        error = 'You have candidates who have been input to have worked for more than 180 hours, are they sure?';
+        error = 'You have employees set to have worked for more than 180 hours. are you sure?';
 
       // Prompt to show user where error is or Save if he knows about it.
       if(error) {   
@@ -165,11 +165,11 @@ export class TransferFormPage {
           ]
         });
         prompt.present();        
-        break;//no need to iterate
-      }//if error 
+        break; // Exit the loop
+      }
     }
 
-    //if no error
+    // Save if there are no errors
     if(!error)
       this.save();
   }
