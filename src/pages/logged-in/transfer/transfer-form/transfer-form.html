@@ -36,9 +36,8 @@
               </ion-item>              
             </ion-col>
 
-            <!-- Bonus Input Column 
-             *ngIf="parseNumber(hours[transferCandidateRecord.candidate.candidate_id]) > 0"-->
-            <ion-col col-12 col-sm-4>
+            <!-- Bonus Input Column -->
+            <ion-col col-12 col-sm-4 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
               <ion-item>
                 <ion-label stacked>
                   Bonus (KWD)

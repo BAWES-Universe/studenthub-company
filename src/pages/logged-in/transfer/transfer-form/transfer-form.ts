@@ -30,7 +30,10 @@ export class TransferFormPage {
   public total: number = 0;
   public companyHourlyCost: number = 2;
 
+  // The form containing entire records
   public form: FormGroup;
+
+  // Whether the content is ready to be displayed or not
   public ready: Boolean = false;
 
   constructor(
@@ -114,11 +117,19 @@ export class TransferFormPage {
     this.ready = true;
   }
 
+  /**
+   * Scroll to element on page by ID
+   * @param element 
+   */
   scrollTo(element:string) {
     let yOffset = document.getElementById(element).offsetTop;
     this.content.scrollTo(0, yOffset, 1000)
   }
   
+  /**
+   * Convert TransferCandidates to Form Group
+   * @param transferCandidates 
+   */
   toFormGroup(transferCandidates) {
     let group: any = {};
 
