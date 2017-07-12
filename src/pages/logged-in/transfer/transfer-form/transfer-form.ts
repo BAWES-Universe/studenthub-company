@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, ViewController, LoadingController, AlertController, NavParams,ToastController } from 'ionic-angular';
 import { Content } from 'ionic-angular';
+// Forms
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 // Models
 import { Transfer } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
@@ -28,6 +30,9 @@ export class TransferFormPage {
   public total: number = 0;
   public companyHourlyCost: number = 2;
 
+  public form: FormGroup;
+  public ready: Boolean = false;
+
   constructor(
     params: NavParams,
     public navCtrl: NavController,
@@ -36,7 +41,8 @@ export class TransferFormPage {
     private _viewCtrl: ViewController,
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
-    public _toastCtrl:ToastController
+    public _toastCtrl:ToastController,
+    private _fb: FormBuilder
   ) {
     // Load the passed model (required)
     this.transfer = params.get('model');
@@ -99,20 +105,36 @@ export class TransferFormPage {
     // Replace the transferCandidates within the transfer with our up to date list
     this.transfer.transferCandidates = updatedTransferRecords;
 
+    //to formGroup 
+    this.form = this._fb.group(this.toFormGroup(this.transfer.transferCandidates));
+
     // Calculate transfer total
     this.calculateTotal();
+
+    this.ready = true;
   }
 
   scrollTo(element:string) {
     let yOffset = document.getElementById(element).offsetTop;
     this.content.scrollTo(0, yOffset, 1000)
   }
+  
+  toFormGroup(transferCandidates) {
+    let group: any = {};
+
+    transferCandidates.forEach(transferCandidate => {
+      group['hours[' + transferCandidate.candidate.candidate_id + ']'] = new FormControl(transferCandidates.hours);
+      group['bonus[' + transferCandidate.candidate.candidate_id + ']'] = new FormControl(transferCandidates.bonus);
+    });
+    
+    return group;//new FormGroup();
+  }
 
   /**
    * validate candidate data before submit 
    */
   validate() {
-    
+
     let error = '';
 
     for (let entry of this.transfer.transferCandidates) {
@@ -204,10 +226,17 @@ export class TransferFormPage {
    * Calculate the transfer total based on data input
    */
   calculateTotal(){
+        
+    //get input values to transfer model       
+    this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
+      transferCandidate.hours = this.parseNumber(this.form.value['hours[' + transferCandidate.candidate.candidate_id + ']']);
+      transferCandidate.bonus = this.parseNumber(this.form.value['bonus[' + transferCandidate.candidate.candidate_id + ']']);
+    });
+
     this.total = 0;
     this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
-      let hours = transferCandidate.hours? this.parseNumber(transferCandidate.hours): 0;
-      let bonus = transferCandidate.bonus? this.parseNumber(transferCandidate.bonus): 0;
+      let hours = this.parseNumber(this.form.value['hours[' + transferCandidate.candidate.candidate_id + ']']);
+      let bonus = this.parseNumber(this.form.value['bonus[' + transferCandidate.candidate.candidate_id + ']']);
       this.total += (hours * this.companyHourlyCost) + bonus;
     });
   }
