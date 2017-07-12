@@ -2,7 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, ViewController, LoadingController, AlertController, NavParams,ToastController } from 'ionic-angular';
 import { Content } from 'ionic-angular';
 // Forms
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CustomValidator } from '../../../../validators/custom.validator';
 // Models
 import { Transfer } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
@@ -22,7 +23,7 @@ export class TransferFormPage {
   @ViewChild(Content) content: Content;
 
   // The form containing entire records
-  public form: FormGroup;
+  public form: FormGroup = new FormGroup({});
   // The Transfer containing all records
   public transfer: Transfer;
 
@@ -100,16 +101,26 @@ export class TransferFormPage {
       });
     }
 
-    // Re-index the TransferCandidate list to avoid issues array length
+    // Re-index the TransferCandidate list to avoid issues array length and create required FormControls
     let updatedTransferRecords = [];
+    let formControls: any = {};
     allTransferCandidateRecordsMapped.forEach(record => {
       updatedTransferRecords.push(record);
+
+      // Create Form Controls with validation for this TransferCandidate record
+      formControls['hours[' + record.candidate.candidate_id + ']'] = [record.hours, [
+        Validators.required,
+        CustomValidator.negativeNumberValidator
+      ]];
+      formControls['bonus[' + record.candidate.candidate_id + ']'] = [record.bonus, [
+        CustomValidator.negativeNumberValidator
+      ]];
     });
     // Replace the transferCandidates within the transfer with our up to date list
     this.transfer.transferCandidates = updatedTransferRecords;
 
-    //to formGroup 
-    this.form = this._fb.group(this.toFormGroup(this.transfer.transferCandidates));
+    // Setup the form to use our form controls
+    this.form = this._fb.group(formControls);
 
     // Calculate transfer total
     this.calculateTotal();
@@ -118,43 +129,21 @@ export class TransferFormPage {
   }
 
   /**
-   * Scroll to element on page by ID
-   * @param element 
-   */
-  scrollTo(element:string) {
-    let yOffset = document.getElementById(element).offsetTop;
-    this.content.scrollTo(0, yOffset, 1000)
-  }
-  
-  /**
-   * Convert TransferCandidates to Form Group
-   * @param transferCandidates 
-   */
-  toFormGroup(transferCandidates) {
-    let group: any = {};
-
-    transferCandidates.forEach(transferCandidate => {
-      group['hours[' + transferCandidate.candidate.candidate_id + ']'] = new FormControl(transferCandidates.hours);
-      group['bonus[' + transferCandidate.candidate.candidate_id + ']'] = new FormControl(transferCandidates.bonus);
-    });
-    
-    return group;//new FormGroup();
-  }
-
-  /**
-   * validate candidate data before submit 
+   * Validate candidate data before submit 
    */
   validate() {
     let error = '';
 
     for (let entry of this.transfer.transferCandidates) {
-      
+      // Check if any candidates have unset hours or 0 hours set
       if(!entry.hours || entry.hours == 0) 
-        error = 'You have candidates who have been input to have worked for 0 hour, are they sure?';
+        error = "You have set that some employees haven't worked any hours. Are you sure?";
 
+      // Check if any candidates have worked more than 180 hours
       if(entry.hours > 180) 
-        error = 'You have candidates who have been input to have worked for more than 180 hours, are they sure?';
+        error = 'You have employees set to have worked for more than 180 hours. are you sure?';
 
+      // Prompt to show user where error is or Save if he knows about it.
       if(error) {   
         let prompt = this._alertCtrl.create({
           message: error,
@@ -176,11 +165,11 @@ export class TransferFormPage {
           ]
         });
         prompt.present();        
-        break;//no need to iterate
-      }//if error 
+        break; // Exit the loop
+      }
     }
 
-    //if no error
+    // Save if there are no errors
     if(!error)
       this.save();
   }
@@ -233,9 +222,8 @@ export class TransferFormPage {
 
   /**
    * Calculate the transfer total based on data input
-   * Also binds the hour input to the model
    */
-  calculateTotal(){
+  calculateTotal() {
     this.total = 0;
     this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
       let hours = this.parseNumber(transferCandidate.hours);
@@ -251,6 +239,15 @@ export class TransferFormPage {
   parseNumber(value){
     if(!value) return 0;
     return Number(value);
+  }
+
+  /**
+   * Scroll to element on page by ID
+   * @param element 
+   */
+  scrollTo(element:string) {
+    let yOffset = document.getElementById(element).offsetTop;
+    this.content.scrollTo(0, yOffset, 1000)
   }
 
   /**

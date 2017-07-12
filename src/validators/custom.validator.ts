@@ -16,6 +16,18 @@ export class CustomValidator{
     }
 
     /**
+     * Validates negative number input
+     * @param  {AbstractControl} control
+     * @returns any
+     */
+    static negativeNumberValidator(control: AbstractControl): {[key: string]: any}
+    {
+        if(!control.value) return null;
+        
+        return Number(control.value) >= 0 ? null : {'negativeNumberValidation':'Negative number not allowed.'};
+    }
+
+    /**
      * Factory Method
      * Takes a forbidden name and returns a validator function to be used
      * @param  {string} nameRe
