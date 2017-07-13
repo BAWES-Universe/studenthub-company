@@ -97,7 +97,7 @@
 
       <button ion-item *ngFor="let resource of group.resources" 
         (click)="loadCandidateDetail(resource.candidate)"
-        [class.zeroHours] = "resource.hours == 0">
+        [class.zeroHours] = "transferDetails && (transferDetails.transfer_status=='10') && (resource.hours == 0)">
 
         <ion-avatar item-left *ngIf="resource.candidate.candidate_personal_photo_thumb">
           <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{resource.candidate.candidate_personal_photo_thumb}}"/>
