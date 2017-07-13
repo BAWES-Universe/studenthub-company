@@ -5,10 +5,10 @@ export class GroupByPipe implements PipeTransform {
   transform(value, args:string[]) : any {
     var groups = {};
     value.forEach(function(o) {
-      var group = o.store_name;
+      var group = o.store_id;
     
       groups[group] = groups[group] ?
-         groups[group] : { name: group, resources: [] };
+         groups[group] : { name: o.store_name, resources: [] };
       groups[group].resources.push(o);  
     });
 
