@@ -60,7 +60,7 @@
             <!-- Total Calculation Column -->
             <ion-col col-12 col-sm-4 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
               <ion-item>
-                KWD {{ (parseNumber(transferCandidateRecord.hours) * 2) + parseNumber(transferCandidateRecord.bonus) }}
+                KWD {{ (parseNumber(transferCandidateRecord.hours) * 2) + parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
               </ion-item>
             </ion-col>
           </ion-row>
@@ -75,6 +75,6 @@
     <ion-title>
       Total
     </ion-title>
-    <div>KWD {{ total | number }}</div>
+    <div>KWD {{ total | number:'1.0-3' }}</div>
   </ion-toolbar>
 </ion-footer>
