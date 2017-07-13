@@ -94,8 +94,10 @@
     <!-- {name: string, resources: TransferCandidate[]} -->
     <ion-item-group *ngFor="let group of transferDetails.transferCandidates | store_name">
       <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
+
       <button ion-item *ngFor="let resource of group.resources" 
-        (click)="loadCandidateDetail(resource.candidate)">
+        (click)="loadCandidateDetail(resource.candidate)"
+        [class.zeroHours] = "resource.hours == 0">
 
         <ion-avatar item-left *ngIf="resource.candidate.candidate_personal_photo_thumb">
           <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{resource.candidate.candidate_personal_photo_thumb}}"/>
@@ -103,9 +105,9 @@
 
         <h2>{{resource.candidate.candidate_name}}</h2>
 
-        <p>{{ resource.hours | number }} hours x {{ resource.company_hourly_rate | number }} KD per hour</p>
-        <p *ngIf="resource.bonus">Bonus KWD {{resource.bonus | number}}</p>
-        <p><b>Total KWD {{ total(resource) }}</b></p>
+        <p *ngIf="resource.hours > 0">{{ resource.hours | number }} hours x KD {{ resource.company_hourly_rate | number }} per hour</p>
+        <p *ngIf="resource.bonus">Bonus KD {{resource.bonus | number}}</p>
+        <p><b>KD {{ total(resource) }}</b></p>
 
         <ion-badge item-right 
           [color]="resource.paid=='1'?'secondary':'dark'"
