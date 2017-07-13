@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <section padding class="no-transfers" *ngIf="!transfers || transfers.length == 0">
+  <section padding class="no-transfers" *ngIf="transfers && transfers.length == 0">
     <ion-icon name="ios-filing-outline"></ion-icon>
     <h2>Create a transfer to start salary distribution</h2>
     <button ion-button (click)="createNewTransfer()">
