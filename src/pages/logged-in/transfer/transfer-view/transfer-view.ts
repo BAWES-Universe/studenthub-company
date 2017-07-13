@@ -248,7 +248,7 @@ export class TransferViewPage {
    * Calculating Total per Candidate
    */     
   total(candidate) {
-    return (Number(candidate.company_hourly_rate) * Number(candidate.hours)) + Number(candidate.bonus);
+    return Number((candidate.company_hourly_rate * candidate.hours) + candidate.bonus).toFixed(3);
   }
 }
 
