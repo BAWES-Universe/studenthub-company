@@ -66,12 +66,10 @@
   <div class="invoices" *ngIf="invoices.length > 0" padding>
     <h4>Invoices</h4>
     <ion-list>
-      <ion-item-sliding *ngFor="let invoice of invoices">
-        <button ion-item (click)="downloadInvoice(invoice.invoice_id)">
-          Download Invoice #{{ invoice.invoice_id }} - KWD {{invoice.invoice_total}}
-          <small>{{ invoice.company.company_name }}</small>
-        </button>
-      </ion-item-sliding>
+      <button ion-item *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice.invoice_id)">
+        Download Invoice #{{ invoice.invoice_id }} - KWD {{invoice.invoice_total}}
+        <small>{{ invoice.company.company_name }}</small>
+      </button>
     </ion-list>
   </div>
 
@@ -79,12 +77,10 @@
   <div class="receipts" *ngIf="receipts.length > 0" padding>
     <h4>Receipts</h4>
     <ion-list>
-      <ion-item-sliding *ngFor="let receipt of receipts">
-        <button ion-item (click)="downloadReceipt(receipt.invoice_id)">
-          Download Receipt #{{ receipt.invoice_id }} - KWD {{receipt.invoice_total}}<br/>
-          <small>{{ receipt.company.company_name }}</small>
-        </button>
-      </ion-item-sliding>
+      <button ion-item *ngFor="let receipt of receipts" (click)="downloadReceipt(receipt.invoice_id)">
+        Download Receipt #{{ receipt.invoice_id }} - KWD {{receipt.invoice_total}}<br/>
+        <small>{{ receipt.company.company_name }}</small>
+      </button>
     </ion-list>
   </div>
 
