@@ -98,9 +98,6 @@ export class TransferListPage {
         case this.transferService.STATUS_LOCK:
           this.lockTransfers.push(transfer);
           break;
-        case this.transferService.STATUS_PAYMENT_RECEIVED:
-          this.receivedTransfers.push(transfer);
-          break;
         case this.transferService.STATUS_PAYMENT_SENT:
           this.sentTransfers.push(transfer);
           break;
