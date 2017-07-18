@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 // Services
 import { AuthHttpService } from './authhttp.service';
-
+import { Company } from '../../models/company';
 /**
  * Manages Staff Functionality on the server
  */
@@ -26,11 +26,10 @@ export class StoreService {
    * List of all stores by company id
    * @returns {Observable<any>}
    */
-  listByCompany(company_id: number, page: number): Observable<any> {
-    let url = this._storeEndpoint + '/' + company_id + '?page=' + page;
+  listByCompany(company:Company, page: number): Observable<any> {
+    let url = this._storeEndpoint + '/' + company.company_id + '?page=' + page;
     return this._authhttp.getRaw(url);
   }
-
 
   /**
    * List of all stores by company id

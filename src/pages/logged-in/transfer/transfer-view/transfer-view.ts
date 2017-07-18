@@ -95,7 +95,7 @@ export class TransferViewPage {
   /**
    * Transfer Locking  
    */
-  transferLock(transfer_id: number) {
+  transferLock(transfer: Transfer) {
     // Load list of transfer
     let alert = this.alertCtrl.create({
       title: 'Confirm locking the transfer?',
@@ -110,7 +110,7 @@ export class TransferViewPage {
           handler: () => {
             let loader = this._loadingCtrl.create();
             loader.present();
-            this.transferService.makeTransfertoLock(transfer_id).subscribe(response => {
+            this.transferService.makeTransfertoLock(transfer).subscribe(response => {
               
               let toast = this._toastCtrl.create({
                 message: response.message,
@@ -131,10 +131,10 @@ export class TransferViewPage {
   /**
    * Marking Transfer as Payment Sent  
    */
-  paymentSent(transfer_id: number) {
+  paymentSent(transfer: Transfer) {
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.transferService.makePaymentSent(transfer_id).subscribe(response => {
+    this.transferService.makePaymentSent(transfer).subscribe(response => {
       
       let toast = this._toastCtrl.create({
         message: response.message,
@@ -149,12 +149,12 @@ export class TransferViewPage {
 
   /**
    * Download the receipt as specified by invoice_id
-   * @param invoice_id 
+   * @param invoice 
    */
-  downloadReceipt(invoice_id: number) {
+  downloadReceipt(invoice: Invoice) {
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.transferService.downloadReceipt(invoice_id).subscribe(response => {
+    this.transferService.downloadReceipt(invoice).subscribe(response => {
       //this.navCtrl.pop();
       loader.dismiss();
     });
@@ -162,12 +162,12 @@ export class TransferViewPage {
 
   /**
    * Download the invoice as specified by invoice_id
-   * @param invoice_id 
+   * @param invoice
    */
-  downloadInvoice(invoice_id: number) {
+  downloadInvoice(invoice: Invoice) {
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.transferService.downloadInvoice(invoice_id).subscribe(response => {
+    this.transferService.downloadInvoice(invoice).subscribe(response => {
       loader.dismiss();
     });
   }
@@ -193,7 +193,7 @@ export class TransferViewPage {
    * Delete the transfer
    * @param transfer_id 
    */
-  delete(transfer_id: number) {
+  delete(transfer: Transfer) {
     let alert = this.alertCtrl.create({
     title: 'Do you really want to delete this transfer?',
     buttons: [
@@ -204,7 +204,7 @@ export class TransferViewPage {
         {
           text: 'Yes',
           handler: () => {
-            this.deleteConfirmed(transfer_id);
+            this.deleteConfirmed(transfer);
           }
         }
       ]
@@ -216,10 +216,10 @@ export class TransferViewPage {
    * Confirm deletion of the transfer
    * @param transfer_id 
    */
-  deleteConfirmed(transfer_id) {
+  deleteConfirmed(transfer:Transfer) {
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.transferService.delete(transfer_id).subscribe(response => {
+    this.transferService.delete(transfer).subscribe(response => {
       loader.dismiss();
       
       if(response.operation == 'success'){
