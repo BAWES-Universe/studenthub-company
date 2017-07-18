@@ -66,7 +66,7 @@
   <div class="invoices" *ngIf="invoices.length > 0" padding>
     <h4>Invoices</h4>
     <ion-list>
-      <button ion-item *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice.invoice_id)">
+      <button ion-item *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice)">
         Download Invoice #{{ invoice.invoice_id }} - KWD {{invoice.invoice_total}}
         <small>{{ invoice.company.company_name }}</small>
       </button>
