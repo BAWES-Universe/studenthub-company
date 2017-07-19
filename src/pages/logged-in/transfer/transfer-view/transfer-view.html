@@ -7,7 +7,7 @@
     <ion-buttons right *ngIf="transferDetails && transferDetails.transfer_status=='10'">
       <button ion-button clear color="danger" 
         *ngIf="transferDetails && (transferDetails.transfer_status=='10')"
-        (click)="delete(transferDetails.transfer_id)">
+        (click)="delete(transferDetails)">
         Delete
       </button>
     </ion-buttons>
@@ -23,7 +23,7 @@
 
     <!-- If Transfer Locked -->
     <button ion-button outline icon-left
-      (click)="paymentSent(transferDetails.transfer_id)" 
+      (click)="paymentSent(transferDetails)" 
       *ngIf="transferDetails && (transferDetails.transfer_status=='5')">
       <ion-icon name="checkmark-circle-outline"></ion-icon>
       Mark Payment Sent
@@ -36,7 +36,7 @@
       Edit Transfer
     </button>
     <button ion-button outline icon-left
-      (click)="transferLock(transferDetails.transfer_id)" 
+      (click)="transferLock(transferDetails)" 
       *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
       <ion-icon name="lock"></ion-icon>
       Lock Transfer
@@ -66,7 +66,7 @@
   <div class="invoices" *ngIf="invoices.length > 0" padding>
     <h4>Invoices</h4>
     <ion-list>
-      <button ion-item *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice.invoice_id)">
+      <button ion-item *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice)">
         Download Invoice #{{ invoice.invoice_id }} - KWD {{invoice.invoice_total}}
         <small>{{ invoice.company.company_name }}</small>
       </button>
@@ -77,7 +77,7 @@
   <div class="receipts" *ngIf="receipts.length > 0" padding>
     <h4>Receipts</h4>
     <ion-list>
-      <button ion-item *ngFor="let receipt of receipts" (click)="downloadReceipt(receipt.invoice_id)">
+      <button ion-item *ngFor="let receipt of receipts" (click)="downloadReceipt(receipt)">
         Download Receipt #{{ receipt.invoice_id }} - KWD {{receipt.invoice_total}}<br/>
         <small>{{ receipt.company.company_name }}</small>
       </button>
