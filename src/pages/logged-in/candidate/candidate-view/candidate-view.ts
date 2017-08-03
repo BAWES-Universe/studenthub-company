@@ -13,9 +13,8 @@ import { CandidateService } from '../../../../providers/logged-in/candidate.serv
 export class CandidateViewPage {
 
   public candidate: Candidate;
-
+  public workHistory: any[] = [];
   public permanentBucketUrl = "https://sh-payroll.s3.eu-west-2.amazonaws.com/";
-
 
   constructor(
     public navCtrl: NavController,
@@ -27,6 +26,17 @@ export class CandidateViewPage {
   ) {
     // console.log(params);
     this.candidate = params.get('model');
+    this.loadWorkHistoryData();
+  }
+
+
+    /**
+   * Load candidate work history data
+   */
+  loadWorkHistoryData() {
+    this.candidateService.workHistory(this.candidate).subscribe(response => {
+      this.workHistory = response;
+    });
   }
 
 
