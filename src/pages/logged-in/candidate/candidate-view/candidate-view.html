@@ -31,9 +31,12 @@
     </p>
 
     <ion-item-divider color="light">Store Assignment</ion-item-divider>
-    <ion-item *ngIf="candidate.store_id">
-      <h5>Currently assigned work at</h5>
-      <p>{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</p>
+    <ion-item *ngIf="workHistory">
+      <p *ngFor="let history of workHistory">
+        <label>{{ history.store.store_name }}: {{ history.start_date | date }} </label> to 
+        <label *ngIf="history.end_date" >{{ history.end_date | date }}</label>
+        <label *ngIf="!history.end_date" >now</label>
+      </p>
     </ion-item>
     <ion-item *ngIf="!candidate.store_id">
       <button ion-button full (click)="assignToStoreButtonClicked()">Assign Candidate to Store</button>
