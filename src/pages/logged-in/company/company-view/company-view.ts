@@ -43,7 +43,7 @@ export class CompanyViewPage {
      let loader = this._loadingCtrl.create();
      loader.present();
 
-     this.storeService.listByCompany(this.company, this.currentPage).subscribe(response => {
+     this.storeService.listByCompany(this.company, page).subscribe(response => {
 
         this.pageCount = response.headers.get('X-Pagination-Page-Count');
         this.currentPage = response.headers.get('X-Pagination-Current-Page');
@@ -58,6 +58,8 @@ export class CompanyViewPage {
 
         if(this.pageCount == 1)
           this.pages = [];
+
+        console.log(this.pages);
 
         this.stores = response.json();     
 
