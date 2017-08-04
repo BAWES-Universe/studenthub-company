@@ -70,11 +70,11 @@ export class StoreListPage {
       'model': model
     });
   }
+
   companySelected(model) {
     // Load Detail Page
     this.navCtrl.push(CompanyViewPage, {
       'model': model
     });
   }
-
 }

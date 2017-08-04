@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 // Services
 import { AuthHttpService } from './authhttp.service';
-
+// Models
+import { Candidate } from '../../models/candidate';
 /**
  * Candidate API on Server
  */
@@ -31,5 +32,15 @@ export class CandidateService {
     let url = `${this._candidateEndpoint}/total`;
     return this._authhttp.get(url);
   }
+
+  /**
+   * return work history
+   * @param candidate 
+   */
+  workHistory(candidate:Candidate): Observable<any> {
+    let url = this._candidateEndpoint +'/work-history/'+ candidate.candidate_id;
+    return this._authhttp.get(url);
+  }
+  
 }
 
