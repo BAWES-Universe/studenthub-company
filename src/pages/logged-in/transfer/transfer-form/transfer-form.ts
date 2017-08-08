@@ -1,16 +1,20 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ViewController, LoadingController, AlertController, NavParams,ToastController } from 'ionic-angular';
+import { NavController, ViewController, LoadingController, AlertController, NavParams, ToastController } from 'ionic-angular';
 import { Content } from 'ionic-angular';
+
 // Forms
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidator } from '../../../../validators/custom.validator';
+
 // Models
 import { Transfer } from '../../../../models/transfer';
 import { Candidate } from '../../../../models/candidate';
 import { TransferCandidate } from '../../../../models/transfer-candidate';
+
 // Services
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
+
 //Pages
 import { TransferViewPage } from '../transfer-view/transfer-view';
 

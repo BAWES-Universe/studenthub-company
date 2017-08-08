@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
+// Services 
 import { StoreService } from '../../../../providers/logged-in/store.service';
 
+// Pages
 import { StoreViewPage } from '../../store/store-view/store-view';
 
 // Models
@@ -24,10 +26,8 @@ export class CompanyViewPage {
 
   constructor(
     public navCtrl: NavController,
-    private _modalCtrl: ModalController,
     params: NavParams,
     public storeService: StoreService,
-    public alertCtrl: AlertController,
     private _loadingCtrl: LoadingController,
   ) {
     // console.log(params);

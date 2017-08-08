@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, LoadingController, AlertController } from 'ionic-angular';
+import { NavParams, LoadingController } from 'ionic-angular';
 
 // Models
 import { Candidate } from '../../../../models/candidate';
 
 // Providers
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
+
 @Component({
   selector: 'page-candidate-view',
   templateUrl: 'candidate-view.html'
@@ -17,10 +18,7 @@ export class CandidateViewPage {
   public permanentBucketUrl = "https://sh-payroll.s3.eu-west-2.amazonaws.com/";
 
   constructor(
-    public navCtrl: NavController,
-    private _modalCtrl: ModalController,
     params: NavParams,
-    public alertCtrl: AlertController,
     public candidateService: CandidateService,
     private _loadingCtrl: LoadingController,
   ) {
