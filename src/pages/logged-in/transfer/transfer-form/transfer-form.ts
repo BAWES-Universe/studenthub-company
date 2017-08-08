@@ -97,11 +97,17 @@ export class TransferFormPage {
       allTransferCandidateRecordsMapped[candidate.candidate_id] = candidateTransferRecord;
     });    
 
-    // Get previous hours and bonus values from the Transfer if we are editing an existing transfer 
-    // Add them to the allTransferCandidateRecordsMapped mapped
+    // If we are editing an existing transfer
+    // 1) Get previous hours and bonus values from the Transfer  
+    // 2) Overwrite them into the allTransferCandidateRecordsMapped mapped
     if(this.transfer && this.transfer.transferCandidates){
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
-        allTransferCandidateRecordsMapped[transferCandidate.candidate_id] = transferCandidate;
+
+        // Only overwrite existing records based on currently assigned employees
+        // (This is for the case where a that was available during the draft got unassigned)
+        if(allTransferCandidateRecordsMapped[transferCandidate.candidate_id]){
+          allTransferCandidateRecordsMapped[transferCandidate.candidate_id] = transferCandidate;
+        }
       });
     }
 
