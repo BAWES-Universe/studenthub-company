@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController, AlertController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 
 //Pages
 import { TransferFormPage } from '../transfer-form/transfer-form';
@@ -33,9 +33,7 @@ export class TransferListPage {
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
-    private _modalCtrl: ModalController,
-    private _loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private _loadingCtrl: LoadingController
   ) { }
 
   ionViewDidLoad() {
