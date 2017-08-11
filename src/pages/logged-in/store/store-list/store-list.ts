@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController, NavParams } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 
 //page
 import { StoreViewPage } from '../store-view/store-view';
 import { CompanyViewPage } from '../../company/company-view/company-view';
+
 // Providers
 import { StoreService } from '../../../../providers/logged-in/store.service';
 
@@ -28,9 +29,7 @@ export class StoreListPage {
   constructor(
     public navCtrl: NavController,
     public storeService: StoreService,
-    private _modalCtrl: ModalController,
-    private _loadingCtrl: LoadingController,
-    public params: NavParams,
+    private _loadingCtrl: LoadingController
   ) {}
 
   ionViewDidLoad() {

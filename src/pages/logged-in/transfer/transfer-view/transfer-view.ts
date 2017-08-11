@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, LoadingController, AlertController,ToastController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
 
 //Pages
 import { TransferFormPage } from '../../../../pages/logged-in/transfer/transfer-form/transfer-form';
@@ -29,7 +29,6 @@ export class TransferViewPage {
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
-    private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
     public params: NavParams,
     public alertCtrl: AlertController,

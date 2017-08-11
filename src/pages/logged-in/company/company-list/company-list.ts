@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController, NavParams } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 
+// Pages
 import { CompanyViewPage } from '../company-view/company-view';
 
 // Providers
@@ -24,9 +25,7 @@ export class CompanyListPage {
   constructor(
     public navCtrl: NavController,
     public companyService: CompanyService,
-    private _modalCtrl: ModalController,
-    private _loadingCtrl: LoadingController,
-    public params: NavParams,
+    private _loadingCtrl: LoadingController
   ) {
     
   }

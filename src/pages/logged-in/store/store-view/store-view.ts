@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 // Models
 import { Store } from '../../../../models/store';
@@ -17,9 +17,7 @@ export class StoreViewPage {
 
   constructor(
     public navCtrl: NavController,
-    private _modalCtrl: ModalController,
-    params: NavParams,
-    private _loadingCtrl: LoadingController,
+    params: NavParams
   ) {
     this.store = params.get('model');
   }

@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController, NavParams } from 'ionic-angular';
+import { NavController, LoadingController, NavParams } from 'ionic-angular';
 
+// Pages
 import { CandidateViewPage } from '../candidate-view/candidate-view';
+
 // Providers
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
+
 // Models
 import { Candidate } from '../../../../models/candidate';
 import { Store } from '../../../../models/store';
@@ -20,7 +23,6 @@ export class CandidateListPage {
   constructor(
     public navCtrl: NavController,
     public candidateService: CandidateService,
-    private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
     public params: NavParams,
   ) {
