@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ pageTitle }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div class="margin-top-40 padding-x-20" text-center>
+      <h6 class="text-gray f-normal">Upload Transfer Excel</h6>
+      <div>
+        <input ion-button color="primary" outline type='file' #fileInput (change)="uploadResume($event)" accept=".xlsx"/>
+      </div>
+    </div>
+  </ion-content>
