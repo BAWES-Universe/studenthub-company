@@ -30,6 +30,7 @@ import { CandidateListPage } from '../pages/logged-in/candidate/candidate-list/c
 import { CandidateViewPage } from '../pages/logged-in/candidate/candidate-view/candidate-view';
 import { TransferListPage } from '../pages/logged-in/transfer/transfer-list/transfer-list';
 import { TransferFormPage } from '../pages/logged-in/transfer/transfer-form/transfer-form';
+import { ImportTransferFormPage } from '../pages/logged-in/transfer/import-transfer-form/import-transfer-form';
 import { TransferViewPage } from '../pages/logged-in/transfer/transfer-view/transfer-view';
 import { ChangePassword } from '../pages/logged-in/account/change-password/change-password';
 
@@ -69,6 +70,7 @@ const cloudSettings: CloudSettings = {
     CandidateViewPage,
     TransferListPage,
     TransferFormPage,
+    ImportTransferFormPage,
     TransferViewPage,
     ChangePassword,
     // Pipes
@@ -90,6 +92,7 @@ const cloudSettings: CloudSettings = {
     CandidateViewPage,
     TransferListPage,
     TransferFormPage,
+    ImportTransferFormPage,
     TransferViewPage,
     ChangePassword
   ],

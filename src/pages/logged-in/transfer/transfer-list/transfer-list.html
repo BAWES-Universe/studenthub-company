@@ -4,8 +4,14 @@
     <button ion-button menuToggle="left">
       <ion-icon name="menu"></ion-icon>
     </button>
-
     <ion-title>Transfers</ion-title>
+    <ion-buttons right>
+      <button ion-button clear 
+        color="primary" 
+        (click)="downloadTemplate()">
+        Download Template
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -95,5 +101,8 @@
 <ion-footer *ngIf="transfers && transfers.length > 0">
   <button ion-button block (click)="createNewTransfer()">
     Create New Transfer
+  </button>
+  <button ion-button block (click)="ImportTransfer()">
+    Import Transfer Excel
   </button>
 </ion-footer>
