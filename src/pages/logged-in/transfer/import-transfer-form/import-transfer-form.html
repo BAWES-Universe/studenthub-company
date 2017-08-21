@@ -1,14 +1,20 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{ pageTitle }}</ion-title>
-  </ion-navbar>
+      <button ion-button menuToggle="left">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>{{ pageTitle }}</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content>
-    <div class="margin-top-40 padding-x-20" text-center>
-      <h6 class="text-gray f-normal">Upload Transfer Excel</h6>
-      <div>
-        <input ion-button color="primary" outline type='file' #fileInput (change)="uploadResume($event)" accept=".xlsx"/>
-      </div>
+  <div class="margin-top-40 padding-x-20" text-center>
+    <h6 class="text-gray f-normal">Upload Transfer Excel</h6>
+    <div>
+      <input ion-button color="primary" outline type='file' #fileInput (change)="uploadExcelTransfer($event)" accept=".xlsx"/>
     </div>
-  </ion-content>
+  </div>
+  <div class="margin-top-40 padding-x-20" text-center>
+    <button ion-button clear color="primary" (click)="downloadTemplate()">Download Template</button>
+  </div>
+</ion-content>

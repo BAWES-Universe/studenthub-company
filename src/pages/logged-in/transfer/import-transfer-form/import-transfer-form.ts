@@ -12,6 +12,9 @@ import { TransferService } from '../../../../providers/logged-in/transfer.servic
 //Pages
 import { TransferViewPage } from '../transfer-view/transfer-view';
 
+// Models
+import { Transfer } from '../../../../models/transfer';
+
 @Component({
   selector: 'page-import-transfer-form',
   templateUrl: 'import-transfer-form.html'
@@ -19,6 +22,9 @@ import { TransferViewPage } from '../transfer-view/transfer-view';
 export class ImportTransferFormPage {
   // Html Content
   @ViewChild(Content) content: Content;
+
+  // The Transfer containing all records
+  public transfer: Transfer;
 
   // The form containing entire records
   public form: FormGroup = new FormGroup({});
@@ -39,14 +45,35 @@ export class ImportTransferFormPage {
     private _alertCtrl: AlertController,
     public _toastCtrl:ToastController,
     private _fb: FormBuilder
-  ) { }
+  ) { 
+
+    // Load the passed model (required)
+    if (params.get('transfer')) {
+      this.transfer = params.get('transfer');
+  
+      // Update Page Title if Editing a Transfer that already exists in backend
+      if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer by upload excel";
+      console.log(this.transfer);
+    }
+  }
 
   /**
-   * 
+   * upload excel transfer
    * @param event 
    */
-
-	uploadResume(event) {
+	uploadExcelTransfer(event) {
+    if (this.transfer.transfer_id) {
+      this.editTransferUpload(event);
+    } else {
+      this.newTransferUpload(event);
+    }
+  }
+  
+  /**
+   * new transfer upload excel
+   * @param event 
+   */
+  newTransferUpload(event) {
     let fileList: FileList = event.target.files;
     
     if(fileList.length == 0) {
@@ -56,8 +83,7 @@ export class ImportTransferFormPage {
     let loader = this._loadingCtrl.create();
     let data;
     loader.present();
-
-    this.transferService.uploadResume(fileList).subscribe(jsonResponse => {
+    this.transferService.uploadTransferExcel(fileList).subscribe(jsonResponse => {
       loader.dismiss();
       data = jsonResponse;
       
@@ -90,6 +116,68 @@ export class ImportTransferFormPage {
         });
         prompt.present();
       }
+    });
+  }
+
+  /**
+   * edit transfer upload excel
+   * @param event 
+   */
+  editTransferUpload(event) {
+    let fileList: FileList = event.target.files;
+    
+    if(fileList.length == 0) {
+      return false;
+    }
+    
+    let loader = this._loadingCtrl.create();
+    let data;
+    loader.present();
+    this.transferService.updateTransferUploadExcel(fileList,this.transfer.transfer_id).subscribe(jsonResponse => {
+      loader.dismiss();
+      data = jsonResponse;
+      
+      if(data.operation == 'success') {
+
+        let prompt = this._alertCtrl.create({
+          message: data.message,
+          buttons: ["Ok"]
+        });
+        prompt.present();
+        
+        this.navCtrl.push(TransferViewPage, {
+          'model': this.transfer.transfer_id
+        });
+      }
+
+      // On Failure
+      if (data.operation == "error") {
+        var html = '';
+
+        for (let i in data.message) {
+          for (let j of data.message[i]) {
+             html += j + '<br />';
+          }
+        }
+
+        let prompt = this._alertCtrl.create({
+          message: html,
+          buttons: ["Ok"]
+        });
+        prompt.present();
+      }
+    });
+  }
+
+
+  /**
+   * download transfer template invoice
+   */
+  downloadTemplate() {
+    let loader = this._loadingCtrl.create();
+    loader.present();
+    this.transferService.downloadTransferTemplate().subscribe(response => {
+      loader.dismiss();
     });
   }
 }
