@@ -3,6 +3,7 @@ import { NavController, LoadingController } from 'ionic-angular';
 
 //Pages
 import { TransferFormPage } from '../transfer-form/transfer-form';
+import { ImportTransferFormPage } from '../import-transfer-form/import-transfer-form';
 import { TransferViewPage } from '../transfer-view/transfer-view';
 
 // Providers
@@ -127,6 +128,15 @@ export class TransferListPage {
       model: new Transfer()
     });
   }
+  
+  /**
+   * Loads form to initiate a new transfer
+   */
+  ImportTransfer() {
+    this.navCtrl.push(ImportTransferFormPage, {
+      model: new Transfer()
+    });
+  }
 
   /**
    * Display Transfers Detail Page for transfer_id
@@ -134,6 +144,17 @@ export class TransferListPage {
   transferDetails(transfer_id: number) {
     this.navCtrl.push(TransferViewPage, {
       'model': transfer_id
+    });
+  }
+
+  /**
+   * download transfer template invoice
+   */
+  downloadTemplate() {
+    let loader = this._loadingCtrl.create();
+    loader.present();
+    this.transferService.downloadTransferTemplate().subscribe(response => {
+      loader.dismiss();
     });
   }
 }
