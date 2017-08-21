@@ -133,9 +133,7 @@ export class TransferListPage {
    * Loads form to initiate a new transfer
    */
   ImportTransfer() {
-    this.navCtrl.push(ImportTransferFormPage, {
-      model: new Transfer()
-    });
+    this.navCtrl.push(ImportTransferFormPage);
   }
 
   /**
