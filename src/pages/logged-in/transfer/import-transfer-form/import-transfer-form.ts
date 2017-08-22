@@ -35,7 +35,7 @@ export class ImportTransferFormPage {
 
   // Whether the content is ready to be displayed or not
   public ready: Boolean = false;
-
+  public fileList : FileList;
   constructor(
     params: NavParams,
     public navCtrl: NavController,
@@ -62,6 +62,10 @@ export class ImportTransferFormPage {
    * @param event 
    */
 	uploadExcelTransfer(event) {
+    this.fileList = event.target.files;
+  }
+
+  upload() {
     if (this.scenario == 'update') {
       this.editTransferUpload(event);
     } else {
@@ -74,16 +78,15 @@ export class ImportTransferFormPage {
    * @param event 
    */
   newTransferUpload(event) {
-    let fileList: FileList = event.target.files;
     
-    if(fileList.length == 0) {
+    if(this.fileList.length == 0) {
       return false;
     }
     
     let loader = this._loadingCtrl.create();
     let data;
     loader.present();
-    this.transferService.uploadTransferExcel(fileList).subscribe(jsonResponse => {
+    this.transferService.uploadTransferExcel(this.fileList).subscribe(jsonResponse => {
       loader.dismiss();
       data = jsonResponse;
       
@@ -103,8 +106,18 @@ export class ImportTransferFormPage {
       // On Failure
       if (data.operation == "error") {
         var html = '';
+        if(data.type){
+          for (let i in data.message) {
+            for (let j of data.message[i]) {
+                html += j + '<br />';
+            }
+          }
+        } else {
+          html = data.message;
+        }          
+        
         let prompt = this._alertCtrl.create({
-          message: data.message,
+          message: html,
           buttons: ["Ok"]
         });
         prompt.present();
@@ -117,16 +130,14 @@ export class ImportTransferFormPage {
    * @param event 
    */
   editTransferUpload(event) {
-    let fileList: FileList = event.target.files;
-    
-    if(fileList.length == 0) {
+    if(this.fileList.length == 0) {
       return false;
     }
     
     let loader = this._loadingCtrl.create();
     let data;
     loader.present();
-    this.transferService.updateTransferUploadExcel(fileList,this.transfer.transfer_id).subscribe(jsonResponse => {
+    this.transferService.updateTransferUploadExcel(this.fileList,this.transfer.transfer_id).subscribe(jsonResponse => {
       loader.dismiss();
       data = jsonResponse;
       
@@ -146,9 +157,18 @@ export class ImportTransferFormPage {
       // On Failure
       if (data.operation == "error") {
         var html = '';
+        if(data.type){
+          for (let i in data.message) {
+            for (let j of data.message[i]) {
+                html += j + '<br />';
+            }
+          }
+        } else {
+          html = data.message;
+        }          
         
         let prompt = this._alertCtrl.create({
-          message: data.message,
+          message: html,
           buttons: ["Ok"]
         });
         prompt.present();

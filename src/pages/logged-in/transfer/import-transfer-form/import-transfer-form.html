@@ -13,6 +13,9 @@
     <div>
       <input ion-button color="primary" outline type='file' #fileInput (change)="uploadExcelTransfer($event)" accept=".xlsx"/>
     </div>
+    <button ion-button (click)="upload()" [disabled]="!fileList">
+      Upload New Transfer
+    </button>
   </div>
   <div class="margin-top-40 padding-x-20" text-center>
     <button ion-button clear color="primary" (click)="downloadTemplate()">Download Template</button>
