@@ -25,7 +25,7 @@ export class ImportTransferFormPage {
 
   // The Transfer containing all records
   public transfer: Transfer;
-
+  public scenario:string = 'create';
   // The form containing entire records
   public form: FormGroup = new FormGroup({});
   // The Transfer containing all records
@@ -53,7 +53,7 @@ export class ImportTransferFormPage {
   
       // Update Page Title if Editing a Transfer that already exists in backend
       if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer by upload excel";
-      console.log(this.transfer);
+      this.scenario = 'update'
     }
   }
 
@@ -62,7 +62,7 @@ export class ImportTransferFormPage {
    * @param event 
    */
 	uploadExcelTransfer(event) {
-    if (this.transfer.transfer_id) {
+    if (this.scenario == 'update') {
       this.editTransferUpload(event);
     } else {
       this.newTransferUpload(event);
@@ -103,15 +103,8 @@ export class ImportTransferFormPage {
       // On Failure
       if (data.operation == "error") {
         var html = '';
-
-        for (let i in data.message) {
-          for (let j of data.message[i]) {
-             html += j + '<br />';
-          }
-        }
-
         let prompt = this._alertCtrl.create({
-          message: html,
+          message: data.message,
           buttons: ["Ok"]
         });
         prompt.present();
@@ -153,15 +146,9 @@ export class ImportTransferFormPage {
       // On Failure
       if (data.operation == "error") {
         var html = '';
-
-        for (let i in data.message) {
-          for (let j of data.message[i]) {
-             html += j + '<br />';
-          }
-        }
-
+        
         let prompt = this._alertCtrl.create({
-          message: html,
+          message: data.message,
           buttons: ["Ok"]
         });
         prompt.present();
