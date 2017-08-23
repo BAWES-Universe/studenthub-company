@@ -145,14 +145,4 @@ export class TransferListPage {
     });
   }
 
-  /**
-   * download transfer template invoice
-   */
-  downloadTemplate() {
-    let loader = this._loadingCtrl.create();
-    loader.present();
-    this.transferService.downloadTransferTemplate().subscribe(response => {
-      loader.dismiss();
-    });
-  }
 }
