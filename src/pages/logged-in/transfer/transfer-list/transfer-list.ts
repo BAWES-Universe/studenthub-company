@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, ActionSheetController } from 'ionic-angular';
 
 //Pages
 import { TransferFormPage } from '../transfer-form/transfer-form';
@@ -34,6 +34,7 @@ export class TransferListPage {
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
+    private actionSheetCtrl: ActionSheetController,
     private _loadingCtrl: LoadingController
   ) { }
 
@@ -132,7 +133,7 @@ export class TransferListPage {
   /**
    * Loads form to initiate a new transfer
    */
-  ImportTransfer() {
+  importTransfer() {
     this.navCtrl.push(ImportTransferFormPage);
   }
 
@@ -144,5 +145,30 @@ export class TransferListPage {
       'model': transfer_id
     });
   }
+
+  /**
+   * Present action sheet to create a new transfer
+   */
+  presentActionSheetForNewTransfer() {
+   let actionSheet = this.actionSheetCtrl.create({
+     title: 'How do you wish to create your transfer?',
+     buttons: [
+       {
+         text: 'Manual input of hours',
+         handler: () => {
+           this.createNewTransfer();
+         }
+       },
+       {
+         text: 'Excel sheet upload',
+         handler: () => {
+           this.importTransfer()
+         }
+       }
+     ]
+   });
+
+   actionSheet.present();
+ }
 
 }

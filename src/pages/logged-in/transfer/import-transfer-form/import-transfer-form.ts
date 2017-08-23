@@ -31,7 +31,7 @@ export class ImportTransferFormPage {
   // The Transfer containing all records
   
   // Page Title depends on Operation (Create vs Edit Transfer)
-  public pageTitle: string = "New Transfer Import";
+  public pageTitle: string = "Create Transfer via Excel";
 
   // Whether the content is ready to be displayed or not
   public ready: Boolean = false;
@@ -52,7 +52,7 @@ export class ImportTransferFormPage {
       this.transfer = params.get('transfer');
   
       // Update Page Title if Editing a Transfer that already exists in backend
-      if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer by upload excel";
+      if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer via Excel";
       this.scenario = 'update'
     }
   }

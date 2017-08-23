@@ -92,10 +92,7 @@
 </ion-content>
 
 <ion-footer *ngIf="transfers && transfers.length > 0">
-  <button ion-button block (click)="createNewTransfer()">
+  <button ion-button block (click)="presentActionSheetForNewTransfer()">
     Create New Transfer
-  </button>
-  <button ion-button block (click)="ImportTransfer()">
-    Import Transfer Excel
   </button>
 </ion-footer>
