@@ -7,17 +7,28 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <div class="margin-top-40 padding-x-20" text-center>
-    <h6 class="text-gray f-normal">Upload Transfer Excel</h6>
-    <div>
-      <input ion-button color="primary" outline type='file' #fileInput (change)="uploadExcelTransfer($event)" accept=".xlsx"/>
-    </div>
-    <button ion-button (click)="upload()" [disabled]="!fileList">
-      Upload New Transfer
+<ion-content text-center padding>
+  <!-- Instructions for Create -->
+  <section *ngIf="scenario == 'create'">
+    <button ion-button outline color="primary" (click)="downloadTemplate()">
+      Step 1: Download Excel template
     </button>
-  </div>
-  <div class="margin-top-40 padding-x-20" text-center>
-    <button ion-button clear color="primary" (click)="downloadTemplate()">Download Template</button>
-  </div>
+
+    <h4>Step 2: Fill out the number of hours worked and the bonus amount to be sent in KWD</h4>
+
+    
+    <h4>Step 3: Upload the updated Excel file</h4>
+  </section>
+
+  <!-- Instructions for Update -->
+  <section *ngIf="scenario == 'update'">
+    <h4>Upload the updated Excel file</h4>
+  </section>
+
+  <!-- Upload Form -->
+  <input ion-button outline type='file' #fileInput (change)="uploadExcelTransfer($event)" accept=".xlsx"/>
+  <button ion-button (click)="upload()" [disabled]="!fileList">
+    Upload
+  </button>
+
 </ion-content>
