@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+      <button ion-button menuToggle="left">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>{{ pageTitle }}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content text-center padding>
+  <!-- Instructions for Create -->
+  <section *ngIf="scenario == 'create'">
+    <button ion-button outline color="primary" (click)="downloadTemplate()">
+      Step 1: Download Excel template
+    </button>
+
+    <h4>Step 2: Fill out the number of hours worked and the bonus amount to be sent in KWD</h4>
+
+    
+    <h4>Step 3: Upload the updated Excel file</h4>
+  </section>
+
+  <!-- Instructions for Update -->
+  <section *ngIf="scenario == 'update'">
+    <h4>Upload the updated Excel file</h4>
+  </section>
+
+  <!-- Upload Form -->
+  <input ion-button outline type='file' #fileInput (change)="uploadExcelTransfer($event)" accept=".xlsx"/>
+  <button ion-button (click)="upload()" [disabled]="!fileList">
+    Upload
+  </button>
+
+</ion-content>

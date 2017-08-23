@@ -115,4 +115,38 @@ export class TransferService {
     let url = `${this._transferEndpoint}/${transfer.transfer_id}`;
     return this._authhttp.delete(url);
   }
+
+  /**
+   * download transfer Template
+   * @param {number} invoice_id
+   * @returns {Observable<any>}
+   */
+  downloadTransferTemplate(): Observable<any> {
+    let url = `${this._transferEndpoint}/transfer-excel-template`;
+    return this._authhttp.excelget(url, `transfer-template.xlsx`);
+  }
+
+  /**
+   * upload excel file to create new transfer
+   * @param fileList 
+   */
+  uploadTransferExcel(fileList: FileList): Observable<any> {
+    let url = this._transferEndpoint + '/create-by-excel';
+    let file: File = fileList[0];
+    let formData:FormData = new FormData();
+    formData.append('excel', file, file.name);			
+    return this._authhttp.uploadFile(url, formData);
+  }
+  
+  /**
+   * upload excel file to edit transfer
+   * @param fileList 
+   */
+  updateTransferUploadExcel(fileList: FileList,transfer_id): Observable<any> {
+    let url = this._transferEndpoint + '/edit-by-excel/'+transfer_id;
+    let file: File = fileList[0];
+    let formData:FormData = new FormData();
+    formData.append('excel', file, file.name);			
+    return this._authhttp.uploadFile(url, formData);
+  }
 }

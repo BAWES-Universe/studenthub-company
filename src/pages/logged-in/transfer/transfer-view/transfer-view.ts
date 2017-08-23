@@ -4,7 +4,7 @@ import { NavController, NavParams, LoadingController, AlertController, ToastCont
 //Pages
 import { TransferFormPage } from '../../../../pages/logged-in/transfer/transfer-form/transfer-form';
 import { CandidateViewPage } from '../../../../pages/logged-in/candidate/candidate-view/candidate-view';
-
+import { ImportTransferFormPage } from '../import-transfer-form/import-transfer-form';
 // Providers
 import { TransferService } from '../../../../providers/logged-in/transfer.service';
 
@@ -248,6 +248,12 @@ export class TransferViewPage {
    */     
   total(candidate) {
     return Number((candidate.company_hourly_rate * candidate.hours) + candidate.bonus).toFixed(3);
+  }
+
+  importTransfer(transfer:Transfer) {
+    this.navCtrl.push(ImportTransferFormPage, {
+      transfer: transfer
+    });
   }
 }
 

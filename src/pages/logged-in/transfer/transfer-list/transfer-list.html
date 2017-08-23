@@ -4,7 +4,6 @@
     <button ion-button menuToggle="left">
       <ion-icon name="menu"></ion-icon>
     </button>
-
     <ion-title>Transfers</ion-title>
   </ion-navbar>
 </ion-header>
@@ -93,7 +92,7 @@
 </ion-content>
 
 <ion-footer *ngIf="transfers && transfers.length > 0">
-  <button ion-button block (click)="createNewTransfer()">
+  <button ion-button block (click)="presentActionSheetForNewTransfer()">
     Create New Transfer
   </button>
 </ion-footer>

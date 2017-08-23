@@ -78,6 +78,26 @@ export class AuthHttpService {
       });
   }
 
+  /**
+  * Requests via Excel GET verb
+  * @param {string} endpointUrl
+  * @param {number} invoice_id
+  * @returns {Observable<any>}
+  */
+  excelget(endpointUrl: string, filename: string): Observable<any> {
+    const url = this._config.apiBaseUrl + endpointUrl;
+    const bearerToken = this._auth.getAccessToken();
+    return this._http.get(url, {
+      responseType: ResponseContentType.Blob,
+      headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + bearerToken })
+    }).map(
+      (response) => { // download file
+        var blob = new Blob([response.blob()], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        //file name to dowanload/generate invoice 
+        saveAs(blob, filename);
+      });
+  }
+
 
   /**
    * Requests via POST verb
@@ -139,9 +159,29 @@ export class AuthHttpService {
     return headers;
   }
 
+  /**
+   * upload file method
+   * @param endpointUrl 
+   * @param formData 
+   */
+  uploadFile(endpointUrl, formData): Observable<any> {
+    
+    const url = this._config.apiBaseUrl + endpointUrl;
 
+    // Get Bearer Token from Auth Service
+    const bearerToken = this._auth.getAccessToken();
 
+    // Build Headers with Bearer Token
+    const headers = new Headers();
+    headers.append("Authorization", "Bearer " + bearerToken);
+    //headers.append('Content-Type', 'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2));
+    headers.append('Accept', 'application/json');
+    headers.append('enctype', 'multipart/form-data')
 
+    return this._http.post(url, formData, { headers: headers })
+      .catch((err) => this._handleError(err))
+      .map(res => res.json());
+  }
   /**
    * Handles Caught Errors from All Authorized Requests Made to Server
    * @returns {Observable} 
