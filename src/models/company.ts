@@ -5,6 +5,8 @@ export class Company {
     parent_company_id: number;
     company_name: string;
     company_email: string;
+    company_hourly_rate: number;
+    company_bonus_commission: number;
     company_status: number;
     subcompanies: Company[];
     stores: Store[];    

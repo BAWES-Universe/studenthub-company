@@ -33,35 +33,58 @@ export class StoreListPage {
   ) {}
 
   ionViewDidLoad() {
-    this.loadData(this.currentPage);
+    this.loadData();
   }
 
-  loadData(page: number) {
-    // Load list of store
+  loadData() {
+  
     this.stores = [];
+    this.companies = [];
+      
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.storeService.listByCompanyStore(page).subscribe(response => {
-        this.title = response.type;
-      if (response.type == 'Company') {
-        this.companies = response.results;
-      } else {
-        this.stores = response.results;
-      }
+    this.storeService.listByCompanyStore(1).subscribe(response => {
+        this._handleResponse(response);
     },
     error => {},
     () => {loader.dismiss();}
     );
   }
 
-  pageLinkColor(page: number) {
-
-    if(page == this.currentPage) 
-      return 'light';
-    
-    return '';
+  /*
+  * Method perform infinite scroll which 
+  * will load more data just like pagination
+  */
+  doInfinite(infiniteScroll) {
+    this.currentPage ++;
+    this.storeService.listByCompanyStore(this.currentPage).subscribe(response => {
+      this._handleResponse(response);
+    },
+    error => {},
+    () => {
+      infiniteScroll.complete();    
+    });    
   }
+ 
+  _handleResponse(response)
+  {
+    if (response && response[0].company_name) {
+      this.title = 'Companies';
 
+      for(let item of response) {
+        this.companies.push(item);
+      }
+    } 
+  
+    if (response && response[0].store_name) {
+      this.title = 'Stores';
+
+      for(let item of response) {
+        this.stores.push(item);
+      }
+    }
+  }
+  
   rowSelected(model) {
     
     // Load Detail Page

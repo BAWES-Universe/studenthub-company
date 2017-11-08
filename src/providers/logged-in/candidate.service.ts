@@ -40,7 +40,6 @@ export class CandidateService {
   workHistory(candidate:Candidate): Observable<any> {
     let url = this._candidateEndpoint +'/work-history/'+ candidate.candidate_id;
     return this._authhttp.get(url);
-  }
-  
+  }  
 }
 
