@@ -238,7 +238,7 @@ export class TransferFormPage {
     this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
       let hours = this.parseNumber(transferCandidate.hours);
       let bonus = this.parseNumber(transferCandidate.bonus);
-      this.total += (hours * this.companyHourlyCost) + bonus;
+      this.total += (hours * transferCandidate.candidate.company.company_hourly_rate) + bonus;
     });
   }
 
