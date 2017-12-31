@@ -14,6 +14,15 @@ export class StoreService {
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
+   * View store details
+   * @param store_id 
+   */
+  view(store_id): Observable<any> {
+    let url = this._storeEndpoint + '/view/' + store_id + '?expand=candidates';
+    return this._authhttp.get(url);
+  }
+
+  /**
    * List of all stores
    * @returns {Observable<any>}
    */
@@ -27,7 +36,7 @@ export class StoreService {
    * @returns {Observable<any>}
    */
   listByCompany(company:Company, page: number): Observable<any> {
-    let url = this._storeEndpoint + '/' + company.company_id + '?page=' + page;
+    let url = this._storeEndpoint + '/' + company.company_id + '?page=' + page + '&expand=candidates';
     return this._authhttp.getRaw(url);
   }
 
@@ -36,7 +45,7 @@ export class StoreService {
    * @returns {Observable<any>}
    */
   listByCompanyStore(page: number): Observable<any> {
-    let url = this._storeEndpoint + '/company-store' + '?page=' + page;
+    let url = this._storeEndpoint + '/company-store' + '?page=' + page + '&expand=subCompanies,stores,totalCandidates';
     return this._authhttp.get(url);
   }
 }
