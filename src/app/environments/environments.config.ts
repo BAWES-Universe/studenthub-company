@@ -12,7 +12,7 @@ export const environmentList = [
   },
   {
     envName: 'krushn',
-    apiEndpoint: 'http://localhost/payroll/company/web/v1',
+    apiEndpoint: 'http://localhost:8888/payroll/company/web/v1',
     environmentName: 'Krushn Local Machine'
   },
   {

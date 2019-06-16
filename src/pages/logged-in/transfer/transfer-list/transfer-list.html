@@ -12,7 +12,7 @@
   <section padding class="no-transfers" *ngIf="transfers && transfers.length == 0">
     <ion-icon name="ios-filing-outline"></ion-icon>
     <h2>Create a transfer to start salary distribution</h2>
-    <button ion-button (click)="createNewTransfer()">
+    <button ion-button (click)="presentActionSheetForNewTransfer()">
       Create your first transfer
     </button>
   </section>
@@ -36,8 +36,8 @@
             <p>Transfer #{{transfer.transfer_id}}</p>
             {{transfer.transfer_created_at}}
             <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-          </button>  
-        </div>  
+          </button>
+        </div>
         <!-- Transfer Drafts -->
         <div *ngIf="draftTransfers.length > 0">
           <ion-item-divider color="light"><b>Draft</b></ion-item-divider>
@@ -45,8 +45,8 @@
             <p>Transfer #{{transfer.transfer_id}}</p>
             {{transfer.transfer_created_at}}
             <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-          </button>  
-        </div>  
+          </button>
+        </div>
         <!-- Transfers with Distribution in Progress -->
         <div *ngIf="inProgressTransfers.length > 0">
           <ion-item-divider color="light"><b>In Progress</b></ion-item-divider>
@@ -55,7 +55,7 @@
             {{transfer.transfer_created_at}}
             <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
           </button>
-        </div>  
+        </div>
         <!-- Transfers Where Company Sent Payment -->
         <div *ngIf="sentTransfers.length > 0">
           <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
@@ -63,15 +63,15 @@
             <p>Transfer #{{transfer.transfer_id}}</p>
             {{transfer.transfer_created_at}}
             <ion-badge item-right>KWD {{transfer.company_total}}</ion-badge>
-          </button>  
+          </button>
         </div>
       </ion-list>
 
       <!-- Completed Transfers -->
       <ion-list *ngSwitchCase="'completed'">
         <div *ngIf="completedTransfers.length > 0">
-          <button ion-item 
-            *ngFor="let transfer of completedTransfers" 
+          <button ion-item
+            *ngFor="let transfer of completedTransfers"
             (click)="transferDetails(transfer.transfer_id)">
             <p>Transfer #{{transfer.transfer_id}}</p>
             {{ transfer.transfer_created_at }}
@@ -80,7 +80,7 @@
         </div>
       </ion-list>
     </div>
-        
+
     <ion-row text-center>
       <div class="pagination-wrapper">
         <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
