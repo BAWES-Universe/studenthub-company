@@ -10,12 +10,15 @@ import { TransferViewPage } from './transfer-view.page';
 import {GroupByPipe} from "../../../../pipes/groupby-pipe";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    TransferViewPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        TransferViewPageRoutingModule
+    ],
+    exports: [
+        GroupByPipe
+    ],
     declarations: [TransferViewPage, GroupByPipe]
 })
 export class TransferViewPageModule {}

@@ -117,13 +117,13 @@
           <p *ngIf="resource.hours > 0">{{ resource.hours | number }} hours x KD {{ resource.company_hourly_rate | number }} per hour</p>
           <p *ngIf="resource.bonus">Bonus KD {{resource.bonus | number}}</p>
           <p><b>KD {{ total(resource) }}</b></p>
+          <ion-badge slot="start"
+                     [color]="resource.paid=='1'?'secondary':'dark'"
+                     *ngIf="transferDetails.transfer_status=='3' || transferDetails.transfer_status=='4'">
+            <ion-icon name="checkmark-circle-outline" *ngIf="resource.paid=='1'"></ion-icon>
+            <span *ngIf="resource.paid=='0'"> Transfer in progress </span>
+          </ion-badge>
         </ion-label>
-        <ion-badge slot="start"
-                   [color]="resource.paid=='1'?'secondary':'dark'"
-                   *ngIf="transferDetails.transfer_status=='3' || transferDetails.transfer_status=='4'">
-          <ion-icon name="checkmark-circle-outline" *ngIf="resource.paid=='1'"></ion-icon>
-          <span *ngIf="resource.paid=='0'"> Transfer in progress </span>
-        </ion-badge>
       </ion-item>
     </ion-item-group>
   </ion-list>

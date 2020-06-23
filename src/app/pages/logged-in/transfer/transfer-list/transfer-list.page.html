@@ -4,6 +4,11 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Transfers</ion-title>
+    <ion-buttons slot="end" *ngIf="transfers && transfers.length > 0">
+      <ion-button expand="block" (click)="presentActionSheetForNewTransfer()">
+        Create New <br/> Transfer
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -97,9 +102,3 @@
     </ion-row>
   </section>
 </ion-content>
-
-<ion-footer *ngIf="transfers && transfers.length > 0">
-  <ion-button expand="block" (click)="presentActionSheetForNewTransfer()">
-    Create New Transfer
-  </ion-button>
-</ion-footer>

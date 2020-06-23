@@ -40,7 +40,6 @@ export class ImportTransferFormPage implements OnInit {
       private _fb: FormBuilder
   ) {
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
-
   }
 
   ngOnInit() {
@@ -52,7 +51,7 @@ export class ImportTransferFormPage implements OnInit {
       if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer via Excel";
       this.scenario = 'update'
     }
-    if (!this.transfer) {
+    if (!this.transfer && this.transfer_id) {
       this.loadTransferData();
     }
   }
