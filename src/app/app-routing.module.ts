@@ -14,6 +14,27 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'no-internet',
+    loadChildren: () => import('./pages/errors/no-internet/no-internet.module').then(m => m.NoInternetPageModule),
+    data: {
+      name: 'NoInternetPage',
+    }
+  },
+  {
+    path: 'server-error',
+    loadChildren: () => import('./pages/errors/server-error/server-error.module').then(m => m.ServerErrorPageModule),
+    data: {
+      name: 'ServerErrorPage',
+    }
+  },
+  {
+    path: 'not-found',
+    loadChildren: () => import('./pages/errors/not-found/not-found.module').then(m => m.NotFoundPageModule),
+    data: {
+      name: 'NotFoundPage',
+    }
+  },
+  {
     path: 'login',
     loadChildren: () => import('./pages/start-pages/login/login.module').then( m => m.LoginPageModule),
   },
@@ -71,7 +92,12 @@ const routes: Routes = [
     path: 'transfer-view',
     loadChildren: () => import('./pages/logged-in/transfer/transfer-view/transfer-view.module').then( m => m.TransferViewPageModule),
     canActivate: [AuthService],
-  }
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
+  },
+
 ];
 
 @NgModule({

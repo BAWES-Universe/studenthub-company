@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {NavController, Platform} from '@ionic/angular';
+import {AlertController, NavController, Platform} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {AuthService} from "./providers/auth.service";
@@ -48,7 +48,8 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     public auth:AuthService,
     public eventService: EventService,
-    public navCtrl:NavController
+    public navCtrl:NavController,
+    public _alertCtrl:AlertController
   ) {
     this.initializeApp();
     this.eventSub();
@@ -61,11 +62,34 @@ export class AppComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    // const path = window.location.pathname.split('folder/')[1];
-    // if (path !== undefined) {
-    //   this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
-    // }
+  async ngOnInit() {
+
+    // Check for network connection
+    this.eventService.internetOffline$.subscribe(async () => {
+      let alert = await this._alertCtrl.create({
+        header: 'No Internet Connection',
+        subHeader: 'Sorry, no Internet connectivity detected. Please reconnect and try again.',
+        buttons: ['Dismiss']
+      });
+      alert.present();
+    });
+
+    // On Login Event, set root to Internal app page
+    this.eventService.userLogined$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/']);
+    });
+
+    // On Logout Event, set root to Login Page
+    this.eventService.userLoggedOut$.subscribe((logoutReason) => {
+      // Set root to Login Page
+      this.navCtrl.navigateRoot(['/login']);
+
+      // Show Message explaining logout reason if there's one set
+      if (logoutReason) {
+        console.log(logoutReason);
+        console.log('Invalid Access');
+      }
+    });
   }
 
   logout(){
@@ -73,12 +97,6 @@ export class AppComponent implements OnInit {
   }
 
   eventSub() {
-    this.eventService.userLogined$.subscribe((reason) => {
-      this.navCtrl.navigateRoot('company-list');
-    });
 
-    this.eventService.userLoggedOut$.subscribe((reason) => {
-      this.navCtrl.navigateRoot('login');
-    });
   }
 }
