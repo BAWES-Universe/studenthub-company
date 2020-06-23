@@ -1,0 +1,171 @@
+import { Component, OnInit } from '@angular/core';
+import {ActionSheetController, LoadingController, NavController} from "@ionic/angular";
+import {Transfer} from "../../../../models/transfer";
+import {TransferService} from "../../../../providers/logged-in/transfer.service";
+
+@Component({
+  selector: 'app-transfer-list',
+  templateUrl: './transfer-list.page.html',
+  styleUrls: ['./transfer-list.page.scss'],
+})
+export class TransferListPage implements OnInit {
+
+  inProgress: string = "In Progress";
+  public pageCount = 0;
+  public currentPage = 1;
+  public pages: number[] = [];
+
+  public transfers: Transfer[];
+
+  public completedTransfers: Transfer[] = [];
+  public receivedTransfers: Transfer[] = [];
+  public inProgressTransfers: Transfer[] = [];
+  public draftTransfers: Transfer[] = [];
+  public sentTransfers: Transfer[] = [];
+  public lockTransfers: Transfer[] = [];
+
+  constructor(
+      public navCtrl: NavController,
+      public transferService: TransferService,
+      private actionSheetCtrl: ActionSheetController,
+      private _loadingCtrl: LoadingController
+  ) { }
+
+  ionViewDidLoad() {
+    // this.loadData();
+  }
+  ngOnInit() {
+    this.loadData(this.currentPage);
+  }
+
+  ionViewWillEnter() {
+    // this.loadData(this.currentPage);
+  }
+
+  /**
+   * Load Transfer Data
+   */
+  async loadData(page: number) {
+    // Load list of transfer
+    let loader = await this._loadingCtrl.create();
+    loader.present();
+    this.transferService.list(page).subscribe(response => {
+
+          this.pageCount = response.headers.get('X-Pagination-Page-Count');
+          this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+          this.pages = [];
+
+          for(var i = 1; i <= this.pageCount; i++){
+            this.pages.push(i);
+          }
+
+          //hide if page = 1
+          if(this.pageCount == 1)
+            this.pages = [];
+
+          this.transfers = response.body;
+          this.organiseTransfers();
+
+        },
+        error => {},
+        () => {loader.dismiss();}
+    );
+  }
+
+  /**
+   * Organise the transfers into groups based on transfer status
+   */
+  organiseTransfers(){
+    // Clear existing transfer arrays
+    this.draftTransfers = [];
+    this.lockTransfers = [];
+    this.receivedTransfers = [];
+    this.sentTransfers = [];
+    this.inProgressTransfers = [];
+    this.completedTransfers = [];
+
+    // Loop through entire transfer list and update
+    for (let transfer of this.transfers) {
+      switch(transfer.transfer_status){
+        case this.transferService.STATUS_INITIATED:
+          this.draftTransfers.push(transfer);
+          break;
+        case this.transferService.STATUS_LOCK:
+          this.lockTransfers.push(transfer);
+          break;
+        case this.transferService.STATUS_PAYMENT_SENT:
+          this.sentTransfers.push(transfer);
+          break;
+        case this.transferService.STATUS_SALARY_DISTRIBUTION_IN_PROGRESS:
+          this.inProgressTransfers.push(transfer);
+          break;
+        case this.transferService.STATUS_TRANSFER_COMPLETE:
+          this.completedTransfers.push(transfer);
+          break;
+      }
+    }
+  }
+
+  /**
+   * Renders the color based on page number
+   */
+  pageLinkColor(page: number) {
+    if(page == this.currentPage)
+      return 'light';
+
+    return '';
+  }
+
+  /**
+   * Loads form to initiate a new transfer
+   */
+  createNewTransfer() {
+    this.navCtrl.navigateForward('transfer-form');
+    // this.navCtrl.push(TransferFormPage, {
+    //   model: new Transfer()
+    // });
+  }
+
+  /**
+   * Loads form to initiate a new transfer
+   */
+  importTransfer() {
+    this.navCtrl.navigateForward('import-transfer-form');
+  }
+
+  /**
+   * Display Transfers Detail Page for transfer_id
+   */
+  transferDetails(transfer_id: number) {
+    this.navCtrl.navigateForward('transfer-view/'+transfer_id);
+    // this.navCtrl.push(TransferViewPage, {
+    //   'model': transfer_id
+    // });
+  }
+
+  /**
+   * Present action sheet to create a new transfer
+   */
+  async presentActionSheetForNewTransfer() {
+    let actionSheet = await this.actionSheetCtrl.create({
+      header: 'How do you wish to create your transfer?',
+      buttons: [
+        {
+          text: 'Manual input of hours',
+          handler: () => {
+            this.createNewTransfer();
+          }
+        },
+        {
+          text: 'Excel sheet upload',
+          handler: () => {
+            this.importTransfer()
+          }
+        }
+      ]
+    });
+
+    actionSheet.present();
+  }
+}

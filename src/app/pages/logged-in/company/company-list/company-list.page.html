@@ -1,0 +1,24 @@
+<ion-header mode="md">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Sub Companies</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let company of companies" (click)="rowSelected(company)" tappable>
+      <ion-label>{{ company.company_name}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-row class="ion-text-center">
+    <div class="pagination-wrapper">
+      <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+        {{ page }}
+      </ion-button>
+    </div>
+  </ion-row>
+</ion-content>

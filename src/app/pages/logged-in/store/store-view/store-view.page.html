@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="company-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="store">{{ store.store_name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list *ngIf="store && store.candidates">
+    <ion-item-divider color="light"><b>Assigned Employees</b></ion-item-divider>
+    <ion-item button *ngFor="let candidateMember of store.candidates" (click)="candidateSelected(candidateMember)">
+        <ion-avatar slot="start">
+          <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{candidateMember.candidate_personal_photo_thumb}}">
+        </ion-avatar>
+      <ion-label>
+        {{ candidateMember.candidate_name}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
