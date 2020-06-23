@@ -109,9 +109,13 @@ export class AuthHttpService {
         }),
         // take(1),
         map((response) => {
-          const blob = new Blob([response.body], { type: 'text/plain' });
+          const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           // file name to dowanload/generate invoice
           saveAs(blob, filename);
+
+          // const blob = new Blob([response.body], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          // // file name to download/generate invoice
+          // saveAs(blob, filename);
         })
     );
         // .map(

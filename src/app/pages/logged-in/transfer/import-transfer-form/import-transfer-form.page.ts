@@ -40,18 +40,21 @@ export class ImportTransferFormPage implements OnInit {
       private _fb: FormBuilder
   ) {
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
+
+  }
+
+  ngOnInit() {
     const state = window.history.state;
     // Load the passed model (required)
     if (state['transfer']) {
       this.transfer = state['transfer'];
-
       // Update Page Title if Editing a Transfer that already exists in backend
       if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer via Excel";
       this.scenario = 'update'
     }
-  }
-
-  ngOnInit() {
+    if (!this.transfer) {
+      this.loadTransferData();
+    }
   }
 
   /**
@@ -95,7 +98,7 @@ export class ImportTransferFormPage implements OnInit {
         });
         prompt.present();
 
-        this.navCtrl.navigateForward('transfer-view/'+data.transfer_id, {
+        this.navCtrl.navigateBack('transfer-view/'+data.transfer_id, {
           state : {
             model: data.transfer_id
           }
@@ -153,7 +156,7 @@ export class ImportTransferFormPage implements OnInit {
         });
         prompt.present();
 
-        this.navCtrl.navigateForward('transfer-view',{
+        this.navCtrl.navigateForward('transfer-view/'+this.transfer.transfer_id,{
           state : {
             model: this.transfer.transfer_id
           }
@@ -192,6 +195,19 @@ export class ImportTransferFormPage implements OnInit {
     let loader = await this._loadingCtrl.create();
     loader.present();
     this.transferService.downloadTransferTemplate().subscribe(response => {
+      loader.dismiss();
+    });
+  }
+
+  async loadTransferData() {
+    // Load list of transfer
+    let loader = await this._loadingCtrl.create();
+    loader.present();
+    this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
+      this.transfer = response;
+      // Update Page Title if Editing a Transfer that already exists in backend
+      this.pageTitle = "Edit Transfer via Excel";
+      this.scenario = 'update'
       loader.dismiss();
     });
   }

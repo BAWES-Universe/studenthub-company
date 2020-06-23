@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: ImportTransferFormPage
+  },
+  {
+    path: ':id',
+    component: ImportTransferFormPage
   }
 ];
 

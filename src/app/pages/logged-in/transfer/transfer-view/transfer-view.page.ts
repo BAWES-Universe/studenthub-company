@@ -251,7 +251,7 @@ export class TransferViewPage implements OnInit {
   }
 
   importTransfer(transfer:Transfer) {
-    this.navCtrl.navigateForward('important-transfer-form/'+transfer.transfer_id, {
+    this.navCtrl.navigateForward('import-transfer-form/'+transfer.transfer_id, {
       state : {
         transfer: transfer
       }
