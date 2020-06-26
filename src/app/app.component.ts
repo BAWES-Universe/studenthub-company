@@ -1,10 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ApplicationRef } from '@angular/core';
+import { AlertController, NavController, Platform } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
+import { SwUpdate } from '@angular/service-worker';
+import { environment } from 'src/environments/environment';
+import { first } from 'rxjs/operators';
+import { interval, concat } from 'rxjs';
+//services
+import { AuthService } from "./providers/auth.service";
+import { EventService } from "./providers/event.service";
 
-import {AlertController, NavController, Platform} from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
-import {AuthService} from "./providers/auth.service";
-import {EventService} from "./providers/event.service";
+
+const { StatusBar, SplashScreen } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -12,7 +18,9 @@ import {EventService} from "./providers/event.service";
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
+
   public selectedIndex = 0;
+
   public appPages = [
     {
       title: 'Company',
@@ -40,29 +48,43 @@ export class AppComponent implements OnInit {
       icon: 'key'
     }
   ];
+
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
+  public updatesAvailable: boolean = false;
+
   constructor(
+    public updates: SwUpdate,
+    public appRef: ApplicationRef,
     private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
-    public auth:AuthService,
+    public auth: AuthService,
     public eventService: EventService,
-    public navCtrl:NavController,
-    public _alertCtrl:AlertController
+    public navCtrl: NavController,
+    public _alertCtrl: AlertController
   ) {
     this.initializeApp();
-    this.eventSub();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+
+      if (this.platform.is('hybrid')) {
+        SplashScreen.hide();
+      }
+
+      this.setServiceWorker();
     });
   }
 
   async ngOnInit() {
+    this.eventSub();
+  }
+
+  logout() {
+    this.auth.logout();
+  }
+
+  eventSub() {
 
     // Check for network connection
     this.eventService.internetOffline$.subscribe(async () => {
@@ -92,11 +114,63 @@ export class AppComponent implements OnInit {
     });
   }
 
-  logout(){
-    this.auth.logout();
+  /**
+   * keep checking for service worker update
+   */
+  setServiceWorker() {
+
+    // service worker watcher 
+    if (!this.platform.is('capacitor')) {
+
+      if ('serviceWorker' in navigator && environment.serviceWorker && window.location.hostname != 'localhost') {
+
+        navigator.serviceWorker.register('./ngsw-worker.js');
+
+        // Allow the app to stabilize first, before starting polling for updates with `interval()`.
+        const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
+        const updateInterval$ = interval(60 * 1000);// every minute   
+        const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
+
+        updateIntervalOnceAppIsStable$.subscribe(() => {
+          this.updates.checkForUpdate().then((e) => {
+          });
+        });
+
+        this.updates.available.subscribe((e) => {
+          this.updatesAvailable = true;
+        });
+
+        this.updates.activated.subscribe((e) => {
+          this.updatesAvailable = false;
+        }, reason => {
+          console.error('service worker update activation failed', reason);
+        });
+      }
+    }
   }
 
-  eventSub() {
+  /**
+   * When user select refresh on udpate available prompt
+   */
+  onUpdateAlertRefresh() {
 
+    if (!this.updatesAvailable) {
+      return this.updatesAvailable = false;
+    }
+
+    try {
+      this.updates.activateUpdate().then(() => {
+      });
+    } catch {
+    }
+
+    window.location.reload();
+  }
+
+  /**
+   * When user select close on udpate available prompt
+   */
+  onUpdateAlertClose() {
+    this.updatesAvailable = false;
   }
 }

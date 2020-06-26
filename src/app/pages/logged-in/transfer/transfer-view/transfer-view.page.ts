@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {AlertController, LoadingController, NavController, ToastController} from "@ionic/angular";
-
-import {Transfer} from "src/app/models/transfer";
-import {Invoice} from "src/app/models/invoice";
+import { ActivatedRoute } from "@angular/router";
+import { AlertController, LoadingController, NavController, ToastController } from "@ionic/angular";
+//models
+import { Transfer } from "src/app/models/transfer";
+import { Invoice } from "src/app/models/invoice";
 //service
-import {TransferService} from "src/app/providers/logged-in/transfer.service";
+import { TransferService } from "src/app/providers/logged-in/transfer.service";
+
 
 @Component({
   selector: 'app-transfer-view',
@@ -23,12 +24,12 @@ export class TransferViewPage implements OnInit {
   public transferStatusDescription = "";
 
   constructor(
-      public navCtrl: NavController,
-      public transferService: TransferService,
-      private _loadingCtrl: LoadingController,
-      public activatedRoute: ActivatedRoute,
-      public alertCtrl: AlertController,
-      public _toastCtrl:ToastController
+    public navCtrl: NavController,
+    public transferService: TransferService,
+    private _loadingCtrl: LoadingController,
+    public activatedRoute: ActivatedRoute,
+    public alertCtrl: AlertController,
+    public _toastCtrl: ToastController
   ) {
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -49,9 +50,9 @@ export class TransferViewPage implements OnInit {
       this.invoices = [];
 
       response.invoices.forEach((value, index) => {
-        if(value.invoice_status == 'paid') {
+        if (value.invoice_status == 'paid') {
           this.receipts.push(value);
-        }else{
+        } else {
           this.invoices.push(value);
         }
       });
@@ -62,8 +63,8 @@ export class TransferViewPage implements OnInit {
   /**
    * Update transfer status and description based on return value from API
    */
-  private _updateTransferStatus(){
-    switch(this.transferDetails.transfer_status){
+  private _updateTransferStatus() {
+    switch (this.transferDetails.transfer_status) {
       case 10: // Draft
         this.transferStatus = "Transfer Draft";
         this.transferStatusDescription = "'Lock Transfer' once you are done inputting hours worked by your assigned employees. Invoices will be sent to you after lock.";
@@ -178,8 +179,8 @@ export class TransferViewPage implements OnInit {
    * Load the Transfer form page to edit the transfer details
    */
   edit(transferDetails: any) {
-    this.navCtrl.navigateForward('transfer-form/'+transferDetails.transfer_id, {
-      state : {
+    this.navCtrl.navigateForward('transfer-form/' + transferDetails.transfer_id, {
+      state: {
         model: transferDetails
       }
     });
@@ -213,15 +214,15 @@ export class TransferViewPage implements OnInit {
    * Confirm deletion of the transfer
    * @param transfer
    */
-  async deleteConfirmed(transfer:Transfer) {
+  async deleteConfirmed(transfer: Transfer) {
     let loader = await this._loadingCtrl.create();
     loader.present();
     this.transferService.delete(transfer).subscribe(async response => {
       loader.dismiss();
 
-      if(response.operation == 'success'){
+      if (response.operation == 'success') {
         this.navCtrl.pop();
-      }else{
+      } else {
         let alert = await this.alertCtrl.create({
           message: response.message,
           buttons: ['Okay']
@@ -236,8 +237,8 @@ export class TransferViewPage implements OnInit {
    * @param model
    */
   loadCandidateDetail(model) {
-    this.navCtrl.navigateForward('candidate-view/'+model.candidate_id,{
-      state : {
+    this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
+      state: {
         model: model
       }
     });
@@ -250,9 +251,9 @@ export class TransferViewPage implements OnInit {
     return Number((candidate.company_hourly_rate * candidate.hours) + candidate.bonus).toFixed(3);
   }
 
-  importTransfer(transfer:Transfer) {
-    this.navCtrl.navigateForward('import-transfer-form/'+transfer.transfer_id, {
-      state : {
+  importTransfer(transfer: Transfer) {
+    this.navCtrl.navigateForward('import-transfer-form/' + transfer.transfer_id, {
+      state: {
         transfer: transfer
       }
     });

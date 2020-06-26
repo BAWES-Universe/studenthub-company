@@ -1,25 +1,22 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {AuthService} from "./providers/auth.service";
-import {HttpClientModule} from "@angular/common/http";
-import {environment} from "../environments/environment";
-import {IonicStorageModule, Storage} from "@ionic/storage";
+import { AuthService } from "./providers/auth.service";
+import { HttpClientModule } from "@angular/common/http";
+import { environment } from "../environments/environment";
+import { IonicStorageModule, Storage } from "@ionic/storage";
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 
 
-// export function startupServiceFactory(authService, storage) {
-//   if (typeof authService != 'undefined') {
-//     return authService.load();
-//   }
-//   return () => {};
-// }
+export function startupServiceFactory(authService, storage) {
+  return () => authService.load();
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,19 +31,20 @@ import {IonicStorageModule, Storage} from "@ionic/storage";
       version: 2
       //driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
     }),
+    UpdateAlertModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
   ],
   providers: [
-    // {
-    //   // Provider for APP_INITIALIZER
-    //   provide: APP_INITIALIZER,
-    //   useFactory: startupServiceFactory,
-    //   deps: [AuthService, Storage],
-    //   multi: true
-    // },
-    StatusBar,
-    SplashScreen,
+    {
+      // Provider for APP_INITIALIZER
+      provide: APP_INITIALIZER,
+      useFactory: startupServiceFactory,
+      deps: [AuthService, Storage],
+      multi: true
+    },
+    SwUpdate,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

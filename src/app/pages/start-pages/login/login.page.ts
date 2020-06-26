@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AlertController, NavController} from "@ionic/angular";
-
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AlertController, NavController } from "@ionic/angular";
+import { CustomValidator } from "../../../validators/custom.validator";
 //Service
-import {AuthService} from "../../../providers/auth.service";
-import {EventService} from "../../../providers/event.service";
-import {CustomValidator} from "../../../validators/custom.validator";
+import { AuthService } from "../../../providers/auth.service";
+import { EventService } from "../../../providers/event.service";
+
 
 @Component({
   selector: 'app-login',
@@ -27,12 +27,15 @@ export class LoginPage implements OnInit {
   private _numberOfLoginAttempts = 0;
 
   constructor(
-      public navCtrl: NavController,
-      private _fb: FormBuilder,
-      private _auth: AuthService,
-      private _alertCtrl: AlertController,
-      private eventService: EventService
-  ){
+    public navCtrl: NavController,
+    private _fb: FormBuilder,
+    private _auth: AuthService,
+    private _alertCtrl: AlertController,
+    private eventService: EventService
+  ) {
+  }
+
+  ngOnInit() {
     // Initialize the Login Form
     this.loginForm = this._fb.group({
       email: ["", [Validators.required, CustomValidator.emailValidator]],
@@ -40,13 +43,10 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
-
   /**
    * Attempts to login with the provided email and password
    */
-  onSubmit(){
+  onSubmit() {
     this.isLoading = true;
 
     const email = this.oldEmailInput = this.loginForm.value.email;
@@ -56,14 +56,14 @@ export class LoginPage implements OnInit {
     this._auth.basicAuth(email, password).subscribe(res => {
       this.isLoading = false;
 
-      if(res.operation == "success"){
+      if (res.operation == "success") {
         // Successfully logged in, set the access token within AuthService
         this._auth.setAccessToken(res);
-      }else if(res.operation == "error"){
+      } else if (res.operation == "error") {
 
         this.alertMsg(
-            'Unable to Log In',
-            res.message,
+          'Unable to Log In',
+          res.message,
           'Ok'
         );
       }
@@ -72,32 +72,32 @@ export class LoginPage implements OnInit {
       this.isLoading = false;
 
       // Incorrect email or password
-      if(err.status == 401){
+      if (err.status == 401) {
         this._numberOfLoginAttempts++;
 
         // Check how many login attempts this user made, offer to reset password
-        if(this._numberOfLoginAttempts > 2){
+        if (this._numberOfLoginAttempts > 2) {
           this.alertMsg(
-              'Trouble Logging In?',
-              "If you've forgotten your password, contact us to have it reset.",
-              'Ok'
+            'Trouble Logging In?',
+            "If you've forgotten your password, contact us to have it reset.",
+            'Ok'
           )
         }
-        else{
+        else {
           this.alertMsg(
-              'Invalid email or password',
-              'The information entered is incorrect. Please try again.',
-              'Try Again'
+            'Invalid email or password',
+            'The information entered is incorrect. Please try again.',
+            'Try Again'
           )
         }
-      }else{
+      } else {
         /**
          * Error not accounted for. Show Message
          */
         this.alertMsg(
-            'Unable to Log In',
-            "There seems to be an issue connecting to Payroll servers. Please contact us if the issue persists.",
-            'Ok'
+          'Unable to Log In',
+          "There seems to be an issue connecting to Payroll servers. Please contact us if the issue persists.",
+          'Ok'
         )
       }
     });
@@ -109,7 +109,7 @@ export class LoginPage implements OnInit {
    * @param msg
    * @param button
    */
-  async alertMsg(header,msg, button){
+  async alertMsg(header, msg, button) {
     let alert = await this._alertCtrl.create({
       header: header,
       message: msg,

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {LoadingController, NavController} from "@ionic/angular";
-import {ActivatedRoute} from "@angular/router";
+import { LoadingController, NavController } from "@ionic/angular";
+import { ActivatedRoute } from "@angular/router";
 //models
-import {Candidate} from "src/app/models/candidate";
-import {Store} from "../../../../models/store";
+import { Candidate } from "src/app/models/candidate";
+import { Store } from "../../../../models/store";
 //services
-import {CandidateService} from "src/app/providers/logged-in/candidate.service";
+import { CandidateService } from "src/app/providers/logged-in/candidate.service";
+
 
 @Component({
   selector: 'app-candidate-list',
@@ -19,10 +20,10 @@ export class CandidateListPage implements OnInit {
   public storeList: Store[];
 
   constructor(
-      public navCtrl: NavController,
-      public candidateService: CandidateService,
-      private _loadingCtrl: LoadingController,
-      public params: ActivatedRoute,
+    public navCtrl: NavController,
+    public candidateService: CandidateService,
+    private _loadingCtrl: LoadingController,
+    public params: ActivatedRoute,
   ) {
     // this.stateTransferName = params.get('model');
   }
@@ -40,12 +41,12 @@ export class CandidateListPage implements OnInit {
     let loader = await this._loadingCtrl.create();
     loader.present();
     this.candidateService.list().subscribe(response => {
-          this.candidates = response;
-        },
-        (error) => {},
-        () => {
-          loader.dismiss();
-        });
+      this.candidates = response;
+    },
+      (error) => { },
+      () => {
+        loader.dismiss();
+      });
   }
 
   /**
@@ -53,9 +54,9 @@ export class CandidateListPage implements OnInit {
    * @param model
    */
   rowSelected(model) {
-    this.navCtrl.navigateForward('candidate-view/'+model.candidate_id,{
-      state : {
-        model:model
+    this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
+      state: {
+        model: model
       }
     });
   }

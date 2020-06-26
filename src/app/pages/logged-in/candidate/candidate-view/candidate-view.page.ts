@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Candidate} from "../../../../models/candidate";
-import {CandidateService} from "../../../../providers/logged-in/candidate.service";
-import {LoadingController} from "@ionic/angular";
-import {ActivatedRoute} from "@angular/router";
+import { LoadingController } from "@ionic/angular";
+import { ActivatedRoute } from "@angular/router";
+//models
+import { Candidate } from "../../../../models/candidate";
+//services
+import { CandidateService } from "../../../../providers/logged-in/candidate.service";
+
 
 @Component({
   selector: 'app-candidate-view',
@@ -17,9 +20,9 @@ export class CandidateViewPage implements OnInit {
   public permanentBucketUrl = "https://sh-payroll.s3.eu-west-2.amazonaws.com/";
 
   constructor(
-      public activatedRoute: ActivatedRoute,
-      public candidateService: CandidateService,
-      private _loadingCtrl: LoadingController,
+    public activatedRoute: ActivatedRoute,
+    public candidateService: CandidateService,
+    private _loadingCtrl: LoadingController,
   ) {
     this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
     this.loadWorkHistoryData();

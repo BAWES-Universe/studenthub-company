@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {LoadingController, NavController, NavParams} from "@ionic/angular";
-
+import { LoadingController, NavController, NavParams } from "@ionic/angular";
 //model
-import {Company} from "src/app/models/company";
-
+import { Company } from "src/app/models/company";
 //service
-import {CompanyService} from "src/app/providers/logged-in/company.service";
+import { CompanyService } from "src/app/providers/logged-in/company.service";
+
 
 @Component({
   selector: 'app-company-list',
@@ -21,14 +20,14 @@ export class CompanyListPage implements OnInit {
   public companies: Company[];
 
   constructor(
-      public navCtrl: NavController,
-      public companyService: CompanyService,
-      private _loadingCtrl: LoadingController
+    public navCtrl: NavController,
+    public companyService: CompanyService,
+    private _loadingCtrl: LoadingController
   ) {
   }
 
   ngOnInit() {
-      this.loadData(this.currentPage);
+    this.loadData(this.currentPage);
   }
 
   async loadData(page: number) {
@@ -37,32 +36,32 @@ export class CompanyListPage implements OnInit {
     let loader = await this._loadingCtrl.create();
     loader.present();
     this.companyService.list(page).subscribe(response => {
-        loader.dismiss();
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      loader.dismiss();
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
+      this.pages = [];
+
+      for (var i = 1; i <= this.pageCount; i++) {
+        this.pages.push(i);
+      }
+
+      //hide if no page = 1
+
+      if (this.pageCount == 1)
         this.pages = [];
 
-        for(var i = 1; i <= this.pageCount; i++){
-            this.pages.push(i);
-        }
-
-        //hide if no page = 1
-
-        if(this.pageCount == 1)
-        this.pages = [];
-
-        this.companies = response.body;
+      this.companies = response.body;
 
     },
-    error => {},
-    () => {loader.dismiss();}
+      error => { },
+      () => { loader.dismiss(); }
     );
   }
 
   pageLinkColor(page: number) {
 
-    if(page == this.currentPage)
+    if (page == this.currentPage)
       return 'light';
 
     return '';
@@ -71,10 +70,10 @@ export class CompanyListPage implements OnInit {
   rowSelected(model) {
 
     // Load Detail Page
-    this.navCtrl.navigateForward('company-view/'+model.company_id,{
-        state : {
-            model: model
-        }
+    this.navCtrl.navigateForward('company-view/' + model.company_id, {
+      state: {
+        model: model
+      }
     });
     // this.navCtrl.navigateForward(CompanyViewPage, {
     //   'model': model
