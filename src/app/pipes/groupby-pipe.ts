@@ -1,9 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'store_name'})
+@Pipe({
+  name: 'store_name'
+})
 export class GroupByPipe implements PipeTransform {
+
   transform(value) : any {
     var groups = {};
+    
     value.forEach(function(o) {
       var group = o.store_id;
     

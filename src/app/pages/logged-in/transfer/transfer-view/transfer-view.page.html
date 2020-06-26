@@ -4,9 +4,9 @@
       <ion-back-button defaultHref="/transfer-list"></ion-back-button>
     </ion-buttons>
     <ion-title>Transfer {{ transferDetails?.company_total? "- KWD "+transferDetails.company_total : "" }}</ion-title>
-    <ion-buttons slot="end" *ngIf="transferDetails && transferDetails.transfer_status=='10'">
+    <ion-buttons slot="end" *ngIf="transferDetails && transferDetails.transfer_status==10">
       <ion-button color="danger"
-              *ngIf="transferDetails && (transferDetails.transfer_status=='10')"
+              *ngIf="transferDetails && (transferDetails.transfer_status==10)"
               (click)="delete(transferDetails)">
         Delete
       </ion-button>
@@ -25,7 +25,7 @@
       <!-- If Transfer Locked -->
       <ion-button fill="outline"
               (click)="paymentSent(transferDetails)"
-              *ngIf="transferDetails && (transferDetails.transfer_status=='5')">
+              *ngIf="transferDetails && (transferDetails.transfer_status==5)">
         <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
         Mark Payment Sent
       </ion-button>
@@ -33,19 +33,19 @@
       <!-- If Transfer Draft -->
       <ion-button fill="outline"
               (click)="edit(transferDetails)"
-              *ngIf="transferDetails && transferDetails.transfer_status=='10'">
+              *ngIf="transferDetails && transferDetails.transfer_status==10">
         <ion-icon name="create" slot="start"></ion-icon>
         Edit Transfer
       </ion-button>
       <ion-button fill="outline"
               (click)="importTransfer(transferDetails)"
-              *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
+              *ngIf="transferDetails && (transferDetails.transfer_status==10)">
         <ion-icon name="create" slot="start"></ion-icon>
         Edit via Excel
       </ion-button>
       <ion-button fill="outline"
               (click)="transferLock(transferDetails)"
-              *ngIf="transferDetails && (transferDetails.transfer_status=='10')">
+              *ngIf="transferDetails && (transferDetails.transfer_status==10)">
         <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
         Lock Transfer
       </ion-button>
@@ -106,7 +106,7 @@
 
       <ion-item *ngFor="let resource of group.resources"
               (click)="loadCandidateDetail(resource.candidate)"
-              [class.zeroHours] = "transferDetails && (transferDetails.transfer_status=='10') && (resource.hours == 0)">
+              [class.zeroHours] = "transferDetails && (transferDetails.transfer_status==10) && (resource.hours == 0)">
 
         <ion-avatar slot="start" *ngIf="resource.candidate.candidate_personal_photo_thumb">
           <ion-img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{resource.candidate.candidate_personal_photo_thumb}}"></ion-img>
@@ -119,7 +119,7 @@
           <p><b>KD {{ total(resource) }}</b></p>
           <ion-badge slot="start"
                      [color]="resource.paid=='1'?'secondary':'dark'"
-                     *ngIf="transferDetails.transfer_status=='3' || transferDetails.transfer_status=='4'">
+                     *ngIf="transferDetails.transfer_status==3 || transferDetails.transfer_status==4">
             <ion-icon name="checkmark-circle-outline" *ngIf="resource.paid=='1'"></ion-icon>
             <span *ngIf="resource.paid=='0'"> Transfer in progress </span>
           </ion-badge>
