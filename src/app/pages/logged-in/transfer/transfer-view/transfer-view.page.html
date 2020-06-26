@@ -109,7 +109,7 @@
               [class.zeroHours] = "transferDetails && (transferDetails.transfer_status=='10') && (resource.hours == 0)">
 
         <ion-avatar slot="start" *ngIf="resource.candidate.candidate_personal_photo_thumb">
-          <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{resource.candidate.candidate_personal_photo_thumb}}"/>
+          <ion-img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{resource.candidate.candidate_personal_photo_thumb}}"></ion-img>
         </ion-avatar>
         <ion-label>
           <h2>{{resource.candidate.candidate_name}}</h2>

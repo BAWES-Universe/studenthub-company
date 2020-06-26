@@ -10,7 +10,7 @@ import { AuthService } from "./providers/auth.service";
 import { EventService } from "./providers/event.service";
 
 
-const { StatusBar, SplashScreen } = Plugins;
+const { SplashScreen } = Plugins;
 
 @Component({
   selector: 'app-root',
