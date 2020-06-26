@@ -7,19 +7,20 @@ import { IonicModule } from '@ionic/angular';
 import { TransferFormPageRoutingModule } from './transfer-form-routing.module';
 
 import { TransferFormPage } from './transfer-form.page';
-import {GroupByPipe} from "src/app/pipes/groupby-pipe";
-
+import { PipesModule } from 'src/app/pipes/pipes.module';
+ 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     IonicModule,
-    TransferFormPageRoutingModule
+    TransferFormPageRoutingModule,
+    PipesModule
   ],
   exports: [
-    GroupByPipe
+    PipesModule
   ],
-  declarations: [TransferFormPage, GroupByPipe]
+  declarations: [TransferFormPage]
 })
 export class TransferFormPageModule {}

@@ -1,8 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'store_id'})
+@Pipe({
+  name: 'store_id'
+})
 export class StoreIdPipe implements PipeTransform {
-  transform(value, args:string[]) : any {
+  transform(value) : any {
     var groups = {};
 
     if(!value)

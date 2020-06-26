@@ -6,19 +6,20 @@ import { IonicModule } from '@ionic/angular';
 
 import { TransferViewPageRoutingModule } from './transfer-view-routing.module';
 
-import { TransferViewPage } from './transfer-view.page';
-import {GroupByPipe} from "../../../../pipes/groupby-pipe";
+import { TransferViewPage } from './transfer-view.page'; 
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        TransferViewPageRoutingModule
+        TransferViewPageRoutingModule,
+        PipesModule
     ],
     exports: [
-        GroupByPipe
+        PipesModule
     ],
-    declarations: [TransferViewPage, GroupByPipe]
+    declarations: [TransferViewPage]
 })
 export class TransferViewPageModule {}
