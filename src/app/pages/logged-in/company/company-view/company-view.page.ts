@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {LoadingController, NavController} from "@ionic/angular";
-import {ActivatedRoute, Router} from "@angular/router";
-
+import { LoadingController, NavController } from "@ionic/angular";
+import { ActivatedRoute, Router } from "@angular/router";
 //models
-import {Company} from "src/app/models/company";
-import {Store} from "src/app/models/store";
-
+import { Company } from "src/app/models/company";
+import { Store } from "src/app/models/store";
 //services
-import {StoreService} from "src/app/providers/logged-in/store.service";
-import {CompanyService} from "src/app/providers/logged-in/company.service";
+import { StoreService } from "src/app/providers/logged-in/store.service";
+import { CompanyService } from "src/app/providers/logged-in/company.service";
+
 
 @Component({
   selector: 'app-company-view',
@@ -26,12 +25,12 @@ export class CompanyViewPage implements OnInit {
   public pages: number[] = [];
 
   constructor(
-      public navCtrl: NavController,
-      public activatedRoute: ActivatedRoute,
-      public storeService: StoreService,
-      public companyService: CompanyService,
-      private _loadingCtrl: LoadingController,
-      public router: Router,
+    public navCtrl: NavController,
+    public activatedRoute: ActivatedRoute,
+    public storeService: StoreService,
+    public companyService: CompanyService,
+    private _loadingCtrl: LoadingController,
+    public router: Router,
   ) {
     const state = window.history.state;
     this.company_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -60,13 +59,13 @@ export class CompanyViewPage implements OnInit {
 
       this.pages = [];
 
-      for(var i = 1; i <= this.pageCount; i++){
+      for (var i = 1; i <= this.pageCount; i++) {
         this.pages.push(i);
       }
 
       //hide if no page = 1
 
-      if(this.pageCount == 1)
+      if (this.pageCount == 1)
         this.pages = [];
 
       this.stores = response.body;
@@ -88,7 +87,7 @@ export class CompanyViewPage implements OnInit {
 
   pageLinkColor(page: number) {
 
-    if(page == this.currentPage)
+    if (page == this.currentPage)
       return 'light';
 
     return '';
@@ -96,8 +95,8 @@ export class CompanyViewPage implements OnInit {
 
   storeSelected(model) {
     // Load Detail Page
-    this.navCtrl.navigateForward('store-view/'+model.store_id,{
-      state : {
+    this.navCtrl.navigateForward('store-view/' + model.store_id, {
+      state: {
         model: model
       }
     });

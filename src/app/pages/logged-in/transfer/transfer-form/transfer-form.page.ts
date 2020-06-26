@@ -1,17 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {AlertController, IonContent, LoadingController, NavController, ToastController} from "@ionic/angular";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, IonContent, LoadingController, NavController, ToastController } from "@ionic/angular";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { CustomValidator } from "src/app/validators/custom.validator";
 //models
-import {Transfer} from "src/app/models/transfer";
-import {Candidate} from "src/app/models/candidate";
-import {TransferCandidate} from "src/app/models/transfer-candidate";
-import {CustomValidator} from "src/app/validators/custom.validator";
-
+import { Transfer } from "src/app/models/transfer";
+import { Candidate } from "src/app/models/candidate";
+import { TransferCandidate } from "src/app/models/transfer-candidate";
 //service
-import {CandidateService} from "src/app/providers/logged-in/candidate.service";
-import {TransferService} from "src/app/providers/logged-in/transfer.service";
+import { CandidateService } from "src/app/providers/logged-in/candidate.service";
+import { TransferService } from "src/app/providers/logged-in/transfer.service";
+
 
 @Component({
   selector: 'app-transfer-form',
@@ -40,15 +39,15 @@ export class TransferFormPage implements OnInit {
   public ready: Boolean = false;
 
   constructor(
-      public activatedRoute: ActivatedRoute,
-      public navCtrl: NavController,
-      public transferService: TransferService,
-      public candidateService: CandidateService,
-      // private _viewCtrl: ViewController,
-      private _loadingCtrl: LoadingController,
-      private _alertCtrl: AlertController,
-      public _toastCtrl:ToastController,
-      private _fb: FormBuilder
+    public activatedRoute: ActivatedRoute,
+    public navCtrl: NavController,
+    public transferService: TransferService,
+    public candidateService: CandidateService,
+    // private _viewCtrl: ViewController,
+    private _loadingCtrl: LoadingController,
+    private _alertCtrl: AlertController,
+    public _toastCtrl: ToastController,
+    private _fb: FormBuilder
   ) {
 
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -68,7 +67,7 @@ export class TransferFormPage implements OnInit {
     }
 
     // Update Page Title if Editing a Transfer that already exists in backend
-    if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer";
+    if (this.transfer.transfer_id) this.pageTitle = "Edit Transfer";
 
     // Load List of All Candidates Assigned to this Company
     this._loadCandidateListThenInitialize();
@@ -79,7 +78,7 @@ export class TransferFormPage implements OnInit {
    * Load List of All Candidates Assigned to this Company
    * Initialise the form once loaded.
    */
-  async _loadCandidateListThenInitialize(){
+  async _loadCandidateListThenInitialize() {
     let loader = await this._loadingCtrl.create();
     loader.present();
 
@@ -94,7 +93,7 @@ export class TransferFormPage implements OnInit {
    * Initialize the TransferCandidate list required for this transfer.
    * @param { Candidate[] } allCandidatesAssignedToCompany
    */
-  private _initTransferCandidateList(allCandidatesAssignedToCompany: Candidate[]){
+  private _initTransferCandidateList(allCandidatesAssignedToCompany: Candidate[]) {
     let allTransferCandidateRecordsMapped: TransferCandidate[] = [];
 
     // Map all candidate records to an empty TransferCandidate record for a new transfer.
@@ -110,12 +109,12 @@ export class TransferFormPage implements OnInit {
     // If we are editing an existing transfer
     // 1) Get previous hours and bonus values from the Transfer
     // 2) Overwrite them into the allTransferCandidateRecordsMapped mapped
-    if(this.transfer && this.transfer.transferCandidates){
+    if (this.transfer && this.transfer.transferCandidates) {
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
 
         // Only overwrite existing records based on currently assigned employees
         // (This is for the case where a that was available during the draft got unassigned)
-        if(allTransferCandidateRecordsMapped[transferCandidate.candidate_id]){
+        if (allTransferCandidateRecordsMapped[transferCandidate.candidate_id]) {
           allTransferCandidateRecordsMapped[transferCandidate.candidate_id] = transferCandidate;
         }
       });
@@ -156,15 +155,15 @@ export class TransferFormPage implements OnInit {
 
     for (let entry of this.transfer.transferCandidates) {
       // Check if any candidates have unset hours or 0 hours set
-      if(!entry.hours || entry.hours == 0)
+      if (!entry.hours || entry.hours == 0)
         error = "You have set that some employees haven't worked any hours. Are you sure?";
 
       // Check if any candidates have worked more than 180 hours
-      if(entry.hours > 180)
+      if (entry.hours > 180)
         error = 'You have employees set to have worked for more than 180 hours. are you sure?';
 
       // Prompt to show user where error is or Save if he knows about it.
-      if(error) {
+      if (error) {
         let prompt = await this._alertCtrl.create({
           message: error,
           buttons: [
@@ -190,7 +189,7 @@ export class TransferFormPage implements OnInit {
     }
 
     // Save if there are no errors
-    if(!error)
+    if (!error)
       this.save();
   }
 
@@ -205,9 +204,9 @@ export class TransferFormPage implements OnInit {
      * Update the transfer data if it already exists
      * Otherwise create a new transfer
      */
-    let action = this.transfer.transfer_id?
-        this.transferService.updateTransfer(this.transfer) :
-        this.transferService.save(this.transfer);
+    let action = this.transfer.transfer_id ?
+      this.transferService.updateTransfer(this.transfer) :
+      this.transferService.save(this.transfer);
 
     action.subscribe(async jsonResponse => {
       loader.dismiss();
@@ -222,8 +221,8 @@ export class TransferFormPage implements OnInit {
         this.close();
 
         //create mode
-        if(!this.transfer.transfer_id){
-          this.navCtrl.navigateForward('transfer-view/'+jsonResponse.transfer_id);
+        if (!this.transfer.transfer_id) {
+          this.navCtrl.navigateForward('transfer-view/' + jsonResponse.transfer_id);
           // this.navCtrl.push('transfer-view/'+jsonResponse.transfer_idTransferViewPage, {
           //   'model': jsonResponse.transfer_id
           // });
@@ -257,8 +256,8 @@ export class TransferFormPage implements OnInit {
    * Cast value to integer, return 0 by default
    * @param value
    */
-  parseNumber(value){
-    if(!value) return 0;
+  parseNumber(value) {
+    if (!value) return 0;
     return Number(value);
   }
 
@@ -266,7 +265,7 @@ export class TransferFormPage implements OnInit {
    * Scroll to element on page by ID
    * @param element
    */
-  scrollTo(element:string) {
+  scrollTo(element: string) {
     let yOffset = document.getElementById(element).offsetTop;
     // this.content.scrollTo(0, yOffset, 1000)
   }
@@ -286,9 +285,9 @@ export class TransferFormPage implements OnInit {
     let loading = await this._loadingCtrl.create();
     loading.present();
 
-      this.transferService.transferIdDetails(this.transfer_id).subscribe( response => {
-          loading.dismiss();
-          this.transfer = response;
-      });
+    this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
+      loading.dismiss();
+      this.transfer = response;
+    });
   }
 }

@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
-// import { RouterModule, Routes } from '@angular/router';
-// import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
-
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import {AuthService} from "./providers/auth.service";
 // services
+import { AuthService } from "./providers/auth.service";
 
 
 const routes: Routes = [
@@ -36,61 +33,61 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/start-pages/login/login.module').then( m => m.LoginPageModule),
+    loadChildren: () => import('./pages/start-pages/login/login.module').then(m => m.LoginPageModule),
   },
   {
     path: 'change-password',
-    loadChildren: () => import('./pages/logged-in/change-password/change-password.module').then( m => m.ChangePasswordPageModule),
+    loadChildren: () => import('./pages/logged-in/change-password/change-password.module').then(m => m.ChangePasswordPageModule),
     canActivate: [AuthService],
   },
   {
     path: 'candidate-list',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-list/candidate-list.module').then( m => m.CandidateListPageModule),
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-list/candidate-list.module').then(m => m.CandidateListPageModule),
     canActivate: [AuthService],
   },
   {
     path: 'candidate-view',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-view/candidate-view.module').then( m => m.CandidateViewPageModule),
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-view/candidate-view.module').then(m => m.CandidateViewPageModule),
     canActivate: [AuthService],
   },
   {
     path: 'company-list',
-    loadChildren: () => import('./pages/logged-in/company/company-list/company-list.module').then( m => m.CompanyListPageModule),
+    loadChildren: () => import('./pages/logged-in/company/company-list/company-list.module').then(m => m.CompanyListPageModule),
     canActivate: [AuthService],
   },
   {
     path: 'company-view',
-    loadChildren: () => import('./pages/logged-in/company/company-view/company-view.module').then( m => m.CompanyViewPageModule),
+    loadChildren: () => import('./pages/logged-in/company/company-view/company-view.module').then(m => m.CompanyViewPageModule),
     canActivate: [AuthService],
   },
   {
     path: 'store-list',
-    loadChildren: () => import('./pages/logged-in/store/store-list/store-list.module').then( m => m.StoreListPageModule),
+    loadChildren: () => import('./pages/logged-in/store/store-list/store-list.module').then(m => m.StoreListPageModule),
     canActivate: [AuthService],
   },
   {
     path: 'store-view',
-    loadChildren: () => import('./pages/logged-in/store/store-view/store-view.module').then( m => m.StoreViewPageModule),
+    loadChildren: () => import('./pages/logged-in/store/store-view/store-view.module').then(m => m.StoreViewPageModule),
     canActivate: [AuthService],
   },
   {
     path: 'import-transfer-form',
-    loadChildren: () => import('./pages/logged-in/transfer/import-transfer-form/import-transfer-form.module').then( m => m.ImportTransferFormPageModule),
+    loadChildren: () => import('./pages/logged-in/transfer/import-transfer-form/import-transfer-form.module').then(m => m.ImportTransferFormPageModule),
     canActivate: [AuthService],
   },
   {
     path: 'transfer-form',
-    loadChildren: () => import('./pages/logged-in/transfer/transfer-form/transfer-form.module').then( m => m.TransferFormPageModule),
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-form/transfer-form.module').then(m => m.TransferFormPageModule),
     canActivate: [AuthService],
   },
   {
     path: 'transfer-list',
-    loadChildren: () => import('./pages/logged-in/transfer/transfer-list/transfer-list.module').then( m => m.TransferListPageModule),
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-list/transfer-list.module').then(m => m.TransferListPageModule),
     canActivate: [AuthService],
   },
   {
     path: 'transfer-view',
-    loadChildren: () => import('./pages/logged-in/transfer/transfer-view/transfer-view.module').then( m => m.TransferViewPageModule),
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-view/transfer-view.module').then(m => m.TransferViewPageModule),
     canActivate: [AuthService],
   },
   {
@@ -106,4 +103,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

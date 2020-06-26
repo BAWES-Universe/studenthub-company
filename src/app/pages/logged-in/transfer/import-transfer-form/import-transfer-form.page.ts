@@ -1,9 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {AlertController, IonContent, LoadingController, NavController, ToastController} from "@ionic/angular";
-import {Transfer} from "../../../../models/transfer";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {TransferService} from "../../../../providers/logged-in/transfer.service";
-import {ActivatedRoute} from "@angular/router";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, IonContent, LoadingController, NavController, ToastController } from "@ionic/angular";
+import { ActivatedRoute } from "@angular/router";
+import { FormBuilder, FormGroup } from "@angular/forms";
+//models
+import { Transfer } from "../../../../models/transfer";
+//services
+import { TransferService } from "../../../../providers/logged-in/transfer.service";
+
 
 @Component({
   selector: 'app-import-transfer-form',
@@ -18,7 +21,7 @@ export class ImportTransferFormPage implements OnInit {
   // The Transfer containing all records
   public transfer_id;
   public transfer: Transfer;
-  public scenario:string = 'create';
+  public scenario: string = 'create';
   // The form containing entire records
   public form: FormGroup = new FormGroup({});
   // The Transfer containing all records
@@ -28,16 +31,16 @@ export class ImportTransferFormPage implements OnInit {
 
   // Whether the content is ready to be displayed or not
   public ready: Boolean = false;
-  public fileList : FileList;
+  public fileList: FileList;
   constructor(
-      public activatedRoute: ActivatedRoute,
-      public navCtrl: NavController,
-      public transferService: TransferService,
-      // private _viewCtrl: ViewController,
-      private _loadingCtrl: LoadingController,
-      private _alertCtrl: AlertController,
-      public _toastCtrl:ToastController,
-      private _fb: FormBuilder
+    public activatedRoute: ActivatedRoute,
+    public navCtrl: NavController,
+    public transferService: TransferService,
+    // private _viewCtrl: ViewController,
+    private _loadingCtrl: LoadingController,
+    private _alertCtrl: AlertController,
+    public _toastCtrl: ToastController,
+    private _fb: FormBuilder
   ) {
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -48,7 +51,7 @@ export class ImportTransferFormPage implements OnInit {
     if (state['transfer']) {
       this.transfer = state['transfer'];
       // Update Page Title if Editing a Transfer that already exists in backend
-      if(this.transfer.transfer_id) this.pageTitle = "Edit Transfer via Excel";
+      if (this.transfer.transfer_id) this.pageTitle = "Edit Transfer via Excel";
       this.scenario = 'update'
     }
     if (!this.transfer && this.transfer_id) {
@@ -78,7 +81,7 @@ export class ImportTransferFormPage implements OnInit {
    */
   async newTransferUpload(event) {
 
-    if(this.fileList.length == 0) {
+    if (this.fileList.length == 0) {
       return false;
     }
 
@@ -89,7 +92,7 @@ export class ImportTransferFormPage implements OnInit {
       loader.dismiss();
       data = jsonResponse;
 
-      if(data.operation == 'success') {
+      if (data.operation == 'success') {
 
         let prompt = await this._alertCtrl.create({
           message: data.message,
@@ -97,8 +100,8 @@ export class ImportTransferFormPage implements OnInit {
         });
         prompt.present();
 
-        this.navCtrl.navigateBack('transfer-view/'+data.transfer_id, {
-          state : {
+        this.navCtrl.navigateBack('transfer-view/' + data.transfer_id, {
+          state: {
             model: data.transfer_id
           }
         });
@@ -110,7 +113,7 @@ export class ImportTransferFormPage implements OnInit {
       // On Failure
       if (data.operation == "error") {
         var html = '';
-        if(data.type){
+        if (data.type) {
           for (let i in data.message) {
             for (let j of data.message[i]) {
               html += j + '<br />';
@@ -134,7 +137,7 @@ export class ImportTransferFormPage implements OnInit {
    * @param event
    */
   async editTransferUpload(event) {
-    if(this.fileList.length == 0) {
+    if (this.fileList.length == 0) {
       return false;
     }
 
@@ -142,49 +145,49 @@ export class ImportTransferFormPage implements OnInit {
     let data;
     loader.present();
     this.transferService
-        .updateTransferUploadExcel(this.fileList,this.transfer.transfer_id)
-        .subscribe(async jsonResponse => {
-      loader.dismiss();
-      data = jsonResponse;
+      .updateTransferUploadExcel(this.fileList, this.transfer.transfer_id)
+      .subscribe(async jsonResponse => {
+        loader.dismiss();
+        data = jsonResponse;
 
-      if(data.operation == 'success') {
+        if (data.operation == 'success') {
 
-        let prompt = await this._alertCtrl.create({
-          message: data.message,
-          buttons: ["Ok"]
-        });
-        prompt.present();
+          let prompt = await this._alertCtrl.create({
+            message: data.message,
+            buttons: ["Ok"]
+          });
+          prompt.present();
 
-        this.navCtrl.navigateForward('transfer-view/'+this.transfer.transfer_id,{
-          state : {
-            model: this.transfer.transfer_id
-          }
-        })
-        // this.navCtrl.push(TransferViewPage, {
-        //   'model': this.transfer.transfer_id
-        // });
-      }
-
-      // On Failure
-      if (data.operation == "error") {
-        var html = '';
-        if(data.type){
-          for (let i in data.message) {
-            for (let j of data.message[i]) {
-              html += j + '<br />';
+          this.navCtrl.navigateForward('transfer-view/' + this.transfer.transfer_id, {
+            state: {
+              model: this.transfer.transfer_id
             }
-          }
-        } else {
-          html = data.message;
+          })
+          // this.navCtrl.push(TransferViewPage, {
+          //   'model': this.transfer.transfer_id
+          // });
         }
 
-        let prompt = await this._alertCtrl.create({
-          message: html,
-          buttons: ["Ok"]
-        });
-        prompt.present();
-      }
-    });
+        // On Failure
+        if (data.operation == "error") {
+          var html = '';
+          if (data.type) {
+            for (let i in data.message) {
+              for (let j of data.message[i]) {
+                html += j + '<br />';
+              }
+            }
+          } else {
+            html = data.message;
+          }
+
+          let prompt = await this._alertCtrl.create({
+            message: html,
+            buttons: ["Ok"]
+          });
+          prompt.present();
+        }
+      });
   }
 
   /**

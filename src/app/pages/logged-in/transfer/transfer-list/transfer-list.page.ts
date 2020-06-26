@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ActionSheetController, LoadingController, NavController} from "@ionic/angular";
-import {Transfer} from "../../../../models/transfer";
-import {TransferService} from "../../../../providers/logged-in/transfer.service";
+import { ActionSheetController, LoadingController, NavController } from "@ionic/angular";
+//models
+import { Transfer } from "../../../../models/transfer";
+//services
+import { TransferService } from "../../../../providers/logged-in/transfer.service";
+
 
 @Component({
   selector: 'app-transfer-list',
@@ -10,7 +13,8 @@ import {TransferService} from "../../../../providers/logged-in/transfer.service"
 })
 export class TransferListPage implements OnInit {
 
-  inProgress: string = "In Progress";
+  public inProgress: string = "In Progress";
+
   public pageCount = 0;
   public currentPage = 1;
   public pages: number[] = [];
@@ -25,15 +29,12 @@ export class TransferListPage implements OnInit {
   public lockTransfers: Transfer[] = [];
 
   constructor(
-      public navCtrl: NavController,
-      public transferService: TransferService,
-      private actionSheetCtrl: ActionSheetController,
-      private _loadingCtrl: LoadingController
+    public navCtrl: NavController,
+    public transferService: TransferService,
+    private actionSheetCtrl: ActionSheetController,
+    private _loadingCtrl: LoadingController
   ) { }
 
-  ionViewDidLoad() {
-    // this.loadData();
-  }
   ngOnInit() {
     this.loadData(this.currentPage);
   }
@@ -49,34 +50,35 @@ export class TransferListPage implements OnInit {
     // Load list of transfer
     let loader = await this._loadingCtrl.create();
     loader.present();
+    
     this.transferService.list(page).subscribe(response => {
 
-          this.pageCount = response.headers.get('X-Pagination-Page-Count');
-          this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
-          this.pages = [];
+      this.pages = [];
 
-          for(var i = 1; i <= this.pageCount; i++){
-            this.pages.push(i);
-          }
+      for (var i = 1; i <= this.pageCount; i++) {
+        this.pages.push(i);
+      }
 
-          //hide if page = 1
-          if(this.pageCount == 1)
-            this.pages = [];
+      //hide if page = 1
+      if (this.pageCount == 1)
+        this.pages = [];
 
-          this.transfers = response.body;
-          this.organiseTransfers();
+      this.transfers = response.body;
+      this.organiseTransfers();
 
-        },
-        error => {},
-        () => {loader.dismiss();}
+    },
+      error => { },
+      () => { loader.dismiss(); }
     );
   }
 
   /**
    * Organise the transfers into groups based on transfer status
    */
-  organiseTransfers(){
+  organiseTransfers() {
     // Clear existing transfer arrays
     this.draftTransfers = [];
     this.lockTransfers = [];
@@ -87,7 +89,7 @@ export class TransferListPage implements OnInit {
 
     // Loop through entire transfer list and update
     for (let transfer of this.transfers) {
-      switch(transfer.transfer_status){
+      switch (transfer.transfer_status) {
         case this.transferService.STATUS_INITIATED:
           this.draftTransfers.push(transfer);
           break;
@@ -111,7 +113,7 @@ export class TransferListPage implements OnInit {
    * Renders the color based on page number
    */
   pageLinkColor(page: number) {
-    if(page == this.currentPage)
+    if (page == this.currentPage)
       return 'light';
 
     return '';
@@ -138,7 +140,7 @@ export class TransferListPage implements OnInit {
    * Display Transfers Detail Page for transfer_id
    */
   transferDetails(transfer_id: number) {
-    this.navCtrl.navigateForward('transfer-view/'+transfer_id);
+    this.navCtrl.navigateForward('transfer-view/' + transfer_id);
     // this.navCtrl.push(TransferViewPage, {
     //   'model': transfer_id
     // });

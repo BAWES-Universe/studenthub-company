@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {LoadingController, NavController} from "@ionic/angular";
-import {Store} from "../../../../models/store";
-import {StoreService} from "../../../../providers/logged-in/store.service";
-import {ActivatedRoute} from "@angular/router";
+import { LoadingController, NavController } from "@ionic/angular";
+import { ActivatedRoute } from "@angular/router";
+//models
+import { Store } from "../../../../models/store";
+//services
+import { StoreService } from "../../../../providers/logged-in/store.service";
+
 
 @Component({
   selector: 'app-store-view',
@@ -15,10 +18,10 @@ export class StoreViewPage implements OnInit {
   public store_id;
 
   constructor(
-      public navCtrl: NavController,
-      public activatedRoute: ActivatedRoute,
-      public storeService: StoreService,
-      private _loadingCtrl: LoadingController
+    public navCtrl: NavController,
+    public activatedRoute: ActivatedRoute,
+    public storeService: StoreService,
+    private _loadingCtrl: LoadingController
   ) {
     this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
     // this.store = params.get('model');
@@ -30,7 +33,7 @@ export class StoreViewPage implements OnInit {
       this.store = state['model'];
     }
 
-    if(!this.store) {
+    if (!this.store) {
       this.loadData();
     }
   }
@@ -48,8 +51,8 @@ export class StoreViewPage implements OnInit {
    * Load Detail Page
    */
   candidateSelected(model) {
-    this.navCtrl.navigateForward('candidate-view/'+model.candidate_id,{
-      state :{
+    this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
+      state: {
         model: model
       }
     });
