@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, LoadingController, NavController } from "@ionic/angular";
+import { ActionSheetController, NavController } from "@ionic/angular";
 //models
-import { Transfer } from "../../../../models/transfer";
+import { Transfer } from "src/app/models/transfer";
 //services
-import { TransferService } from "../../../../providers/logged-in/transfer.service";
+import { TransferService } from "src/app/providers/logged-in/transfer.service";
 
 
 @Component({
@@ -28,11 +28,11 @@ export class TransferListPage implements OnInit {
   public sentTransfers: Transfer[] = [];
   public lockTransfers: Transfer[] = [];
 
+  public loading = false;
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
-    private actionSheetCtrl: ActionSheetController,
-    private _loadingCtrl: LoadingController
+    private actionSheetCtrl: ActionSheetController
   ) { }
 
   ngOnInit() {
@@ -48,9 +48,8 @@ export class TransferListPage implements OnInit {
    */
   async loadData(page: number) {
     // Load list of transfer
-    let loader = await this._loadingCtrl.create();
-    loader.present();
-    
+    this.loading = true;
+
     this.transferService.list(page).subscribe(response => {
 
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
@@ -71,7 +70,7 @@ export class TransferListPage implements OnInit {
 
     },
       error => { },
-      () => { loader.dismiss(); }
+      () => { this.loading = false; }
     );
   }
 
@@ -124,9 +123,6 @@ export class TransferListPage implements OnInit {
    */
   createNewTransfer() {
     this.navCtrl.navigateForward('transfer-form');
-    // this.navCtrl.push(TransferFormPage, {
-    //   model: new Transfer()
-    // });
   }
 
   /**
@@ -141,9 +137,6 @@ export class TransferListPage implements OnInit {
    */
   transferDetails(transfer_id: number) {
     this.navCtrl.navigateForward('transfer-view/' + transfer_id);
-    // this.navCtrl.push(TransferViewPage, {
-    //   'model': transfer_id
-    // });
   }
 
   /**

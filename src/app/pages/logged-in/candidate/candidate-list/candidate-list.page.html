@@ -10,8 +10,9 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list *ngIf="candidates">
-    <ion-item (click)="rowSelected(candidate)" *ngFor="let candidate of candidates">
+  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+  <ion-list *ngIf="candidates && !loading">
+    <ion-item button (click)="rowSelected(candidate)" *ngFor="let candidate of candidates">
       <ion-avatar slot="start">
         <ion-img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{candidate.candidate_personal_photo_thumb}}"></ion-img>
       </ion-avatar>

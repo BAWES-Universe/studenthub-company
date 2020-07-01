@@ -3,9 +3,9 @@
     <ion-menu contentId="main-content" type="overlay" [disabled]="!auth.isLogged">
       <ion-content>
         <ion-list id="inbox-list">
-
-          <ion-img class='logo' width="100" src="assets/icon.png"></ion-img>
-
+          <div class="logo">
+            <ion-img class='logo' src="assets/icon.png"></ion-img>
+          </div>
           <ion-list-header>Studenthub Payroll</ion-list-header>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">

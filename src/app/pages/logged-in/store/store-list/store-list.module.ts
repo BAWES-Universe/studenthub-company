@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { StoreListPageRoutingModule } from './store-list-routing.module';
 
 import { StoreListPage } from './store-list.page';
+import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    StoreListPageRoutingModule
+    StoreListPageRoutingModule,
+    LoadingModalModule
   ],
   declarations: [StoreListPage]
 })

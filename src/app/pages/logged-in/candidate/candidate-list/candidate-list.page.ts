@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, NavController } from "@ionic/angular";
+import { NavController } from "@ionic/angular";
 import { ActivatedRoute } from "@angular/router";
 //models
 import { Candidate } from "src/app/models/candidate";
-import { Store } from "../../../../models/store";
+import { Store } from "src/app/models/store";
 //services
 import { CandidateService } from "src/app/providers/logged-in/candidate.service";
 
@@ -18,11 +18,11 @@ export class CandidateListPage implements OnInit {
   public candidates: Candidate[];
   public stateTransferName: string;
   public storeList: Store[];
+  public loading = false;
 
   constructor(
     public navCtrl: NavController,
     public candidateService: CandidateService,
-    private _loadingCtrl: LoadingController,
     public params: ActivatedRoute,
   ) {
     // this.stateTransferName = params.get('model');
@@ -38,14 +38,13 @@ export class CandidateListPage implements OnInit {
   async loadCandidateList() {
     this.candidates = [];
 
-    let loader = await this._loadingCtrl.create();
-    loader.present();
+    this.loading = true;
     this.candidateService.list().subscribe(response => {
       this.candidates = response;
     },
       (error) => { },
       () => {
-        loader.dismiss();
+        this.loading = false;
       });
   }
 

@@ -24,7 +24,6 @@ export class StoreViewPage implements OnInit {
     private _loadingCtrl: LoadingController
   ) {
     this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
-    // this.store = params.get('model');
   }
 
   ngOnInit() {

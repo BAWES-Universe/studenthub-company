@@ -13,7 +13,9 @@
 <ion-content class="ion-padding">
   <!-- List of Stores -->
   <h5>Stores</h5>
-  <ion-list *ngIf="stores">
+
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  <ion-list *ngIf="stores && !loading">
     <ion-item tappable
             *ngFor="let store of stores"
             (click)="storeSelected(store)">
@@ -25,7 +27,7 @@
   </ion-list>
 
   <!-- Pagination -->
-  <ion-row class="ion-text-center">
+  <ion-row class="ion-text-center" *ngIf="!loading">
     <div class="pagination-wrapper">
       <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
         {{ page }}

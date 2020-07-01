@@ -30,7 +30,7 @@
         Completed
       </ion-segment-button>
     </ion-segment>
-
+    <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
     <div [ngSwitch]="inProgress">
       <ion-list *ngSwitchCase="'In Progress'">
         <!-- Locked Transfers, waiting for payment -->
@@ -58,7 +58,7 @@
         <!-- Transfers with Distribution in Progress -->
         <div *ngIf="inProgressTransfers.length > 0">
           <ion-item-divider color="light"><b>In Progress</b></ion-item-divider>
-          <ion-item *ngFor="let transfer of inProgressTransfers" (click)="transferDetails(transfer.transfer_id)">
+          <ion-item button *ngFor="let transfer of inProgressTransfers" (click)="transferDetails(transfer.transfer_id)">
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}

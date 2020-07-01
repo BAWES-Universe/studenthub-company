@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { TransferListPageRoutingModule } from './transfer-list-routing.module';
 
 import { TransferListPage } from './transfer-list.page';
+import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    TransferListPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        TransferListPageRoutingModule,
+        LoadingModalModule
+    ],
   declarations: [TransferListPage]
 })
 export class TransferListPageModule {}

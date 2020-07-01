@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, NavController, NavParams } from "@ionic/angular";
+import { NavController } from "@ionic/angular";
 //model
 import { Company } from "src/app/models/company";
 //service
@@ -16,13 +16,12 @@ export class CompanyListPage implements OnInit {
   public pageCount = 0;
   public currentPage = 1;
   public pages: number[] = [];
-
+  public loading = false;
   public companies: Company[];
 
   constructor(
     public navCtrl: NavController,
-    public companyService: CompanyService,
-    private _loadingCtrl: LoadingController
+    public companyService: CompanyService
   ) {
   }
 
@@ -33,10 +32,9 @@ export class CompanyListPage implements OnInit {
   async loadData(page: number) {
 
     this.companies = [];
-    let loader = await this._loadingCtrl.create();
-    loader.present();
+    this.loading = true;
     this.companyService.list(page).subscribe(response => {
-      loader.dismiss();
+      this.loading = false;
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
       this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
@@ -55,7 +53,7 @@ export class CompanyListPage implements OnInit {
 
     },
       error => { },
-      () => { loader.dismiss(); }
+      () => { this.loading = false;}
     );
   }
 
@@ -75,9 +73,5 @@ export class CompanyListPage implements OnInit {
         model: model
       }
     });
-    // this.navCtrl.navigateForward(CompanyViewPage, {
-    //   'model': model
-    // });
   }
-
 }

@@ -21,7 +21,7 @@ export class StoreListPage implements OnInit {
   public stores: Store[];
   public companies: Company[];
   public title: string;
-
+  public loading = false;
   constructor(
     public navCtrl: NavController,
     public storeService: StoreService,
@@ -37,13 +37,12 @@ export class StoreListPage implements OnInit {
     this.stores = [];
     this.companies = [];
 
-    let loader = await this._loadingCtrl.create();
-    loader.present();
+    this.loading = true;
     this.storeService.listByCompanyStore(1).subscribe(response => {
       this._handleResponse(response);
     },
       error => { },
-      () => { loader.dismiss(); }
+      () => { this.loading = false; }
     );
   }
 
@@ -83,17 +82,19 @@ export class StoreListPage implements OnInit {
   rowSelected(model) {
 
     // Load Detail Page
-    this.navCtrl.navigateForward('store-view/' + model.store_id);
-    // this.navCtrl.push(StoreViewPage, {
-    //   'model': model
-    // });
+    this.navCtrl.navigateForward('store-view/' + model.store_id, {
+      state : {
+        model: model
+      }
+    });
   }
 
   companySelected(model) {
     // Load Detail Page
-    this.navCtrl.navigateForward('company-view/' + model.company_id);
-    // this.navCtrl.push(CompanyViewPage, {
-    //   'model': model
-    // });
+    this.navCtrl.navigateForward('company-view/' + model.company_id , {
+      state : {
+        model: model
+      }
+    });
   }
 }

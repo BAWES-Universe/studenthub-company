@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { CandidateListPageRoutingModule } from './candidate-list-routing.module';
 
 import { CandidateListPage } from './candidate-list.page';
+import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    CandidateListPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        CandidateListPageRoutingModule,
+        LoadingModalModule
+    ],
   declarations: [CandidateListPage]
 })
 export class CandidateListPageModule {}

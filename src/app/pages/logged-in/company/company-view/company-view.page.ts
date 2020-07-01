@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, NavController } from "@ionic/angular";
+import { NavController } from "@ionic/angular";
 import { ActivatedRoute, Router } from "@angular/router";
 //models
 import { Company } from "src/app/models/company";
@@ -23,13 +23,12 @@ export class CompanyViewPage implements OnInit {
   public pageCount = 0;
   public currentPage = 1;
   public pages: number[] = [];
-
+  public loading = false;
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
     public storeService: StoreService,
     public companyService: CompanyService,
-    private _loadingCtrl: LoadingController,
     public router: Router,
   ) {
     const state = window.history.state;
@@ -49,8 +48,7 @@ export class CompanyViewPage implements OnInit {
 
   async loadData(page: number) {
     // Load list of ALL stores
-    let loader = await this._loadingCtrl.create();
-    loader.present();
+    this.loading = true;
 
     this.storeService.listByCompany(this.company_id, page).subscribe(response => {
 
@@ -70,18 +68,17 @@ export class CompanyViewPage implements OnInit {
 
       this.stores = response.body;
 
-      loader.dismiss();
+      this.loading = false;
     });
   }
 
   async loadCompanyData() {
     // Load list of ALL stores
-    let loader = await this._loadingCtrl.create();
-    loader.present();
+    this.loading = true;
 
     this.companyService.view(this.company_id).subscribe(response => {
       this.company = response;
-      loader.dismiss();
+      this.loading = false;
     });
   }
 
