@@ -115,3 +115,97 @@
     </ion-item>
   </ion-list>
 </div>
+
+<div class="candidate-detail" *ngIf="loading && type == 'candidate-detail'">
+  <ion-item-group>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h2><ion-skeleton-text animated></ion-skeleton-text></h2>
+        <p><ion-skeleton-text animated></ion-skeleton-text></p>
+        <p><ion-skeleton-text animated></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item target='_blank'>
+      <ion-icon name="call" slot="start"></ion-icon>
+      <ion-label><ion-skeleton-text animated></ion-skeleton-text></ion-label>
+    </ion-item>
+    <ion-item target='_blank'>
+      <ion-icon name="mail" slot="start"></ion-icon>
+      <ion-label><ion-skeleton-text animated></ion-skeleton-text></ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="pin" slot="start"></ion-icon>
+      <ion-label><ion-skeleton-text animated></ion-skeleton-text></ion-label>
+    </ion-item>
+
+    <ion-item-divider color="light">Store Assignment</ion-item-divider>
+    <ion-item>
+        <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-item>
+    <ion-item >
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-item>
+    <ion-item-divider color="light">Personal</ion-item-divider>
+    <ion-item>
+      <ion-label>
+        <h5>Age</h5>
+        <p><ion-skeleton-text animated></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5>Nationality</h5>
+        <p><ion-skeleton-text animated></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5>University</h5>
+        <p><ion-skeleton-text animated></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item-divider color="light">Civil ID</ion-item-divider>
+    <ion-item>
+      <ion-label>
+        <h5>Civil ID Number</h5>
+        <p><ion-skeleton-text animated></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5>Birth date</h5>
+        <p><ion-skeleton-text animated></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5>Expiry Date</h5>
+        <p><ion-skeleton-text animated></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5>ID Photo Front</h5>
+        <p>
+          <a target='_blank'>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </a>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5>ID Photo Back</h5>
+        <p>
+          <a target='_blank'>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </a>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-item-group>
+</div>

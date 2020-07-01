@@ -7,6 +7,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
+  <loading-modal [loading]="loading" type="candidate-detail"></loading-modal>
   <ion-item-group *ngIf="candidate">
     <ion-item>
       <ion-avatar slot="start" *ngIf="candidate.candidate_personal_photo_thumb">

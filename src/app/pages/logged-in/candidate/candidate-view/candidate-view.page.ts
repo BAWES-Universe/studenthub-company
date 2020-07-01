@@ -18,11 +18,10 @@ export class CandidateViewPage implements OnInit {
   public candidate_id;
   public workHistory: any[] = [];
   public permanentBucketUrl = "https://sh-payroll.s3.eu-west-2.amazonaws.com/";
-
+  public loading = false;
   constructor(
     public activatedRoute: ActivatedRoute,
-    public candidateService: CandidateService,
-    private _loadingCtrl: LoadingController,
+    public candidateService: CandidateService
   ) {
     this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
     this.loadWorkHistoryData();
@@ -50,11 +49,10 @@ export class CandidateViewPage implements OnInit {
 
   async loadData() {
     // Load list of ALL stores
-    let loader = await this._loadingCtrl.create();
-    loader.present();
+    this.loading = true;
     this.candidateService.view(this.candidate_id).subscribe(response => {
       this.candidate = response;
-      loader.dismiss();
+      this.loading = false;
     });
   }
 
