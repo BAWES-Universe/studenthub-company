@@ -21,7 +21,7 @@
         </ion-input>
 
         <div class="ion-text-center">
-          <ion-button expand="block" fill="outline" color="dark" type="submit"
+          <ion-button expand="block" fill="outline" type="submit"
                   [disabled]="!loginForm.valid || isLoading ||
                         (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)"
                   [style.background-color]="!loginForm.valid || isLoading ||
