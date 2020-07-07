@@ -9,7 +9,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:devserver": "ng build --configuration=dev",
+    "build:production": "ng build --configuration=production --prod",
+    "ionic:serve:khalid": "ionic serve --configuration=khalid"
   },
   "private": true,
   "dependencies": {
