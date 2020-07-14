@@ -4,4 +4,4 @@ export const environment = {
   apiEndpoint: 'https://payroll-company.studenthub.co/v1',
   environmentName: 'Production Server',
   serviceWorker: false
-}
+};

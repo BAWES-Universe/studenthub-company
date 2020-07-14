@@ -1,7 +1,7 @@
 {
   "name": "payroll-company",
   "author": "BAWES",
-  "homepage": "http://bawes.net/", 
+  "homepage": "http://bawes.net/",
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",

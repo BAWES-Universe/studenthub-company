@@ -6,4 +6,4 @@ export const environment = {
     environmentName: 'Khalid Dev Server on Local Machine',
     s3Domain: 'pogi-uploads-dev-server',
     serviceWorker: false
-}
+};
