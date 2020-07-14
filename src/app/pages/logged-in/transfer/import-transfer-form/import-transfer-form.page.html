@@ -26,9 +26,11 @@
   </section>
 
   <!-- Upload Form -->
-  <input type='file' #fileInput (change)="uploadExcelTransfer($event)" accept=".xlsx"/>
-  <ion-button (click)="upload()" [disabled]="!fileList">
-    Upload
+  <input type='file' #fileInput (change)="browserUpload($event)" accept=".xlsx,.xls"/>
+  
+  <ion-button (click)="upload()" [disabled]="uploading">
+    <span *ngIf="!uploading">Upload</span>
+    <ion-spinner *ngIf="uploading">Uploading...</ion-spinner>
   </ion-button>
 
 </ion-content>

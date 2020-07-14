@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import {EMPTY, Observable, throwError} from "rxjs";
-import {first, map, retryWhen, take} from "rxjs/operators";
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
-import {genericRetryStrategy} from "../util/genericRetryStrategy";
+import { EMPTY, Observable, throwError } from "rxjs";
+import { first, map, retryWhen, take } from "rxjs/operators";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
+import { genericRetryStrategy } from "../util/genericRetryStrategy";
 import { Storage } from '@ionic/storage';
-
 // service
-import {environment} from "../../environments/environment";
-import {EventService} from "./event.service";
+import { environment } from "../../environments/environment";
+import { EventService } from "./event.service";
+
 
 @Injectable({
   providedIn: 'root'
@@ -29,15 +29,15 @@ export class AuthService {
   public _urlLocate = '/auth/locate';
 
   constructor(
-      public _http: HttpClient,
-      public router: Router,
-      public _storage: Storage,
-      public eventService: EventService
+    public _http: HttpClient,
+    public router: Router,
+    public _storage: Storage,
+    public eventService: EventService
   ) { }
 
   canActivate(
-      route: ActivatedRouteSnapshot,
-      state: RouterStateSnapshot
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     /**
      * new router changes don't wait for startup service
@@ -52,11 +52,11 @@ export class AuthService {
       this._storage.get('loggedInCompany').then(data => {
 
         if (
-            data &&
-            data.token &&
-            data.company_id &&
-            data.name &&
-            data.email
+          data &&
+          data.token &&
+          data.company_id &&
+          data.name &&
+          data.email
         ) {
 
           // to enable page to call restricted apis
@@ -89,11 +89,11 @@ export class AuthService {
     });
   }
 
-   /**
-   * Logs a user out by setting logged in to false and clearing token from storage
-   * @param {string} [reason]
-   * @param {boolean} [silent]
-   */
+  /**
+  * Logs a user out by setting logged in to false and clearing token from storage
+  * @param {string} [reason]
+  * @param {boolean} [silent]
+  */
   logout(reason?: string, silent = false) {
 
     this.isLogged = false;
@@ -166,8 +166,8 @@ export class AuthService {
       if (data) {
 
         this.setAccessToken(
-            data,
-            redirect
+          data,
+          redirect
         );
 
         this._accessToken = data.token;
@@ -194,9 +194,9 @@ export class AuthService {
     return this._http.get(url, {
       headers: authHeader,
     }).pipe(
-        retryWhen(genericRetryStrategy()),
-        first(),
-        map((res: HttpResponse<any>) => res)
+      retryWhen(genericRetryStrategy()),
+      first(),
+      map((res: HttpResponse<any>) => res)
     );
   }
 
@@ -207,7 +207,7 @@ export class AuthService {
   private _handleError(error: any): Observable<any> {
 
     const errMsg = (error.message) ? error.message :
-        error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 
     // Handle Bad Requests
     // This error usually appears when agent attempts to handle an

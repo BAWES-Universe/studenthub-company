@@ -12,6 +12,7 @@ import { environment } from "../environments/environment";
 import { IonicStorageModule, Storage } from "@ionic/storage";
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
+import { File } from '@ionic-native/file/ngx';
 
 
 export function startupServiceFactory(authService, storage) {
@@ -42,6 +43,7 @@ export function startupServiceFactory(authService, storage) {
       deps: [AuthService, Storage],
       multi: true
     },
+    File,
     SwUpdate,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

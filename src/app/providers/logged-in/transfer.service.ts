@@ -120,27 +120,25 @@ export class TransferService {
 
   /**
    * upload excel file to create new transfer
-   * @param fileList
+   * @param file
    */
-  uploadTransferExcel(fileList: FileList): Observable<any> {
+  uploadTransferExcel(file: string): Observable<any> {
     let url = this._transferEndpoint + '/create-by-excel';
-    let file: File = fileList[0];
-    let formData:FormData = new FormData();
-    formData.append('excel', file, file.name);
-    return this._authhttp.uploadFile(url, formData);
+    return this._authhttp.uploadFile(url, {
+      excel: file
+    });
   }
 
   /**
    * upload excel file to edit transfer
-   * @param fileList
+   * @param file
    * @param transfer_id
    */
-  updateTransferUploadExcel(fileList: FileList,transfer_id): Observable<any> {
+  updateTransferUploadExcel(file: string, transfer_id): Observable<any> {
     let url = this._transferEndpoint + '/edit-by-excel/'+transfer_id;
-    let file: File = fileList[0];
-    let formData:FormData = new FormData();
-    formData.append('excel', file, file.name);
-    return this._authhttp.uploadFile(url, formData);
+    return this._authhttp.patch(url, {
+      excel: file
+    });
   }
 }
 

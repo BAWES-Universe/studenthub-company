@@ -1,11 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AlertController, IonContent, LoadingController, NavController, ToastController } from "@ionic/angular";
 import { ActivatedRoute } from "@angular/router";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { Subscription } from 'rxjs';
 //models
 import { Transfer } from "../../../../models/transfer";
 //services
 import { TransferService } from "../../../../providers/logged-in/transfer.service";
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { AwsService } from 'src/app/providers/aws.service';
+import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 
 
 @Component({
@@ -18,29 +21,31 @@ export class ImportTransferFormPage implements OnInit {
   // Html Content
   @ViewChild(IonContent) content: IonContent;
 
+  // File input used for browser fallback when no capacitor is available
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  
+  public browserUploadSubscription: Subscription;
+
   // The Transfer containing all records
   public transfer_id;
   public transfer: Transfer;
   public scenario: string = 'create';
-  // The form containing entire records
-  public form: FormGroup = new FormGroup({});
-  // The Transfer containing all records
 
   // Page Title depends on Operation (Create vs Edit Transfer)
   public pageTitle: string = "Create Transfer via Excel";
 
-  // Whether the content is ready to be displayed or not
-  public ready: Boolean = false;
-  public fileList: FileList;
+  public uploading: Boolean = false; 
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
     public transferService: TransferService,
-    // private _viewCtrl: ViewController,
+    public awsService: AwsService,
+    public sentryService: SentryErrorhandlerService,
+    public translateService: TranslateLabelService,
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
     public _toastCtrl: ToastController,
-    private _fb: FormBuilder
   ) {
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -59,39 +64,90 @@ export class ImportTransferFormPage implements OnInit {
     }
   }
 
-  /**
-   * upload excel transfer
-   * @param event
-   */
-  uploadExcelTransfer(event) {
-    this.fileList = event.target.files;
+  ngOnDestroy() {
+    if (!!this.browserUploadSubscription) {
+      this.browserUploadSubscription.unsubscribe();
+    }
   }
 
   upload() {
-    if (this.scenario == 'update') {
-      this.editTransferUpload(event);
-    } else {
-      this.newTransferUpload(event);
+    this.fileInput.nativeElement.click();
+  }
+
+  /**
+   * Upload photo from browser
+   * @param event
+   */
+  async browserUpload(event) {
+
+    const fileList: FileList = event.target.files;
+
+    if (fileList.length == 0) {
+      return false;
+    }
+
+    this.uploading = true;
+
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
+
+      this._handleUpload(event);
+
+    }, async err => {
+
+      //log to slack/sentry to know how many user getting file upload error 
+
+      this.sentryService.handleError(err);
+
+      if (this.fileInput && this.fileInput.nativeElement)
+        this.fileInput.nativeElement.value = null;
+
+      const alert = await this._alertCtrl.create({
+        header: 'Error',
+        message: 'Error while uploading file!',
+        buttons: ['Okay']
+      });
+
+      await alert.present();
+
+      this.uploading = false;
+    });
+  }
+
+  /**
+   * Handle successfull file upload
+   * @param event
+   */
+  _handleUpload(event) {
+
+    // Via this API, you get access to the raw event stream.
+    // Look for upload progress events.
+    if (event.type === 'progress') {
+      console.log(event);
+      // This is an upload progress event. Compute and show the % done:
+      // this.progress = Math.round(100 * event.loaded / event.total);
+    } else if (event.Key && event.Key.length > 0) {
+
+      if (this.fileInput && this.fileInput.nativeElement)
+        this.fileInput.nativeElement.value = null;
+
+        if (this.scenario == 'update') {
+          this.editTransferUpload(event.Key);
+        } else {
+          this.newTransferUpload(event.Key);
+        }
     }
   }
 
   /**
    * new transfer upload excel
-   * @param event
+   * @param file
    */
-  async newTransferUpload(event) {
-
-    if (this.fileList.length == 0) {
-      return false;
-    }
-
-    let loader = await this._loadingCtrl.create();
-    let data;
-    loader.present();
-    this.transferService.uploadTransferExcel(this.fileList).subscribe(async jsonResponse => {
-      loader.dismiss();
-      data = jsonResponse;
-
+  async newTransferUpload(file) {
+ 
+    this.transferService.uploadTransferExcel(file).subscribe(async data => {
+      
+      this.uploading = false; 
+ 
       if (data.operation == 'success') {
 
         let prompt = await this._alertCtrl.create({
@@ -100,11 +156,7 @@ export class ImportTransferFormPage implements OnInit {
         });
         prompt.present();
 
-        this.navCtrl.navigateBack('transfer-view/' + data.transfer_id, {
-          state: {
-            model: data.transfer_id
-          }
-        });
+        this.navCtrl.navigateBack('transfer-view/' + data.transfer_id);
         // this.navCtrl.push(TransferViewPage, {
         //   'model': data.transfer_id
         // });
@@ -112,23 +164,15 @@ export class ImportTransferFormPage implements OnInit {
 
       // On Failure
       if (data.operation == "error") {
-        var html = '';
-        if (data.type) {
-          for (let i in data.message) {
-            for (let j of data.message[i]) {
-              html += j + '<br />';
-            }
-          }
-        } else {
-          html = data.message;
-        }
 
         let prompt = await this._alertCtrl.create({
-          message: html,
+          message: this.translateService.errorMessage(data.message),
           buttons: ["Ok"]
         });
         prompt.present();
       }
+    }, () => {
+      this.uploading = false; 
     });
   }
 
@@ -136,19 +180,13 @@ export class ImportTransferFormPage implements OnInit {
    * edit transfer upload excel
    * @param event
    */
-  async editTransferUpload(event) {
-    if (this.fileList.length == 0) {
-      return false;
-    }
+  async editTransferUpload(file) {
 
-    let loader = await this._loadingCtrl.create();
-    let data;
-    loader.present();
     this.transferService
-      .updateTransferUploadExcel(this.fileList, this.transfer.transfer_id)
-      .subscribe(async jsonResponse => {
-        loader.dismiss();
-        data = jsonResponse;
+      .updateTransferUploadExcel(file, this.transfer.transfer_id)
+      .subscribe(async data => {
+       
+        this.uploading = false; 
 
         if (data.operation == 'success') {
 
@@ -160,7 +198,7 @@ export class ImportTransferFormPage implements OnInit {
 
           this.navCtrl.navigateForward('transfer-view/' + this.transfer.transfer_id, {
             state: {
-              model: this.transfer.transfer_id
+              refresh: true
             }
           })
           // this.navCtrl.push(TransferViewPage, {
@@ -170,23 +208,14 @@ export class ImportTransferFormPage implements OnInit {
 
         // On Failure
         if (data.operation == "error") {
-          var html = '';
-          if (data.type) {
-            for (let i in data.message) {
-              for (let j of data.message[i]) {
-                html += j + '<br />';
-              }
-            }
-          } else {
-            html = data.message;
-          }
-
           let prompt = await this._alertCtrl.create({
-            message: html,
+            message: this.translateService.errorMessage(data.message),
             buttons: ["Ok"]
           });
           prompt.present();
         }
+      }, () => {
+        this.uploading = false; 
       });
   }
 
