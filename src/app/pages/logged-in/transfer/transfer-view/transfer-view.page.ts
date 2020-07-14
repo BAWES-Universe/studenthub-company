@@ -38,6 +38,12 @@ export class TransferViewPage implements OnInit {
     this.loadData();
   }
 
+  ionViewWillEnter() {
+    if(history.state && history.state['refresh']) {
+      this.loadData();
+    }
+  }
+
   async loadData() {
     // Load list of transfer
     let loader = await this._loadingCtrl.create();
