@@ -6,6 +6,7 @@ import { Transfer } from "src/app/models/transfer";
 import { Invoice } from "src/app/models/invoice";
 //service
 import { TransferService } from "src/app/providers/logged-in/transfer.service";
+import { AwsService } from 'src/app/providers/aws.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class TransferViewPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
+    public aws: AwsService,
     public transferService: TransferService,
     private _loadingCtrl: LoadingController,
     public activatedRoute: ActivatedRoute,
@@ -39,7 +41,7 @@ export class TransferViewPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    if(history.state && history.state['refresh']) {
+    if(history.state && history.state['refresh'] && this.transferDetails) {
       this.loadData();
     }
   }
@@ -48,6 +50,7 @@ export class TransferViewPage implements OnInit {
     // Load list of transfer
     let loader = await this._loadingCtrl.create();
     loader.present();
+
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
       this.transferDetails = response;
       this._updateTransferStatus();

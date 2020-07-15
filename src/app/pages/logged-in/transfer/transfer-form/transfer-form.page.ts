@@ -10,6 +10,7 @@ import { TransferCandidate } from "src/app/models/transfer-candidate";
 //service
 import { CandidateService } from "src/app/providers/logged-in/candidate.service";
 import { TransferService } from "src/app/providers/logged-in/transfer.service";
+import { AwsService } from 'src/app/providers/aws.service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class TransferFormPage implements OnInit {
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
+    public aws: AwsService,
     public transferService: TransferService,
     public candidateService: CandidateService,
     // private _viewCtrl: ViewController,

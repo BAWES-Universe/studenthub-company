@@ -5,6 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Store } from "../../../../models/store";
 //services
 import { StoreService } from "../../../../providers/logged-in/store.service";
+import { AwsService } from 'src/app/providers/aws.service';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class StoreViewPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
+    public aws: AwsService,
     public storeService: StoreService,
     private _loadingCtrl: LoadingController
   ) {

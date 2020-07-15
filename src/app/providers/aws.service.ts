@@ -4,6 +4,7 @@ import { Observable, Observer } from "rxjs";
 import * as AWS from 'aws-sdk';
 import { Plugins } from '@capacitor/core';
 import { Platform, AlertController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 //services
 import { TranslateLabelService } from './translate-label.service';
 
@@ -18,8 +19,10 @@ export class AwsService {
     
     //https://studenthub-uploads.s3.amazonaws.com/
    
+    public permanentBucketUrl = environment.permanentBucketUrl;
+
     private _region = "eu-west-2"; //London
-    private _access_key_uuid = "AKIAJXOMRCDE65WKBPUA";
+    private _access_key_id = "AKIAJXOMRCDE65WKBPUA";
     private _secret_access_key = "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";
     private _bucket_name = "studenthub-public-anyone-can-upload-24hr-expiry";
 
@@ -41,7 +44,7 @@ export class AwsService {
      */
     initAwsService(){
         AWS.config.region = this._region;
-        AWS.config.accessKeyId = this._access_key_uuid;
+        AWS.config.accessKeyId = this._access_key_id;
         AWS.config.secretAccessKey = this._secret_access_key;
     }
 
