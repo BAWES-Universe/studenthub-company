@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   envName: 'prod',
-  apiEndpoint: 'https://company.api.dev.studenthub.co/v1',
+  apiEndpoint: 'https://employer.api.dev.studenthub.co/v1',
   environmentName: 'Production Server',
   serviceWorker: false
 };
