@@ -5,10 +5,10 @@
 export const environment = {
   production: false,
   envName: 'prod',
-  apiEndpoint: 'https://payroll-company.studenthub.co/v1',
+  apiEndpoint: 'https://company.api.dev.studenthub.co/v1',
   environmentName: 'Production Server',
   serviceWorker: false
-}
+};
 
 /*
  * For easier debugging in development mode, you can import the following file
