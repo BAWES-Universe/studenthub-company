@@ -109,7 +109,7 @@
               [class.zeroHours] = "transferDetails && (transferDetails.transfer_status==10) && (resource.hours == 0)">
 
         <ion-avatar slot="start" *ngIf="resource.candidate.candidate_personal_photo_thumb">
-          <ion-img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{resource.candidate.candidate_personal_photo_thumb}}"></ion-img>
+          <ion-img src="{{ aws.permanentBucketUrl + resource.candidate.candidate_personal_photo_thumb}}"></ion-img>
         </ion-avatar>
         <ion-label>
           <h2>{{resource.candidate.candidate_name}}</h2>
@@ -117,6 +117,7 @@
           <p *ngIf="resource.hours > 0">{{ resource.hours | number }} hours x KD {{ resource.company_hourly_rate | number }} per hour</p>
           <p *ngIf="resource.bonus">Bonus KD {{resource.bonus | number}}</p>
           <p><b>KD {{ total(resource) }}</b></p>
+          
           <ion-badge slot="start"
                      [color]="resource.paid=='1'?'secondary':'dark'"
                      *ngIf="transferDetails.transfer_status==3 || transferDetails.transfer_status==4">

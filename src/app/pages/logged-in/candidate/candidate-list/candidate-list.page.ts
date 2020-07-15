@@ -6,6 +6,7 @@ import { Candidate } from "src/app/models/candidate";
 import { Store } from "src/app/models/store";
 //services
 import { CandidateService } from "src/app/providers/logged-in/candidate.service";
+import { AwsService } from 'src/app/providers/aws.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class CandidateListPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
+    public aws: AwsService,
     public candidateService: CandidateService,
     public params: ActivatedRoute,
   ) {

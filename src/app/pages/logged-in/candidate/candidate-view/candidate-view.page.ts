@@ -5,6 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Candidate } from "../../../../models/candidate";
 //services
 import { CandidateService } from "../../../../providers/logged-in/candidate.service";
+import { AwsService } from 'src/app/providers/aws.service';
 
 
 @Component({
@@ -17,9 +18,10 @@ export class CandidateViewPage implements OnInit {
   public candidate: Candidate;
   public candidate_id;
   public workHistory: any[] = [];
-  public permanentBucketUrl = "https://sh-payroll.s3.eu-west-2.amazonaws.com/";
   public loading = false;
+
   constructor(
+    public aws: AwsService,
     public activatedRoute: ActivatedRoute,
     public candidateService: CandidateService
   ) {
