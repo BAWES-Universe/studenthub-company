@@ -6,4 +6,4 @@ export const environment = {
     environmentName: 'Anil Local Machine',
     // s3Domain: 'pogi-uploads-dev-server',
     serviceWorker: false
-}
+};
