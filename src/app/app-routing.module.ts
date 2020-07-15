@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 // services
-import { AuthService } from "./providers/auth.service";
+import { AuthService } from './providers/auth.service';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'company-list',
+    redirectTo: 'transfer-list',
     pathMatch: 'full'
   },
   {
