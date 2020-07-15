@@ -23,35 +23,6 @@ export class AppComponent implements OnInit {
   public selectedIndex = 0;
   public totalEmployees = 0;
 
-  public appPages = [
-    {
-      title: 'Company',
-      url: '/company-list',
-      icon: 'mail'
-    },
-    {
-      title: 'Store',
-      url: '/store-list',
-      icon: 'list'
-    },
-    {
-      title: 'Candidate',
-      url: '/candidate-list',
-      icon: 'person'
-    },
-    {
-      title: 'Transfer',
-      url: '/transfer-list',
-      icon: 'repeat'
-    },
-    {
-      title: 'Change Password',
-      url: '/change-password',
-      icon: 'key'
-    }
-  ];
-
-
   public updatesAvailable: boolean = false;
 
   constructor(
@@ -80,6 +51,7 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.eventSub();
+    this.loadTotalEmployee();
   }
 
   logout() {
