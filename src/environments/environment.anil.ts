@@ -7,4 +7,4 @@ export const environment = {
     environmentName: 'Anil Local Machine',
     // s3Domain: 'studenthub-uploads-dev-server',
     serviceWorker: false
-}
+};

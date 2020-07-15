@@ -8,6 +8,7 @@ import { interval, concat } from 'rxjs';
 //services
 import { AuthService } from "./providers/auth.service";
 import { EventService } from "./providers/event.service";
+import {CandidateService} from "./providers/logged-in/candidate.service";
 
 
 const { SplashScreen } = Plugins;
@@ -20,36 +21,7 @@ const { SplashScreen } = Plugins;
 export class AppComponent implements OnInit {
 
   public selectedIndex = 0;
-
-  public appPages = [
-    {
-      title: 'Company',
-      url: '/company-list',
-      icon: 'mail'
-    },
-    {
-      title: 'Store',
-      url: '/store-list',
-      icon: 'list'
-    },
-    {
-      title: 'Candidate',
-      url: '/candidate-list',
-      icon: 'person'
-    },
-    {
-      title: 'Transfer',
-      url: '/transfer-list',
-      icon: 'repeat'
-    },
-    {
-      title: 'Change Password',
-      url: '/change-password',
-      icon: 'key'
-    }
-  ];
-
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public totalEmployees = 0;
 
   public updatesAvailable: boolean = false;
 
@@ -60,7 +32,8 @@ export class AppComponent implements OnInit {
     public auth: AuthService,
     public eventService: EventService,
     public navCtrl: NavController,
-    public _alertCtrl: AlertController
+    public _alertCtrl: AlertController,
+    public candidateService: CandidateService
   ) {
     this.initializeApp();
   }
@@ -78,6 +51,7 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.eventSub();
+    this.loadTotalEmployee();
   }
 
   logout() {
@@ -119,7 +93,7 @@ export class AppComponent implements OnInit {
    */
   setServiceWorker() {
 
-    // service worker watcher 
+    // service worker watcher
     if (!this.platform.is('capacitor')) {
 
       if ('serviceWorker' in navigator && environment.serviceWorker && window.location.hostname != 'localhost') {
@@ -128,7 +102,7 @@ export class AppComponent implements OnInit {
 
         // Allow the app to stabilize first, before starting polling for updates with `interval()`.
         const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
-        const updateInterval$ = interval(60 * 1000);// every minute   
+        const updateInterval$ = interval(60 * 1000);// every minute
         const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
 
         updateIntervalOnceAppIsStable$.subscribe(() => {
@@ -172,5 +146,11 @@ export class AppComponent implements OnInit {
    */
   onUpdateAlertClose() {
     this.updatesAvailable = false;
+  }
+
+  loadTotalEmployee() {
+    this.candidateService.total().subscribe(result => {
+      this.totalEmployees = result;
+    });
   }
 }

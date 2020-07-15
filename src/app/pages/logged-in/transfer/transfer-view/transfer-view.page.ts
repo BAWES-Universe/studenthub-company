@@ -18,11 +18,11 @@ export class TransferViewPage implements OnInit {
 
   public transfer_id;
   public transferDetails: Transfer;
-  public invoices: Invoice[] = []; //unpaid invoices
-  public receipts: Invoice[] = []; //paid invoices
+  public invoices: Invoice[] = []; // unpaid invoices
+  public receipts: Invoice[] = []; // paid invoices
 
-  public transferStatus = "";
-  public transferStatusDescription = "";
+  public transferStatus = '';
+  public transferStatusDescription = '';
 
   constructor(
     public navCtrl: NavController,
@@ -41,18 +41,19 @@ export class TransferViewPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    if(history.state && history.state['refresh'] && this.transferDetails) {
+    if (history.state && history.state.refresh) {
       this.loadData();
     }
   }
 
   async loadData() {
     // Load list of transfer
-    let loader = await this._loadingCtrl.create();
+    const loader = await this._loadingCtrl.create();
     loader.present();
 
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
       this.transferDetails = response;
+      console.log(this.transferDetails);
       this._updateTransferStatus();
 
       this.receipts = [];
@@ -75,24 +76,24 @@ export class TransferViewPage implements OnInit {
   private _updateTransferStatus() {
     switch (this.transferDetails.transfer_status) {
       case 10: // Draft
-        this.transferStatus = "Transfer Draft";
-        this.transferStatusDescription = "'Lock Transfer' once you are done inputting hours worked by your assigned employees. Invoices will be sent to you after lock.";
+        this.transferStatus = 'Transfer Draft';
+        this.transferStatusDescription = '\'Lock Transfer\' once you are done inputting hours worked by your assigned employees. Invoices will be sent to you after lock.';
         break;
       case 5: // Transfer Locked
-        this.transferStatus = "Waiting for your payment";
-        this.transferStatusDescription = "Invoices for this transfer have been sent to you and are available for download below.";
+        this.transferStatus = 'Waiting for your payment';
+        this.transferStatusDescription = 'Invoices for this transfer have been sent to you and are available for download below.';
         break;
       case 1: // Payment Sent
-        this.transferStatus = "Payment Sent";
-        this.transferStatusDescription = "Waiting for bank to verify payment received to start distribution of payment.";
+        this.transferStatus = 'Payment Sent';
+        this.transferStatusDescription = 'Waiting for bank to verify payment received to start distribution of payment.';
         break;
       case 3: // Distribution in Progress
-        this.transferStatus = "Distribution in Progress";
-        this.transferStatusDescription = "Your payment has been received and is currently being distributed to your assigned employees.";
+        this.transferStatus = 'Distribution in Progress';
+        this.transferStatusDescription = 'Your payment has been received and is currently being distributed to your assigned employees.';
         break;
       case 4: // Transfer Complete
-        this.transferStatus = "Transfer Complete";
-        this.transferStatusDescription = "All done!";
+        this.transferStatus = 'Transfer Complete';
+        this.transferStatusDescription = 'All done!';
         break;
     }
   }
@@ -102,9 +103,9 @@ export class TransferViewPage implements OnInit {
    */
   async transferLock(transfer: Transfer) {
     // Load list of transfer
-    let alert = await this.alertCtrl.create({
+    const alert = await this.alertCtrl.create({
       header: 'Confirm locking the transfer?',
-      message: "You will no longer be able to edit the transfer once it's locked.",
+      message: 'You will no longer be able to edit the transfer once it\'s locked.',
       buttons: [
         {
           text: 'No',
@@ -113,11 +114,11 @@ export class TransferViewPage implements OnInit {
         {
           text: 'Yes',
           handler: async () => {
-            let loader = await this._loadingCtrl.create();
+            const loader = await this._loadingCtrl.create();
             loader.present();
             this.transferService.makeTransfertoLock(transfer).subscribe(async response => {
 
-              let toast = await this._toastCtrl.create({
+              const toast = await this._toastCtrl.create({
                 message: response.message,
                 duration: 3000
               });
@@ -137,11 +138,11 @@ export class TransferViewPage implements OnInit {
    * Marking Transfer as Payment Sent
    */
   async paymentSent(transfer: Transfer) {
-    let loader = await this._loadingCtrl.create();
+    const loader = await this._loadingCtrl.create();
     loader.present();
     this.transferService.makePaymentSent(transfer).subscribe(async response => {
 
-      let toast = await this._toastCtrl.create({
+      const toast = await this._toastCtrl.create({
         message: response.message,
         duration: 3000
       });
@@ -157,10 +158,10 @@ export class TransferViewPage implements OnInit {
    * @param invoice
    */
   async downloadReceipt(invoice: Invoice) {
-    let loader = await this._loadingCtrl.create();
+    const loader = await this._loadingCtrl.create();
     loader.present();
     this.transferService.downloadReceipt(invoice).subscribe(response => {
-      //this.navCtrl.pop();
+      // this.navCtrl.pop();
       loader.dismiss();
     });
   }
@@ -170,7 +171,7 @@ export class TransferViewPage implements OnInit {
    * @param invoice
    */
   async downloadInvoice(invoice: Invoice) {
-    let loader = await this._loadingCtrl.create();
+    const loader = await this._loadingCtrl.create();
     loader.present();
     this.transferService.downloadInvoice(invoice).subscribe(response => {
       loader.dismiss();
@@ -201,7 +202,7 @@ export class TransferViewPage implements OnInit {
    * @param transfer
    */
   async delete(transfer: Transfer) {
-    let alert = await this.alertCtrl.create({
+    const alert = await this.alertCtrl.create({
       header: 'Do you really want to delete this transfer?',
       buttons: [
         {
@@ -224,7 +225,7 @@ export class TransferViewPage implements OnInit {
    * @param transfer
    */
   async deleteConfirmed(transfer: Transfer) {
-    let loader = await this._loadingCtrl.create();
+    const loader = await this._loadingCtrl.create();
     loader.present();
     this.transferService.delete(transfer).subscribe(async response => {
       loader.dismiss();
@@ -232,7 +233,7 @@ export class TransferViewPage implements OnInit {
       if (response.operation == 'success') {
         this.navCtrl.pop();
       } else {
-        let alert = await this.alertCtrl.create({
+        const alert = await this.alertCtrl.create({
           message: response.message,
           buttons: ['Okay']
         });
@@ -248,7 +249,7 @@ export class TransferViewPage implements OnInit {
   loadCandidateDetail(model) {
     this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
       state: {
-        model: model
+        model
       }
     });
   }
@@ -263,7 +264,7 @@ export class TransferViewPage implements OnInit {
   importTransfer(transfer: Transfer) {
     this.navCtrl.navigateForward('import-transfer-form/' + transfer.transfer_id, {
       state: {
-        transfer: transfer
+        transfer
       }
     });
   }

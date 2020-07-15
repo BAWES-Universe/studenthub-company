@@ -5,11 +5,11 @@
 export const environment = {
   production: false,
   envName: 'prod',
-  apiEndpoint: 'https://payroll-company.studenthub.co/v1',
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
+  apiEndpoint: 'https://employer.api.dev.studenthub.co/v1',
   environmentName: 'Production Server',
   serviceWorker: false
-}
+};
 
 /*
  * For easier debugging in development mode, you can import the following file

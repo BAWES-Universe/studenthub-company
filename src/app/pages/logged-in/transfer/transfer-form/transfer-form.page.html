@@ -33,7 +33,7 @@
         <ion-grid>
           <ion-row>
             <!-- Hours Input Column -->
-            <ion-col size-lg="12" size-md="4">
+            <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
               <ion-item>
                 <ion-label position="floating">
                   Hours Worked
@@ -47,7 +47,7 @@
             </ion-col>
 
             <!-- Bonus Input Column -->
-            <ion-col size-lg="12" size-md="4">
+            <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
               <ion-item>
                 <ion-label position="floating">
                   Bonus (KWD)
@@ -61,7 +61,7 @@
             </ion-col>
 
             <!-- Total Calculation Column -->
-            <ion-col size-lg="12" size-md="4" *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
+            <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12" *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
               <ion-item>
                 Subtotal: KWD {{ (parseNumber(transferCandidateRecord.hours) * transferCandidateRecord.candidate.company.company_hourly_rate) + parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
               </ion-item>
