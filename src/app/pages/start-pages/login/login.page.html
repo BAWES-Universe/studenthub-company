@@ -20,14 +20,10 @@
                    placeholder="Your Password">
         </ion-input>
 
-        <div class="ion-text-center">
-          <ion-button expand="block" fill="outline" type="submit"
+        <div class="ion-text-center submit-btn">
+          <ion-button expand="block" type="submit"
                   [disabled]="!loginForm.valid || isLoading ||
-                        (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)"
-                  [style.background-color]="!loginForm.valid || isLoading ||
-                        (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)? 'white':'black'"
-                  [style.color]="!loginForm.valid || isLoading ||
-                        (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)?'black':'white'">
+                        (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)">
 
             <ion-spinner *ngIf="isLoading"></ion-spinner>
             <span *ngIf="!isLoading">Sign in</span>
