@@ -117,7 +117,6 @@ export class AuthService {
    */
   setAccessToken(response, redirect = false) {
 
-    console.log(response);
     this._accessToken = response.token;
     this.company_id = response.company_id;
     this.name = response.name;

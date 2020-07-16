@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, LoadingController } from "@ionic/angular";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-//service
-import { AccountService } from "src/app/providers/logged-in/account.service";
+import { AlertController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// service
+import { AccountService } from 'src/app/providers/logged-in/account.service';
 
 
 @Component({
@@ -12,9 +12,9 @@ import { AccountService } from "src/app/providers/logged-in/account.service";
 })
 export class ChangePasswordPage implements OnInit {
 
-  public oldPassword: string = '';
-  public newPassword: string = '';
-
+  public oldPassword = '';
+  public newPassword = '';
+  public loading = false;
   public passwordForm: FormGroup;
 
   // Disable submit button if loading response
@@ -23,7 +23,6 @@ export class ChangePasswordPage implements OnInit {
   constructor(
     private _fb: FormBuilder,
     public accountService: AccountService,
-    private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController
   ) {
   }
@@ -31,8 +30,8 @@ export class ChangePasswordPage implements OnInit {
   ngOnInit() {
     // Initialize the Login Form
     this.passwordForm = this._fb.group({
-      oldPassword: ["", Validators.required],
-      newPassword: ["", Validators.required]
+      oldPassword: ['', Validators.required],
+      newPassword: ['', Validators.required]
     });
   }
 
@@ -44,19 +43,18 @@ export class ChangePasswordPage implements OnInit {
       return false;
     }
 
-    let loader = await this._loadingCtrl.create();
-    loader.present();
+    this.loading = true;
 
     const oldP = this.passwordForm.value.oldPassword;
     const newP = this.passwordForm.value.newPassword;
 
     this.accountService.changePassword(oldP, newP).subscribe(async res => {
 
-      loader.dismiss();
+      this.loading = false;
 
-      if (res.operation == "success") {
+      if (res.operation == 'success') {
 
-        let alert = await this._alertCtrl.create({
+        const alert = await this._alertCtrl.create({
           header: 'Success',
           message: res.message,
           buttons: ['Ok'],
@@ -64,15 +62,15 @@ export class ChangePasswordPage implements OnInit {
         alert.present();
         this.passwordForm.reset();
 
-      } else if (res.operation == "error") {
+      } else if (res.operation == 'error') {
 
-        let alert = await this._alertCtrl.create({
+        const alert = await this._alertCtrl.create({
           header: 'Error',
           message: res.message,
           buttons: ['Ok'],
         });
         alert.present();
       }
-    }); 
+    });
   }
 }
