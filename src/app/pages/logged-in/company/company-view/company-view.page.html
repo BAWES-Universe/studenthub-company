@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button>
-        <ion-back-button defaultHref="company-list"></ion-back-button>
-      </ion-button>
+      <ion-back-button defaultHref="company-list"></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="company">{{ company.company_name }}</ion-title>
 
@@ -15,11 +13,11 @@
   <h5>Stores</h5>
 
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
-  <ion-list *ngIf="stores && !loading">
+  <ion-list *ngIf="stores && stores.length > 0 && !loading">
     <ion-item tappable
             *ngFor="let store of stores"
             (click)="storeSelected(store)">
-      <ion-label>{{ store.store_name}}</ion-label>
+      <ion-label>{{ store.store_id}} - {{ store.store_name}}</ion-label>
       <ion-badge slot="end" *ngIf="store.candidates && store.candidates.length > 0">
         {{ store.candidates.length }} {{ store.candidates.length > 1 ? "employees" : "employee" }}
       </ion-badge>

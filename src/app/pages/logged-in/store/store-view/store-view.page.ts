@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, NavController } from "@ionic/angular";
-import { ActivatedRoute } from "@angular/router";
-//models
-import { Store } from "../../../../models/store";
-//services
-import { StoreService } from "../../../../providers/logged-in/store.service";
+import { LoadingController, NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+// models
+import { Store } from '../../../../models/store';
+// services
+import { StoreService } from '../../../../providers/logged-in/store.service';
 import { AwsService } from 'src/app/providers/aws.service';
 
 
@@ -30,8 +30,8 @@ export class StoreViewPage implements OnInit {
 
   ngOnInit() {
     const state = window.history.state;
-    if (state['model']) {
-      this.store = state['model'];
+    if (state.model) {
+      this.store = state.model;
     }
 
     if (!this.store) {
@@ -40,10 +40,13 @@ export class StoreViewPage implements OnInit {
   }
 
   async loadData() {
-    let loader = await this._loadingCtrl.create();
+    const loader = await this._loadingCtrl.create();
     loader.present();
     this.storeService.view(this.store_id).subscribe(result => {
       loader.dismiss();
+      if (!result) {
+        this.navCtrl.back();
+      }
       this.store = result;
     });
   }
@@ -54,7 +57,7 @@ export class StoreViewPage implements OnInit {
   candidateSelected(model) {
     this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
       state: {
-        model: model
+        model
       }
     });
   }

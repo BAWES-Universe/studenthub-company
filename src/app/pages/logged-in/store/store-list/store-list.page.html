@@ -13,7 +13,7 @@
     <ion-item button
             *ngFor="let company of companies"
             (click)="companySelected(company)">
-      <ion-label>{{ company.company_name }}</ion-label>
+      <ion-label>{{ company.company_id }} - {{ company.company_name }}</ion-label>
 
       <!-- Assigned employees count badge -->
       <ion-badge slot="end" *ngIf="company.totalCandidates && company.totalCandidates > 0">
@@ -33,7 +33,7 @@
   <ion-list *ngIf="stores && !loading">
     <ion-item-sliding *ngFor="let store of stores">
       <ion-item (click)="rowSelected(store)" tappable>
-        <ion-label>{{ store.store_name }}</ion-label>
+        <ion-label>{{ store.store_id }} {{ store.store_name }}</ion-label>
         <ion-badge slot="end" *ngIf="store.totalCandidates > 0">
           {{ store.totalCandidates }} {{ store.totalCandidates > 1 ? "employees" : "employee" }}
         </ion-badge>

@@ -11,7 +11,7 @@
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
   <ion-list *ngIf="!loading">
     <ion-item *ngFor="let company of companies" (click)="rowSelected(company)" tappable>
-      <ion-label>{{ company.company_name}}</ion-label>
+      <ion-label>{{ company.company_id}} {{ company.company_name}}</ion-label>
     </ion-item>
   </ion-list>
 
