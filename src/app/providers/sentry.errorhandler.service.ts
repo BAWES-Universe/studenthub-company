@@ -23,9 +23,9 @@ export class SentryErrorhandlerService extends ErrorHandler {
 			this.sentryLoggingEnabled = true;
 
 			// Initialize error logger with this environment name
-			
+
 			Raven
-			    .config('https://62cd7000fac54e7e842f6b26e7b0ba92@sentry.io/1231721', {
+			    .config('https://7d4f6518641748b8935291e9057883b5@o70039.ingest.sentry.io/5339283', {
 					environment: environment.envName
 				}).install();
 		}
@@ -39,7 +39,7 @@ export class SentryErrorhandlerService extends ErrorHandler {
 		if (chunkFailedMessage.test(error.message)) {
 		  window.location.reload();
 		}
-		
+
 		// Exit function if sentry logging is not enabled
 		if(!this.sentryLoggingEnabled) return;
 
