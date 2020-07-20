@@ -75,7 +75,7 @@
   <div class="invoices" *ngIf="invoices.length > 0">
     <h4>Invoices</h4>
     <ion-list>
-      <ion-item *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice)">
+      <ion-item tappable *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice)">
         <ion-label>
           Download Invoice #{{ invoice.invoice_id }} - KWD {{invoice.invoice_total}}
           <small>{{ invoice.company.company_name }}</small>
@@ -88,7 +88,7 @@
   <div class="receipts" *ngIf="receipts.length > 0">
     <h4>Receipts</h4>
     <ion-list>
-      <ion-item *ngFor="let receipt of receipts" (click)="downloadReceipt(receipt)">
+      <ion-item tappable *ngFor="let receipt of receipts" (click)="downloadReceipt(receipt)">
         <ion-label>
           Download Receipt #{{ receipt.invoice_id }} - KWD {{receipt.invoice_total}}<br/>
           <small>{{ receipt.company.company_name }}</small>
@@ -105,6 +105,7 @@
       <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
 
       <ion-item *ngFor="let resource of group.resources"
+        tappable
               (click)="loadCandidateDetail(resource.candidate)"
               [class.zeroHours] = "transferDetails && (transferDetails.transfer_status==10) && (resource.hours == 0)">
 

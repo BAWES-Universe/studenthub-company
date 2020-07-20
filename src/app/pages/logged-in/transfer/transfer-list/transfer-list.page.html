@@ -36,7 +36,7 @@
         <!-- Locked Transfers, waiting for payment -->
         <div *ngIf="lockTransfers.length > 0">
           <ion-item-divider color="light"><b>Waiting for your payment</b></ion-item-divider>
-          <ion-item button *ngFor="let transfer of lockTransfers" (click)="transferDetails(transfer.transfer_id)">
+          <ion-item tappable *ngFor="let transfer of lockTransfers" (click)="transferDetails(transfer.transfer_id)">
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
@@ -47,7 +47,7 @@
         <!-- Transfer Drafts -->
         <div *ngIf="draftTransfers.length > 0">
           <ion-item-divider color="light"><b>Draft</b></ion-item-divider>
-          <ion-item button *ngFor="let transfer of draftTransfers" (click)="transferDetails(transfer.transfer_id)">
+          <ion-item tappable *ngFor="let transfer of draftTransfers" (click)="transferDetails(transfer.transfer_id)">
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
@@ -58,7 +58,7 @@
         <!-- Transfers with Distribution in Progress -->
         <div *ngIf="inProgressTransfers.length > 0">
           <ion-item-divider color="light"><b>In Progress</b></ion-item-divider>
-          <ion-item button *ngFor="let transfer of inProgressTransfers" (click)="transferDetails(transfer.transfer_id)">
+          <ion-item tappable *ngFor="let transfer of inProgressTransfers" (click)="transferDetails(transfer.transfer_id)">
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
@@ -69,7 +69,7 @@
         <!-- Transfers Where Company Sent Payment -->
         <div *ngIf="sentTransfers.length > 0">
           <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
-          <ion-item button *ngFor="let transfer of sentTransfers" (click)="transferDetails(transfer.transfer_id)">
+          <ion-item tappable *ngFor="let transfer of sentTransfers" (click)="transferDetails(transfer.transfer_id)">
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
@@ -82,7 +82,7 @@
       <!-- Completed Transfers -->
       <ion-list *ngSwitchCase="'completed'">
         <div *ngIf="completedTransfers.length > 0">
-          <ion-item button *ngFor="let transfer of completedTransfers" (click)="transferDetails(transfer.transfer_id)">
+          <ion-item tappable *ngFor="let transfer of completedTransfers" (click)="transferDetails(transfer.transfer_id)">
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{ transfer.transfer_created_at }}
