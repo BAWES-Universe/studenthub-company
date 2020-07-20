@@ -20,6 +20,7 @@ export class TransferViewPage implements OnInit {
   public transferDetails: Transfer;
   public invoices: Invoice[] = []; // unpaid invoices
   public receipts: Invoice[] = []; // paid invoices
+  public loading = false;
 
   public transferStatus = '';
   public transferStatusDescription = '';
@@ -48,12 +49,10 @@ export class TransferViewPage implements OnInit {
 
   async loadData() {
     // Load list of transfer
-    const loader = await this._loadingCtrl.create();
-    loader.present();
+    this.loading = true;
 
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
       this.transferDetails = response;
-      console.log(this.transferDetails);
       this._updateTransferStatus();
 
       this.receipts = [];
@@ -66,7 +65,7 @@ export class TransferViewPage implements OnInit {
           this.invoices.push(value);
         }
       });
-      loader.dismiss();
+      this.loading = false;
     });
   }
 
@@ -180,6 +179,10 @@ export class TransferViewPage implements OnInit {
 
   /**
    * Calculating Total cost
+   * @param hourly_rate
+   * @param hours
+   * @param bonus
+   * @param transfer_cost
    */
   totalCost(hourly_rate, hours, bonus, transfer_cost) {
     return (2 * Number(hours)) + Number(bonus) + Number(transfer_cost);
@@ -267,5 +270,8 @@ export class TransferViewPage implements OnInit {
         transfer
       }
     });
+  }
+  back() {
+    return this.navCtrl.navigateBack('/transfer-list');
   }
 }

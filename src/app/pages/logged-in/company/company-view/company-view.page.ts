@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from "@ionic/angular";
-import { ActivatedRoute, Router } from "@angular/router";
-//models
-import { Company } from "src/app/models/company";
-import { Store } from "src/app/models/store";
-//services
-import { StoreService } from "src/app/providers/logged-in/store.service";
-import { CompanyService } from "src/app/providers/logged-in/company.service";
+import { NavController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+// models
+import { Company } from 'src/app/models/company';
+import { Store } from 'src/app/models/store';
+// services
+import { StoreService } from 'src/app/providers/logged-in/store.service';
+import { CompanyService } from 'src/app/providers/logged-in/company.service';
 
 
 @Component({
@@ -34,8 +34,8 @@ export class CompanyViewPage implements OnInit {
     const state = window.history.state;
     this.company_id = this.activatedRoute.snapshot.paramMap.get('id');
 
-    if (state['model']) {
-      this.company = state['model'];
+    if (state.model) {
+      this.company = state.model;
     }
   }
 
@@ -57,14 +57,15 @@ export class CompanyViewPage implements OnInit {
 
       this.pages = [];
 
-      for (var i = 1; i <= this.pageCount; i++) {
+      for (let i = 1; i <= this.pageCount; i++) {
         this.pages.push(i);
       }
 
-      //hide if no page = 1
+      // hide if no page = 1
 
-      if (this.pageCount == 1)
+      if (this.pageCount == 1) {
         this.pages = [];
+      }
 
       this.stores = response.body;
 
@@ -77,6 +78,9 @@ export class CompanyViewPage implements OnInit {
     this.loading = true;
 
     this.companyService.view(this.company_id).subscribe(response => {
+      if (!response){
+        this.navCtrl.back();
+      }
       this.company = response;
       this.loading = false;
     });
@@ -84,8 +88,9 @@ export class CompanyViewPage implements OnInit {
 
   pageLinkColor(page: number) {
 
-    if (page == this.currentPage)
+    if (page == this.currentPage) {
       return 'light';
+    }
 
     return '';
   }
@@ -94,7 +99,7 @@ export class CompanyViewPage implements OnInit {
     // Load Detail Page
     this.navCtrl.navigateForward('store-view/' + model.store_id, {
       state: {
-        model: model
+        model
       }
     });
   }

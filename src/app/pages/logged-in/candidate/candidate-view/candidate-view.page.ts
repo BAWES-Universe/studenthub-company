@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from "@ionic/angular";
-import { ActivatedRoute } from "@angular/router";
-//models
-import { Candidate } from "../../../../models/candidate";
-//services
-import { CandidateService } from "../../../../providers/logged-in/candidate.service";
+import {ActivatedRoute} from '@angular/router';
+// models
+import { Candidate } from '../../../../models/candidate';
+// services
+import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import {NavController} from '@ionic/angular';
 
 
 @Component({
@@ -23,7 +23,8 @@ export class CandidateViewPage implements OnInit {
   constructor(
     public aws: AwsService,
     public activatedRoute: ActivatedRoute,
-    public candidateService: CandidateService
+    public candidateService: CandidateService,
+    public navCtrl: NavController
   ) {
     this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
     this.loadWorkHistoryData();
@@ -41,8 +42,8 @@ export class CandidateViewPage implements OnInit {
 
   ngOnInit() {
     const state = window.history.state;
-    if (state['model']) {
-      this.candidate = state['model'];
+    if (state.model) {
+      this.candidate = state.model;
     }
     if (!this.candidate) {
       this.loadData();
@@ -53,25 +54,12 @@ export class CandidateViewPage implements OnInit {
     // Load list of ALL stores
     this.loading = true;
     this.candidateService.view(this.candidate_id).subscribe(response => {
+      if (!response) {
+        this.navCtrl.back();
+      }
       this.candidate = response;
       this.loading = false;
     });
   }
-
-  // async loadData() {
-  //   // Load list of ALL stores
-  //   let loader = await this._loadingCtrl.create();
-  //   loader.present();
-  //   this.storeService.list().subscribe(response => {
-  //     this.stores = response;
-  //     this.stores.forEach((value) => {
-  //       if (value.store_id == this.candidate.store_id) {
-  //         this.candidate.store_name = value.store_name;
-  //         this.candidate.store_id = value.store_id;
-  //       }
-  //     });
-  //     loader.dismiss();
-  //   });
-  // }
 }
 

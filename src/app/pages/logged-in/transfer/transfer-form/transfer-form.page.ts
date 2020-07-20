@@ -130,7 +130,7 @@ export class TransferFormPage implements OnInit {
 
       // Create Form Controls with validation for this TransferCandidate record
       formControls['hours[' + record.candidate.candidate_id + ']'] = [record.hours, [
-        Validators.required,
+        // Validators.required,
         CustomValidator.negativeNumberValidator
       ]];
       formControls['bonus[' + record.candidate.candidate_id + ']'] = [record.bonus, [

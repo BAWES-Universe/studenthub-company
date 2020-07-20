@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -13,6 +13,7 @@ import { IonicStorageModule, Storage } from "@ionic/storage";
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 import { File } from '@ionic-native/file/ngx';
+import {SentryErrorhandlerService} from "./providers/sentry.errorhandler.service";
 
 
 export function startupServiceFactory(authService, storage) {
@@ -45,7 +46,8 @@ export function startupServiceFactory(authService, storage) {
     },
     File,
     SwUpdate,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],
   bootstrap: [AppComponent]
 })

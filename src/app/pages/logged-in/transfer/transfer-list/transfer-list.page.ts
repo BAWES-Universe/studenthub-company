@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, NavController } from "@ionic/angular";
-//models
-import { Transfer } from "src/app/models/transfer";
-//services
-import { TransferService } from "src/app/providers/logged-in/transfer.service";
+import { ActionSheetController, NavController } from '@ionic/angular';
+// models
+import { Transfer } from 'src/app/models/transfer';
+// services
+import { TransferService } from 'src/app/providers/logged-in/transfer.service';
+import {CandidateService} from '../../../../providers/logged-in/candidate.service';
 
 
 @Component({
@@ -13,9 +14,10 @@ import { TransferService } from "src/app/providers/logged-in/transfer.service";
 })
 export class TransferListPage implements OnInit {
 
-  public inProgress: string = "In Progress";
+  public inProgress = 'In Progress';
 
   public pageCount = 0;
+  public totalEmployees = 0;
   public currentPage = 1;
   public pages: number[] = [];
 
@@ -32,15 +34,17 @@ export class TransferListPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private candidateService: CandidateService
   ) { }
 
   ngOnInit() {
-    this.loadData(this.currentPage);
+    // this.loadData(this.currentPage);
+    this.loadTotalEmployee();
   }
 
   ionViewWillEnter() {
-    // this.loadData(this.currentPage);
+   this.loadData(this.currentPage);
   }
 
   /**
@@ -57,13 +61,14 @@ export class TransferListPage implements OnInit {
 
       this.pages = [];
 
-      for (var i = 1; i <= this.pageCount; i++) {
+      for (let i = 1; i <= this.pageCount; i++) {
         this.pages.push(i);
       }
 
-      //hide if page = 1
-      if (this.pageCount == 1)
+      // hide if page = 1
+      if (this.pageCount == 1) {
         this.pages = [];
+      }
 
       this.transfers = response.body;
       this.organiseTransfers();
@@ -87,7 +92,7 @@ export class TransferListPage implements OnInit {
     this.completedTransfers = [];
 
     // Loop through entire transfer list and update
-    for (let transfer of this.transfers) {
+    for (const transfer of this.transfers) {
       switch (transfer.transfer_status) {
         case this.transferService.STATUS_INITIATED:
           this.draftTransfers.push(transfer);
@@ -112,8 +117,9 @@ export class TransferListPage implements OnInit {
    * Renders the color based on page number
    */
   pageLinkColor(page: number) {
-    if (page == this.currentPage)
+    if (page == this.currentPage) {
       return 'light';
+    }
 
     return '';
   }
@@ -143,7 +149,7 @@ export class TransferListPage implements OnInit {
    * Present action sheet to create a new transfer
    */
   async presentActionSheetForNewTransfer() {
-    let actionSheet = await this.actionSheetCtrl.create({
+    const actionSheet = await this.actionSheetCtrl.create({
       header: 'How do you wish to create your transfer?',
       buttons: [
         {
@@ -155,12 +161,18 @@ export class TransferListPage implements OnInit {
         {
           text: 'Excel sheet upload',
           handler: () => {
-            this.importTransfer()
+            this.importTransfer();
           }
         }
       ]
     });
 
     actionSheet.present();
+  }
+
+  loadTotalEmployee() {
+    this.candidateService.total().subscribe(result => {
+      this.totalEmployees = result;
+    });
   }
 }

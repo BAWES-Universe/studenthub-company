@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Transfers</ion-title>
-    <ion-buttons slot="end" *ngIf="transfers && transfers.length > 0">
+    <ion-buttons slot="end" *ngIf="transfers && transfers.length > 0 && totalEmployees > 0">
       <ion-button expand="block" (click)="presentActionSheetForNewTransfer()">
         Create New <br/> Transfer
       </ion-button>
@@ -20,8 +20,8 @@
       Create your first transfer
     </ion-button>
   </section>
-
-  <section *ngIf="transfers && transfers.length > 0">
+  <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
+  <section *ngIf="transfers && transfers.length > 0 && !loading">
     <ion-segment [(ngModel)]="inProgress" *ngIf="completedTransfers.length > 0">
       <ion-segment-button value="In Progress">
         In Progress
@@ -30,7 +30,6 @@
         Completed
       </ion-segment-button>
     </ion-segment>
-    <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
     <div [ngSwitch]="inProgress">
       <ion-list *ngSwitchCase="'In Progress'">
         <!-- Locked Transfers, waiting for payment -->
