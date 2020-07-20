@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Transfers</ion-title>
-    <ion-buttons slot="end" *ngIf="transfers && transfers.length > 0">
+    <ion-buttons slot="end" *ngIf="transfers && transfers.length > 0 && totalEmployees > 0">
       <ion-button expand="block" (click)="presentActionSheetForNewTransfer()">
         Create New <br/> Transfer
       </ion-button>
