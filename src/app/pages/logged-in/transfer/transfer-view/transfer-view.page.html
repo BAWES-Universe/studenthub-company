@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/transfer-list"></ion-back-button>
+      <ion-back-button (click)="back()"></ion-back-button>
     </ion-buttons>
     <ion-title>Transfer {{ transferDetails?.company_total? "- KWD "+transferDetails.company_total : "" }}</ion-title>
     <ion-buttons slot="end" *ngIf="transferDetails && transferDetails.transfer_status==10">

@@ -39,12 +39,12 @@ export class TransferListPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadData(this.currentPage);
+    // this.loadData(this.currentPage);
     this.loadTotalEmployee();
   }
 
   ionViewWillEnter() {
-    // this.loadData(this.currentPage);
+   this.loadData(this.currentPage);
   }
 
   /**
