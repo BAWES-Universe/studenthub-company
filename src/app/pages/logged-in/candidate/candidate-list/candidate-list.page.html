@@ -12,7 +12,7 @@
 <ion-content class="ion-padding">
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
   <ion-list *ngIf="candidates && !loading">
-    <ion-item button (click)="rowSelected(candidate)" *ngFor="let candidate of candidates">
+    <ion-item tappable (click)="rowSelected(candidate)" *ngFor="let candidate of candidates">
       <ion-avatar slot="start">
         <ion-img src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}"></ion-img>
       </ion-avatar>

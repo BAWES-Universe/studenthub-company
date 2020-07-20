@@ -10,7 +10,7 @@
 <ion-content class="ion-padding">
   <ion-list *ngIf="store && store.candidates">
     <ion-item-divider color="light"><b>Assigned Employees</b></ion-item-divider>
-    <ion-item button *ngFor="let candidateMember of store.candidates" (click)="candidateSelected(candidateMember)">
+    <ion-item tappable *ngFor="let candidateMember of store.candidates" (click)="candidateSelected(candidateMember)">
         <ion-avatar slot="start">
           <ion-img src="{{ aws.permanentBucketUrl + candidateMember.candidate_personal_photo_thumb }}"></ion-img>
         </ion-avatar>
