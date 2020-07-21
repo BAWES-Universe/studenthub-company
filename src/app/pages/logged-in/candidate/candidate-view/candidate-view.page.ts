@@ -61,5 +61,9 @@ export class CandidateViewPage implements OnInit {
       this.loading = false;
     });
   }
+
+  loadLogo($event, candidate) {
+    candidate.candidate_personal_photo_thumb = null;
+  }
 }
 

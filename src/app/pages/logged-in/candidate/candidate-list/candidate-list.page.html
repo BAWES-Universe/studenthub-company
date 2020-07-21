@@ -14,7 +14,8 @@
   <ion-list *ngIf="candidates && !loading">
     <ion-item tappable (click)="rowSelected(candidate)" *ngFor="let candidate of candidates">
       <ion-avatar slot="start">
-        <ion-img src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}"></ion-img>
+        <ion-img  *ngIf="candidate.candidate_personal_photo_thumb" src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}" (ionError)="loadLogo($event,candidate)"></ion-img>
+        <ion-img  *ngIf="!candidate.candidate_personal_photo_thumb" src="/assets/icon.png"></ion-img>
       </ion-avatar>
       <ion-label>
         {{ candidate.candidate_name }}<br/>

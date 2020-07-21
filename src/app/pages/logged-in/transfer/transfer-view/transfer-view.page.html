@@ -104,8 +104,9 @@
         <ion-item *ngFor="let resource of group.resources" tappable (click)="loadCandidateDetail(resource.candidate)"
           [class.zeroHours]="transferDetails && (transferDetails.transfer_status==10) && (resource.hours == 0)">
 
-          <ion-avatar slot="start" *ngIf="resource.candidate.candidate_personal_photo_thumb">
-            <ion-img src="{{ aws.permanentBucketUrl + resource.candidate.candidate_personal_photo_thumb}}"></ion-img>
+          <ion-avatar slot="start">
+            <ion-img  *ngIf="resource.candidate.candidate_personal_photo_thumb" src="{{ aws.permanentBucketUrl + resource.candidate.candidate_personal_photo_thumb }}" (ionError)="loadLogo($event,resource.candidate)"></ion-img>
+            <ion-img  *ngIf="!resource.candidate.candidate_personal_photo_thumb" src="/assets/icon.png"></ion-img>
           </ion-avatar>
           <ion-label>
             <h2>{{resource.candidate.candidate_name}}</h2>
