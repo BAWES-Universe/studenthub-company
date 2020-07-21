@@ -61,4 +61,7 @@ export class CandidateListPage implements OnInit {
       }
     });
   }
+  loadLogo($event, candidate) {
+    candidate.candidate_personal_photo_thumb = null;
+  }
 }

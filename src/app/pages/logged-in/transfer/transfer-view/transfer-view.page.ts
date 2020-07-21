@@ -274,4 +274,8 @@ export class TransferViewPage implements OnInit {
   back() {
     return this.navCtrl.navigateBack('/transfer-list');
   }
+
+  loadLogo($event, candidate) {
+    return candidate.candidate_personal_photo_thumb = null;
+  }
 }

@@ -61,5 +61,8 @@ export class StoreViewPage implements OnInit {
       }
     });
   }
+  loadLogo($event,candidate) {
+    return candidate.candidate_personal_photo_thumb = null;
+  }
 }
 
