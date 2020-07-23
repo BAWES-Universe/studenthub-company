@@ -134,7 +134,7 @@ jobs:
                 command: aws s3 sync ~/completed-build/www/ s3://studenthub-company-dev/
             - run:
                 name: Invalidate Cloudfront Cache
-                command: aws cloudfront create-invalidation --distribution-id EIRT749R0TF4C --paths '/*'
+                command: aws cloudfront create-invalidation --distribution-id E35EUWNVIJT2KU --paths '/*'
 
     # Job: Deploy completed build on Staging S3 Bucket
     deploy_on_staging_server:
