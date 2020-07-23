@@ -1,0 +1,23 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "payroll-company-v1",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "showSpinner": false,
+      "launchShowDuration": 30000,
+      "backgroundColor": "#ffffffff",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "androidSpinnerStyle": "large",
+      "iosSpinnerStyle": "small",
+      "spinnerColor": "#f24459",
+      "splashFullScreen": true,
+      "splashImmersive": true
+    }
+  },
+  "cordova": {}
+}

@@ -1,0 +1,31 @@
+.text-list {
+    ion-skeleton-text {
+        height: 20px;
+        margin: 0;
+        padding: 0;
+        display: block;
+    }
+}
+
+
+.text-list-view {
+  h5 {
+    ion-skeleton-text{
+      height: 15px;
+      margin: 0;
+      padding: 0;
+      width: 139px;
+      display: block;
+    }
+  }
+  p {
+    ion-skeleton-text{
+      height: 10px;
+      margin: 0;
+      padding: 0;
+      width: 169px;
+      display: block;
+      margin-top: 11px;
+    }
+  }
+}

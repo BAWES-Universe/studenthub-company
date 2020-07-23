@@ -1,125 +1,54 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { HttpModule } from '@angular/http';
-import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
-import { IonicStorageModule } from '@ionic/storage';
+import { RouteReuseStrategy } from '@angular/router';
 
-// Ionic Native
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
-// App Imports
-import { MyApp } from './app.component';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AuthService } from "./providers/auth.service";
+import { HttpClientModule } from "@angular/common/http";
+import { environment } from "../environments/environment";
+import { IonicStorageModule, Storage } from "@ionic/storage";
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+import { UpdateAlertModule } from './components/update-alert/update-alert.module';
+import { File } from '@ionic-native/file/ngx';
+import {SentryErrorhandlerService} from "./providers/sentry.errorhandler.service";
 
-/**
- * Modules
- */
-import { EnvironmentsModule } from './environments/environments.module';
 
-// Start Pages [Logged Out]
-import { LoginPage } from '../pages/start-pages/login/login';
-// Pages when logged in
-import { NavigationPage } from '../pages/logged-in/navigation/navigation';
-
-import { CompanyListPage } from '../pages/logged-in/company/company-list/company-list';
-import { CompanyViewPage } from '../pages/logged-in/company/company-view/company-view';
-import { StoreListPage } from '../pages/logged-in/store/store-list/store-list';
-import { StoreViewPage } from '../pages/logged-in/store/store-view/store-view';
-import { CandidateListPage } from '../pages/logged-in/candidate/candidate-list/candidate-list';
-import { CandidateViewPage } from '../pages/logged-in/candidate/candidate-view/candidate-view';
-import { TransferListPage } from '../pages/logged-in/transfer/transfer-list/transfer-list';
-import { TransferFormPage } from '../pages/logged-in/transfer/transfer-form/transfer-form';
-import { ImportTransferFormPage } from '../pages/logged-in/transfer/import-transfer-form/import-transfer-form';
-import { TransferViewPage } from '../pages/logged-in/transfer/transfer-view/transfer-view';
-import { ChangePassword } from '../pages/logged-in/account/change-password/change-password';
-
-// Providers / Services
-import { AuthService } from '../providers/auth.service';
-import { ConfigService } from '../providers/config.service';
-import { AuthHttpService } from '../providers/logged-in/authhttp.service';
-import { CandidateService } from '../providers/logged-in/candidate.service';
-import { TransferService } from '../providers/logged-in/transfer.service';
-import { StoreService } from '../providers/logged-in/store.service';
-import { CompanyService } from '../providers/logged-in/company.service';
-import { AccountService } from '../providers/logged-in/account.service';
-
-// Pipes
-import { GroupByPipe } from '../pipes/groupby-pipe';
-import { SortPipe } from '../pipes/timestamp-pipe';
-import { StoreIdPipe } from '../pipes/store-id-pipe';
-
-const cloudSettings: CloudSettings = {
-  'core': {
-    'app_id': '1c2a3c7a'
-  }
-};
+export function startupServiceFactory(authService, storage) {
+  return () => authService.load();
+}
 
 @NgModule({
-  declarations: [
-    MyApp,
-    // Logged Out
-    LoginPage,
-    // Logged In
-    NavigationPage,
-    CompanyListPage,
-    CompanyViewPage,
-    StoreListPage,
-    StoreViewPage,
-    CandidateListPage,
-    CandidateViewPage,
-    TransferListPage,
-    TransferFormPage,
-    ImportTransferFormPage,
-    TransferViewPage,
-    ChangePassword,
-    // Pipes
-    GroupByPipe,
-    SortPipe,
-    StoreIdPipe
-  ],
-  entryComponents: [
-    MyApp,
-    // Logged Out
-    LoginPage,
-    // Logged In
-    NavigationPage,
-    CompanyListPage,
-    CompanyViewPage,
-    StoreListPage,
-    StoreViewPage,
-    CandidateListPage,
-    CandidateViewPage,
-    TransferListPage,
-    TransferFormPage,
-    ImportTransferFormPage,
-    TransferViewPage,
-    ChangePassword
-  ],
+  declarations: [AppComponent],
+  entryComponents: [],
   imports: [
     BrowserModule,
-    HttpModule,
-    IonicModule.forRoot(MyApp),
-    CloudModule.forRoot(cloudSettings),
-    IonicStorageModule.forRoot(),
-    // Custom Modules
-    EnvironmentsModule
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+    IonicStorageModule.forRoot({
+      name: '__payroll_company',
+      version: 2
+      //driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
+    }),
+    UpdateAlertModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
   ],
   providers: [
-      // Ionic Native 
-      StatusBar,
-      SplashScreen,
-      {provide: ErrorHandler, useClass: IonicErrorHandler},
-      // Custom
-      AuthService, // Handles all Authorization
-      ConfigService, // Handles Environment-specific Variables
-      CompanyService,
-      StoreService,
-      CandidateService,
-      TransferService,
-      AuthHttpService,
-      AccountService
+    {
+      // Provider for APP_INITIALIZER
+      provide: APP_INITIALIZER,
+      useFactory: startupServiceFactory,
+      deps: [AuthService, Storage],
+      multi: true
+    },
+    File,
+    SwUpdate,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],
-  bootstrap: [IonicApp]
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,8 +1,7 @@
 {
-  "name": "ionic-default",
-  "app_id": "b5dbc77a",
-  "type": "ionic-angular",
+  "name": "payroll-company-v1",
   "integrations": {
-    "cordova": {}
-  }
+    "capacitor": {}
+  },
+  "type": "angular"
 }

@@ -1,0 +1,39 @@
+<ion-content class='contentArea ion-padding'>
+  <div class='brand'>
+    <ion-img src="assets/icon.png"></ion-img>
+    <h3>Studenthub Payroll</h3>
+  </div>
+
+  <ion-card class='loginCard'>
+    <ion-card-content class='authArea'>
+
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()"  class="classicInput" novalidate>
+
+        <ion-input type="email" #emailInput
+                   formControlName="email"
+                   placeholder="Your Email Address">
+        </ion-input>
+
+        <ion-input type="password" #passwordInput
+                   formControlName="password"
+                   placeholder="Your Password">
+        </ion-input>
+
+        <div class="ion-text-center submit-btn">
+          <ion-button expand="block" type="submit"
+                  [disabled]="!loginForm.valid || isLoading ||
+                        (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)">
+
+            <ion-spinner *ngIf="isLoading"></ion-spinner>
+            <span *ngIf="!isLoading">Sign in</span>
+          </ion-button>
+        </div>
+
+      </form>
+      <!-- END Login Form -->
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

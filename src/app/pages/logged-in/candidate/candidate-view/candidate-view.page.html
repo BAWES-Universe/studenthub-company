@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/company-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="candidate">{{ candidate.candidate_name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <loading-modal [loading]="loading" type="candidate-detail"></loading-modal>
+  <ion-item-group *ngIf="candidate">
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-img  *ngIf="candidate.candidate_personal_photo_thumb" src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}" (ionError)="loadLogo($event,candidate)"></ion-img>
+        <ion-img  *ngIf="!candidate.candidate_personal_photo_thumb" src="/assets/icon.png"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ candidate.candidate_name }}</h2>
+        <p>{{ candidate.candidate_name_ar }}</p>
+        <p>C{{ candidate.candidate_id }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item href='tel:{{ candidate.candidate_phone }}' target='_blank'>
+      <ion-icon name="call" slot="start"></ion-icon>
+      <ion-label>{{ candidate.candidate_phone }}</ion-label>
+    </ion-item>
+    <ion-item href='mailto:{{ candidate.candidate_email }}' target='_blank'>
+      <ion-icon name="mail" slot="start"></ion-icon>
+      <ion-label>{{ candidate.candidate_email }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="pin" slot="start"></ion-icon>
+      <ion-label>{{ candidate.candidate_address_line1 }}</ion-label>
+    </ion-item>
+
+    <ion-item-divider color="light">Store Assignment</ion-item-divider>
+    <ion-item *ngIf="workHistory">
+      <p *ngFor="let history of workHistory">
+        <label>{{ history.store.store_name }}: {{ history.start_date | date }} </label> to
+        <label *ngIf="history.end_date" >{{ history.end_date | date }}</label>
+        <label *ngIf="!history.end_date" >now</label>
+      </p>
+    </ion-item>
+    <ion-item *ngIf="!candidate.store_id">
+<!--      <ion-button expand="full" (click)="assignToStoreButtonClicked()">Assign Candidate to Store</ion-button>-->
+      <ion-button expand="full">Assign Candidate to Store</ion-button>
+    </ion-item>
+    <ion-item-divider color="light">Personal</ion-item-divider>
+    <ion-item>
+      <ion-label>
+        <h5>Age</h5>
+        <p>{{ candidate.age }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="candidate.country">
+      <ion-label>
+        <h5>Nationality</h5>
+        <p>{{ candidate.country.country_name_en }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="candidate.university">
+      <ion-label>
+        <h5>University</h5>
+        <p>{{ candidate.university.university_name_en }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item-divider color="light">Civil ID</ion-item-divider>
+    <ion-item>
+      <ion-label>
+        <h5>Civil ID Number</h5>
+        <p>{{ candidate.candidate_civil_id }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5>Birth date</h5>
+        <p>{{ candidate.candidate_birth_date }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5>Expiry Date</h5>
+        <p>{{ candidate.candidate_civil_expiry_date }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="candidate.candidate_civil_photo_front">
+      <ion-label>
+        <h5>ID Photo Front</h5>
+        <p>
+          <a [href]="aws.permanentBucketUrl + candidate.candidate_civil_photo_front" target='_blank'>
+            {{ candidate.candidate_civil_photo_front }}
+          </a>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="candidate.candidate_civil_photo_back">
+      <ion-label>
+        <h5>ID Photo Back</h5>
+        <p>
+          <a [href]="aws.permanentBucketUrl + candidate.candidate_civil_photo_back" target='_blank'>
+            {{ candidate.candidate_civil_photo_back }}
+          </a>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-item-group>
+</ion-content>

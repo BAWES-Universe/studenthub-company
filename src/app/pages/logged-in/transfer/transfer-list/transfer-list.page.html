@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Transfers</ion-title>
+    <ion-buttons slot="end" *ngIf="transfers && transfers.length > 0 && totalEmployees > 0">
+      <ion-button expand="block" (click)="presentActionSheetForNewTransfer()">
+        Create New <br/> Transfer
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <section class="ion-padding no-transfers" *ngIf="transfers && transfers.length == 0">
+    <ion-icon name="ios-filing-outline"></ion-icon>
+    <h2>Create a transfer to start salary distribution</h2>
+    <ion-button (click)="presentActionSheetForNewTransfer()">
+      Create your first transfer
+    </ion-button>
+  </section>
+  <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
+  <section *ngIf="transfers && transfers.length > 0 && !loading">
+    <ion-segment [(ngModel)]="inProgress" *ngIf="completedTransfers.length > 0">
+      <ion-segment-button value="In Progress">
+        In Progress
+      </ion-segment-button>
+      <ion-segment-button value="completed">
+        Completed
+      </ion-segment-button>
+    </ion-segment>
+    <div [ngSwitch]="inProgress">
+      <ion-list *ngSwitchCase="'In Progress'">
+        <!-- Locked Transfers, waiting for payment -->
+        <div *ngIf="lockTransfers.length > 0">
+          <ion-item-divider color="light"><b>Waiting for your payment</b></ion-item-divider>
+          <ion-item tappable *ngFor="let transfer of lockTransfers" (click)="transferDetails(transfer.transfer_id)">
+            <ion-label>
+              <p>Transfer #{{transfer.transfer_id}}</p>
+              {{transfer.transfer_created_at}}
+            </ion-label>
+            <ion-badge slot="end">KWD {{transfer.company_total}}</ion-badge>
+          </ion-item>
+        </div>
+        <!-- Transfer Drafts -->
+        <div *ngIf="draftTransfers.length > 0">
+          <ion-item-divider color="light"><b>Draft</b></ion-item-divider>
+          <ion-item tappable *ngFor="let transfer of draftTransfers" (click)="transferDetails(transfer.transfer_id)">
+            <ion-label>
+              <p>Transfer #{{transfer.transfer_id}}</p>
+              {{transfer.transfer_created_at}}
+            </ion-label>
+            <ion-badge slot="end">KWD {{transfer.company_total}}</ion-badge>
+          </ion-item>
+        </div>
+        <!-- Transfers with Distribution in Progress -->
+        <div *ngIf="inProgressTransfers.length > 0">
+          <ion-item-divider color="light"><b>In Progress</b></ion-item-divider>
+          <ion-item tappable *ngFor="let transfer of inProgressTransfers" (click)="transferDetails(transfer.transfer_id)">
+            <ion-label>
+              <p>Transfer #{{transfer.transfer_id}}</p>
+              {{transfer.transfer_created_at}}
+            </ion-label>
+            <ion-badge slot="end">KWD {{transfer.company_total}}</ion-badge>
+          </ion-item>
+        </div>
+        <!-- Transfers Where Company Sent Payment -->
+        <div *ngIf="sentTransfers.length > 0">
+          <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
+          <ion-item tappable *ngFor="let transfer of sentTransfers" (click)="transferDetails(transfer.transfer_id)">
+            <ion-label>
+              <p>Transfer #{{transfer.transfer_id}}</p>
+              {{transfer.transfer_created_at}}
+            </ion-label>
+            <ion-badge slot="end">KWD {{transfer.company_total}}</ion-badge>
+          </ion-item>
+        </div>
+      </ion-list>
+
+      <!-- Completed Transfers -->
+      <ion-list *ngSwitchCase="'completed'">
+        <div *ngIf="completedTransfers.length > 0">
+          <ion-item tappable *ngFor="let transfer of completedTransfers" (click)="transferDetails(transfer.transfer_id)">
+            <ion-label>
+              <p>Transfer #{{transfer.transfer_id}}</p>
+              {{ transfer.transfer_created_at }}
+            </ion-label>
+            <ion-badge slot="end">KWD {{ transfer.company_total }}</ion-badge>
+          </ion-item>
+        </div>
+      </ion-list>
+    </div>
+
+    <ion-row class="ion-text-center">
+      <div class="pagination-wrapper">
+        <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+          {{ page }}
+        </ion-button>
+      </div>
+    </ion-row>
+  </section>
+</ion-content>

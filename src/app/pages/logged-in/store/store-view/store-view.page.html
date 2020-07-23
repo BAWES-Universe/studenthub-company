@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="company-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="store">{{ store.store_name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list *ngIf="store && store.candidates">
+    <ion-item-divider color="light"><b>Assigned Employees</b></ion-item-divider>
+    <ion-item tappable *ngFor="let candidateMember of store.candidates" (click)="candidateSelected(candidateMember)">
+        <ion-avatar slot="start">
+          <ion-img  *ngIf="candidateMember.candidate_personal_photo_thumb" src="{{ aws.permanentBucketUrl + candidateMember.candidate_personal_photo_thumb }}" (ionError)="loadLogo($event,candidateMember)"></ion-img>
+          <ion-img  *ngIf="!candidateMember.candidate_personal_photo_thumb" src="/assets/icon.png"></ion-img>
+        </ion-avatar>
+      <ion-label>
+        {{ candidateMember.candidate_name}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

@@ -1,137 +1,156 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Deploy } from '@ionic/cloud-angular';
-import { Platform, Events, ToastController, AlertController } from 'ionic-angular';
+import { Component, OnInit, ApplicationRef } from '@angular/core';
+import { AlertController, NavController, Platform } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
+import { SwUpdate } from '@angular/service-worker';
+import { environment } from 'src/environments/environment';
+import { first } from 'rxjs/operators';
+import { interval, concat } from 'rxjs';
+//services
+import { AuthService } from "./providers/auth.service";
+import { EventService } from "./providers/event.service";
+import {CandidateService} from "./providers/logged-in/candidate.service";
 
-// Native Components
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { LoginPage } from '../pages/start-pages/login/login';
-import { NavigationPage } from '../pages/logged-in/navigation/navigation';
-
-import { AuthService } from '../providers/auth.service';
+const { SplashScreen } = Plugins;
 
 @Component({
-  templateUrl: 'app.html'
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss']
 })
-export class MyApp implements OnInit {
-  rootPage;
+export class AppComponent implements OnInit {
+
+  public selectedIndex = 0;
+  public totalEmployees = 0;
+
+  public updatesAvailable: boolean = false;
 
   constructor(
-      public deploy: Deploy,
-      private _platform: Platform,
-      private _events: Events,
-      private _toastCtrl: ToastController,
-      private _alertCtrl: AlertController,
-      private _auth: AuthService,
-      private _zone: NgZone,
-      statusBar: StatusBar, splashScreen: SplashScreen
+    public updates: SwUpdate,
+    public appRef: ApplicationRef,
+    private platform: Platform,
+    public auth: AuthService,
+    public eventService: EventService,
+    public navCtrl: NavController,
+    public _alertCtrl: AlertController,
+    public candidateService: CandidateService
   ) {
-    this._platform.ready().then(() => {
-        // Native functions
-        if (this._platform.is('cordova') && this._platform.is('mobile')) {
-            statusBar.styleDefault();
-            splashScreen.hide();
+    this.initializeApp();
+  }
 
-            // Check for App update via Ionic Deploy
-            this._checkForUpdate();
-        }
+  initializeApp() {
+    this.platform.ready().then(() => {
 
-        // Initiate the access token request which determines login status.
-        this._auth.getAccessToken();
+      if (this.platform.is('hybrid')) {
+        SplashScreen.hide();
+      }
+
+      this.setServiceWorker();
+    });
+  }
+
+  async ngOnInit() {
+    this.eventSub();
+    this.loadTotalEmployee();
+  }
+
+  logout() {
+    this.auth.logout();
+  }
+
+  eventSub() {
+
+    // Check for network connection
+    this.eventService.internetOffline$.subscribe(async () => {
+      let alert = await this._alertCtrl.create({
+        header: 'No Internet Connection',
+        subHeader: 'Sorry, no Internet connectivity detected. Please reconnect and try again.',
+        buttons: ['Dismiss']
+      });
+      alert.present();
+    });
+
+    // On Login Event, set root to Internal app page
+    this.eventService.userLogined$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/']);
+    });
+
+    // On Logout Event, set root to Login Page
+    this.eventService.userLoggedOut$.subscribe((logoutReason) => {
+      // Set root to Login Page
+      this.navCtrl.navigateRoot(['/login']);
+
+      // Show Message explaining logout reason if there's one set
+      if (logoutReason) {
+        console.log(logoutReason);
+        console.log('Invalid Access');
+      }
     });
   }
 
   /**
-   * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
+   * keep checking for service worker update
    */
-  ngOnInit(){
+  setServiceWorker() {
 
-      // Check for network connection
-      this._events.subscribe('internet:offline', (userEventData) => {
-        let alert = this._alertCtrl.create({
-          title: 'No Internet Connection',
-          subTitle: 'Sorry, no Internet connectivity detected. Please reconnect and try again.',
-          buttons: ['Dismiss']
+    // service worker watcher
+    if (!this.platform.is('capacitor')) {
+
+      if ('serviceWorker' in navigator && environment.serviceWorker && window.location.hostname != 'localhost') {
+
+        navigator.serviceWorker.register('./ngsw-worker.js');
+
+        // Allow the app to stabilize first, before starting polling for updates with `interval()`.
+        const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
+        const updateInterval$ = interval(60 * 1000);// every minute
+        const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
+
+        updateIntervalOnceAppIsStable$.subscribe(() => {
+          this.updates.checkForUpdate().then((e) => {
+          });
         });
-        alert.present();
-      });
 
-      // On Login Event, set root to Internal app page
-      this._events.subscribe('user:login', (userEventData) => {
-        this._zone.run(() => {
-          this.rootPage = NavigationPage;
+        this.updates.available.subscribe((e) => {
+          this.updatesAvailable = true;
         });
-      });
 
-      // On Logout Event, set root to Login Page
-      this._events.subscribe('user:logout', (logoutReason) => {
-        // Set root to Login Page
-        this.rootPage = LoginPage;
-
-        // Show Message explaining logout reason if there's one set
-        if(logoutReason){
-          console.log(logoutReason);
-        }
-
-      });
+        this.updates.activated.subscribe((e) => {
+          this.updatesAvailable = false;
+        }, reason => {
+          console.error('service worker update activation failed', reason);
+        });
+      }
+    }
   }
 
   /**
-   * Check for app updates on the deploy channel
+   * When user select refresh on udpate available prompt
    */
-  private _checkForUpdate(){
-    this.deploy.channel = 'production';
-    this.deploy.check().then((hasUpdate: boolean) => {
-      if (hasUpdate) {
-        // Show Toast with Download Progress
-        let toast = this._toastCtrl.create({
-                        message: 'Downloading Update .. 0%',
-                        position: 'bottom',
-                        showCloseButton: false,
-                    });
-        toast.present();
+  onUpdateAlertRefresh() {
 
-        // update is available, download and extract the update
-        this.deploy.download({
-            onProgress: p => {
-                toast.setMessage('Downloading Update .. ' + p + '%');
-                //console.log('Downloading = ' + p + '%');
-            }
-        }).then(() => {
-          this.deploy.extract({
-              onProgress: p => {
-                  toast.setMessage('Extracting .. ' + p + '%');
-                  //console.log('Extracting = ' + p + '%');
-              }
-          }).then(() => {
-            // Reload App after 3 seconds
-            toast.setMessage('Restarting app to apply update..');
-            setTimeout(() => {
-              this.deploy.load();
-            }, 3000);
+    if (!this.updatesAvailable) {
+      return this.updatesAvailable = false;
+    }
 
-            // Get info about the currently active snapshot 
-            this.deploy.info().then((info: {deploy_uuid: string, binary_version: string}) => {
-              
-              let activeSnapshot = info.deploy_uuid;
+    try {
+      this.updates.activateUpdate().then(() => {
+      });
+    } catch {
+    }
 
-              // List of snapshots applied on this device.
-              this.deploy.getSnapshots().then((snapshots) => {
-                // Loop through Existing snapshots and delete the inactive ones
-                snapshots.forEach(snapshot => {
-                  if(snapshot != activeSnapshot){
-                    this.deploy.deleteSnapshot(snapshot).then(() => {
-                      // Reload app to apply the update
-                      return this.deploy.load();
-                    });
-                  }
-                });
-              });
-            });
-          });
-        });
-      }
+    window.location.reload();
+  }
+
+  /**
+   * When user select close on udpate available prompt
+   */
+  onUpdateAlertClose() {
+    this.updatesAvailable = false;
+  }
+
+  loadTotalEmployee() {
+    this.candidateService.total().subscribe(result => {
+      this.totalEmployees = result;
     });
   }
 }

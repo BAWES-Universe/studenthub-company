@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content  class="ion-padding">
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  <ion-list *ngIf="companies && !loading">
+    <ion-item tappable
+            *ngFor="let company of companies"
+            (click)="companySelected(company)">
+      <ion-label>{{ company.company_id }} - {{ company.company_name }}</ion-label>
+
+      <!-- Assigned employees count badge -->
+      <ion-badge slot="end" *ngIf="company.totalCandidates && company.totalCandidates > 0">
+        {{ company.totalCandidates }} {{ company.totalCandidates > 1 ? "employees" : "employee" }}
+      </ion-badge>
+      <!-- Subcompany count badge -->
+      <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
+        {{ company.subCompanies.length }} {{ company.subCompanies.length > 1 ? "subcompanies" : "subcompany" }}
+      </ion-badge>
+      <!-- Store count badge -->
+      <ion-badge slot="end" *ngIf="company.stores && company.stores.length > 0">
+        {{ company.stores.length }} {{ company.stores.length > 1 ? "stores" : "store" }}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="stores && !loading">
+    <ion-item-sliding *ngFor="let store of stores">
+      <ion-item (click)="rowSelected(store)" tappable>
+        <ion-label>{{ store.store_id }} {{ store.store_name }}</ion-label>
+        <ion-badge slot="end" *ngIf="store.totalCandidates > 0">
+          {{ store.totalCandidates }} {{ store.totalCandidates > 1 ? "employees" : "employee" }}
+        </ion-badge>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
