@@ -178,7 +178,6 @@ export class TransferFormPage implements OnInit {
             },
             {
               text: 'Yes',
-              role: 'cancel',
               handler: () => {
                 this.save();
               }
