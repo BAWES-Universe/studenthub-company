@@ -105,9 +105,12 @@
           [class.zeroHours]="transferDetails && (transferDetails.transfer_status==10) && (resource.hours == 0)">
 
           <ion-avatar slot="start">
-            <ion-img  *ngIf="resource.candidate.candidate_personal_photo_thumb" src="{{ aws.permanentBucketUrl + resource.candidate.candidate_personal_photo_thumb }}" (ionError)="loadLogo($event,resource.candidate)"></ion-img>
-            <ion-img  *ngIf="!resource.candidate.candidate_personal_photo_thumb" src="/assets/icon.png"></ion-img>
+            <ion-img *ngIf="resource.candidate.candidate_personal_photo_thumb"
+              src="{{ aws.permanentBucketUrl + resource.candidate.candidate_personal_photo_thumb }}"
+              (ionError)="loadLogo($event,resource.candidate)"></ion-img>
+            <ion-img *ngIf="!resource.candidate.candidate_personal_photo_thumb" src="/assets/icon.png"></ion-img>
           </ion-avatar>
+
           <ion-label>
             <h2>{{resource.candidate.candidate_name}}</h2>
 
@@ -116,12 +119,14 @@
             <p *ngIf="resource.bonus">Bonus KD {{resource.bonus | number}}</p>
             <p><b>KD {{ total(resource) }}</b></p>
 
-            <ion-badge slot="start" [color]="resource.paid=='1'?'secondary':'dark'"
-              *ngIf="transferDetails.transfer_status==3 || transferDetails.transfer_status==4">
-              <ion-icon name="checkmark-circle-outline" *ngIf="resource.paid=='1'"></ion-icon>
-              <span *ngIf="resource.paid=='0'"> Transfer in progress </span>
+            <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.total_paid > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
+              Transfer in progress  
             </ion-badge>
           </ion-label>
+
+          <ion-badge slot="end" color="secondary" *ngIf="resource.paid == '1' && resource.total_paid > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          </ion-badge>
         </ion-item>
       </ion-item-group>
     </ion-list>
