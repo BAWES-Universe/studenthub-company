@@ -44,7 +44,7 @@ export class TransferListPage implements OnInit {
   }
 
   ionViewWillEnter() {
-   this.loadData(this.currentPage);
+   this.loadData(1);
   }
 
   /**
@@ -88,28 +88,16 @@ export class TransferListPage implements OnInit {
     this.loading = true;
 
     this.transferService.list(this.currentPage).subscribe(response => {
-
+        this.loading = false;
         this.pageCount = response.headers.get('X-Pagination-Page-Count');
         this.currentPage = response.headers.get('X-Pagination-Current-Page');
-
-        this.pages = [];
-
-        for (let i = 1; i <= this.pageCount; i++) {
-          this.pages.push(i);
-        }
-
-        // hide if page = 1
-        if (this.pageCount == 1) {
-          this.pages = [];
-        }
-
-        this.transfers = response.body;
+        this.transfers = this.transfers.concat(response.body);
         this.organiseTransfers();
 
       },
       error => { },
       () => {
-        infiniteScroll.complete();
+        infiniteScroll.target.complete();
       });
   }
 

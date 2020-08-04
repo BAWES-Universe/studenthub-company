@@ -57,7 +57,7 @@ export class StoreListPage implements OnInit {
     },
       error => { },
       () => {
-        infiniteScroll.complete();
+        infiniteScroll.target.complete();
       });
   }
 
