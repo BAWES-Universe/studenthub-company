@@ -20,8 +20,7 @@
       Create your first transfer
     </ion-button>
   </section>
-  <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
-  <section *ngIf="transfers && transfers.length > 0 && !loading">
+  <section *ngIf="transfers && transfers.length > 0">
     <ion-segment [(ngModel)]="inProgress" *ngIf="completedTransfers.length > 0">
       <ion-segment-button value="In Progress">
         In Progress
@@ -91,16 +90,9 @@
         </div>
       </ion-list>
     </div>
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
-
-    <ion-row class="ion-text-center">
-      <div class="pagination-wrapper">
-        <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
-          {{ page }}
-        </ion-button>
-      </div>
-    </ion-row>
   </section>
+  <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
 </ion-content>
