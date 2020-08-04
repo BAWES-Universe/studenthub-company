@@ -91,6 +91,9 @@
         </div>
       </ion-list>
     </div>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
     <ion-row class="ion-text-center">
       <div class="pagination-wrapper">

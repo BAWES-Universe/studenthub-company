@@ -234,11 +234,13 @@ export class ImportTransferFormPage implements OnInit {
     // Load list of transfer
     let loader = await this._loadingCtrl.create();
     loader.present();
+
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
       this.transfer = response;
       // Update Page Title if Editing a Transfer that already exists in backend
       this.pageTitle = "Edit Transfer via Excel";
-      this.scenario = 'update'
+      this.scenario = 'update';
+
       loader.dismiss();
     });
   }

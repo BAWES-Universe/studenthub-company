@@ -65,6 +65,31 @@ export class CompanyListPage implements OnInit {
     return '';
   }
 
+  /**
+   * load more on scroll to bottom
+   * @param event
+   */
+  doInfinite(event) {
+
+    this.loading = true;
+
+    this.currentPage++;
+
+    this.companyService.list(this.currentPage).subscribe(response => {
+
+      this.loading = false;
+
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+      this.pages = this.pages.concat(response.body);
+      event.target.complete();
+
+    }, () => {
+      this.loading = false;
+    });
+  }
+
   rowSelected(model) {
 
     // Load Detail Page
