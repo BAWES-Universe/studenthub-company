@@ -105,10 +105,10 @@
           [class.zeroHours]="transferDetails && (transferDetails.transfer_status==10) && (resource.hours == 0)">
 
           <ion-avatar slot="start">
-            <ion-img *ngIf="resource.candidate.candidate_personal_photo_thumb"
-              src="{{ aws.permanentBucketUrl + resource.candidate.candidate_personal_photo_thumb }}"
+            <ion-img *ngIf="resource.candidate.candidate_personal_photo"
+              src="{{ aws.cloudinaryUrl + resource.candidate.candidate_personal_photo }}"
               (ionError)="loadLogo($event,resource.candidate)"></ion-img>
-            <ion-img *ngIf="!resource.candidate.candidate_personal_photo_thumb" src="/assets/icon.png"></ion-img>
+            <ion-img *ngIf="!resource.candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
           </ion-avatar>
 
           <ion-label>
