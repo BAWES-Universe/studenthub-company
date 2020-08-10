@@ -20,6 +20,7 @@ export class AwsService {
     //https://studenthub-uploads.s3.amazonaws.com/
    
     public permanentBucketUrl = environment.permanentBucketUrl;
+    public cloudinaryUrl = environment.cloudinaryUrl;
 
     private _region = "eu-west-2"; //London
     private _access_key_id = "AKIAJXOMRCDE65WKBPUA";

@@ -63,6 +63,7 @@ export class CandidateViewPage implements OnInit {
   }
 
   loadLogo($event, candidate) {
+    candidate.candidate_personal_photo = null;
     candidate.candidate_personal_photo_thumb = null;
   }
 }
