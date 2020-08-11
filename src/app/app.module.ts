@@ -6,17 +6,17 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthService } from "./providers/auth.service";
-import { HttpClientModule } from "@angular/common/http";
-import { environment } from "../environments/environment";
-import { IonicStorageModule, Storage } from "@ionic/storage";
+import { AuthService } from './providers/auth.service';
+import { HttpClientModule } from '@angular/common/http';
+import { environment } from '../environments/environment';
+// import { IonicStorageModule, Storage } from "@ionic/storage";
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 import { File } from '@ionic-native/file/ngx';
-import {SentryErrorhandlerService} from "./providers/sentry.errorhandler.service";
+import {SentryErrorhandlerService} from './providers/sentry.errorhandler.service';
 
 
-export function startupServiceFactory(authService, storage) {
+export function startupServiceFactory(authService) {
   return () => authService.load();
 }
 
@@ -28,11 +28,11 @@ export function startupServiceFactory(authService, storage) {
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    IonicStorageModule.forRoot({
-      name: '__payroll_company',
-      version: 2
-      //driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
-    }),
+    // IonicStorageModule.forRoot({
+    //   name: '__payroll_company',
+    //   version: 2
+    //   //driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
+    // }),
     UpdateAlertModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
   ],
@@ -41,7 +41,7 @@ export function startupServiceFactory(authService, storage) {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
-      deps: [AuthService, Storage],
+      deps: [AuthService],
       multi: true
     },
     File,

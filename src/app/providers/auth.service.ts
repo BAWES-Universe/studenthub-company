@@ -1,37 +1,39 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, throwError } from "rxjs";
-import { first, map, retryWhen, take } from "rxjs/operators";
-import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { genericRetryStrategy } from "../util/genericRetryStrategy";
-import { Storage } from '@ionic/storage';
-// service
-import { environment } from "../../environments/environment";
-import { EventService } from "./event.service";
+import { EMPTY, Observable, throwError } from 'rxjs';
+import { first, map, retryWhen, take } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { genericRetryStrategy } from '../util/genericRetryStrategy';
 
+import { Plugins } from '@capacitor/core';
+
+// service
+import { environment } from '../../environments/environment';
+import { EventService } from './event.service';
+
+const { Storage } = Plugins;
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private _accessToken;
+  private accessToken;
   public company_id: number;
   public name: string;
   public email: string;
 
   public isLogged = false;
 
-  public displayCookieMessage = false;
+  public displayCookieMessage = '0';
 
   public showOneSignalPrompt = false;
-  private _urlBasicAuth: string = "/auth/login";
-  public _urlLocate = '/auth/locate';
+  private urlBasicAuth = '/auth/login';
+  public urlLocate = '/auth/locate';
 
   constructor(
-    public _http: HttpClient,
+    public http: HttpClient,
     public router: Router,
-    public _storage: Storage,
     public eventService: EventService
   ) { }
 
@@ -43,37 +45,27 @@ export class AuthService {
      * new router changes don't wait for startup service
      * https://github.com/angular/angular/issues/14615
      */
-    return new Promise(resolve => {
+    return new Promise(async resolve => {
 
       if (this.isLogged) {
         resolve(true);
       }
 
-      this._storage.get('loggedInCompany').then(data => {
+      const ret = await Storage.get({ key: 'loggedInCompany' });
+      const data = JSON.parse(ret.value);
 
-        if (
-          data &&
-          data.token &&
-          data.company_id &&
-          data.name &&
-          data.email
-        ) {
+      if (data) {
+        this.isLogged = true;
+        this.accessToken = data.token;
+        this.company_id = data.company_id;
+        this.email = data.email;
+        this.name = data.name;
 
-          // to enable page to call restricted apis
-          this.isLogged = true;
-          this._accessToken = data.token;
-          this.company_id = data.company_id;
-          this.email = data.email;
-          this.name = data.name;
-
-          // set token without redirect if not already setting
-          // this.setAccessToken(data, false);
-          resolve(true);
-        } else {
-          resolve(false);
-          this.logout('invalid access');
-        }
-      });
+        resolve(true);
+      } else {
+        resolve(false);
+        this.logout('invalid access');
+      }
     });
   }
 
@@ -81,35 +73,41 @@ export class AuthService {
    * Save user data in storage
    */
   saveInStorage() {
-    return this._storage.set('loggedInCompany', {
-      token: this._accessToken,
-      company_id: this.company_id,
-      name: this.name,
-      email: this.email
+    return Storage.set({
+      key: 'loggedInCompany',
+      value: JSON.stringify({
+        token: this.accessToken,
+        company_id: this.company_id,
+        name: this.name,
+        email: this.email
+      })
     });
   }
 
   /**
-  * Logs a user out by setting logged in to false and clearing token from storage
-  * @param {string} [reason]
-  * @param {boolean} [silent]
-  */
+   * Logs a user out by setting logged in to false and clearing token from storage
+   * @param reason
+   * @param silent
+   */
   logout(reason?: string, silent = false) {
 
     this.isLogged = false;
 
     // Remove from Storage then process logout
 
-    this._accessToken = null;
+    this.accessToken = null;
     this.company_id = null;
     this.name = null;
     this.email = null;
-    this._storage.clear();
+    Storage.clear();
 
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
-    this._storage.set('cookieMessageWasApproved', !this.displayCookieMessage);
+    Storage.set({
+      key: 'cookieMessageWasApproved',
+      value : (this.displayCookieMessage == '0') ? '1' : '0'
+    });
   }
 
   /**
@@ -117,7 +115,7 @@ export class AuthService {
    */
   setAccessToken(response, redirect = false) {
 
-    this._accessToken = response.token;
+    this.accessToken = response.token;
     this.company_id = response.company_id;
     this.name = response.name;
     this.email = response.email;
@@ -125,16 +123,17 @@ export class AuthService {
     // Save to Storage
     this.saveInStorage();
 
-    if (this._accessToken) {
+    if (this.accessToken) {
       this.isLogged = true;
-      this.eventService.userLogined$.next({ redirect: redirect });
+      this.eventService.userLogined$.next({ redirect });
     }
   }
 
   // This is the method you want to call at bootstrap
-  load(): Promise<any> {
+  async load(): Promise<any> {
+    const ret = await Storage.get({ key: 'loggedInCompany' });
     const promises = [
-      this._storage.get('loggedInCompany')
+      JSON.parse(ret.value)
     ];
 
     return Promise.all(promises).then(data => {
@@ -156,26 +155,20 @@ export class AuthService {
   getAccessToken(redirect = false) {
 
     // Return Access Token if set already
-    if (this._accessToken) {
-      return this._accessToken;
+    if (this.accessToken) {
+      return this.accessToken;
     }
 
-    this._storage.get('loggedInCompany').then(data => {
+    Storage.get({ key: 'loggedInCompany' }).then(ret => {
+      const user = JSON.parse(ret.value);
 
-      if (data) {
-
-        this.setAccessToken(
-          data,
-          redirect
-        );
-
-        this._accessToken = data.token;
-      } else {
-        //  this.logout('error with store variables');
+      if (user) {
+        this.setAccessToken(user, redirect);
+        this.accessToken = user.token;
       }
     });
 
-    return this._accessToken;
+    return this.accessToken;
   }
 
   /**
@@ -187,10 +180,10 @@ export class AuthService {
   basicAuth(email: string, password: string): Observable<any> {
     // Add Basic Auth Header with Base64 encoded email and password
     const authHeader = new HttpHeaders({
-      'Authorization': 'Basic ' + btoa(`${email}:${password}`),
+      Authorization: 'Basic ' + btoa(`${email}:${password}`),
     });
-    const url = environment.apiEndpoint + this._urlBasicAuth;
-    return this._http.get(url, {
+    const url = environment.apiEndpoint + this.urlBasicAuth;
+    return this.http.get(url, {
       headers: authHeader,
     }).pipe(
       retryWhen(genericRetryStrategy()),
