@@ -5,10 +5,10 @@ import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 import { first } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
-//services
-import { AuthService } from "./providers/auth.service";
-import { EventService } from "./providers/event.service";
-import {CandidateService} from "./providers/logged-in/candidate.service";
+// services
+import { AuthService } from './providers/auth.service';
+import { EventService } from './providers/event.service';
+import {CandidateService} from './providers/logged-in/candidate.service';
 
 
 const { SplashScreen } = Plugins;
@@ -20,10 +20,10 @@ const { SplashScreen } = Plugins;
 })
 export class AppComponent implements OnInit {
 
-  public selectedIndex = 0;
-  public totalEmployees = 0;
+  public selectedIndex;
+  public totalEmployees;
 
-  public updatesAvailable: boolean = false;
+  public updatesAvailable = false;
 
   constructor(
     public updates: SwUpdate,
@@ -32,10 +32,11 @@ export class AppComponent implements OnInit {
     public auth: AuthService,
     public eventService: EventService,
     public navCtrl: NavController,
-    public _alertCtrl: AlertController,
+    public alertCtrl: AlertController,
     public candidateService: CandidateService
   ) {
     this.initializeApp();
+    // this.loadTotalEmployee();
   }
 
   initializeApp() {
@@ -62,7 +63,7 @@ export class AppComponent implements OnInit {
 
     // Check for network connection
     this.eventService.internetOffline$.subscribe(async () => {
-      let alert = await this._alertCtrl.create({
+      const alert = await this.alertCtrl.create({
         header: 'No Internet Connection',
         subHeader: 'Sorry, no Internet connectivity detected. Please reconnect and try again.',
         buttons: ['Dismiss']
@@ -70,10 +71,15 @@ export class AppComponent implements OnInit {
       alert.present();
     });
 
+    this.eventService.totalEmployee$.subscribe(userEventData => {
+      this.totalEmployees = userEventData;
+    });
+
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
       this.navCtrl.navigateRoot(['/']);
     });
+
 
     // On Logout Event, set root to Login Page
     this.eventService.userLoggedOut$.subscribe((logoutReason) => {
@@ -102,7 +108,7 @@ export class AppComponent implements OnInit {
 
         // Allow the app to stabilize first, before starting polling for updates with `interval()`.
         const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
-        const updateInterval$ = interval(60 * 1000);// every minute
+        const updateInterval$ = interval(60 * 1000); // every minute
         const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
 
         updateIntervalOnceAppIsStable$.subscribe(() => {
