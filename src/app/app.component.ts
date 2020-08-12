@@ -69,6 +69,7 @@ export class AppComponent implements OnInit {
         buttons: ['Dismiss']
       });
       alert.present();
+      this.navCtrl.navigateRoot(['/no-internet']);
     });
 
     this.eventService.totalEmployee$.subscribe(userEventData => {
@@ -79,6 +80,15 @@ export class AppComponent implements OnInit {
     this.eventService.userLogined$.subscribe(userEventData => {
       this.navCtrl.navigateRoot(['/']);
     });
+
+    this.eventService.error500$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/server-error']);
+    });
+
+    this.eventService.error404$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/not-found']);
+    });
+
 
 
     // On Logout Event, set root to Login Page
