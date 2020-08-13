@@ -42,4 +42,6 @@ export class EventService {
   public recentSearchUpdarted$ = new Subject();
   public accountAssignmentRemoved$ = new Subject();
   public scroll$ = new Subject();
+
+  public totalEmployee$ = new Subject();
 }

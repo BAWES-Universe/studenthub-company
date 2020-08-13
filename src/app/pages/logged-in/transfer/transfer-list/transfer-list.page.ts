@@ -5,6 +5,7 @@ import { Transfer } from 'src/app/models/transfer';
 // services
 import { TransferService } from 'src/app/providers/logged-in/transfer.service';
 import {CandidateService} from '../../../../providers/logged-in/candidate.service';
+import {EventService} from "../../../../providers/event.service";
 
 
 @Component({
@@ -35,7 +36,8 @@ export class TransferListPage implements OnInit {
     public navCtrl: NavController,
     public transferService: TransferService,
     private actionSheetCtrl: ActionSheetController,
-    private candidateService: CandidateService
+    private candidateService: CandidateService,
+    private eventService: EventService
   ) { }
 
   ngOnInit() {
@@ -195,6 +197,7 @@ export class TransferListPage implements OnInit {
   loadTotalEmployee() {
     this.candidateService.total().subscribe(result => {
       this.totalEmployees = result;
+      this.eventService.totalEmployee$.next(result);
     });
   }
 }

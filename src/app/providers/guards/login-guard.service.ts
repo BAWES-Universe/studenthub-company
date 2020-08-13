@@ -6,18 +6,18 @@ import { AuthService } from '../auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class LoginGuard implements CanActivate {
 
   constructor(private _authService: AuthService, private _router: Router) {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    // if (this._authService.employer &&  this._authService.employer_uuid && this._authService.isLogged) {
-        return true;
-    // }
+    if (this._authService.isLogged && this._authService.company_id) {
+      this._router.navigate(['/']);
+    }
     // navigate to login page
     // this._router.navigate(['/login']);
     // you can save redirect url so after authing we can move them back to the page they requested
-    // return false;
+    return true;
   }
 }

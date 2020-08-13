@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 // services
 import { AuthService } from './providers/auth.service';
+import {LoginGuard} from './providers/guards/login-guard.service';
 
 
 const routes: Routes = [
@@ -34,6 +35,7 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/start-pages/login/login.module').then(m => m.LoginPageModule),
+    canActivate: [LoginGuard],
   },
   {
     path: 'change-password',

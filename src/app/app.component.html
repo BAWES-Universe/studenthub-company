@@ -4,7 +4,7 @@
       <ion-header>
         <ion-toolbar class=" navi-header ion-text-center" style="height:auto;">
           <img class='logo' src="assets/icon.png" />
-          <h3>Studenthub Payroll</h3>
+          <h3>Studenthub Payroll {{ totalEmployees }}</h3>
         </ion-toolbar>
       </ion-header>
       <ion-content>
@@ -25,7 +25,7 @@
               <ion-label>
                 Employees
               </ion-label>
-              <ion-badge slot="end">
+              <ion-badge slot="end" *ngIf="totalEmployees">
                 {{ totalEmployees }}
               </ion-badge>
             </ion-item>
