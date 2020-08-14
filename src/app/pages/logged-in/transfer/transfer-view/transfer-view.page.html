@@ -3,7 +3,12 @@
     <ion-buttons slot="start">
       <ion-back-button (click)="back()"></ion-back-button>
     </ion-buttons>
-    <ion-title>Transfer {{ transferDetails?.company_total? "- KWD "+transferDetails.company_total : "" }}</ion-title>
+    <ion-title>
+      Transfer 
+      <span *ngIf="transferDetails?.company_total">
+        - KWD {{ transferDetails.company_total | number:'1.0-3' }}
+      </span>
+    </ion-title>
     <ion-buttons slot="end" *ngIf="transferDetails && transferDetails.transfer_status==10">
       <ion-button color="danger" *ngIf="transferDetails && (transferDetails.transfer_status==10)"
         (click)="delete(transferDetails)">
@@ -56,7 +61,7 @@
             <b>Transfer ID</b> <br /> {{ transferDetails.transfer_id}}
           </ion-col>
           <ion-col size-lg="3" size-md="3" size-sm="6" size-xs="6" class="ion-align-self-center">
-            <b>Transfer Total</b> <br /> KWD {{ transferDetails.company_total}}
+            <b>Transfer Total</b> <br /> KWD {{ transferDetails.company_total | number:'1.0-3' }}
           </ion-col>
           <ion-col size-lg="3" size-md="3" size-sm="6" size-xs="6" class="ion-align-self-center">
             <b>Created on</b> <br /> {{ transferDetails.transfer_created_at}}
@@ -74,7 +79,7 @@
       <ion-list>
         <ion-item tappable *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice)">
           <ion-label>
-            Download Invoice #{{ invoice.invoice_id }} - KWD {{invoice.invoice_total}}
+            Download Invoice #{{ invoice.invoice_id }} - KWD {{ invoice.invoice_total | number:'1.0-3' }}
             <small>{{ invoice.company.company_name }}</small>
           </ion-label>
         </ion-item>
@@ -87,7 +92,7 @@
       <ion-list>
         <ion-item tappable *ngFor="let receipt of receipts" (click)="downloadReceipt(receipt)">
           <ion-label>
-            Download Receipt #{{ receipt.invoice_id }} - KWD {{receipt.invoice_total}}<br />
+            Download Receipt #{{ receipt.invoice_id }} - KWD {{ receipt.invoice_total | number:'1.0-3' }}<br />
             <small>{{ receipt.company.company_name }}</small>
           </ion-label>
         </ion-item>

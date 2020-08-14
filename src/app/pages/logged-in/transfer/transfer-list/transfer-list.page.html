@@ -39,7 +39,7 @@
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
             </ion-label>
-            <ion-badge slot="end">KWD {{transfer.company_total}}</ion-badge>
+            <ion-badge slot="end">KWD {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
           </ion-item>
         </div>
         <!-- Transfer Drafts -->
@@ -50,7 +50,7 @@
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
             </ion-label>
-            <ion-badge slot="end">KWD {{transfer.company_total}}</ion-badge>
+            <ion-badge slot="end">KWD {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
           </ion-item>
         </div>
         <!-- Transfers with Distribution in Progress -->
@@ -61,7 +61,7 @@
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
             </ion-label>
-            <ion-badge slot="end">KWD {{transfer.company_total}}</ion-badge>
+            <ion-badge slot="end">KWD {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
           </ion-item>
         </div>
         <!-- Transfers Where Company Sent Payment -->
@@ -72,7 +72,7 @@
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
             </ion-label>
-            <ion-badge slot="end">KWD {{transfer.company_total}}</ion-badge>
+            <ion-badge slot="end">KWD {{transfer.company_total | number:'1.0-3' }}</ion-badge>
           </ion-item>
         </div>
       </ion-list>
@@ -85,7 +85,7 @@
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{ transfer.transfer_created_at }}
             </ion-label>
-            <ion-badge slot="end">KWD {{ transfer.company_total }}</ion-badge>
+            <ion-badge slot="end">KWD {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
           </ion-item>
         </div>
       </ion-list>
