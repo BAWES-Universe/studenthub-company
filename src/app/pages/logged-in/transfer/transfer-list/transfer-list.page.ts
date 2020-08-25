@@ -5,7 +5,7 @@ import { Transfer } from 'src/app/models/transfer';
 // services
 import { TransferService } from 'src/app/providers/logged-in/transfer.service';
 import {CandidateService} from '../../../../providers/logged-in/candidate.service';
-import {EventService} from "../../../../providers/event.service";
+import {EventService} from '../../../../providers/event.service';
 
 
 @Component({
@@ -59,18 +59,7 @@ export class TransferListPage implements OnInit {
     this.transferService.list(page).subscribe(response => {
 
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
-      this.pages = [];
-
-      for (let i = 1; i <= this.pageCount; i++) {
-        this.pages.push(i);
-      }
-
-      // hide if page = 1
-      if (this.pageCount == 1) {
-        this.pages = [];
-      }
 
       this.transfers = response.body;
       this.organiseTransfers();
@@ -135,17 +124,8 @@ export class TransferListPage implements OnInit {
           break;
       }
     }
-  }
 
-  /**
-   * Renders the color based on page number
-   */
-  pageLinkColor(page: number) {
-    if (page == this.currentPage) {
-      return 'light';
-    }
-
-    return '';
+    this.getTotalPendingTransfers();
   }
 
   /**
@@ -199,5 +179,13 @@ export class TransferListPage implements OnInit {
       this.totalEmployees = result;
       this.eventService.totalEmployee$.next(result);
     });
+  }
+
+  public getTotalPendingTransfers() {
+    const total =  (this.lockTransfers.length) + (this.draftTransfers.length) + (this.inProgressTransfers.length) + (this.sentTransfers.length);
+    if (!total) {
+      this.inProgress = 'completed';
+    }
+    return total;
   }
 }
