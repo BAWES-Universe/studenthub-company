@@ -117,6 +117,7 @@ export class TransferFormPage implements OnInit {
         // Only overwrite existing records based on currently assigned employees
         // (This is for the case where a that was available during the draft got unassigned)
         if (allTransferCandidateRecordsMapped[transferCandidate.candidate_id]) {
+          transferCandidate.candidate = allTransferCandidateRecordsMapped[transferCandidate.candidate_id].candidate;
           allTransferCandidateRecordsMapped[transferCandidate.candidate_id] = transferCandidate;
         }
       });
@@ -227,6 +228,12 @@ export class TransferFormPage implements OnInit {
           // this.navCtrl.push('transfer-view/'+jsonResponse.transfer_idTransferViewPage, {
           //   'model': jsonResponse.transfer_id
           // });
+        } else {
+          this.navCtrl.navigateForward('transfer-view/' + this.transfer_id, {
+            state: {
+              refresh: true
+            }
+          });
         }
       }
 
