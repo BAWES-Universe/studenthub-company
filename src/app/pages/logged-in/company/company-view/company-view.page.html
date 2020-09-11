@@ -17,7 +17,10 @@
     <ion-item tappable
             *ngFor="let store of stores"
             (click)="storeSelected(store)">
-      <ion-label>{{ store.store_id}} - {{ store.store_name}}</ion-label>
+      <ion-label>
+        <h5>{{ store.store_id}} - {{ store.store_name}}</h5>
+        <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
+      </ion-label>
       <ion-badge slot="end" *ngIf="store.candidates && store.candidates.length > 0">
         {{ store.candidates.length }} {{ store.candidates.length > 1 ? "employees" : "employee" }}
       </ion-badge>
