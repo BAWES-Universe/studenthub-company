@@ -33,7 +33,10 @@
   <ion-list *ngIf="stores && !loading">
     <ion-item-sliding *ngFor="let store of stores">
       <ion-item (click)="rowSelected(store)" tappable>
-        <ion-label>{{ store.store_id }} {{ store.store_name }}</ion-label>
+        <ion-label>
+          <h5>{{ store.store_id }} {{ store.store_name }}</h5>
+          <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
+        </ion-label>
         <ion-badge slot="end" *ngIf="store.totalCandidates > 0">
           {{ store.totalCandidates }} {{ store.totalCandidates > 1 ? "employees" : "employee" }}
         </ion-badge>
