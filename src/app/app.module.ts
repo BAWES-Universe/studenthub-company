@@ -14,6 +14,7 @@ import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 import { File } from '@ionic-native/file/ngx';
 import { SentryErrorhandlerService } from './providers/sentry.errorhandler.service';
+import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 
 
 export function startupServiceFactory(authService) {
@@ -46,6 +47,7 @@ export function startupServiceFactory(authService) {
     },
     File,
     SwUpdate,
+    SelectiveLoadingStrategy,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],
