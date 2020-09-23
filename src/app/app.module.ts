@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 import { File } from '@ionic-native/file/ngx';
-import {SentryErrorhandlerService} from './providers/sentry.errorhandler.service';
+import { SentryErrorhandlerService } from './providers/sentry.errorhandler.service';
 
 
 export function startupServiceFactory(authService) {
@@ -51,4 +51,11 @@ export function startupServiceFactory(authService) {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  static injector: Injector;
+
+  constructor(public injector: Injector) {
+    AppModule.injector = injector;
+  }
+}
