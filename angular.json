@@ -58,10 +58,12 @@
                   "with": "./src/environments/environment.dev.ts"
                 }
               ],
+              "aot": true,
               "serviceWorker": true,
               "ngswConfigPath": "./ngsw-config.json"
             },
             "dev-mobile": {
+              "aot": true,
               "fileReplacements": [
                 {
                   "replace": "./src/environments/environment.ts",
