@@ -18,7 +18,7 @@
         <ion-img  *ngIf="!candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
       </ion-avatar>
       <ion-label>
-        {{ candidate.candidate_name }}<br/>
+        {{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}<br/>
         <small *ngIf="candidate.store_id > 0" >{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</small>
       </ion-label>
     </ion-item>
