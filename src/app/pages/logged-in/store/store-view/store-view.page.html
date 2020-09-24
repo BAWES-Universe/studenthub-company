@@ -25,7 +25,7 @@
           <ion-img  *ngIf="!candidateMember.candidate_personal_photo" src="/assets/icon.png"></ion-img>
         </ion-avatar>
       <ion-label>
-        {{ candidateMember.candidate_name}}
+        {{ candidateMember.candidate_name? candidateMember.candidate_name: candidateMember.candidate_name_ar }}
       </ion-label>
     </ion-item>
   </ion-list>
