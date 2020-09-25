@@ -22,8 +22,8 @@
   </section>
   <section *ngIf="transfers && transfers.length > 0">
     
-    <ion-segment [(ngModel)]="inProgress" *ngIf="completedTransfers.length > 0">
-      <ion-segment-button value="In Progress" *ngIf="getTotalPendingTransfers()">
+    <ion-segment [(ngModel)]="inProgress" *ngIf="totalInProcess > 0 && completedTransfers.length > 0">
+      <ion-segment-button value="In Progress">
         In Progress
       </ion-segment-button>
       <ion-segment-button value="completed">
