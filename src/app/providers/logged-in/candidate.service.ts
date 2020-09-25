@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import {Observable} from "rxjs";
-import {AuthHttpService} from "./authhttp.service";
-import {Candidate} from "../../models/candidate";
+import { Observable } from "rxjs";
+import { AuthHttpService } from "./authhttp.service";
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   list(): Observable<any> {
-    let url = `${this._candidateEndpoint}?expand=store,university,country,company,bank`;
+    let url = `${this._candidateEndpoint}?expand=store,company`;
     return this._authhttp.get(url);
   }
 
@@ -37,7 +37,7 @@ export class CandidateService {
    * @param candidate_id
    */
   workHistory(candidate_id): Observable<any> {
-    let url = this._candidateEndpoint +'/work-history/'+ candidate_id+'?expand=store';
+    let url = this._candidateEndpoint + '/work-history/' + candidate_id + '?expand=store';
     return this._authhttp.get(url);
   }
 
@@ -46,6 +46,7 @@ export class CandidateService {
    * @param candidate_id
    */
   view(candidate_id): Observable<any> {
-    return this._authhttp.get(this._candidateEndpoint +'/'+ candidate_id);
+    const url = this._candidateEndpoint + '/' + candidate_id + '?expand=store,university,nationality,country,area,company';
+    return this._authhttp.get(url);
   }
 }
