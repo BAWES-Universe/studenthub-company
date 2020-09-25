@@ -17,6 +17,8 @@ export class TransferListPage implements OnInit {
 
   public inProgress = 'In Progress';
 
+  public totalInProcess: number = 0;
+
   public pageCount = 0;
   public totalEmployees = 0;
   public currentPage = 1;
@@ -186,8 +188,9 @@ export class TransferListPage implements OnInit {
   public getTotalPendingTransfers() {
     const total =  (this.lockTransfers.length) + (this.draftTransfers.length) + (this.inProgressTransfers.length) + (this.sentTransfers.length);
     
+    this.totalInProcess = total;
+      
     if (!total) {
-
       this.inProgress = 'completed';
     }
 
