@@ -22,7 +22,7 @@ export class TransferListPage implements OnInit {
   public currentPage = 1;
   public pages: number[] = [];
 
-  public transfers: Transfer[];
+  public transfers: Transfer[] = [];
 
   public completedTransfers: Transfer[] = [];
   public receivedTransfers: Transfer[] = [];
@@ -32,6 +32,7 @@ export class TransferListPage implements OnInit {
   public lockTransfers: Transfer[] = [];
 
   public loading = false;
+
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
@@ -54,12 +55,13 @@ export class TransferListPage implements OnInit {
    */
   async loadData(page: number) {
     // Load list of transfer
-    this.loading = true;
+
+    if(this.transfers.length == 0)
+      this.loading = true;
 
     this.transferService.list(page).subscribe(response => {
 
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
-
 
       this.transfers = response.body;
       this.organiseTransfers();
@@ -183,9 +185,12 @@ export class TransferListPage implements OnInit {
 
   public getTotalPendingTransfers() {
     const total =  (this.lockTransfers.length) + (this.draftTransfers.length) + (this.inProgressTransfers.length) + (this.sentTransfers.length);
+    
     if (!total) {
+
       this.inProgress = 'completed';
     }
+
     return total;
   }
 }
