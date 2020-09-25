@@ -21,6 +21,7 @@
     </ion-button>
   </section>
   <section *ngIf="transfers && transfers.length > 0">
+    
     <ion-segment [(ngModel)]="inProgress" *ngIf="completedTransfers.length > 0">
       <ion-segment-button value="In Progress" *ngIf="getTotalPendingTransfers()">
         In Progress
@@ -29,7 +30,9 @@
         Completed
       </ion-segment-button>
     </ion-segment>
+
     <div [ngSwitch]="inProgress">
+      
       <ion-list *ngSwitchCase="'In Progress'">
         <!-- Locked Transfers, waiting for payment -->
         <div *ngIf="lockTransfers.length > 0">
@@ -42,6 +45,7 @@
             <ion-badge slot="end">KWD {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
           </ion-item>
         </div>
+        
         <!-- Transfer Drafts -->
         <div *ngIf="draftTransfers.length > 0">
           <ion-item-divider color="light"><b>Draft</b></ion-item-divider>
@@ -53,6 +57,7 @@
             <ion-badge slot="end">KWD {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
           </ion-item>
         </div>
+
         <!-- Transfers with Distribution in Progress -->
         <div *ngIf="inProgressTransfers.length > 0">
           <ion-item-divider color="light"><b>In Progress</b></ion-item-divider>
