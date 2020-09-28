@@ -20,21 +20,27 @@
     <!-- store_id pipe returns the transferCandidates grouped by store as object of following format: -->
     <!-- {name: string, resources: TransferCandidate[]} -->
     <ion-item-group *ngFor="let group of transfer.transferCandidates | store_name">
+
       <ion-item-divider><b>{{ group.name }}</b></ion-item-divider>
+      
       <ion-card
               *ngFor="let transferCandidateRecord of group.resources"
               id="candidate_{{ transferCandidateRecord.candidate.candidate_id }}">
+
         <ion-item>
+          <div tabindex="0"></div>
           <ion-avatar slot="start">
             <ion-img src="{{ aws.cloudinaryUrl + transferCandidateRecord.candidate.candidate_personal_photo }}"></ion-img>
           </ion-avatar>
           <h2>{{ transferCandidateRecord.candidate.candidate_name? transferCandidateRecord.candidate.candidate_name: transferCandidateRecord.candidate.candidate_name_ar }}</h2>
         </ion-item>
+
         <ion-grid>
           <ion-row>
             <!-- Hours Input Column -->
             <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
               <ion-item>
+                
                 <ion-label position="floating">
                   Hours Worked
                   <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>
@@ -63,6 +69,7 @@
             <!-- Total Calculation Column -->
             <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12" *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
               <ion-item>
+                <div tabindex="0"></div>
                 Subtotal: KWD {{ (parseNumber(transferCandidateRecord.hours) * transferCandidateRecord.candidate.company.company_hourly_rate) + parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
               </ion-item>
             </ion-col>

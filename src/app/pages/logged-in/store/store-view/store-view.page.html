@@ -12,18 +12,25 @@
   <ion-list *ngIf="store && store.candidates">
 
     <ion-item>
+      <div tabindex="0"></div>
       <ion-label>
         <h5>Location</h5>
-        <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
+        <p *ngIf="store.store_location">
+          <ion-icon name="location-outline"></ion-icon> {{ store.store_location }}
+        </p>
       </ion-label>
     </ion-item>
 
     <ion-item-divider color="light"><b>Assigned Employees</b></ion-item-divider>
+    
     <ion-item tappable *ngFor="let candidateMember of store.candidates" (click)="candidateSelected(candidateMember)">
-        <ion-avatar slot="start">
-          <ion-img  *ngIf="candidateMember.candidate_personal_photo" src="{{ aws.cloudinaryUrl + candidateMember.candidate_personal_photo }}" (ionError)="loadLogo($event,candidateMember)"></ion-img>
-          <ion-img  *ngIf="!candidateMember.candidate_personal_photo" src="/assets/icon.png"></ion-img>
-        </ion-avatar>
+      <div tabindex="0"></div>
+      <ion-avatar slot="start">
+        <ion-img *ngIf="candidateMember.candidate_personal_photo"
+          src="{{ aws.cloudinaryUrl + candidateMember.candidate_personal_photo }}"
+          (ionError)="loadLogo($event,candidateMember)"></ion-img>
+        <ion-img *ngIf="!candidateMember.candidate_personal_photo" src="/assets/icon.png"></ion-img>
+      </ion-avatar>
       <ion-label>
         {{ candidateMember.candidate_name? candidateMember.candidate_name: candidateMember.candidate_name_ar }}
       </ion-label>
