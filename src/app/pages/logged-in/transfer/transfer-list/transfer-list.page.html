@@ -36,8 +36,11 @@
       <ion-list *ngSwitchCase="'In Progress'">
         <!-- Locked Transfers, waiting for payment -->
         <div *ngIf="lockTransfers.length > 0">
+          
           <ion-item-divider color="light"><b>Waiting for your payment</b></ion-item-divider>
+
           <ion-item tappable *ngFor="let transfer of lockTransfers" (click)="transferDetails(transfer.transfer_id)">
+            <div tabindex="0"></div>
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
@@ -48,8 +51,11 @@
         
         <!-- Transfer Drafts -->
         <div *ngIf="draftTransfers.length > 0">
+          
           <ion-item-divider color="light"><b>Draft</b></ion-item-divider>
+
           <ion-item tappable *ngFor="let transfer of draftTransfers" (click)="transferDetails(transfer.transfer_id)">
+            <div tabindex="0"></div>
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
@@ -62,6 +68,7 @@
         <div *ngIf="inProgressTransfers.length > 0">
           <ion-item-divider color="light"><b>In Progress</b></ion-item-divider>
           <ion-item tappable *ngFor="let transfer of inProgressTransfers" (click)="transferDetails(transfer.transfer_id)">
+            <div tabindex="0"></div>
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
@@ -71,8 +78,11 @@
         </div>
         <!-- Transfers Where Company Sent Payment -->
         <div *ngIf="sentTransfers.length > 0">
+          
           <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
+          
           <ion-item tappable *ngFor="let transfer of sentTransfers" (click)="transferDetails(transfer.transfer_id)">
+            <div tabindex="0"></div>
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{transfer.transfer_created_at}}
@@ -86,6 +96,7 @@
       <ion-list *ngSwitchCase="'completed'">
         <div *ngIf="completedTransfers.length > 0">
           <ion-item tappable *ngFor="let transfer of completedTransfers" (click)="transferDetails(transfer.transfer_id)">
+            <div tabindex="0"></div>
             <ion-label>
               <p>Transfer #{{transfer.transfer_id}}</p>
               {{ transfer.transfer_created_at }}
@@ -95,9 +106,13 @@
         </div>
       </ion-list>
     </div>
+    
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
+
   </section>
+  
   <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
+
 </ion-content>
