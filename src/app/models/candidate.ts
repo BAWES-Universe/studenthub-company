@@ -2,11 +2,13 @@ import { Store } from './store';
 import { Company } from './company';
 import { University } from './university';
 import { Country } from './country';
+import { Area } from './area';
 
 export class Candidate {
     candidate_id: number;
     store_id: number;
     university_id: number;    
+    candidate_area_uuid: string;
     country_id: number;
     candidate_name: string;
     candidate_name_ar: string;
@@ -26,4 +28,6 @@ export class Candidate {
     company: Company;
     university: University;
     country: Country;
+    area: Area;
+    nationality: Country;
 }
