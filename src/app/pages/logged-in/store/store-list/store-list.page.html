@@ -8,11 +8,16 @@
 </ion-header>
 
 <ion-content  class="ion-padding">
+  
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
   <ion-list *ngIf="companies && !loading">
     <ion-item tappable
             *ngFor="let company of companies"
             (click)="companySelected(company)">
+
+      <div tabindex="0"></div>
+
       <ion-label>{{ company.company_id }} - {{ company.company_name }}</ion-label>
 
       <!-- Assigned employees count badge -->
@@ -33,6 +38,7 @@
   <ion-list *ngIf="stores && !loading">
     <ion-item-sliding *ngFor="let store of stores">
       <ion-item (click)="rowSelected(store)" tappable>
+        <div tabindex="0"></div>
         <ion-label>
           <h5>{{ store.store_id }} {{ store.store_name }}</h5>
           <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>

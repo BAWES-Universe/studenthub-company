@@ -78,6 +78,7 @@
       <h4>Invoices</h4>
       <ion-list>
         <ion-item tappable *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice)">
+          <div tabindex="0"></div>
           <ion-label>
             Download Invoice #{{ invoice.invoice_id }} - KWD {{ invoice.invoice_total | number:'1.0-3' }}
             <small>{{ invoice.company.company_name }}</small>
@@ -91,6 +92,7 @@
       <h4>Receipts</h4>
       <ion-list>
         <ion-item tappable *ngFor="let receipt of receipts" (click)="downloadReceipt(receipt)">
+          <div tabindex="0"></div>
           <ion-label>
             Download Receipt #{{ receipt.invoice_id }} - KWD {{ receipt.invoice_total | number:'1.0-3' }}<br />
             <small>{{ receipt.company.company_name }}</small>
@@ -108,7 +110,8 @@
 
         <ion-item *ngFor="let resource of group.resources" tappable (click)="loadCandidateDetail(resource.candidate)"
           [class.zeroHours]="transferDetails && (transferDetails.transfer_status==10) && (resource.hours == 0)">
-
+          <div tabindex="0"></div>
+          
           <ion-avatar slot="start">
             <ion-img *ngIf="resource.candidate.candidate_personal_photo"
               src="{{ aws.cloudinaryUrl + resource.candidate.candidate_personal_photo }}"

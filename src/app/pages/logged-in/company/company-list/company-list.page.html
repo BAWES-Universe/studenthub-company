@@ -9,8 +9,10 @@
 
 <ion-content class="ion-padding">
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  
   <ion-list *ngIf="!loading">
     <ion-item *ngFor="let company of companies" (click)="rowSelected(company)" tappable>
+      <div tabindex="0"></div>
       <ion-label>{{ company.company_id}} {{ company.company_name}}</ion-label>
     </ion-item>
   </ion-list>

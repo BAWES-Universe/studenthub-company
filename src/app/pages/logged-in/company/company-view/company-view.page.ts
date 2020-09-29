@@ -97,6 +97,10 @@ export class CompanyViewPage implements OnInit {
 
   storeSelected(model) {
     // Load Detail Page
+    if (model && model.candidates && !model.candidates.length) {
+      return false;
+    }
+
     this.navCtrl.navigateForward('store-view/' + model.store_id, {
       state: {
         model
