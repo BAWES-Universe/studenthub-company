@@ -15,8 +15,8 @@
     <ion-item tappable (click)="rowSelected(candidate)" *ngFor="let candidate of candidates">
       <div tabindex="0"></div>
       <ion-avatar slot="start">
-        <ion-img  *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + candidate.candidate_personal_photo }}" (ionError)="loadLogo($event,candidate)"></ion-img>
-        <ion-img  *ngIf="!candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
+        <ion-img *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + candidate.candidate_personal_photo }}" (ionError)="onImageError(candidate)"></ion-img>
+        <ion-img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
       </ion-avatar>
       <ion-label>
         {{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}<br/>

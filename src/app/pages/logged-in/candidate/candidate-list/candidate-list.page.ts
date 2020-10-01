@@ -61,7 +61,8 @@ export class CandidateListPage implements OnInit {
       }
     });
   }
-  loadLogo($event, candidate) {
+  
+  onImageError(candidate) {
     candidate.candidate_personal_photo = null;
   }
 }
