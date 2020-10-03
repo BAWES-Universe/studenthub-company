@@ -11,11 +11,11 @@
 <ion-content class="ion-padding">
   <ion-list *ngIf="store && store.candidates">
 
-    <ion-item>
+    <ion-item *ngIf="store.store_location">
       <div tabindex="0"></div>
       <ion-label>
         <h5>Location</h5>
-        <p *ngIf="store.store_location">
+        <p>
           <ion-icon name="location-outline"></ion-icon> {{ store.store_location }}
         </p>
       </ion-label>
@@ -28,7 +28,7 @@
       <ion-avatar slot="start">
         <ion-img *ngIf="candidateMember.candidate_personal_photo"
           src="{{ aws.cloudinaryUrl + candidateMember.candidate_personal_photo }}"
-          (ionError)="loadLogo($event,candidateMember)"></ion-img>
+          (ionError)="onImageError(candidateMember)"></ion-img>
         <ion-img *ngIf="!candidateMember.candidate_personal_photo" src="/assets/icon.png"></ion-img>
       </ion-avatar>
       <ion-label>

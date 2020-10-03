@@ -269,6 +269,10 @@ export class TransferFormPage implements OnInit {
     return Number(value);
   }
 
+  onImageError(candidate) {
+    candidate.candidate_personal_photo = null;
+  }
+
   /**
    * Scroll to element on page by ID
    * @param element
