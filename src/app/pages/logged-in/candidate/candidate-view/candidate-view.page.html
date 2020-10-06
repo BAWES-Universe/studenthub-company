@@ -39,15 +39,16 @@
     <ion-item *ngIf="candidate.area || candidate.candidate_address_line1">
       <div tabindex="0"></div>
       <ion-icon name="pin" slot="start"></ion-icon>
+      
       <ion-label *ngIf="candidate.candidate_address_line1">
         {{ candidate.candidate_address_line1 }}
-
         <p *ngIf="candidate.area"> 
           {{ candidate.area.area_name_en }}<span *ngIf="candidate.country">,
             {{ candidate.country.country_name_en }}
           </span>
         </p>
       </ion-label>
+
       <ion-label *ngIf="!candidate.candidate_address_line1">
           {{ candidate.area.area_name_en }}<span *ngIf="candidate.country">,
             {{ candidate.country.country_name_en }}

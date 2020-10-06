@@ -9,7 +9,30 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list *ngIf="store && store.candidates">
+
+  <ion-list *ngIf="store">
+  
+    <ion-item *ngIf="store.brand">
+      <div tabindex="0"></div>
+      <ion-thumbnail slot="start">
+        <ion-img *ngIf="store.brand.brand_logo" [src]="awsService.cloudinaryUrl + 'company-brand/' + store.brand.brand_logo">
+        </ion-img>
+        <ion-img *ngIf="!store.brand.brand_logo" src="assets/icon.png"></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        {{ store.brand.brand_name_en }}
+      </ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="store.mall">
+      <div tabindex="0"></div>
+      <ion-label>
+        <h5>Mall</h5>
+        <p>
+          <ion-icon name="business-outline"></ion-icon> {{ store.mall.mall_name_en }}
+        </p>
+      </ion-label>
+    </ion-item>
 
     <ion-item *ngIf="store.store_location">
       <div tabindex="0"></div>
@@ -20,21 +43,29 @@
         </p>
       </ion-label>
     </ion-item>
+  
+    <ng-container *ngIf="store.candidates">
 
-    <ion-item-divider color="light"><b>Assigned Employees</b></ion-item-divider>
+      <ion-item-divider color="light"><b>Assigned Employees</b></ion-item-divider>
+      
+      <ion-item tappable *ngFor="let candidateMember of store.candidates" (click)="candidateSelected(candidateMember)">
+        <div tabindex="0"></div>
+        <ion-avatar slot="start">
+          <ion-img *ngIf="candidateMember.candidate_personal_photo"
+            src="{{ awsService.cloudinaryUrl + candidateMember.candidate_personal_photo }}"
+            (ionError)="onImageError(candidateMember)"></ion-img>
+          <ion-img *ngIf="!candidateMember.candidate_personal_photo" src="/assets/icon.png"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          {{ candidateMember.candidate_name? candidateMember.candidate_name: candidateMember.candidate_name_ar }}
+        </ion-label>
+      </ion-item>
+
+      <no-items *ngIf="store.candidates.length == 0" message="~ No Employees Assigned Yet! ~"></no-items>
+    </ng-container>
     
-    <ion-item tappable *ngFor="let candidateMember of store.candidates" (click)="candidateSelected(candidateMember)">
-      <div tabindex="0"></div>
-      <ion-avatar slot="start">
-        <ion-img *ngIf="candidateMember.candidate_personal_photo"
-          src="{{ aws.cloudinaryUrl + candidateMember.candidate_personal_photo }}"
-          (ionError)="onImageError(candidateMember)"></ion-img>
-        <ion-img *ngIf="!candidateMember.candidate_personal_photo" src="/assets/icon.png"></ion-img>
-      </ion-avatar>
-      <ion-label>
-        {{ candidateMember.candidate_name? candidateMember.candidate_name: candidateMember.candidate_name_ar }}
-      </ion-label>
-    </ion-item>
   </ion-list>
 
+  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+  
 </ion-content>

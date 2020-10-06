@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+  
   <ion-list *ngIf="candidates && !loading">
     <ion-item tappable (click)="rowSelected(candidate)" *ngFor="let candidate of candidates">
       <div tabindex="0"></div>
@@ -24,4 +24,7 @@
       </ion-label>
     </ion-item>
   </ion-list>
+  
+  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+  
 </ion-content>

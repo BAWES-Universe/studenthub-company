@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // models
 import { Store } from '../../../../models/store';
@@ -18,36 +18,43 @@ export class StoreViewPage implements OnInit {
   public store: Store;
   public store_id;
 
+  public loading: boolean = false;
+
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
-    public aws: AwsService,
-    public storeService: StoreService,
-    private _loadingCtrl: LoadingController
+    public awsService: AwsService,
+    public storeService: StoreService
   ) {
-    this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
+
+    this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
+
     const state = window.history.state;
+
     if (state.model) {
       this.store = state.model;
     }
 
-    if (!this.store) {
-      this.loadData();
-    }
+    this.loadData();
   }
 
   async loadData() {
-    const loader = await this._loadingCtrl.create();
-    loader.present();
+    
+    this.loading = true;
+
     this.storeService.view(this.store_id).subscribe(result => {
-      loader.dismiss();
+      this.loading = false;
+
       if (!result) {
         this.navCtrl.back();
       }
+
       this.store = result;
+    }, () => {
+      this.loading = false;
     });
   }
 
