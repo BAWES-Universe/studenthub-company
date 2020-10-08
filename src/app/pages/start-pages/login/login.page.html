@@ -11,8 +11,9 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()"  class="classicInput" novalidate>
 
         <ion-input type="email" #emailInput
-                   formControlName="email"
-                   placeholder="Your Email Address">
+          inputmode="email"
+          formControlName="email"
+          placeholder="Your Email Address">
         </ion-input>
 
         <ion-input type="password" #passwordInput

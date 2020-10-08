@@ -36,12 +36,26 @@
       <ion-label>{{ candidate.candidate_email }}</ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="candidate.area || candidate.candidate_address_line1">
       <div tabindex="0"></div>
       <ion-icon name="pin" slot="start"></ion-icon>
-      <ion-label>{{ candidate.candidate_address_line1 }}</ion-label>
-    </ion-item>
+      
+      <ion-label *ngIf="candidate.candidate_address_line1">
+        {{ candidate.candidate_address_line1 }}
+        <p *ngIf="candidate.area"> 
+          {{ candidate.area.area_name_en }}<span *ngIf="candidate.country">,
+            {{ candidate.country.country_name_en }}
+          </span>
+        </p>
+      </ion-label>
 
+      <ion-label *ngIf="!candidate.candidate_address_line1">
+          {{ candidate.area.area_name_en }}<span *ngIf="candidate.country">,
+            {{ candidate.country.country_name_en }}
+          </span>
+      </ion-label>
+    </ion-item>
+ 
     <ion-item-divider color="light">Store Assignment</ion-item-divider>
 
     <ion-item *ngIf="workHistory">
@@ -66,18 +80,6 @@
       <ion-label>
         <h5>Age</h5>
         <p>{{ candidate.age }}</p>
-      </ion-label>
-    </ion-item>
-
-    <ion-item *ngIf="candidate.area">
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Home location</h5>
-        <p>
-          {{ candidate.area.area_name_en }}<span *ngIf="candidate.country">,
-            {{ candidate.country.country_name_en }}
-          </span>
-        </p>
       </ion-label>
     </ion-item>
 
