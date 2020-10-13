@@ -65,5 +65,14 @@ export class CandidateViewPage implements OnInit {
   onImageError(candidate) {
     candidate.candidate_personal_photo = null;
   }
+
+  openTelephone(candidate_phone) {
+    window.open('tel:' + candidate_phone, '_blank');
+    //window.location.href = 'tel:' + candidate_phone;
+  }
+
+  openEmail(candidate_email) {
+    window.location.href = 'mailto:' + candidate_email;
+  }
 }
 
