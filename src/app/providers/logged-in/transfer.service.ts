@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 
-import {Observable} from "rxjs";
-import {AuthHttpService} from "./authhttp.service";
-import {Transfer} from "src/app/models/transfer";
-import {Invoice} from "src/app/models/invoice";
+import {Observable} from 'rxjs';
+import {AuthHttpService} from './authhttp.service';
+import {Transfer} from 'src/app/models/transfer';
+import {Invoice} from 'src/app/models/invoice';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransferService {
 
-  private _transferEndpoint: string = "/transfers";
+  private _transferEndpoint = '/transfers';
 
   public STATUS_PAYMENT_SENT = 1;
   public STATUS_SALARY_DISTRIBUTION_IN_PROGRESS = 3;
@@ -25,7 +25,7 @@ export class TransferService {
    * @returns {Observable<any>}
    */
   list(page: number): Observable<any> {
-    let url = `${this._transferEndpoint}?page=${page}`;
+    const url = `${this._transferEndpoint}?page=${page}`;
     return this._authhttp.getRaw(url);
   }
 
@@ -35,7 +35,7 @@ export class TransferService {
    * @returns {Observable<any>}
    */
   transferIdDetails(transfer_id: number): Observable<any> {
-    let url = `${this._transferEndpoint}/${transfer_id}?expand=transferCandidates,invoices`;
+    const url = `${this._transferEndpoint}/${transfer_id}?expand=transferCandidates,invoices`;
     return this._authhttp.get(url);
   }
 
@@ -43,8 +43,8 @@ export class TransferService {
    * Make Transfer To Lock Transfer
    * @param transfer
    */
-  makeTransfertoLock(transfer:Transfer): Observable<any> {
-    let url = `${this._transferEndpoint}/lock/${transfer.transfer_id}`;
+  makeTransfertoLock(transfer: Transfer): Observable<any> {
+    const url = `${this._transferEndpoint}/lock/${transfer.transfer_id}`;
     return this._authhttp.patch(url, '');
   }
 
@@ -53,7 +53,7 @@ export class TransferService {
    * @param transfer
    */
   makePaymentSent(transfer: Transfer): Observable<any> {
-    let url = `${this._transferEndpoint}/payment-sent/${transfer.transfer_id}`;
+    const url = `${this._transferEndpoint}/payment-sent/${transfer.transfer_id}`;
     return this._authhttp.patch(url, '');
   }
 
@@ -62,7 +62,7 @@ export class TransferService {
    * @param invoice
    */
   downloadInvoice(invoice: Invoice): Observable<any> {
-    let url = `${this._transferEndpoint}/pdf/${invoice.invoice_id}`;
+    const url = `${this._transferEndpoint}/pdf/${invoice.invoice_id}`;
     return this._authhttp.pdfget(url, 'Invoice ' + invoice.invoice_id + '.pdf');
   }
 
@@ -71,7 +71,7 @@ export class TransferService {
    * @param invoice
    */
   downloadReceipt(invoice: Invoice): Observable<any> {
-    let url = `${this._transferEndpoint}/pdf/${invoice.invoice_id}`;
+    const url = `${this._transferEndpoint}/pdf/${invoice.invoice_id}`;
     return this._authhttp.pdfget(url, 'Receipt ' + invoice.invoice_id + '.pdf');
   }
 
@@ -80,10 +80,12 @@ export class TransferService {
    * @param { Transfer } transfer
    * @returns {Observable<any>}
    */
-  save(transfer: Transfer): Observable<any> {
-    let postUrl = `${this._transferEndpoint}`;
-    let params = {
-      "candidates": transfer.transferCandidates
+  save(transfer: Transfer, start_date, end_date): Observable<any> {
+    const postUrl = `${this._transferEndpoint}`;
+    const params = {
+      candidates: transfer.transferCandidates,
+      start_date: start_date,
+      end_date: end_date
     };
     return this._authhttp.post(postUrl, params);
   }
@@ -93,10 +95,12 @@ export class TransferService {
    * @param { Transfer } transfer
    * @returns { Observable<any> }
    */
-  updateTransfer(transfer: Transfer): Observable<any> {
-    let postUrl = `${this._transferEndpoint}/${transfer.transfer_id}`;
-    let params = {
-      "candidates": transfer.transferCandidates
+  updateTransfer(transfer: Transfer, start_date, end_date): Observable<any> {
+    const postUrl = `${this._transferEndpoint}/${transfer.transfer_id}`;
+    const params = {
+      candidates: transfer.transferCandidates,
+      start_date: start_date,
+      end_date: end_date
     };
     return this._authhttp.patch(postUrl, params);
   }
@@ -106,7 +110,7 @@ export class TransferService {
    * @param transfer
    */
   delete(transfer: Transfer): Observable<any> {
-    let url = `${this._transferEndpoint}/${transfer.transfer_id}`;
+    const url = `${this._transferEndpoint}/${transfer.transfer_id}`;
     return this._authhttp.delete(url);
   }
 
@@ -114,7 +118,7 @@ export class TransferService {
    * download transfer Template
    */
   downloadTransferTemplate(): Observable<any> {
-    let url = `${this._transferEndpoint}/transfer-excel-template`;
+    const url = `${this._transferEndpoint}/transfer-excel-template`;
     return this._authhttp.excelget(url, `transfer-template.xlsx`);
   }
 
@@ -122,10 +126,12 @@ export class TransferService {
    * upload excel file to create new transfer
    * @param file
    */
-  uploadTransferExcel(file: string): Observable<any> {
-    let url = this._transferEndpoint + '/create-by-excel';
+  uploadTransferExcel(file: string, start_date, end_date): Observable<any> {
+    const url = this._transferEndpoint + '/create-by-excel';
     return this._authhttp.uploadFile(url, {
-      excel: file
+      excel: file,
+      start_date: start_date,
+      end_date: end_date
     });
   }
 
@@ -134,10 +140,12 @@ export class TransferService {
    * @param file
    * @param transfer_id
    */
-  updateTransferUploadExcel(file: string, transfer_id): Observable<any> {
-    let url = this._transferEndpoint + '/edit-by-excel/'+transfer_id;
+  updateTransferUploadExcel(file: string, transfer_id, start_date, end_date): Observable<any> {
+    const url = this._transferEndpoint + '/edit-by-excel/' + transfer_id;
     return this._authhttp.patch(url, {
-      excel: file
+      excel: file,
+      start_date: start_date,
+      end_date: end_date
     });
   }
 }

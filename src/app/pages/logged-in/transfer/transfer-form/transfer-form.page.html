@@ -17,12 +17,40 @@
 
 <ion-content>
   <form [formGroup]="form" *ngIf="ready">
+
+    <ion-grid>
+      <ion-row>
+        <!-- Hours Input Column -->
+        <ion-col size-lg="6" size-md="6" size-sm="12" size-xs="12">
+          <ion-card>
+            <ion-card-header>
+              <ion-label>Start Date</ion-label>
+            </ion-card-header>
+            <ion-card-content>
+              <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
+                                 placeholder="DD/MM/YYYY" formControlName="start_date"></app-date-dropdown>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size-lg="6" size-md="6" size-sm="12" size-xs="12">
+          <ion-card>
+            <ion-card-header>
+              <ion-label>End Date</ion-label>
+            </ion-card-header>
+            <ion-card-content>
+              <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
+                                 placeholder="DD/MM/YYYY" formControlName="end_date"></app-date-dropdown>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     <!-- store_id pipe returns the transferCandidates grouped by store as object of following format: -->
     <!-- {name: string, resources: TransferCandidate[]} -->
     <ion-item-group *ngFor="let group of transfer.transferCandidates | store_name">
 
       <ion-item-divider><b>{{ group.name }}</b></ion-item-divider>
-      
+
       <ion-card
               *ngFor="let transferCandidateRecord of group.resources"
               id="candidate_{{ transferCandidateRecord.candidate.candidate_id }}">
@@ -41,7 +69,7 @@
             <!-- Hours Input Column -->
             <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
               <ion-item>
-                
+
                 <ion-label position="floating">
                   Hours Worked
                   <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>

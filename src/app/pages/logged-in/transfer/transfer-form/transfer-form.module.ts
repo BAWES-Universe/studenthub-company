@@ -8,7 +8,8 @@ import { TransferFormPageRoutingModule } from './transfer-form-routing.module';
 
 import { TransferFormPage } from './transfer-form.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
- 
+import { DateDropdownModule } from 'src/app/components/date-dropdown/date-dropdown.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -16,7 +17,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     FormsModule,
     IonicModule,
     TransferFormPageRoutingModule,
-    PipesModule
+    PipesModule,
+    DateDropdownModule
   ],
   exports: [
     PipesModule

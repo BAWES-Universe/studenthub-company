@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AlertController, IonContent, LoadingController, NavController, ToastController } from "@ionic/angular";
+import {AlertController, IonContent, LoadingController, NavController, Platform, ToastController} from "@ionic/angular";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from 'rxjs';
 //models
@@ -23,7 +23,7 @@ export class ImportTransferFormPage implements OnInit {
 
   // File input used for browser fallback when no capacitor is available
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
-  
+
   public browserUploadSubscription: Subscription;
 
   // The Transfer containing all records
@@ -34,8 +34,11 @@ export class ImportTransferFormPage implements OnInit {
   // Page Title depends on Operation (Create vs Edit Transfer)
   public pageTitle: string = "Create Transfer via Excel";
 
-  public uploading: Boolean = false; 
-
+  public uploading: Boolean = false;
+  public min; // min date
+  public max; // max date
+  public start_date; // max date
+  public end_date; // max date
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
@@ -46,8 +49,14 @@ export class ImportTransferFormPage implements OnInit {
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
     public _toastCtrl: ToastController,
+    public platform: Platform,
   ) {
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.min = '1930/01/01';
+
+    const d = new Date();
+    this.max = (this.platform.is('mobile')) ? d.getFullYear() + '-12-12' : d;
   }
 
   ngOnInit() {
@@ -94,7 +103,7 @@ export class ImportTransferFormPage implements OnInit {
 
     }, async err => {
 
-      //log to slack/sentry to know how many user getting file upload error 
+      //log to slack/sentry to know how many user getting file upload error
 
       this.sentryService.handleError(err);
 
@@ -143,11 +152,11 @@ export class ImportTransferFormPage implements OnInit {
    * @param file
    */
   async newTransferUpload(file) {
- 
-    this.transferService.uploadTransferExcel(file).subscribe(async data => {
-      
-      this.uploading = false; 
- 
+
+    this.transferService.uploadTransferExcel(file, this.start_date, this.end_date).subscribe(async data => {
+
+      this.uploading = false;
+
       if (data.operation == 'success') {
 
         let prompt = await this._alertCtrl.create({
@@ -172,7 +181,7 @@ export class ImportTransferFormPage implements OnInit {
         prompt.present();
       }
     }, () => {
-      this.uploading = false; 
+      this.uploading = false;
     });
   }
 
@@ -183,10 +192,10 @@ export class ImportTransferFormPage implements OnInit {
   async editTransferUpload(file) {
 
     this.transferService
-      .updateTransferUploadExcel(file, this.transfer.transfer_id)
+      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.start_date, this.end_date)
       .subscribe(async data => {
-       
-        this.uploading = false; 
+
+        this.uploading = false;
 
         if (data.operation == 'success') {
 
@@ -215,7 +224,7 @@ export class ImportTransferFormPage implements OnInit {
           prompt.present();
         }
       }, () => {
-        this.uploading = false; 
+        this.uploading = false;
       });
   }
 
