@@ -63,8 +63,8 @@ export class TransferFormPage implements OnInit {
 
     const state = window.history.state;
     // Load the passed model (required)
-    if (state['model']) {
-      this.transfer = state['model'];
+    if (state.model) {
+      this.transfer = state.model;
     }
 
 
@@ -82,7 +82,7 @@ export class TransferFormPage implements OnInit {
     }
 
     // Update Page Title if Editing a Transfer that already exists in backend
-    if (this.transfer.transfer_id) this.pageTitle = "Edit Transfer";
+    if (this.transfer && this.transfer.transfer_id) this.pageTitle = "Edit Transfer";
 
     // Load List of All Candidates Assigned to this Company
     this._loadCandidateListThenInitialize();
@@ -94,6 +94,7 @@ export class TransferFormPage implements OnInit {
    * Initialise the form once loaded.
    */
   async _loadCandidateListThenInitialize() {
+    console.log('_loadCandidateListThenInitialize');
     let loader = await this._loadingCtrl.create();
     loader.present();
 
@@ -158,7 +159,9 @@ export class TransferFormPage implements OnInit {
       Validators.required
     ]];
     // Replace the transferCandidates within the transfer with our up to date list
-    this.transfer.transferCandidates = updatedTransferRecords;
+    if (this.transfer) {
+      this.transfer.transferCandidates = updatedTransferRecords;
+    }
 
     // Setup the form to use our form controls
     this.form = this._fb.group(formControls);
@@ -272,11 +275,13 @@ export class TransferFormPage implements OnInit {
    */
   calculateTotal() {
     this.total = 0;
-    this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
-      let hours = this.parseNumber(transferCandidate.hours);
-      let bonus = this.parseNumber(transferCandidate.bonus);
-      this.total += (hours * transferCandidate.candidate.company.company_hourly_rate) + bonus;
-    });
+    if (this.transfer) {
+      this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
+        let hours = this.parseNumber(transferCandidate.hours);
+        let bonus = this.parseNumber(transferCandidate.bonus);
+        this.total += (hours * transferCandidate.candidate.company.company_hourly_rate) + bonus;
+      });
+    }
   }
 
   /**
