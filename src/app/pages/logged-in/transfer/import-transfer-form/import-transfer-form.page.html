@@ -8,7 +8,6 @@
 </ion-header>
 
 <ion-content class="ion-padding ion-text-center">
-  
   <!-- Instructions for Create -->
   <section *ngIf="scenario == 'create'">
     <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
@@ -17,9 +16,39 @@
 
     <h4>Step 2: Fill out the number of hours worked and the bonus amount to be sent in KWD</h4>
 
+    <h4>Step 3: Fill Start and End Date</h4>
 
-    <h4>Step 3: Upload the updated Excel file</h4>
+
+    <h4>Step 4: Upload the updated Excel file</h4>
   </section>
+
+  <ion-grid>
+    <ion-row>
+      <!-- Hours Input Column -->
+      <ion-col size-lg="6" size-md="6" size-sm="12" size-xs="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-label>Start Date</ion-label>
+          </ion-card-header>
+          <ion-card-content>
+            <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
+                               placeholder="DD/MM/YYYY" [(ngModel)]="start_date"></app-date-dropdown>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size-lg="6" size-md="6" size-sm="12" size-xs="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-label>End Date</ion-label>
+          </ion-card-header>
+          <ion-card-content>
+            <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
+                               placeholder="DD/MM/YYYY" [(ngModel)]="end_date"></app-date-dropdown>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <!-- Instructions for Update -->
   <section *ngIf="scenario == 'update'">
@@ -28,8 +57,8 @@
 
   <!-- Upload Form -->
   <input type='file' #fileInput (change)="browserUpload($event)" accept=".xlsx,.xls"/>
-  
-  <ion-button (click)="upload()" [disabled]="uploading">
+
+  <ion-button (click)="upload()" [disabled]="uploading || !start_date || !end_date">
     <span *ngIf="!uploading">Upload</span>
     <ion-spinner *ngIf="uploading">Uploading...</ion-spinner>
   </ion-button>

@@ -242,4 +242,31 @@ export class AuthService {
 
     return throwError(errMsg);
   }
+
+  /**
+   * json to string error message
+   * @param message
+   */
+  errorMessage(message): string {
+
+    if (message.length) {
+      return message + '';
+    }
+
+    const a = [];
+
+    for (const i in message) {
+
+      if (!Array.isArray(message[i])) {
+        a.push(message[i]);
+        continue;
+      }
+
+      for (const j of message[i]) {
+        a.push(j);
+      }
+    }
+
+    return a.join('<br />');
+  }
 }

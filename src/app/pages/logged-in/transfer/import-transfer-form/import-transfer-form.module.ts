@@ -7,14 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ImportTransferFormPageRoutingModule } from './import-transfer-form-routing.module';
 
 import { ImportTransferFormPage } from './import-transfer-form.page';
-
+import { DateDropdownModule } from 'src/app/components/date-dropdown/date-dropdown.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ImportTransferFormPageRoutingModule
+    ImportTransferFormPageRoutingModule,
+    DateDropdownModule
   ],
   declarations: [ImportTransferFormPage]
 })

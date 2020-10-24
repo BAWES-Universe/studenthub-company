@@ -4,7 +4,7 @@
       <ion-back-button (click)="back()"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      Transfer 
+      Transfer
       <span *ngIf="transferDetails?.company_total">
         - KWD {{ transferDetails.company_total | number:'1.0-3' }}
       </span>
@@ -57,16 +57,26 @@
     <div *ngIf="transferDetails">
       <ion-grid>
         <ion-row>
-          <ion-col size-lg="3" size-md="3" size-sm="6" size-xs="6" class="ion-align-self-center">
+          <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
             <b>Transfer ID</b> <br /> {{ transferDetails.transfer_id}}
           </ion-col>
-          <ion-col size-lg="3" size-md="3" size-sm="6" size-xs="6" class="ion-align-self-center">
+          <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
             <b>Transfer Total</b> <br /> KWD {{ transferDetails.company_total | number:'1.0-3' }}
           </ion-col>
-          <ion-col size-lg="3" size-md="3" size-sm="6" size-xs="6" class="ion-align-self-center">
-            <b>Created on</b> <br /> {{ transferDetails.transfer_created_at}}
+          <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
+            <b>Start Date</b> <br />
+            <span *ngIf="transferDetails.start_date">{{ transferDetails.start_date | date}}</span>
+            <span *ngIf="!transferDetails.start_date">-</span>
           </ion-col>
-          <ion-col size-lg="3" size-md="3" size-sm="6" size-xs="6" class="ion-align-self-center">
+          <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
+            <b>End Date</b> <br />
+            <span>{{ transferDetails.end_date | date}}</span>
+            <span *ngIf="!transferDetails.end_date">-</span>
+          </ion-col>
+          <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
+            <b>Updated on</b> <br /> {{ transferDetails.transfer_updated_at}}
+          </ion-col>
+          <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
             <b>Updated on</b> <br /> {{ transferDetails.transfer_updated_at}}
           </ion-col>
         </ion-row>
@@ -111,7 +121,7 @@
         <ion-item *ngFor="let resource of group.resources" tappable (click)="loadCandidateDetail(resource.candidate)"
           [class.zeroHours]="transferDetails && (transferDetails.transfer_status==10) && (resource.hours == 0)">
           <div tabindex="0"></div>
-          
+
           <ion-avatar slot="start">
             <ion-img *ngIf="resource.candidate.candidate_personal_photo"
               src="{{ aws.cloudinaryUrl + resource.candidate.candidate_personal_photo }}"
@@ -128,7 +138,7 @@
             <p><b>KD {{ total(resource) }}</b></p>
 
             <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.total_paid > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
-              Transfer in progress  
+              Transfer in progress
             </ion-badge>
           </ion-label>
 

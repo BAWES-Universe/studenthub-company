@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonContent, LoadingController, NavController, ToastController } from "@ionic/angular";
+import {AlertController, IonContent, LoadingController, NavController, Platform, ToastController} from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { CustomValidator } from "src/app/validators/custom.validator";
@@ -11,6 +11,7 @@ import { TransferCandidate } from "src/app/models/transfer-candidate";
 import { CandidateService } from "src/app/providers/logged-in/candidate.service";
 import { TransferService } from "src/app/providers/logged-in/transfer.service";
 import { AwsService } from 'src/app/providers/aws.service';
+import {AuthService} from "../../../../providers/auth.service";
 
 
 @Component({
@@ -38,10 +39,15 @@ export class TransferFormPage implements OnInit {
 
   // Whether the content is ready to be displayed or not
   public ready: Boolean = false;
+  public min; // min date
+  public max; // max date
+  public startDate; // max date
+  public endData; // max date
 
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
+    public platform: Platform,
     public aws: AwsService,
     public transferService: TransferService,
     public candidateService: CandidateService,
@@ -49,16 +55,23 @@ export class TransferFormPage implements OnInit {
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
     public _toastCtrl: ToastController,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _authService: AuthService
   ) {
 
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
 
     const state = window.history.state;
     // Load the passed model (required)
-    if (state['model']) {
-      this.transfer = state['model'];
+    if (state.model) {
+      this.transfer = state.model;
     }
+
+
+    this.min = '1930/01/01';
+
+    const d = new Date();
+    this.max = (this.platform.is('mobile')) ? d.getFullYear() + '-12-12' : d;
   }
 
   ngOnInit() {
@@ -69,7 +82,7 @@ export class TransferFormPage implements OnInit {
     }
 
     // Update Page Title if Editing a Transfer that already exists in backend
-    if (this.transfer.transfer_id) this.pageTitle = "Edit Transfer";
+    if (this.transfer && this.transfer.transfer_id) this.pageTitle = "Edit Transfer";
 
     // Load List of All Candidates Assigned to this Company
     this._loadCandidateListThenInitialize();
@@ -81,6 +94,7 @@ export class TransferFormPage implements OnInit {
    * Initialise the form once loaded.
    */
   async _loadCandidateListThenInitialize() {
+    console.log('_loadCandidateListThenInitialize');
     let loader = await this._loadingCtrl.create();
     loader.present();
 
@@ -138,8 +152,16 @@ export class TransferFormPage implements OnInit {
         CustomValidator.negativeNumberValidator
       ]];
     });
+    formControls['start_date'] = [(this.transfer && this.transfer.start_date) ? this.transfer.start_date : '', [
+      Validators.required
+    ]];
+    formControls['end_date'] = [(this.transfer && this.transfer.end_date) ? this.transfer.end_date : '', [
+      Validators.required
+    ]];
     // Replace the transferCandidates within the transfer with our up to date list
-    this.transfer.transferCandidates = updatedTransferRecords;
+    if (this.transfer) {
+      this.transfer.transferCandidates = updatedTransferRecords;
+    }
 
     // Setup the form to use our form controls
     this.form = this._fb.group(formControls);
@@ -207,8 +229,8 @@ export class TransferFormPage implements OnInit {
      * Otherwise create a new transfer
      */
     let action = this.transfer.transfer_id ?
-      this.transferService.updateTransfer(this.transfer) :
-      this.transferService.save(this.transfer);
+      this.transferService.updateTransfer(this.transfer, this.form.value.start_date,this.form.value.end_date) :
+      this.transferService.save(this.transfer, this.form.value.start_date,this.form.value.end_date);
 
     action.subscribe(async jsonResponse => {
       loader.dismiss();
@@ -240,7 +262,7 @@ export class TransferFormPage implements OnInit {
       // On Failure, show an alert with the error message
       if (jsonResponse.operation == "error") {
         let prompt = await this._alertCtrl.create({
-          message: JSON.stringify(jsonResponse.message),
+          message: this._authService.errorMessage(jsonResponse.message),
           buttons: ["Ok"]
         });
         prompt.present();
@@ -253,11 +275,13 @@ export class TransferFormPage implements OnInit {
    */
   calculateTotal() {
     this.total = 0;
-    this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
-      let hours = this.parseNumber(transferCandidate.hours);
-      let bonus = this.parseNumber(transferCandidate.bonus);
-      this.total += (hours * transferCandidate.candidate.company.company_hourly_rate) + bonus;
-    });
+    if (this.transfer) {
+      this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
+        let hours = this.parseNumber(transferCandidate.hours);
+        let bonus = this.parseNumber(transferCandidate.bonus);
+        this.total += (hours * transferCandidate.candidate.company.company_hourly_rate) + bonus;
+      });
+    }
   }
 
   /**
