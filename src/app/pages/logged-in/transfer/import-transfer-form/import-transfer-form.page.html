@@ -22,33 +22,14 @@
     <h4>Step 4: Upload the updated Excel file</h4>
   </section>
 
-  <ion-grid>
-    <ion-row>
-      <!-- Hours Input Column -->
-      <ion-col size-lg="6" size-md="6" size-sm="12" size-xs="12">
-        <ion-card>
-          <ion-card-header>
-            <ion-label>Start Date</ion-label>
-          </ion-card-header>
-          <ion-card-content>
-            <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
-                               placeholder="DD/MM/YYYY" [(ngModel)]="start_date"></app-date-dropdown>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size-lg="6" size-md="6" size-sm="12" size-xs="12">
-        <ion-card>
-          <ion-card-header>
-            <ion-label>End Date</ion-label>
-          </ion-card-header>
-          <ion-card-content>
-            <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
-                               placeholder="DD/MM/YYYY" [(ngModel)]="end_date"></app-date-dropdown>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <h4>I am transferring for work done in the following time period:</h4>
+  <ion-button (click)="openCalendar()">Please select the date Range</ion-button>
+  <p *ngIf="this.start_date && this.end_date">
+    From <span *ngIf="this.start_date">{{this.start_date | date}}</span> - To
+    <span *ngIf="this.end_date">{{this.end_date | date}}</span>
+  </p>
+
+  <br/>
 
   <!-- Instructions for Update -->
   <section *ngIf="scenario == 'update'">

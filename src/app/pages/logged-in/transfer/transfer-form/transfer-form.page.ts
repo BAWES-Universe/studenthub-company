@@ -1,18 +1,33 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {AlertController, IonContent, LoadingController, NavController, Platform, ToastController} from "@ionic/angular";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
-import { CustomValidator } from "src/app/validators/custom.validator";
-//models
-import { Transfer } from "src/app/models/transfer";
-import { Candidate } from "src/app/models/candidate";
-import { TransferCandidate } from "src/app/models/transfer-candidate";
-//service
-import { CandidateService } from "src/app/providers/logged-in/candidate.service";
-import { TransferService } from "src/app/providers/logged-in/transfer.service";
+import {
+  AlertController,
+  IonContent,
+  LoadingController,
+  ModalController,
+  NavController,
+  Platform,
+  ToastController
+} from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CustomValidator } from 'src/app/validators/custom.validator';
+// models
+import { Transfer } from 'src/app/models/transfer';
+import { Candidate } from 'src/app/models/candidate';
+import { TransferCandidate } from 'src/app/models/transfer-candidate';
+// service
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { TransferService } from 'src/app/providers/logged-in/transfer.service';
 import { AwsService } from 'src/app/providers/aws.service';
-import {AuthService} from "../../../../providers/auth.service";
-
+import {AuthService} from '../../../../providers/auth.service';
+import {
+  CalendarModal,
+  CalendarModalOptions,
+  DayConfig,
+  CalendarResult,
+  CalendarComponentOptions
+} from 'ion2-calendar';
+import {DefaultDate} from "ion2-calendar/dist/calendar.model";
 
 @Component({
   selector: 'app-transfer-form',
@@ -31,11 +46,11 @@ export class TransferFormPage implements OnInit {
   public transfer: Transfer;
 
   // Page Title depends on Operation (Create vs Edit Transfer)
-  public pageTitle: string = "New Transfer";
+  public pageTitle = 'New Transfer';
 
   // Total Price for Transfer
-  public total: number = 0;
-  public companyHourlyCost: number = 2;
+  public total = 0;
+  public companyHourlyCost = 2;
 
   // Whether the content is ready to be displayed or not
   public ready: Boolean = false;
@@ -43,6 +58,13 @@ export class TransferFormPage implements OnInit {
   public max; // max date
   public startDate; // max date
   public endData; // max date
+  public selected; // max date
+  dateRange: { from: string; to: string; };
+  type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
+  optionsRange: CalendarComponentOptions = {
+    pickMode: 'range'
+    // pickMode: 'multi'
+  };
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -56,7 +78,8 @@ export class TransferFormPage implements OnInit {
     private _alertCtrl: AlertController,
     public _toastCtrl: ToastController,
     private _fb: FormBuilder,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private modalCtrl: ModalController
   ) {
 
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -82,7 +105,7 @@ export class TransferFormPage implements OnInit {
     }
 
     // Update Page Title if Editing a Transfer that already exists in backend
-    if (this.transfer && this.transfer.transfer_id) this.pageTitle = "Edit Transfer";
+    if (this.transfer && this.transfer.transfer_id) { this.pageTitle = 'Edit Transfer'; }
 
     // Load List of All Candidates Assigned to this Company
     this._loadCandidateListThenInitialize();
@@ -95,11 +118,11 @@ export class TransferFormPage implements OnInit {
    */
   async _loadCandidateListThenInitialize() {
     console.log('_loadCandidateListThenInitialize');
-    let loader = await this._loadingCtrl.create();
+    const loader = await this._loadingCtrl.create();
     loader.present();
 
     this.candidateService.list().subscribe(response => {
-      let allCandidatesAssignedToCompany: Candidate[] = response;
+      const allCandidatesAssignedToCompany: Candidate[] = response;
       this._initTransferCandidateList(allCandidatesAssignedToCompany);
       loader.dismiss();
     });
@@ -110,11 +133,11 @@ export class TransferFormPage implements OnInit {
    * @param { Candidate[] } allCandidatesAssignedToCompany
    */
   private _initTransferCandidateList(allCandidatesAssignedToCompany: Candidate[]) {
-    let allTransferCandidateRecordsMapped: TransferCandidate[] = [];
+    const allTransferCandidateRecordsMapped: TransferCandidate[] = [];
 
     // Map all candidate records to an empty TransferCandidate record for a new transfer.
     allCandidatesAssignedToCompany.forEach((candidate: Candidate) => {
-      let candidateTransferRecord = new TransferCandidate;
+      const candidateTransferRecord = new TransferCandidate;
       candidateTransferRecord.candidate = candidate;
       candidateTransferRecord.candidate_id = candidate.candidate_id;
 
@@ -138,8 +161,8 @@ export class TransferFormPage implements OnInit {
     }
 
     // Re-index the TransferCandidate list to avoid issues array length and create required FormControls
-    let updatedTransferRecords = [];
-    let formControls: any = {};
+    const updatedTransferRecords = [];
+    const formControls: any = {};
     allTransferCandidateRecordsMapped.forEach(record => {
       updatedTransferRecords.push(record);
 
@@ -152,10 +175,10 @@ export class TransferFormPage implements OnInit {
         CustomValidator.negativeNumberValidator
       ]];
     });
-    formControls['start_date'] = [(this.transfer && this.transfer.start_date) ? this.transfer.start_date : '', [
+    formControls.start_date = [(this.transfer && this.transfer.start_date) ? this.transfer.start_date : '', [
       Validators.required
     ]];
-    formControls['end_date'] = [(this.transfer && this.transfer.end_date) ? this.transfer.end_date : '', [
+    formControls.end_date = [(this.transfer && this.transfer.end_date) ? this.transfer.end_date : '', [
       Validators.required
     ]];
     // Replace the transferCandidates within the transfer with our up to date list
@@ -178,18 +201,20 @@ export class TransferFormPage implements OnInit {
   async validate() {
     let error = '';
 
-    for (let entry of this.transfer.transferCandidates) {
+    for (const entry of this.transfer.transferCandidates) {
       // Check if any candidates have unset hours or 0 hours set
-      if (!entry.hours || entry.hours == 0)
-        error = "You have set that some employees haven't worked any hours. Are you sure?";
+      if (!entry.hours || entry.hours == 0) {
+        error = 'You have set that some employees haven\'t worked any hours. Are you sure?';
+      }
 
       // Check if any candidates have worked more than 180 hours
-      if (entry.hours > 180)
+      if (entry.hours > 180) {
         error = 'You have employees set to have worked for more than 180 hours. are you sure?';
+      }
 
       // Prompt to show user where error is or Save if he knows about it.
       if (error) {
-        let prompt = await this._alertCtrl.create({
+        const prompt = await this._alertCtrl.create({
           message: error,
           buttons: [
             {
@@ -213,38 +238,39 @@ export class TransferFormPage implements OnInit {
     }
 
     // Save if there are no errors
-    if (!error)
+    if (!error) {
       this.save();
+    }
   }
 
   /**
    * Save the model
    */
   async save() {
-    let loader = await this._loadingCtrl.create();
+    const loader = await this._loadingCtrl.create();
     loader.present();
 
     /**
      * Update the transfer data if it already exists
      * Otherwise create a new transfer
      */
-    let action = this.transfer.transfer_id ?
-      this.transferService.updateTransfer(this.transfer, this.form.value.start_date,this.form.value.end_date) :
-      this.transferService.save(this.transfer, this.form.value.start_date,this.form.value.end_date);
+    const action = this.transfer.transfer_id ?
+      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date) :
+      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date);
 
     action.subscribe(async jsonResponse => {
       loader.dismiss();
 
       // On Success. Show Toast with the response message and close the page
-      if (jsonResponse.operation == "success") {
-        let toast = await this._toastCtrl.create({
+      if (jsonResponse.operation == 'success') {
+        const toast = await this._toastCtrl.create({
           message: jsonResponse.message,
           duration: 3000
         });
         toast.present();
         this.close();
 
-        //create mode
+        // create mode
         if (!this.transfer.transfer_id) {
           this.navCtrl.navigateForward('transfer-view/' + jsonResponse.transfer_id);
           // this.navCtrl.push('transfer-view/'+jsonResponse.transfer_idTransferViewPage, {
@@ -260,10 +286,10 @@ export class TransferFormPage implements OnInit {
       }
 
       // On Failure, show an alert with the error message
-      if (jsonResponse.operation == "error") {
-        let prompt = await this._alertCtrl.create({
+      if (jsonResponse.operation == 'error') {
+        const prompt = await this._alertCtrl.create({
           message: this._authService.errorMessage(jsonResponse.message),
-          buttons: ["Ok"]
+          buttons: ['Ok']
         });
         prompt.present();
       }
@@ -277,8 +303,8 @@ export class TransferFormPage implements OnInit {
     this.total = 0;
     if (this.transfer) {
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
-        let hours = this.parseNumber(transferCandidate.hours);
-        let bonus = this.parseNumber(transferCandidate.bonus);
+        const hours = this.parseNumber(transferCandidate.hours);
+        const bonus = this.parseNumber(transferCandidate.bonus);
         this.total += (hours * transferCandidate.candidate.company.company_hourly_rate) + bonus;
       });
     }
@@ -289,7 +315,7 @@ export class TransferFormPage implements OnInit {
    * @param value
    */
   parseNumber(value) {
-    if (!value) return 0;
+    if (!value) { return 0; }
     return Number(value);
   }
 
@@ -302,7 +328,7 @@ export class TransferFormPage implements OnInit {
    * @param element
    */
   scrollTo(element: string) {
-    let yOffset = document.getElementById(element).offsetTop;
+    const yOffset = document.getElementById(element).offsetTop;
     // this.content.scrollTo(0, yOffset, 1000)
   }
 
@@ -310,7 +336,7 @@ export class TransferFormPage implements OnInit {
    * Close the Page
    */
   close() {
-    let data = { 'refresh': false };
+    const data = { refresh: false };
     // this._viewCtrl.dismiss(data);
   }
 
@@ -318,12 +344,48 @@ export class TransferFormPage implements OnInit {
    * loading transfer
    */
   async loadTransferDetail() {
-    let loading = await this._loadingCtrl.create();
+    const loading = await this._loadingCtrl.create();
     loading.present();
 
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
       loading.dismiss();
       this.transfer = response;
     });
+  }
+
+
+  async openCalendar() {
+    const options: CalendarModalOptions = {
+      canBackwardsSelected: true,
+      pickMode: 'range',
+      title: 'RANGE',
+      defaultScrollTo : new Date(this.transfer.end_date ? this.transfer.end_date : new Date()),
+      defaultDateRange: {
+        from: new Date(this.transfer.start_date ? this.transfer.start_date : ''),
+        to: new Date(this.transfer.end_date ? this.transfer.end_date : '')
+      }
+    };
+
+    const myCalendar = await this.modalCtrl.create({
+      component: CalendarModal,
+      componentProps: { options }
+    });
+
+    myCalendar.present();
+
+    const event: any = await myCalendar.onDidDismiss();
+    const date = event.data;
+    if (date) {
+      const from: CalendarResult = date.from;
+      const to: CalendarResult = date.to;
+      if (from.string) {
+        this.form.controls.start_date.setValue(from.string)
+        this.transfer.start_date = from.string
+      }
+      if (to.string) {
+        this.form.controls.end_date.setValue(to.string);
+        this.transfer.end_date = to.string;
+      }
+    }
   }
 }
