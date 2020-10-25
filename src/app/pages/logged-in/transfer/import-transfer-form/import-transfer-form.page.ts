@@ -1,5 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {AlertController, IonContent, LoadingController, NavController, Platform, ToastController} from "@ionic/angular";
+import {
+  AlertController,
+  IonContent,
+  LoadingController,
+  ModalController,
+  NavController,
+  Platform,
+  ToastController
+} from "@ionic/angular";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from 'rxjs';
 //models
@@ -9,7 +17,14 @@ import { TransferService } from "../../../../providers/logged-in/transfer.servic
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
-
+import {
+  CalendarModal,
+  CalendarModalOptions,
+  DayConfig,
+  CalendarResult,
+  CalendarComponentOptions
+} from 'ion2-calendar';
+import {DefaultDate} from "ion2-calendar/dist/calendar.model";
 
 @Component({
   selector: 'app-import-transfer-form',
@@ -50,6 +65,7 @@ export class ImportTransferFormPage implements OnInit {
     private _alertCtrl: AlertController,
     public _toastCtrl: ToastController,
     public platform: Platform,
+    public modalCtrl: ModalController,
   ) {
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
 
@@ -252,5 +268,38 @@ export class ImportTransferFormPage implements OnInit {
 
       loader.dismiss();
     });
+  }
+
+  async openCalendar() {
+    const options: CalendarModalOptions = {
+      canBackwardsSelected: true,
+      pickMode: 'range',
+      title: 'RANGE',
+      defaultScrollTo : new Date(this.end_date ? this.end_date : new Date()),
+      defaultDateRange: {
+        from: new Date(this.start_date ? this.start_date : ''),
+        to: new Date(this.end_date ? this.end_date : '')
+      }
+    };
+
+    const myCalendar = await this.modalCtrl.create({
+      component: CalendarModal,
+      componentProps: { options }
+    });
+
+    myCalendar.present();
+
+    const event: any = await myCalendar.onDidDismiss();
+    const date = event.data;
+    if (date) {
+      const from: CalendarResult = date.from;
+      const to: CalendarResult = date.to;
+      if (from.string) {
+        this.start_date = from.string;
+      }
+      if (to.string) {
+        this.end_date = to.string;
+      }
+    }
   }
 }

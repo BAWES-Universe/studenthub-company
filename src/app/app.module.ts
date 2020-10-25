@@ -15,6 +15,9 @@ import { UpdateAlertModule } from './components/update-alert/update-alert.module
 import { File } from '@ionic-native/file/ngx';
 import { SentryErrorhandlerService } from './providers/sentry.errorhandler.service';
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
+import {CalendarModule} from 'ion2-calendar';
+
+
 
 
 export function startupServiceFactory(authService) {
@@ -29,6 +32,7 @@ export function startupServiceFactory(authService) {
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    CalendarModule,
     // IonicStorageModule.forRoot({
     //   name: '__payroll_company',
     //   version: 2

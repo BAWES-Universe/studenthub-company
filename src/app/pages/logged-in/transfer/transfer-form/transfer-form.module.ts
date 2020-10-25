@@ -9,7 +9,7 @@ import { TransferFormPageRoutingModule } from './transfer-form-routing.module';
 import { TransferFormPage } from './transfer-form.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DateDropdownModule } from 'src/app/components/date-dropdown/date-dropdown.module';
-
+import { CalendarModule } from 'ion2-calendar';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,7 +18,8 @@ import { DateDropdownModule } from 'src/app/components/date-dropdown/date-dropdo
     IonicModule,
     TransferFormPageRoutingModule,
     PipesModule,
-    DateDropdownModule
+    DateDropdownModule,
+    CalendarModule
   ],
   exports: [
     PipesModule
