@@ -35,8 +35,8 @@ export class CompanyListPage implements OnInit {
     this.loading = true;
     this.companyService.list(page).subscribe(response => {
       this.loading = false;
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.pages = [];
 
@@ -79,8 +79,8 @@ export class CompanyListPage implements OnInit {
 
       this.loading = false;
 
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.pages = this.pages.concat(response.body);
       event.target.complete();
