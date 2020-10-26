@@ -52,8 +52,8 @@ export class CompanyViewPage implements OnInit {
 
     this.storeService.listByCompany(this.company_id, page).subscribe(response => {
 
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.pages = [];
 
