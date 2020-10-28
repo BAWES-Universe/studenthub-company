@@ -63,7 +63,7 @@ export class TransferListPage implements OnInit {
 
     this.transferService.list(page).subscribe(response => {
 
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
 
       this.transfers = response.body;
       this.organiseTransfers();
@@ -84,8 +84,8 @@ export class TransferListPage implements OnInit {
 
     this.transferService.list(this.currentPage).subscribe(response => {
         this.loading = false;
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.transfers = this.transfers.concat(response.body);
         this.organiseTransfers();
 
