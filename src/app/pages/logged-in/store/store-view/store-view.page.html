@@ -11,7 +11,7 @@
 <ion-content class="ion-padding">
 
   <ion-list *ngIf="store">
-  
+
     <ion-item *ngIf="store.brand">
       <div tabindex="0"></div>
       <ion-thumbnail slot="start">
@@ -43,11 +43,11 @@
         </p>
       </ion-label>
     </ion-item>
-  
+
     <ng-container *ngIf="store.candidates">
 
       <ion-item-divider color="light"><b>Assigned Employees</b></ion-item-divider>
-      
+
       <ion-item tappable *ngFor="let candidateMember of store.candidates" (click)="candidateSelected(candidateMember)">
         <div tabindex="0"></div>
         <ion-avatar slot="start">
@@ -56,16 +56,16 @@
             (ionError)="onImageError(candidateMember)"></ion-img>
           <ion-img *ngIf="!candidateMember.candidate_personal_photo" src="/assets/icon.png"></ion-img>
         </ion-avatar>
-        <ion-label>
+        <ion-label  class="candidate_name">
           {{ candidateMember.candidate_name? candidateMember.candidate_name: candidateMember.candidate_name_ar }}
         </ion-label>
       </ion-item>
 
       <no-items *ngIf="store.candidates.length == 0" message="~ No Employees Assigned Yet! ~"></no-items>
     </ng-container>
-    
+
   </ion-list>
 
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
-  
+
 </ion-content>
