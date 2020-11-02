@@ -79,21 +79,23 @@ export class TransferListPage implements OnInit {
  * will load more data just like pagination
  */
   doInfinite(infiniteScroll) {
+
     this.currentPage++;
+    
     this.loading = true;
 
     this.transferService.list(this.currentPage).subscribe(response => {
-        this.loading = false;
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-        this.transfers = this.transfers.concat(response.body);
-        this.organiseTransfers();
+      this.loading = false;
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.transfers = this.transfers.concat(response.body);
+      this.organiseTransfers();
 
-      },
-      error => { },
-      () => {
-        infiniteScroll.target.complete();
-      });
+    },
+    error => { },
+    () => {
+      infiniteScroll.target.complete();
+    });
   }
 
   /**

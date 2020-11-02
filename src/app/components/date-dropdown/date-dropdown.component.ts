@@ -3,6 +3,8 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as dateFns from 'date-fns';
 import { Platform } from '@ionic/angular';
 // services
+import { TranslateLabelService } from '../../providers/translate-label.service';
+
 
 @Component({
   selector: 'app-date-dropdown',
@@ -37,19 +39,20 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   selectedYear = null;
 
   constructor(
+    public translateLabel: TranslateLabelService,
     public platform: Platform
   ) { }
 
   /**
-     * Getter for Value
-     */
+   * Getter for Value
+   */
   get value() {
     return this._value;
   }
 
   /**
-     * Setter for Value
-     */
+   * Setter for Value
+   */
   set value(val) {
     const date = new Date(val);
 
@@ -194,13 +197,16 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     ).map(month => {
 
       return {
-        month,
+        month: month,
         isSelectable: this.isDateSelectable(selectedDate.getFullYear() + '/' + month + '/01'),
         isSelected: month === dateFns.getMonth(new Date(this.value).getTime()) + 1
       };
     });
   }
 
+  /**
+   * init years
+   */
   initYears() {
 
     const range = this.maxYear - this.minYear + 1;
@@ -221,7 +227,7 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
       }
     ).map((year) => {
       return {
-        year,
+        year: year,
         isSelected: year === dateFns.getYear(new Date(this.value).getTime())
       };
     });
@@ -246,14 +252,21 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     }
 
     this.selectedMonth = event.target.value;
+
     const picDate = this.pickerFormat.indexOf('D') !== -1;
 
     // check if date (in case date is enable) and year is selected
+
+    //for date month year format 
+
     if (picDate && this.selectedDate && this.selectedYear) {
       const date = this._value ? new Date(this._value) : new Date();
       this.value = this.selectedYear + '/' + event.target.value + '/' + date.getDate();
       this.init(); // reset days
-    } else if (this.selectedYear) {
+
+    // for month year formats
+
+    } else if (!picDate && this.selectedYear) {
       this.value = this.selectedYear + '/' + event.target.value + '/1';
       this.init(); // reset days
     }
@@ -285,14 +298,20 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
       return null;
     }
 
-    this.selectedYear = event.target.value;
     const picDate = this.pickerFormat.indexOf('D') !== -1;
 
+    this.selectedYear = event.target.value;
+    
     const date = this._value ? new Date(this._value) : new Date();
 
-    if (picDate && this.selectedDate && this.selectedMonth) {
-      this.value = event.target.value + '/' + this.selectedMonth + '/' + date.getDate();
-    } else if (this.selectedMonth) {
+    //for DMY formats 
+
+    if (this.selectedDate && this.selectedMonth) {
+      this.value = event.target.value + '/' + this.selectedMonth + '/' + this.selectedDate;
+
+    //for month and year format 
+
+    } else if (!picDate && this.selectedMonth) {
       this.value = event.target.value + '/' + this.selectedMonth + '/' + date.getDate();
     }
   }
