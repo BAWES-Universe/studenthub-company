@@ -95,7 +95,10 @@
       <div tabindex="0"></div>
       <ion-label>
         <h5>University</h5>
-        <p>{{ candidate.university.university_name_en }}</p>
+        <p>
+          {{ candidate.university.university_name_en }}
+          <span *ngIf="!candidate.university.university_name_en">{{ candidate.university.university_name_ar }}</span>
+        </p>
       </ion-label>
     </ion-item>
 
