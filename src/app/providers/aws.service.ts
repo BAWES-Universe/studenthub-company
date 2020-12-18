@@ -159,6 +159,10 @@ export class AwsService {
 
         let prefix = this._getFileNameWithoutExtension(file.name);
 
+        if(!prefix) {
+            prefix = 'file';
+        }
+
         let key = prefix + "-" + Date.now() + "." + extension;
 
         let params = { 
@@ -207,7 +211,7 @@ export class AwsService {
      * @param fileName 
      */
     normalizeFileName(fileName) {
-        return fileName.replace(/ /g, "-").replace(/%20/g, "-");
+        return fileName.replace(/ /g, "-").replace(/%20/g, "-").replace(/([^a-z0-9 ]+)/gi, '-');
     }
 
     /**
