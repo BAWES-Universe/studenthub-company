@@ -288,3 +288,74 @@
     </ion-item-group>
   </ion-list>
 </div>
+
+<!------------------- candidate-filter ------------------------>
+
+<div class="candidate-filter" *ngIf="loading && type == 'candidate-filter'">
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+</div>
+
+<!------------------------ candidate -------------------->
+
+<div *ngIf="loading && type == 'candidate'" #container>
+  <ion-card class="candidate">
+    <ion-card-content>
+
+      <div class="background-masker image"></div>
+
+      <h2 class="background-masker name"></h2>
+
+      <small class="city">
+        <div class="background-masker city-location"></div>
+      </small>
+
+      <div class="clearfix"></div>
+
+      <p class="background-masker objective"></p>
+
+      <hr />
+
+      <p class="background-masker work"></p>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="candidate">
+    <ion-card-content>
+
+      <div class="background-masker image"></div>
+
+      <h2 class="background-masker name"></h2>
+
+      <small class="city">
+        <div class="background-masker city-location"></div>
+      </small>
+
+      <div class="clearfix"></div>
+
+      <p class="background-masker objective"></p>
+
+      <hr />
+
+      <p class="background-masker work"></p>
+
+    </ion-card-content>
+  </ion-card>
+</div>

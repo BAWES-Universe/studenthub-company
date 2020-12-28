@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { Transfer } from "../../../../models/transfer";
 //services
 import { TransferService } from "../../../../providers/logged-in/transfer.service";
-import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { AuthService } from 'src/app/providers/auth.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import {
@@ -24,7 +24,7 @@ import {
   CalendarResult,
   CalendarComponentOptions
 } from 'ion2-calendar';
-import {DefaultDate} from "ion2-calendar/dist/calendar.model";
+
 
 @Component({
   selector: 'app-import-transfer-form',
@@ -54,13 +54,14 @@ export class ImportTransferFormPage implements OnInit {
   public max; // max date
   public start_date; // max date
   public end_date; // max date
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
+    public authService: AuthService,
     public transferService: TransferService,
     public awsService: AwsService,
     public sentryService: SentryErrorhandlerService,
-    public translateService: TranslateLabelService,
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
     public _toastCtrl: ToastController,
@@ -191,7 +192,7 @@ export class ImportTransferFormPage implements OnInit {
       if (data.operation == "error") {
 
         let prompt = await this._alertCtrl.create({
-          message: this.translateService.errorMessage(data.message),
+          message: this.authService.errorMessage(data.message),
           buttons: ["Ok"]
         });
         prompt.present();
@@ -234,7 +235,7 @@ export class ImportTransferFormPage implements OnInit {
         // On Failure
         if (data.operation == "error") {
           let prompt = await this._alertCtrl.create({
-            message: this.translateService.errorMessage(data.message),
+            message: this.authService.errorMessage(data.message),
             buttons: ["Ok"]
           });
           prompt.present();

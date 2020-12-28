@@ -129,6 +129,17 @@ const routes: Routes = [
       name: 'TransferViewPage'
     }
   },
+
+  {
+    path: 'candidate-search',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then(m => m.CandidateSearchPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'CandidateSearchPage',
+      navDisable: true,
+    }
+  },
+  
   {
     path: '**',
     redirectTo: 'not-found'

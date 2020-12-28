@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -32,6 +32,7 @@ export function startupServiceFactory(authService) {
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    BrowserTransferStateModule,
     CalendarModule,
     // IonicStorageModule.forRoot({
     //   name: '__payroll_company',

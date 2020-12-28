@@ -28,6 +28,11 @@ export class AuthService {
   public displayCookieMessage = '0';
 
   public showOneSignalPrompt = false;
+
+  public navEnable = true;
+  
+  public currency_pref = 'USD';
+
   private urlBasicAuth = '/auth/login';
   public urlLocate = '/auth/locate';
 
@@ -46,6 +51,12 @@ export class AuthService {
      * https://github.com/angular/angular/issues/14615
      */
     return new Promise(async resolve => {
+
+      this.navEnable = true;
+
+      if (route.data.navDisable) {
+        this.navEnable = false;
+      }
 
       if (this.isLogged) {
         resolve(true);
