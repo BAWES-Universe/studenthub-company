@@ -33,3 +33,13 @@
 .candidate_name {
   text-transform: capitalize;
 }
+
+@media (prefers-color-scheme: dark) {
+  button.days-btn p , h4 {
+    color: #fff!important;
+  }
+
+  button.days-btn.today{
+    background: grey!important;
+  }
+}
