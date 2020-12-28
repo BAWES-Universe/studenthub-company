@@ -1,0 +1,254 @@
+ion-header,
+ion-content,
+ion-toolbar,
+ion-card,
+ion-list,
+ion-item,
+ion-card-content,
+ion-button,
+ion-footer {
+    --background: #ffffff;
+    background: #ffffff;
+    --color: #000000;
+    color: #000000;
+}
+
+ion-header {
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+
+    .btn-close ion-icon {
+        height: 30px;
+        width: 30px;
+    }
+}
+
+ion-content {
+    --padding-start: 30px;
+    --padding-end: 30px;
+    --padding-top: 26px;
+    --padding-bottom: 26px;
+}
+
+.btn-close {
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    height: auto;
+}
+
+h3 {
+    font-size: 48px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    margin-top: 0px;
+    margin-bottom: 43px;
+    line-height: 58px;
+}
+
+.company-name {
+    margin: 23px 3px 0px;
+    font-size: 36px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #2f80ed;
+}
+
+.txt-looking {
+    margin: 5px 0 3px 6px;
+    font-size: 24px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.requirement {
+    margin: 0px 0 13px 6px;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.txt-additional-info {
+    margin: 20px 0 32px 6px;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.requested-by {
+    margin: 39px 39px 28px 6px;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+
+    .requested-by-staff {
+        color: #2f80ed;
+    }
+}
+
+.txt-activities {
+    margin: 32px 10px 17px 3px;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.txt-suggested-candidates {
+    margin: 49px 3px 21px;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.request-time {
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000000;
+}
+
+.btn-view-notes {
+    margin: 0px 3px 0;
+    border-radius: 5px;
+    --box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    text-transform: none;
+    width: 100%;
+    height: 40px;
+}
+
+ion-back-button {
+    display: block;
+}
+
+.request {
+    border-bottom: 23px solid;
+    padding-bottom: 33px;
+}
+
+.pending {
+    border-color: #f2c94c;
+}
+
+.active {
+    border-color: #56ccf2;
+}
+
+.active-invoice {
+    border-color: #f5a5b8;
+}
+
+.completed {
+    border-color: #96c050;
+}
+
+.cancelled {
+    border-color: #eb5757;
+}
+
+.paid-invoice {
+    border-color: #6fcf97;
+}
+
+.btn-cancel {
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #eb5757;
+    text-transform: none;
+    --color: #eb5757;
+    margin-right: 10px;
+}
+
+ion-footer {
+    ion-button {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 18px;
+        text-align: center;
+        text-transform: none;
+        --color: #ffffff;
+        color: #ffffff;
+        --background: #000000;
+        background: #000000;
+        --border-radius: 4px;
+        border-radius: 4px;
+        margin: 12px 10px;
+        width: calc(100% - 20px);
+        height: 50px;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        display: block;
+    }
+
+    ion-button.mark-complete-btn {
+        background: #79a336;
+        --background: #79a336;
+    }
+    ion-grid {
+        box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
+    }
+}
+
+ion-grid {
+    padding: 0 5px;
+
+    ion-col {
+        padding: 12px 5px;
+        margin: 0;
+    }
+
+    ion-button {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+}

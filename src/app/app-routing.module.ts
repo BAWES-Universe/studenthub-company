@@ -139,7 +139,31 @@ const routes: Routes = [
       navDisable: true,
     }
   },
-  
+  {
+    path: 'request-list',
+    loadChildren: () => import('./pages/logged-in/request/company-request-list/company-request-list.module').then(m => m.CompanyRequestListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'CompanyRequestListPage',
+    }
+  },
+  {
+    path: 'request-view',
+    loadChildren: () => import('./pages/logged-in/request/company-request-view/company-request-view.module').then(m => m.CompanyRequestViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'CompanyRequestViewPage',
+    }
+  },
+  {
+    path: 'request-form',
+    loadChildren: () => import('./pages/logged-in/request/request-form/request-form-routing.module').then(m => m.RequestFormPageRoutingModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'RequestFormPage',
+    }
+  },
+
   {
     path: '**',
     redirectTo: 'not-found'
