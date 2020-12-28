@@ -136,7 +136,15 @@ export class CandidateSearchPage implements OnInit {
 
     if (this.candidateService.algoliaConfig) {
       this.searchParameters = Object.assign({}, this.candidateService.algoliaConfig.searchParameters);
-    }
+    } 
+    /*else {
+      this.searchParameters = {
+        'getRankingInfo': true,
+        'aroundLatLngViaIP': true,
+        'aroundRadius': 'all',
+        'filters': 'assigned=0 AND candidate_committed="Yes"'
+      }
+    }*/
   }
 
   /**

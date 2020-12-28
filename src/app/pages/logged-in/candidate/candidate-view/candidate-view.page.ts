@@ -26,8 +26,6 @@ export class CandidateViewPage implements OnInit {
     public candidateService: CandidateService,
     public navCtrl: NavController
   ) {
-    this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.loadWorkHistoryData();
   }
 
 
@@ -41,13 +39,18 @@ export class CandidateViewPage implements OnInit {
   }
 
   ngOnInit() {
+
+    this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
+
     const state = window.history.state;
+
     if (state.model) {
       this.candidate = state.model;
     }
-    if (!this.candidate) {
-      this.loadData();
-    }
+
+    this.loadData();
+    
+    this.loadWorkHistoryData();
   }
 
   async loadData() {
