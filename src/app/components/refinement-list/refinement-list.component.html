@@ -1,0 +1,61 @@
+<div [class]="cx()" no-lines [class.open]="open" [class.closed]="!open"  dir="ltr">
+    
+  <div class="list-header" (click)="toggleOpen()" tappable>
+      
+      <div>
+          <ion-icon *ngIf="!open && !isRefined()" src="assets/images/ic-plus.svg"></ion-icon>  
+          <ion-icon *ngIf="!open && isRefined()" src="assets/images/ic-tick.svg"></ion-icon>  
+          
+          <span>{{ label  }}</span>
+      
+          <ion-button class="btn-close skip-hover" *ngIf="open">
+            <img src="assets/images/ic-cancel.svg">
+          </ion-button>
+      </div>
+      
+      <current-refinement
+          [transformItems]="transformItems"
+          [class.hidden]="open || !isRefined()"
+          [attribute]="attribute">
+          </current-refinement>
+  </div>
+  
+  <!-- 
+  <ion-searchbar *ngIf="searchable" [class]="cx('searchBox')" (ionInput)="onSearch($event)" 
+      placeholder="{{ searchPlaceholder  }}">
+  </ion-searchbar>
+  
+  <ais-search-box placeholder='Search for products'>
+      </ais-search-box>-->
+
+  <div class="ais-RefinementListContent">
+
+      <is-facets-search *ngIf="state.canRefine && searchable" [search]="state.searchForItems" [searchPlaceholder]="searchPlaceholder">
+      </is-facets-search>
+      
+      <p class="txt-no-items" *ngIf="items && items.length == 0">
+          ~ {{ "No options under this filter"  }} ~
+      </p> 
+      <ng-container *ngFor="let item of items">
+          <ion-item (click)="refine($event, item)" tappable [class]="getItemClass(item)" *ngIf="item.label">
+            <div tabindex="0"></div>
+            <ion-label tappable [class]="cx('label')">
+                  <span [class]="cx('labelText')">
+                      <ais-highlight attribute="highlighted" [hit]="item"></ais-highlight>
+                  </span>
+                  <span [class]="cx('count')"> {{item.count}}</span>
+              </ion-label>
+
+              <ion-checkbox [class]="cx('checkbox')" value="{{item.value}}" slot="start" [checked]="item.isRefined"></ion-checkbox>
+          </ion-item>
+      </ng-container>
+   
+      <ion-button *ngIf="canShowMore()" class="skip-hover"
+          [class.btn-expand]="!state.isShowingMore" 
+          [class.btn-collapse]="state.isShowingMore"  
+          (click)="state.toggleShowMore()">
+          {{ state.isShowingMore ? showLessLabel : showMoreLabel }}  
+      </ion-button>
+
+  </div>    
+</div>

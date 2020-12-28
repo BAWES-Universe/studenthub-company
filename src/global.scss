@@ -33,3 +33,53 @@
 .candidate_name {
   text-transform: capitalize;
 }
+
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+ion-footer.filter-opened,
+ion-footer.filter-closed {
+  display: none;
+}
+
+@media only screen and (max-width: 767px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .filter-closed {
+    .col-filter {
+      display: none;
+    }
+    .col-listing {
+      display: block;
+    }
+  }
+
+  .filter-opened {
+    .col-filter {
+      display: block;
+    }
+
+    .col-listing {
+      display: none;
+    }
+  }
+
+  ion-footer.filter-opened {
+    display: block;
+  }
+
+  ion-footer.filter-closed {
+    display: none;
+  }
+}

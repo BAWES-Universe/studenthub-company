@@ -5,13 +5,13 @@ import * as AWS from 'aws-sdk';
 import { Plugins } from '@capacitor/core';
 import { Platform, AlertController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
-//services
-import { TranslateLabelService } from './translate-label.service';
 
 
 const { Filesystem, FilesystemEncoding } = Plugins;
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+    providedIn: 'root'
+})
 export class AwsService {
     //https://studenthub-public-anyone-can-upload-24hr-expiry.s3.amazonaws.com/
     
@@ -34,8 +34,7 @@ export class AwsService {
     constructor(
         public platform: Platform,
         public alertController: AlertController,
-        private _file: NativeFile,
-        public translateService: TranslateLabelService,
+        private _file: NativeFile
     ) {
         this.initAwsService();
     }

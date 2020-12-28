@@ -9,6 +9,8 @@ import { AuthHttpService } from "./authhttp.service";
 })
 export class CandidateService {
 
+  public algoliaConfig;
+
   private _candidateEndpoint: string = "/candidates";
 
   constructor(private _authhttp: AuthHttpService) { }
