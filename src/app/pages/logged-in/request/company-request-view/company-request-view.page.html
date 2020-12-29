@@ -3,12 +3,6 @@
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/ic_cancel.svg" defaultHref="/default"></ion-back-button>
     </ion-buttons>
-
-    <ion-button fill="clear" (click)="cancelledRequest($event, request)" slot="end" class="btn-cancel"
-      *ngIf="request && request.request_status == 'started' && request.request_created_by == authService.staff_id">
-      Cancel Request
-    </ion-button>
-
   </ion-toolbar>
 </ion-header>
 
