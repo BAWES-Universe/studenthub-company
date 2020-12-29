@@ -49,7 +49,6 @@ export class CompanyRequestService {
    */
   create(model: Request): Observable<any> {
     return this.authhttp.post(this.companyRequestEndpoint, {
-      company_id: model.company_id,
       contact_uuid: model.contact_uuid,
       position_type: model.request_position_type,
       position_title: model.request_position_title,

@@ -9,7 +9,7 @@ import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { EventService } from 'src/app/providers/event.service';
-import {AuthService} from "../../../../providers/auth.service";
+import {AuthService} from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -71,6 +71,9 @@ export class CompanyRequestListPage implements OnInit {
 
     this.list();
 
+    this.eventService.companyRequestUpdate$.subscribe(_ => {
+      this.list();
+    });
   }
 
   ionViewWillEnter() {

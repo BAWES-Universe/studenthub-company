@@ -16,6 +16,7 @@ import { File } from '@ionic-native/file/ngx';
 import { SentryErrorhandlerService } from './providers/sentry.errorhandler.service';
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 import {CalendarModule} from 'ion2-calendar';
+import {CompanyContactListPageModule} from "./pages/logged-in/company-contact/company-contact-list/company-contact-list.module";
 
 
 
@@ -39,6 +40,7 @@ export function startupServiceFactory(authService) {
     //   version: 2
     //   //driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
     // }),
+    CompanyContactListPageModule,
     UpdateAlertModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
   ],

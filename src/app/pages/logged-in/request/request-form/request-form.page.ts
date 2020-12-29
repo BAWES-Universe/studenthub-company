@@ -7,10 +7,12 @@ import { ActivatedRoute } from '@angular/router';
 
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { EventService } from 'src/app/providers/event.service';
 // models
 import { Request } from 'src/app/models/request';
-//pages
+// pages
 import { CompanyContactListPage } from '../../company-contact/company-contact-list/company-contact-list.page';
+
 
 
 @Component({
@@ -41,6 +43,7 @@ export class RequestFormPage implements OnInit {
     private authService: AuthService,
     private popoverCtrl: PopoverController,
     private location: Location,
+    private eventService: EventService,
     private route: ActivatedRoute
   ) {
   }
@@ -64,8 +67,6 @@ export class RequestFormPage implements OnInit {
   loadForm() {
     this.company = this.model.company;
     this.form = this.fb.group({
-      company_name: [(this.model.company) ? this.model.company.company_name : '', Validators.required],
-      company_id: [this.model.company_id, Validators.required],
       contact_name: [(this.model.contact) ? this.model.contact.contact_name : '', Validators.required],
       contact_uuid: [this.model.contact_uuid, Validators.required],
       position_type: [this.model.request_position_type + '', Validators.required],
@@ -81,7 +82,6 @@ export class RequestFormPage implements OnInit {
    * Update Model Data based on Form Input
    */
   updateModelDataFromForm() {
-    this.model.company_id = this.form.value.company_id;
     this.model.contact_uuid = this.form.value.contact_uuid;
     this.model.request_position_type = this.form.value.position_type;
     this.model.request_position_title = this.form.value.position_title;
@@ -122,6 +122,7 @@ export class RequestFormPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == 'success') {
+        this.eventService.companyRequestUpdate$.next();
         // Close the page
         this.location.back();
       }
@@ -146,37 +147,16 @@ export class RequestFormPage implements OnInit {
    * @param e
    */
   async openContact(e) {
-
-    let popover;
-
-    // if (this.company) {
-    //   popover = await this.popoverCtrl.create({
-    //     component: CompanyContactListPage,
-    //     event: e,
-    //     componentProps: {
-    //       company: this.company
-    //     }
-    //   });
-    // } else {
-      popover = await this.modalCtrl.create({
-        component: CompanyContactListPage,
-        componentProps: {
-          company: this.company
-        }
-      });
-    // }
-
+    const popover = await this.modalCtrl.create({
+      component: CompanyContactListPage,
+      componentProps: {
+        company: this.company
+      }
+    });
     popover.onDidDismiss().then((_) => {
       if (_ && _.data && _.data.companyContact) {
 
-        let contact = _.data.companyContact.contact_name;
-
-        if (!this.company || !this.company.company_id) {
-          this.form.controls.company_name.setValue(_.data.companyContact.company.company_name);
-          this.form.controls.company_id.setValue(_.data.companyContact.company.company_id);
-
-          contact += ' @ ' + _.data.companyContact.company.company_name;
-        }
+        const contact = _.data.companyContact.contact_name;
 
         this.form.controls.contact_name.setValue(contact);
         this.form.controls.contact_uuid.setValue(_.data.companyContact.contact_uuid);

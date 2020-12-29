@@ -22,4 +22,5 @@ export class Note {
     candidate: Candidate;
     company: Company;
     request: Request;
+    updatedBy: any;
 }

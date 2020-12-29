@@ -157,7 +157,7 @@ const routes: Routes = [
   },
   {
     path: 'request-form',
-    loadChildren: () => import('./pages/logged-in/request/request-form/request-form-routing.module').then(m => m.RequestFormPageRoutingModule),
+    loadChildren: () => import('./pages/logged-in/request/request-form/request-form.module').then(m => m.RequestFormPageModule),
     canActivate: [AuthService],
     data: {
       name: 'RequestFormPage',
