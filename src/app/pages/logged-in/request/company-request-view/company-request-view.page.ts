@@ -21,9 +21,6 @@ import { EventService } from 'src/app/providers/event.service';
 // models
 import { Request } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
-// pages
-import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
-
 
 @Component({
   selector: 'app-company-request-view',
@@ -189,48 +186,6 @@ export class CompanyRequestViewPage implements OnInit {
     }
   }
 
-  /**
-   * show alert to post update on request
-   */
-  async showUpdateAlert() {
-
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const note = new Note();
-    note.request_uuid = this.request_uuid;
-    note.company_id = this.request.company_id;
-    note.contact_uuid = this.request.contact_uuid;
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyNoteFormPage,
-      componentProps: {
-        note: note,
-        from: 'post-update'
-      }
-    });
-    modal.present();
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-    });
-
-    const { data } = await modal.onWillDismiss();
-
-    if (data && data.refresh) {
-      this.loadRequestActivities();
-
-      this.request.request_updated_datetime = data.request_updated_datetime;
-
-      this.eventService.companyRequestUpdate$.next({ 
-        request_updated_datetime: data.request_updated_datetime,
-        request_uuid: this.request_uuid 
-      });
-    }
-  }
-
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 0);
   }
@@ -283,9 +238,9 @@ export class CompanyRequestViewPage implements OnInit {
                 this.loadRequestActivities();
                 this.eventService.reloadStats$.next();
 
-                this.eventService.companyRequestUpdate$.next({ 
+                this.eventService.companyRequestUpdate$.next({
                   request_updated_datetime: response.request_updated_datetime,
-                  request_uuid: this.request_uuid 
+                  request_uuid: this.request_uuid
                 });
 
               } else {
@@ -355,11 +310,11 @@ export class CompanyRequestViewPage implements OnInit {
                 this.loadRequestActivities();
                 this.eventService.reloadStats$.next();
 
-                this.eventService.companyRequestUpdate$.next({ 
+                this.eventService.companyRequestUpdate$.next({
                   request_updated_datetime: response.request_updated_datetime,
-                  request_uuid: this.request_uuid 
+                  request_uuid: this.request_uuid
                 });
-                
+
               } else {
                 this.toastCtrl.create({
                   message: response.message,
