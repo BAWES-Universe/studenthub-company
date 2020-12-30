@@ -14,6 +14,7 @@ export class Candidate {
     candidate_name_ar: string;
     candidate_personal_photo: string;
     candidate_email: string;
+    candidate_email_verification: any;
     candidate_phone: string;
     candidate_address_line1: string;
     candidate_birth_date: string;
@@ -30,4 +31,6 @@ export class Candidate {
     country: Country;
     area: Area;
     nationality: Country;
+
+    isProfileCompleted: any;
 }

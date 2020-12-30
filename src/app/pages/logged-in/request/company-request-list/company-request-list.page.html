@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Request List</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addRequest()">Add Request</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <ion-list class="ion-padding">
+
+    <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
+                     [request]="request" [showStatus]="false"></request-listing>
+
+    <loading-modal [loading]="loading" type="request-list"></loading-modal>
+
+  </ion-list>
+
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

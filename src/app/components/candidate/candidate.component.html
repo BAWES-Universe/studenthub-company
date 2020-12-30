@@ -1,0 +1,29 @@
+  <ion-item>
+    <div tabindex="0"></div>
+
+    <ion-avatar slot="start">
+      <img *ngIf="candidate.candidate_personal_photo"
+        src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon.png';">
+      <img *ngIf="candidate && !candidate.candidate_personal_photo" src="/assets/icon.png">
+    </ion-avatar>
+
+    <ion-label>
+      <h2 class="candidate_name">{{ candidate.candidate_name ?candidate.candidate_name : candidate.candidate_name_ar }}</h2>
+
+      <!--
+      <ion-badge *ngIf="candidate.approved == 0 && candidate.isProfileCompleted == true" color="warning">
+        Requires Approval
+      </ion-badge>
+      -->
+
+      <ion-badge *ngIf="candidate.isProfileCompleted == false" color="danger">
+        Incomplete Profile
+      </ion-badge>
+
+      <ion-badge *ngIf="!candidate.candidate_email_verification" color="danger">
+        Email Not Verified
+      </ion-badge>
+    </ion-label>
+
+  </ion-item>
+ 

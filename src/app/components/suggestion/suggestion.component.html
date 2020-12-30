@@ -1,0 +1,66 @@
+<!--<ion-card (click)="openCandidatePage()" tappable>-->
+<ion-card tappable>
+  <ion-badge *ngIf="model.suggestion_status == 1">
+    Suggested a candidate
+  </ion-badge>
+  <ion-badge *ngIf="model.suggestion_status == 3">
+    Accepted a candidate
+  </ion-badge>
+  <ion-badge *ngIf="model.suggestion_status == 2">
+    Rejected a candidate
+  </ion-badge>
+
+  <ion-item lines="none" *ngIf="model.candidate">
+    <div tabindex="0"></div>
+
+    <ion-avatar slot="start">
+      <img *ngIf="model.candidate.candidate_personal_photo"
+        src="{{ aws.cloudinaryUrl + 'candidate-photo/' + model.candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon/icon.png';">
+      <img *ngIf="!model.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
+    </ion-avatar>
+
+    <ion-label>
+      <h5>{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</h5>
+    </ion-label>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="model.fulltimer">
+    <div tabindex="0"></div>
+
+    <ion-avatar slot="start">
+      <img src="/assets/icon/icon.png">
+    </ion-avatar>
+
+    <ion-label>
+      <h5>{{ model.fulltimer.fulltimer_name }} </h5>
+    </ion-label>
+  </ion-item>
+
+  <!-- for old data -->
+
+  <p class="activity" *ngIf="!model.feedback">
+    <span class="staff-name" *ngIf="model.updatedBy" [routerLink]="'/team-view/' + model.updatedBy.staff_id">{{ model.updatedBy.staff_name }}:&nbsp;</span>
+    <span *ngIf="model.suggestion_status == 1">I suggested&nbsp;</span>
+    <span *ngIf="model.suggestion_status == 3">Client accepted&nbsp;</span>
+    <span *ngIf="model.suggestion_status == 2">Client rejected&nbsp;</span>
+    <span class="candidate_name" *ngIf="model.candidate">&nbsp;{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</span>
+    <span class="candidate_name" *ngIf="model.fulltimer">&nbsp;{{ model.fulltimer.fulltimer_name }}</span>
+    because <span [innerHTML]="model.note.note_text"></span>
+  </p>
+
+  <p class="activity" *ngIf="model.feedback">
+    <span class="staff-name" *ngIf="model.feedback.updatedBy">{{ model.feedback.updatedBy.staff_name }}:&nbsp;</span>
+    <ng-container *ngIf="model.feedback.note_type == 'Suggested'" > I <span class="note-tpye"> {{ model.feedback.note_type }}&nbsp;</span></ng-container>
+    <ng-container *ngIf="model.feedback.note_type != 'Suggested'" > Client <span class="note-tpye">  {{ model.feedback.note_type }}&nbsp;</span></ng-container>
+    <span class="candidate_name" *ngIf="model.candidate">&nbsp;{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</span>
+    <span class="candidate_name" *ngIf="model.fulltimer">&nbsp;{{ model.fulltimer.fulltimer_name }}</span>
+    because <span [innerHTML]="model.feedback.note_text"></span>
+  </p>
+
+  <p class="txt-time">
+    {{ model.suggestion_datetime | timeAgo }} on
+    {{ toDate(model.suggestion_datetime) | date: 'MMM d, y' }}
+  </p>
+</ion-card>
+
+<div class="clearfix"></div>

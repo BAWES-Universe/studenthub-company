@@ -2,8 +2,6 @@ import { Component, forwardRef, Input, OnChanges, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as dateFns from 'date-fns';
 import { Platform } from '@ionic/angular';
-// services
-import { TranslateLabelService } from '../../providers/translate-label.service';
 
 
 @Component({
@@ -39,7 +37,6 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   selectedYear = null;
 
   constructor(
-    public translateLabel: TranslateLabelService,
     public platform: Platform
   ) { }
 

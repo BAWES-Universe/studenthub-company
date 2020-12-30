@@ -1,6 +1,6 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay" [disabled]="!auth.isLogged">
+    <ion-menu contentId="main-content" type="overlay" [disabled]="!auth.isLogged || !auth.navEnable">
       <ion-header>
         <ion-toolbar class=" navi-header ion-text-center" style="height:auto;">
           <img class='logo' src="assets/icon.png" />
@@ -35,6 +35,16 @@
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
+            <ion-item [routerLink]="'/candidate-search'" routerLinkActive="active">
+              <div tabindex="0"></div>
+              <ion-icon name="people-outline"  slot="start"></ion-icon>
+              <ion-label>
+                Candidate Search
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
             <ion-item [routerLink]="'/store-list'" routerLinkActive="active">
               <div tabindex="0"></div>
               <ion-icon name="list-outline"  slot="start"></ion-icon>
@@ -44,8 +54,17 @@
             </ion-item>
           </ion-menu-toggle>
 
-          <ion-list-header>Account</ion-list-header>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerLink]="'/request-list'" routerLinkActive="active">
+              <div tabindex="0"></div>
+              <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+              <ion-label>
+                Requests
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
 
+          <ion-list-header>Account</ion-list-header>
 
           <ion-menu-toggle auto-hide="false">
             <ion-item [routerLink]="'/change-password'" routerLinkActive="active">

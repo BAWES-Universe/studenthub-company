@@ -1,0 +1,91 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/company-request-dashboard"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>
+      {{ operation }} Request
+      <small size="small" *ngIf="company">
+        for <br/>{{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
+      </small>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
+        <span *ngIf="!saving">Save</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+  <form [formGroup]="form" *ngIf="form">
+
+    <ion-list>
+      <ion-item (click)="openContact($event)">
+        <ion-label position="floating">Contact</ion-label>
+        <ion-input type="text" formControlName="contact_name" readonly></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-radio-group  formControlName="position_type">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <div tabindex="0"></div>
+              <ion-radio slot="start" value="1"></ion-radio>
+              <ion-label>Full time</ion-label>
+            </ion-item>
+          </ion-col>
+
+          <ion-col>
+            <ion-item>
+              <div tabindex="0"></div>
+              <ion-radio slot="start" value="2"></ion-radio>
+              <ion-label>Part time</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-radio-group>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Position title</ion-label>
+        <ion-input type="text" formControlName="position_title"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Number of employees</ion-label>
+        <ion-input type="text" formControlName="number_of_employees"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Additional info</ion-label>
+        <ion-textarea formControlName="additional_info" placeholder="Female only, Lebanese Jordanian Syrian NO EGYPTIAN"></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button [disabled]="form && !form.valid" (click)="save()">
+          <span *ngIf="!saving">Save</span>
+          <ion-spinner *ngIf="saving"></ion-spinner>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="resetForm();">Reset</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

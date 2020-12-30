@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -16,6 +16,7 @@ import { File } from '@ionic-native/file/ngx';
 import { SentryErrorhandlerService } from './providers/sentry.errorhandler.service';
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 import {CalendarModule} from 'ion2-calendar';
+import {CompanyContactListPageModule} from "./pages/logged-in/company-contact/company-contact-list/company-contact-list.module";
 
 
 
@@ -32,12 +33,14 @@ export function startupServiceFactory(authService) {
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    BrowserTransferStateModule,
     CalendarModule,
     // IonicStorageModule.forRoot({
     //   name: '__payroll_company',
     //   version: 2
     //   //driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
     // }),
+    CompanyContactListPageModule,
     UpdateAlertModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
   ],
