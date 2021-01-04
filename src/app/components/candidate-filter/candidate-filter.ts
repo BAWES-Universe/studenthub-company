@@ -1,6 +1,5 @@
 import { Component, forwardRef, Inject } from '@angular/core';
-// services
-import { InstantSearchComponent } from '../instant-search/instant-search.component';
+import { NgAisInstantSearch } from 'angular-instantsearch';
 
 
 /**
@@ -89,7 +88,7 @@ export class CandidateFilterComponent {
     }
 
     constructor(
-        @Inject(forwardRef(() => InstantSearchComponent))
+        @Inject(forwardRef(() => NgAisInstantSearch))
         public instantSearchParent
     ) {
     }

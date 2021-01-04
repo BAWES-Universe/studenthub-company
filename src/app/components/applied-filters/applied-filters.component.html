@@ -28,8 +28,8 @@
     <span [class]="cx('list')" *ngIf="this.platform.is('mobile') && state.refinements">
         <div class="outer-slider">
             <div class="inner-element">
-                <ion-button (click)="toggleCurrentSelection(currentSelection)" class="skip-hover" *ngFor="let currentSelection of state.refinements">
-                  {{ currentSelection.computedLabel }}
+                <ion-button (click)="toggleCurrentSelection(currentSelection)" class="skip-hover" *ngFor="let currentSelection of currentSelections()">
+                  {{ currentSelection.appliedLabel? currentSelection.appliedLabel : currentSelection.computedLabel}}
                   <ion-icon name="close"></ion-icon>
                 </ion-button>
             </div>
@@ -37,8 +37,8 @@
     </span>
 
       <span [class]="cx('list')" *ngIf="this.platform.is('desktop') && state.refinements">
-        <ion-button (click)="toggleCurrentSelection(currentSelection)"  *ngFor="let currentSelection of state.refinements" class="skip-hover">
-          {{ currentSelection.computedLabel }}
+        <ion-button (click)="toggleCurrentSelection(currentSelection)"  *ngFor="let currentSelection of currentSelections()" class="skip-hover">
+          {{ currentSelection.appliedLabel? currentSelection.appliedLabel : currentSelection.computedLabel}}
             <ion-icon name="close"></ion-icon>
         </ion-button>
     </span>

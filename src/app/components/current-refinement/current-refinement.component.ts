@@ -1,8 +1,7 @@
 import { Component, Inject, forwardRef, Input, ViewEncapsulation } from '@angular/core';
-import { BaseWidget } from 'angular-instantsearch';
+import { BaseWidget, NgAisInstantSearch } from 'angular-instantsearch';
 import { noop } from "angular-instantsearch/esm2015/utils";
 import { connectCurrentRefinedValues } from "instantsearch.js/es/connectors";
-import { InstantSearchComponent } from '../instant-search/instant-search.component';
 
 
 @Component({
@@ -21,7 +20,7 @@ export class CurrentRefinementComponent extends BaseWidget {
     public state;
 
     constructor(
-        @Inject(forwardRef(() => InstantSearchComponent))
+        @Inject(forwardRef(() => NgAisInstantSearch))
         public instantSearchParent
     ) {
         super('CurrentRefinementComponent');
@@ -114,10 +113,133 @@ export class CurrentRefinementComponent extends BaseWidget {
         let a = [];
 
         for (let b of this.state.refinements) {
-            if(this.attribute && b.attributeName == this.attribute)
-                a.push(b.computedLabel);
-        } 
+            
+            if(this.attribute && b.attributeName != this.attribute)
+                continue;
+            
+            if (b.attributeName == 'candidate_driving_license') {
+                b = this.licenseTransformItems(b);
+            }
+
+            else if (b.attributeName == 'assigned') {
+                b = this.assignedTransformItems(b);
+            }
+
+            else if (b.attributeName == 'candidate_mom_kuwaiti') {
+                b = this.kuwaitiMomTransformItems(b);
+            }
+            
+           /* if (b.attributeName == 'candidate_committed') {
+                b = this.committedTransformItems(b);
+            }
+
+            else if (b.attributeName == 'have_video') {
+                b = this.haveVideoTransformItems(b);
+            }
+
+            else if (b.attributeName == 'have_resume') {
+                b = this.haveResumeTransformItems(b);
+            }*/
+
+            a.push(b.computedLabel);
+        }
 
         return a.join(', ');
+    }
+
+    committedTransformItems = (item) => {
+
+        //if(!items)
+        //    return [];
+
+        //return items.map(item => {
+            if (item.name == "Yes" || item.computedLabel == "Yes")
+                item.computedLabel = item.highlighted = item.name = 'Committed';
+            else if (item.name == "No" || item.computedLabel == "No")
+                item.computedLabel = item.highlighted = item.name = 'Not committed';
+
+            return item;
+        //});
+    };
+
+    haveVideoTransformItems = (item) => {
+
+        //if(!items)
+        //    return [];
+
+        //return items.map(item => {
+            if (item.name == "Yes" || item.computedLabel == "Yes")
+                item.computedLabel = item.highlighted = item.name = 'Have video';
+            else if (item.name == "No" || item.computedLabel == "No")
+                item.computedLabel = item.highlighted = item.name = 'Not have video';
+
+            return item;
+        //});
+    };
+
+    haveResumeTransformItems = (item) => {
+
+        //if(!items)
+        //    return [];
+
+        //return items.map(item => {
+            if (item.name == "Yes" || item.computedLabel == "Yes")
+                item.computedLabel = item.highlighted = item.name = 'Have resume';
+            else if (item.name == "No" || item.computedLabel == "No")
+                item.computedLabel = item.highlighted = item.name = 'Not have resume';
+
+            return item;
+        //});
+    };
+
+    licenseTransformItems = (item) => {
+
+        if(!item)
+            return [];
+
+        //return items.map(item => {
+            if (item.name == "1" || item.computedLabel == "1")
+                item.computedLabel = item.highlighted = item.name = 'Yes';
+            else if (item.name == "2" || item.computedLabel == "2")
+                item.computedLabel = item.highlighted = item.name = 'No';
+            else if (item.name == "0" || item.computedLabel == "0")
+                item.computedLabel = item.highlighted = item.name = 'No data';
+
+            return item;
+        //});
+    };
+
+    assignedTransformItems = (item) => {
+
+        if(!item)
+            return [];
+
+      //return items.map(item => {
+        if (item.name == '0' || item.computedLabel == '0') {
+          item.computedLabel = item.highlighted = item.name = 'Not Assigned';
+        }
+        else if (item.name == '1' || item.computedLabel == '1') {
+          item.computedLabel = item.highlighted = item.name = 'Assigned';
+        }
+
+        return item;
+      //});
+    };
+
+    kuwaitiMomTransformItems = (item) => {
+
+        if(!item)
+            return [];
+
+      //return items.map(item => {
+        if (item.name == '1' || item.computedLabel == '1') {
+          item.computedLabel = item.highlighted = item.name = 'Mom Kuwaiti';
+        }
+        else if (item.name == '2' || item.computedLabel == '2') {
+          item.computedLabel = item.highlighted = item.name = 'Mom Not Kuwaiti';
+        }
+
+        return item;
+        //});
     }
 } 
