@@ -50,37 +50,39 @@
     </ion-row>
   </ion-grid>
 
-  <instant-search #instantSearch *ngIf="instantSearchConfig" [config]="instantSearchConfig" [searchParameters]="searchParameters">
+  <ais-instantsearch *ngIf="instantSearchConfig" [config]="instantSearchConfig">
     <ion-grid>
       <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
 
         <ion-col size-sm="12" size-md="4" size-lg="4" class="col-filter">
           <div class="filter-wrapper">
             <candidate-filter [class.hidden]="loading && !nbHits"></candidate-filter>
+                    
             <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>
           </div>
         </ion-col>
 
         <ion-col size-xs="12" size-sm="12" size-md="8" size-lg="8" size-xl="8" class="col-listing employer-list-wrapper">
 
-          <is-infinite-hits class="cv-list">
+          <div class="list-header" *ngIf="showSearchBox">
+
+            <div class="applied-filters-wrapper">
+              <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'candidates found'"
+                               [labelWithFilter]="'candidates found for '">
+              </applied-filters>
+            </div>
+   
+            <div class="searchBox">
+              <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results'  }}"></ion-searchbar>
+              <!-- <is-search-box [searchAsYouType]="true"
+                placeholder="{{ 'Type to filter from these results'  }}">
+              </is-search-box>-->
+            </div>
+
+          </div>
+          
+          <ais-infinite-hits class="cv-list">
             <ng-template let-results="results" let-showMore="showMore" let-hits="hits">
-
-              <div class="list-header" *ngIf="showSearchBox">
-
-                <div class="applied-filters-wrapper">
-                  <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'candidates found'"
-                                   [labelWithFilter]="'candidates found for '">
-                  </applied-filters>
-                </div>
-                <div class="searchBox">
-                  <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results'  }}"></ion-searchbar>
-                  <!-- <is-search-box [searchAsYouType]="true"
-                    placeholder="{{ 'Type to filter from these results'  }}">
-                  </is-search-box>-->
-                </div>
-
-              </div>
 
               <div [class.hidden]="refreshingCandidates" class="candidate-wrapper">
                 <candidate tappable (click)="rowSelected(hit)" type='candidate' [candidate]="hit" *ngFor="let hit of hits"></candidate>
@@ -96,7 +98,7 @@
               </ion-infinite-scroll>
 
             </ng-template>
-          </is-infinite-hits>
+          </ais-infinite-hits>
 
           <!-- No results message -->
 
@@ -107,8 +109,8 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </instant-search>
-
+  </ais-instantsearch>
+  
 </ion-content>
 <ion-footer [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
   <ion-toolbar class="ion-no-padding">

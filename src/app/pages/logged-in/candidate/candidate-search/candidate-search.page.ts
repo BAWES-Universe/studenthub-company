@@ -280,7 +280,6 @@ export class CandidateSearchPage implements OnInit {
 
       this.lastQuery = opts.body;
 
-
       return new Promise((resolve, reject) => {
 
         // no loading when filtering facet values from filter search bar
