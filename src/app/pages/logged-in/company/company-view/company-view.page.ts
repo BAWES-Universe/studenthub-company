@@ -24,6 +24,7 @@ export class CompanyViewPage implements OnInit {
   public currentPage = 1;
   public pages: number[] = [];
   public loading = false;
+
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
@@ -31,23 +32,30 @@ export class CompanyViewPage implements OnInit {
     public companyService: CompanyService,
     public router: Router,
   ) {
+  }
+
+  ngOnInit() {
+
     const state = window.history.state;
     this.company_id = this.activatedRoute.snapshot.paramMap.get('id');
 
     if (state.model) {
       this.company = state.model;
     }
-  }
-
-  ngOnInit() {
+    
     this.loadData(this.currentPage);
+
     if (!this.company) {
       this.loadCompanyData();
     }
   }
 
+  /**
+   * Load list of ALL stores
+   * @param page 
+   */
   async loadData(page: number) {
-    // Load list of ALL stores
+   
     this.loading = true;
 
     this.storeService.listByCompany(this.company_id, page).subscribe(response => {
