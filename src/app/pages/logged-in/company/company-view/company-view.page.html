@@ -32,6 +32,7 @@
   </ion-list>
 
   <!-- Pagination -->
+  
   <ion-row class="ion-text-center" *ngIf="!loading">
     <div class="pagination-wrapper">
       <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
