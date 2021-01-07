@@ -36,7 +36,7 @@
     <div class="activity-container">
 
       <ng-container *ngFor="let requestActivity of requestActivities;let i = index;">
-        <app-recent-activity tappable [routerLink]="'/note-view/' + requestActivity.note_uuid" [activity]="requestActivity" *ngIf="activityExpanded || i < 2"></app-recent-activity>
+        <app-recent-activity [activity]="requestActivity" *ngIf="activityExpanded || i < 2"></app-recent-activity>
       </ng-container>
 
       <ion-button class="btn-view-notes" *ngIf="requestActivities.length > 2" (click)="toggleActivityExpanded()">
