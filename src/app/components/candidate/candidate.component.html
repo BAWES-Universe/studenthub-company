@@ -3,7 +3,7 @@
 
     <ion-avatar slot="start">
       <img *ngIf="candidate.candidate_personal_photo"
-        src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon.png';">
+        src="{{ aws.cloudinaryUrl + candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon.png';">
       <img *ngIf="candidate && !candidate.candidate_personal_photo" src="/assets/icon.png">
     </ion-avatar>
 
