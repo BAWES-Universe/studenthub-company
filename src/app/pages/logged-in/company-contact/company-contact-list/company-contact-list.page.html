@@ -13,31 +13,31 @@
   <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
 
   <ion-list class="contact-list">
-    <ion-item-sliding *ngFor="let companyContact of contactList">
-      <ion-item tappable (click)="dismiss(companyContact)">
+    <ion-item-sliding *ngFor="let contact of contactList">
+      <ion-item tappable (click)="dismiss(contact)">
         <div tabindex="0"></div>
 
         <ion-label>
-          <h4>{{ companyContact.contact_name }}</h4>
+          <h4>{{ contact.contact_name }}</h4>
 
-          <h5 *ngIf="companyContact.company">
-            {{ companyContact.company.company_common_name_en? companyContact.company.company_common_name_en: companyContact.company.company_name }}
+          <h5 *ngIf="contact.company">
+            {{ contact.company.company_common_name_en? contact.company.company_common_name_en: contact.company.company_name }}
           </h5>
 
           <p>
-            {{ companyContact.contact_position }}
+            {{ contact.contact_position }}
           </p>
 
           <p>
             <a (click)="doNothing($event)"
-               *ngFor="let companyContactEmail of companyContact.companyContactEmails">
-              <ion-icon name="mail-outline"></ion-icon> {{ companyContactEmail.email_address }}
+               *ngFor="let contactEmail of contact.contactEmails">
+              <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
             </a>
           </p>
           <p>
             <a (click)="doNothing($event)"
-               *ngFor="let companyContactPhone of companyContact.companyContactPhones">
-              <ion-icon name="call-outline"></ion-icon> {{ companyContactPhone.phone_number }}
+               *ngFor="let contactPhone of contact.contactPhones">
+              <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
             </a>
           </p>
         </ion-label>
