@@ -50,7 +50,7 @@
     </ion-row>
   </ion-grid>
 
-  <ais-instantsearch *ngIf="instantSearchConfig" [config]="instantSearchConfig">
+  <ais-instantsearch *ngIf="instantSearchConfig" #instantSearch [config]="instantSearchConfig">
     <ion-grid>
       <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
 
