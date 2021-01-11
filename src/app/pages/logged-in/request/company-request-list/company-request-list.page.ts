@@ -154,7 +154,7 @@ export class CompanyRequestListPage implements OnInit {
     if (this.filters.endDate) {
       urlParams += '&end_date=' + this.filters.endDate;
     }
-    urlParams += '&company_id=' + this.auth.company_id;
+    // urlParams += '&company_id=' + this.auth.company_id;
 
     return urlParams;
   }
