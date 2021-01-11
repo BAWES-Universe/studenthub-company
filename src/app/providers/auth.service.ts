@@ -19,7 +19,7 @@ const { Storage } = Plugins;
 export class AuthService {
 
   private accessToken;
-  public company_id: number;
+  public company_id: any;
   public name: string;
   public email: string;
 
