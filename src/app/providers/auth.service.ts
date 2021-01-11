@@ -30,7 +30,7 @@ export class AuthService {
   public showOneSignalPrompt = false;
 
   public navEnable = true;
-  
+
   public currency_pref = 'USD';
 
   private urlBasicAuth = '/auth/login';
@@ -130,7 +130,6 @@ export class AuthService {
     this.company_id = response.company_id;
     this.name = response.name;
     this.email = response.email;
-
     // Save to Storage
     this.saveInStorage();
 
