@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable, throwError } from 'rxjs';
-import { first, map, retryWhen, take } from 'rxjs/operators';
+import { catchError, first, map, retryWhen, take } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
@@ -35,6 +35,8 @@ export class AuthService {
 
   private urlBasicAuth = '/auth/login';
   public urlLocate = '/auth/locate';
+  private _urlUpdatePass = '/auth/update-password';
+  private _urlResetPassRequest = '/auth/request-reset-password';
 
   constructor(
     public http: HttpClient,
@@ -199,6 +201,40 @@ export class AuthService {
       retryWhen(genericRetryStrategy()),
       first(),
       map((res: HttpResponse<any>) => res)
+    );
+  }
+
+  /**
+   * reset password request
+   * @param email
+   */
+  resetPasswordRequest(email: string) {
+    const url = environment.apiEndpoint + this._urlResetPassRequest;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(url, { email }, { headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+  /**
+   * Change password by password reset token
+   * @param token
+   * @param newPassword
+   */
+  changePassword(newPassword: string, token: string): Observable<any> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.patch(environment.apiEndpoint + this._urlUpdatePass, {
+      newPassword,
+      token
+    }, {headers}).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
     );
   }
 

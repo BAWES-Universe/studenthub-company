@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 import { CustomValidator } from '../../../validators/custom.validator';
+import {Router} from '@angular/router';
 // Service
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
-
 
 @Component({
   selector: 'app-login',
@@ -31,7 +31,8 @@ export class LoginPage implements OnInit {
     private _fb: FormBuilder,
     private _auth: AuthService,
     private _alertCtrl: AlertController,
-    private eventService: EventService
+    private eventService: EventService,
+    private router: Router
   ) {
   }
 
@@ -117,5 +118,12 @@ export class LoginPage implements OnInit {
       buttons: [button],
     });
     alert.present();
+  }
+
+  /**
+   * reset password
+   */
+  resetPasswordRequest() {
+    this.router.navigate(['forgot-password']);
   }
 }

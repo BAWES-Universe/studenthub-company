@@ -163,7 +163,20 @@ const routes: Routes = [
       name: 'RequestFormPage',
     }
   },
-
+  {
+    path: 'update-password/:token',
+    loadChildren: () => import('./pages/start-pages/update-password/update-password.module').then(m => m.UpdatePasswordPageModule),
+    data: {
+      name: 'UpdatePasswordPage',
+    }
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./pages/start-pages/forgot-password/forgot-password.module').then(m => m.ForgotPasswordPageModule),
+    data: {
+      name: 'ForgotPasswordPage',
+    }
+  },
   {
     path: '**',
     redirectTo: 'not-found'

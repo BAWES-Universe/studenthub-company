@@ -52,7 +52,9 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.eventSub();
-    this.loadTotalEmployee();
+    if (this.auth.isLogged) {
+      this.loadTotalEmployee();
+    }
   }
 
   logout() {
