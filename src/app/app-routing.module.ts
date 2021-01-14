@@ -164,6 +164,14 @@ const routes: Routes = [
     }
   },
   {
+    path: 'company-contacts',
+    loadChildren: () => import('./pages/logged-in/company-contact/company-contact-list/company-contact-list.module').then(m => m.CompanyContactListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'RequestFormPage',
+    }
+  },
+  {
     path: 'update-password/:token',
     loadChildren: () => import('./pages/start-pages/update-password/update-password.module').then(m => m.UpdatePasswordPageModule),
     data: {
