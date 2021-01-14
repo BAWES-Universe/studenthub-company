@@ -299,20 +299,13 @@ export class AuthService {
       return message + '';
     }
 
-    const a = [];
-
-    for (const i in message) {
-
-      if (!Array.isArray(message[i])) {
-        a.push(message[i]);
-        continue;
-      }
-
-      for (const j of message[i]) {
-        a.push(j);
+    let html = '';
+    for (const i in message.message) {
+      for (const j of message.message[i]) {
+        html += j + '<br />';
       }
     }
 
-    return a.join('<br />');
+    return html;
   }
 }

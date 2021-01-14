@@ -24,13 +24,6 @@
   <form [formGroup]="form" *ngIf="form">
 
     <ion-list>
-      <ion-item (click)="openContact($event)">
-        <ion-label position="floating">Contact</ion-label>
-        <ion-input type="text" formControlName="contact_name" readonly></ion-input>
-      </ion-item>
-    </ion-list>
-
-    <ion-list>
       <ion-radio-group  formControlName="position_type">
         <ion-row>
           <ion-col>

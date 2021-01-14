@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, PopoverController } from "@ionic/angular";
-//models
+import { ModalController, PopoverController } from '@ionic/angular';
+// models
 import { Company } from 'src/app/models/company';
-//services
+// services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 
 
@@ -23,9 +23,9 @@ export class CompanyContactListPage implements OnInit {
 
   public pageCount: number;
 
-  public loading: boolean = false;
+  public loading = false;
 
-  public query: string = '';
+  public query = '';
 
   public borderLimit = false;
 
@@ -97,7 +97,7 @@ export class CompanyContactListPage implements OnInit {
   dismiss(companyContact = null) {
 
     this.popupCtrl.getTop().then(overlay => {
-      if(overlay) {
+      if (overlay) {
         this.popupCtrl.dismiss({ companyContact });
       } else {
         this.modalCtrl.dismiss({ companyContact });
@@ -111,13 +111,13 @@ export class CompanyContactListPage implements OnInit {
    */
   filter(ev) {
 
-    //filter from all companies
+    // filter from all companies
 
-    if(!this.company) {
+    if (!this.company) {
       return this.loadData();
     }
 
-    //filter from given company
+    // filter from given company
 
     this.loading = true;
 
@@ -133,6 +133,6 @@ export class CompanyContactListPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 }
