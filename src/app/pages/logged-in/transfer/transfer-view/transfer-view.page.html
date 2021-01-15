@@ -124,7 +124,7 @@
 
           <ion-avatar slot="start">
             <ion-img *ngIf="resource.candidate.candidate_personal_photo"
-              src="{{ aws.cloudinaryUrl + resource.candidate.candidate_personal_photo }}"
+              src="{{ aws.cloudinaryUrl + 'candidate-photo/' + resource.candidate.candidate_personal_photo }}"
               (ionError)="loadLogo($event,resource.candidate)"></ion-img>
             <ion-img *ngIf="!resource.candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
           </ion-avatar>
