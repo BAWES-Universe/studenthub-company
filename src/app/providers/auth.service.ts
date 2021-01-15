@@ -10,6 +10,7 @@ import { Plugins } from '@capacitor/core';
 // service
 import { environment } from '../../environments/environment';
 import { EventService } from './event.service';
+import { Company } from '../models/company';
 
 const { Storage } = Plugins;
 
@@ -32,6 +33,8 @@ export class AuthService {
   public navEnable = true;
 
   public currency_pref = 'USD';
+
+  public companies: Company[] = [];
 
   private urlBasicAuth = '/auth/login';
   public urlLocate = '/auth/locate';
@@ -95,6 +98,15 @@ export class AuthService {
         email: this.email
       })
     });
+  }
+
+  /**
+   * Save company when user change company
+   */
+  setEmployer(company: Company) {
+    this.company_id = company ? company.company_id : null;
+    
+    return this.saveInStorage();
   }
 
   /**

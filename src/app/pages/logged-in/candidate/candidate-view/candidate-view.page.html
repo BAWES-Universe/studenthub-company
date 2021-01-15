@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/company-list"></ion-back-button>
+      <ion-back-button defaultHref="/candidate-list"></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="candidate"  class="candidate_name">{{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}</ion-title>
   </ion-toolbar>
@@ -14,7 +14,7 @@
     <ion-item>
       <div tabindex="0"></div>
       <ion-avatar slot="start">
-        <ion-img *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + candidate.candidate_personal_photo }}" (ionError)="onImageError(candidate)"></ion-img>
+        <ion-img *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" (ionError)="onImageError(candidate)"></ion-img>
         <ion-img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
       </ion-avatar>
       <ion-label>

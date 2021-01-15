@@ -40,7 +40,7 @@
           <div tabindex="0"></div>
           <ion-avatar slot="start">
             <ion-img *ngIf="!transferCandidateRecord.candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
-            <ion-img (ionError)="onImageError(transferCandidateRecord.candidate)" *ngIf="transferCandidateRecord.candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + transferCandidateRecord.candidate.candidate_personal_photo }}"></ion-img>
+            <ion-img (ionError)="onImageError(transferCandidateRecord.candidate)" *ngIf="transferCandidateRecord.candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + 'candidate-photo/' + transferCandidateRecord.candidate.candidate_personal_photo }}"></ion-img>
           </ion-avatar>
           <h2 class="candidate_name">{{ transferCandidateRecord.candidate.candidate_name? transferCandidateRecord.candidate.candidate_name: transferCandidateRecord.candidate.candidate_name_ar }}</h2>
         </ion-item>
