@@ -1,0 +1,76 @@
+ion-back-button {
+    display: block !important;
+}
+
+.title-txt {
+    font-size: 26px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #292f38;
+}
+
+ion-content {
+    --padding-start: 30px;
+    --padding-end: 30px;
+    --padding-top: 20px;
+}
+
+.buttons-wrapper {
+    text-align: center;
+    margin-top: 43px;
+
+    ion-button {
+        text-transform: none;
+        width: 279px;
+        height: 106px;
+        border-radius: 4px;
+        border: solid 2px #e0e0e0;
+        margin: 0 auto 15px;
+        white-space: normal;
+        clear: both;
+        display: block;
+    
+        b {
+            font-size: 14px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #292f38;
+            clear: both;
+            position: absolute;
+            top: 17px;
+        }
+
+        p {
+            opacity: 0.9;
+            -webkit-text-stroke: 0 #f24459;
+            font-size: 13px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #4f4f4f;
+            margin-top: 39px;
+        }
+    }
+
+    ion-button.selected {
+        border: 2px solid #f24459;
+    }
+}
+
+[dir="rtl"] .buttons-wrapper ion-button b {
+    top: 7px;
+}
+
+@media screen and (max-width: 450px), (orientation: landscape) {
+    .buttons-wrapper ion-button.md p {
+        font-size: 12px;
+    }
+}

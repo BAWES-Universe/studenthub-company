@@ -1,0 +1,40 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar class="light">
+    <ion-buttons slot="start">
+      <ion-back-button text="{{ 'Back' | translate }}" (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateLabel.direction()">
+
+  <div class="desktop-view">
+    <div class="title-txt">
+      {{ "What permissions would you like to give this team member?" | translate }}
+    </div>
+
+    <div class="buttons-wrapper">
+      <ion-button [class.selected]="role == 1" fill="clear" (click)="setRole(1)">
+        <b>{{ "Member" | translate }} </b>
+        <p>
+          {{ "Members can source talent, post and manage jobs along with the ability to delete their own drafts" | translate }}
+        </p>
+      </ion-button>
+
+      <ion-button [class.selected]="role == 2" fill="clear" (click)="setRole(2)">
+        <b>{{ "Admin" | translate }} </b>
+        <p>
+          {{ "Admins can do what members can do along with updating of company profile, and closing and archiving of all active jobs" | translate }}
+        </p>
+      </ion-button>
+
+      <ion-button [class.selected]="role == 3" fill="clear" (click)="setRole(3)">
+        <b>{{ "Owner" | translate }} </b>
+        <p>
+          {{ "Owners have full access to this company profile and can invite team members to manage your recruitment process" | translate }}
+        </p>
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>

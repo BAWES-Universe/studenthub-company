@@ -1,0 +1,86 @@
+[dir="ltr"] {
+    .btn-close {
+        right: 20px;
+    }
+}
+
+[dir="rtl"] {
+    .btn-close {
+        left: 20px;
+    }
+}
+
+.btn-close {
+    position: absolute;
+    top: 14px;
+    font-size: 20px;
+    color: #9b9b9b;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-start: 0;
+    z-index: 999999;
+}
+
+.invitation-detail {
+    border-radius: 4px;
+    background-color: #ffffff;
+    display: block;
+    margin: auto;
+    padding: 0 30px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    color: #4a4a4a;
+    display: block;
+    position: relative;
+    padding-top: 24px;
+    padding-bottom: 15px;
+}
+
+p {
+    font-size: 14px;
+    line-height: 1.43;
+    text-align: center;
+    color: rgba(74, 74, 74, 0.6);
+}
+
+p strong {
+    color: #4a4a4a;
+}
+
+.btn-reject, .btn-accept {
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 276px;
+    width: 100%;
+    height: 52px;
+    text-transform: none;
+}
+
+.btn-accept {
+    border-radius: 4px;
+    --border-radius: 4px;
+    margin-top: 30px;
+    box-shadow: none;
+}
+
+.btn-reject {
+    box-shadow: none;
+  --border-color: #292f38;
+  --background: transparent;
+    color: #292f38;
+  --color-focused: #292f38;
+  --background-focused: transparent;
+    margin-top: 10px;
+}
+ion-back-button {
+  display: block;
+}
