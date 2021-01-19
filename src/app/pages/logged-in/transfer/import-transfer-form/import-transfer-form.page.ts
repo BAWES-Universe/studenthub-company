@@ -148,7 +148,6 @@ export class ImportTransferFormPage implements OnInit {
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
     if (event.type === 'progress') {
-      console.log(event);
       // This is an upload progress event. Compute and show the % done:
       // this.progress = Math.round(100 * event.loaded / event.total);
     } else if (event.Key && event.Key.length > 0) {

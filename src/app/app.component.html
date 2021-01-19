@@ -77,6 +77,16 @@
           <ion-list-header>Account</ion-list-header>
 
           <ion-menu-toggle auto-hide="false">
+            <ion-item [routerLink]="'/account'" routerLinkActive="active">
+              <div tabindex="0"></div>
+              <ion-icon name="person-outline" slot="start"></ion-icon>
+              <ion-label>
+                Account
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
             <ion-item [routerLink]="'/change-password'" routerLinkActive="active">
               <div tabindex="0"></div>
               <ion-icon name="key-outline"  slot="start"></ion-icon>

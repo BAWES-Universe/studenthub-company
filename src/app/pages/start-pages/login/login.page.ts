@@ -58,7 +58,6 @@ export class LoginPage implements OnInit {
       this.isLoading = false;
 
       if (res.operation == 'success') {
-        console.log(res);
         // Successfully logged in, set the access token within AuthService
         this._auth.setAccessToken(res);
       } else if (res.operation == 'error') {

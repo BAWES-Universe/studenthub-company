@@ -186,10 +186,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'account',
+    loadChildren: () => import('./pages/logged-in/account/account.module').then( m => m.AccountPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },
-
 ];
 
 @NgModule({
