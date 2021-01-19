@@ -117,7 +117,7 @@ export class TransferFormPage implements OnInit {
    * Initialise the form once loaded.
    */
   async _loadCandidateListThenInitialize() {
-    console.log('_loadCandidateListThenInitialize');
+
     const loader = await this._loadingCtrl.create();
     loader.present();
 
