@@ -1,19 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { ModalPopPage } from './modal-pop.page';
 
-import { InvitationFormPage } from './invitation-form.page';
-
-describe('InvitationFormPage', () => {
-  let component: InvitationFormPage;
-  let fixture: ComponentFixture<InvitationFormPage>;
+describe('ModalPopPage', () => {
+  let component: ModalPopPage;
+  let fixture: ComponentFixture<ModalPopPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InvitationFormPage ],
+      declarations: [ ModalPopPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InvitationFormPage);
+    fixture = TestBed.createComponent(ModalPopPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -1,16 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
-import { AlertController, ModalController, IonContent } from "@ionic/angular";
-import { ActivatedRoute } from "@angular/router";
+import { AlertController, ModalController, IonContent } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-//service
-import { TranslateLabelService } from "../../../../../services/translate-label.service";
-import { InvitationService } from "../../../../../services/logged-in/invitation.service";
-//models
-import { AgentInvitation } from "../../../../../models/agent.invitation";
+import {InvitationService} from 'src/app/providers/logged-in/invitation.service';
+// service
+
+// models
+// import { AgentInvitation } from "../../../../../models/agent.invitation";
 
 
 @Component({
-  selector: 'pogi-invite-staff-view',
+  selector: 'app-invite-staff-view',
   templateUrl: './invite-staff-view.page.html',
   styleUrls: ['./invite-staff-view.page.scss'],
 })
@@ -18,19 +18,18 @@ export class InviteStaffViewPage {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
-  public scrollPosition: number = 0;
+  public scrollPosition = 0;
 
-  public invitation: AgentInvitation;
+  public invitation: any;
 
   invitationAcceptSubscription: Subscription;
 
   invitationRejectSubscription: Subscription;
 
-  public borderLimit: boolean = false;
+  public borderLimit = false;
 
   constructor(
     public invitationService: InvitationService,
-    public translateLabel: TranslateLabelService,
     private _alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public navParams: ActivatedRoute
@@ -38,18 +37,18 @@ export class InviteStaffViewPage {
     this.invitation = this.navParams.snapshot.params.invitation;
   }
 
-  ionViewWillLeave() {  
+  ionViewWillLeave() {
     this.content.getScrollElement().then(ele => {
       this.scrollPosition = ele.scrollTop;
-    }); 
+    });
   }
 
   ionViewDidEnter() {
-    this.content.scrollToPoint(0, this.scrollPosition);  
+    this.content.scrollToPoint(0, this.scrollPosition);
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 25) ?  true : false;
+    this.borderLimit = (e.detail.scrollTop > 25);
   }
 
   /**
@@ -62,17 +61,17 @@ export class InviteStaffViewPage {
       this.invitationAcceptSubscription.unsubscribe();
 
       if (response.operation == 'success') {
-        this.dismiss({ 'accepted': true });
+        this.dismiss({ accepted: true });
       } else {
 
         this._alertCtrl.create({
-          message: this.translateLabel.errorMessage(response.message),
-          buttons: [this.translateLabel.transform('Okay')]
+          message: response.message,
+          buttons: ['Okay']
         }).then(prompt => {
           prompt.present();
         });
 
-        this.dismiss({ 'accepted': false }); //refresh company list
+        this.dismiss({ accepted: false }); // refresh company list
       }
     });
   }
@@ -88,14 +87,14 @@ export class InviteStaffViewPage {
 
       if (response.operation != 'success') {
         this._alertCtrl.create({
-          message: this.translateLabel.errorMessage(response.message),
-          buttons: [this.translateLabel.transform('Okay')]
+          message: response.message,
+          buttons: ['Okay']
         }).then(prompt => {
           prompt.present();
         });
       }
 
-      this.dismiss({ 'accepted': false });
+      this.dismiss({ accepted: false });
     });
   }
 

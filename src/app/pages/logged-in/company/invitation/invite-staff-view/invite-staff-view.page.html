@@ -1,22 +1,22 @@
-<ion-header mode="md" class="clear-header" [class.add-border]="borderLimit" [attr.dir]="translateLabel.direction()">
+<ion-header mode="md" class="clear-header" [class.add-border]="borderLimit">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button text="{{ 'Back' | translate }}" (click)="dismiss()"></ion-back-button>
+      <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateLabel.direction()">
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
   <div class="invitation-detail" *ngIf="invitation">
-    <h2>{{ 'New Invitation' | translate }}</h2>
+    <h2>New Invitation</h2>
 
-    <p [innerHTML]="'txt_invitation' | translate: {value: invitation.employer.employer_company_name }"></p>
+<!--    <p [innerHTML]="'txt_invitation' | translate: {value: invitation.employer.employer_company_name }"></p>-->
 
     <ion-button class="btn-accept" (click)="accept()" color="primary">
-      {{ 'Accept Invitation' | translate }}
+      Accept Invitation
     </ion-button>
 
     <ion-button class="btn-reject" (click)="reject()" fill="outline">
-      {{ 'Decline' | translate }}
+      Decline
     </ion-button>
 
   </div>

@@ -17,8 +17,8 @@ import { SentryErrorhandlerService } from './providers/sentry.errorhandler.servi
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 import {CalendarModule} from 'ion2-calendar';
 import {CompanyContactListPageModule} from "./pages/logged-in/company-contact/company-contact-list/company-contact-list.module";
-
-
+import {ModalPopPageModule} from "./pages/logged-in/modal-pop/modal-pop.module";
+import {InvitationFormPageModule} from "./pages/logged-in/company/invitation/invitation-form/invitation-form.module";
 
 
 export function startupServiceFactory(authService) {
@@ -35,6 +35,8 @@ export function startupServiceFactory(authService) {
     HttpClientModule,
     BrowserTransferStateModule,
     CalendarModule,
+    ModalPopPageModule,
+    InvitationFormPageModule,
     // IonicStorageModule.forRoot({
     //   name: '__payroll_company',
     //   version: 2

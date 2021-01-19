@@ -94,3 +94,10 @@ ion-footer.filter-closed {
   }
 }
 
+.clear-header:after {
+  display: none;
+}
+
+ion-header.add-border:after {
+  display: inline;
+}

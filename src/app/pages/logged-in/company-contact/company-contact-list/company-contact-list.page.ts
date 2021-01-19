@@ -4,6 +4,8 @@ import { ModalController, PopoverController } from '@ionic/angular';
 import { Company } from 'src/app/models/company';
 // services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
+import {ModalPopPage} from "../../modal-pop/modal-pop.page";
+import {InvitationPermissionPage} from "../../company/invitation/invitation-permission/invitation-permission.page";
 
 
 @Component({
@@ -134,5 +136,37 @@ export class CompanyContactListPage implements OnInit {
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  /**
+   * open form to invite new staff member
+   */
+  async openInviteStaffForm() {
+
+    window.history.pushState({
+      navigationId: window.history.state.navigationId
+    }, null, window.location.pathname);
+
+    const loginModal = await this.modalCtrl.create({
+      component: ModalPopPage,
+      componentProps: {
+        activatedRoutePath: InvitationPermissionPage
+      }
+    });
+    loginModal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e.data && e.data.refresh) {
+        // this.showSaveBtn = true;
+        // this.loadData(null, true); // refresh in background
+      }
+    });
+    await loginModal.present().then(() => {
+      // this.ga.trackView('Invitation Permission', '/invitation-permission');
+    });
   }
 }

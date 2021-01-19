@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { InvitationPermissionPage } from './invitation-permission.page';
 
-import { SharedModule } from '../../../../../shared.module';
+// import { SharedModule } from '../../../../../shared.module';
 
 
 const routes: Routes = [
@@ -21,7 +21,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    SharedModule,
+    // SharedModule,
     IonicModule,
     RouterModule.forChild(routes)
   ],

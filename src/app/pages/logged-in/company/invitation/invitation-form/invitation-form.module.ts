@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { InvitationFormPage } from './invitation-form.page';
 
-import { SharedModule } from '../../../../../shared.module';
+// import { SharedModule } from '../../../../../shared.module';
 
 
 const routes: Routes = [
@@ -23,7 +23,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    SharedModule,
+    // SharedModule,
     RouterModule.forChild(routes)
   ],
   declarations: [InvitationFormPage]

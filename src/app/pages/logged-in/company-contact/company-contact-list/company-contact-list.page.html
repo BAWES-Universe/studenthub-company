@@ -1,11 +1,14 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
-
     <ion-buttons slot="start">
-      <ion-back-button (click)="dismiss()"></ion-back-button>
+<!--      <ion-back-button (click)="dismiss()"></ion-back-button>-->
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
 
     <ion-title>Team List</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openInviteStaffForm()">Invite Team Member</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -40,8 +43,6 @@
               <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
             </a>
           </p>
-          <small>Created By : {{contact.contact_created_at | date}}</small><br/>
-          <small>Updated By: {{contact.contact_updated_at | date}}</small>
         </ion-label>
       </ion-item>
     </ion-item-sliding>
