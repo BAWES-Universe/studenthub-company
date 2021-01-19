@@ -1,0 +1,23 @@
+<ion-header mode="md" class="clear-header" [class.add-border]="borderLimit">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+  <div class="invitation-detail" *ngIf="invitation">
+    <h2>New Invitation</h2>
+
+<!--    <p [innerHTML]="'txt_invitation' | translate: {value: invitation.employer.employer_company_name }"></p>-->
+
+    <ion-button class="btn-accept" (click)="accept()" color="primary">
+      Accept Invitation
+    </ion-button>
+
+    <ion-button class="btn-reject" (click)="reject()" fill="outline">
+      Decline
+    </ion-button>
+
+  </div>
+</ion-content>

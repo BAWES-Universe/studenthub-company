@@ -1,0 +1,37 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+
+  <div class="desktop-view">
+
+    <div class="title-txt">
+      Please type in their email address to send the invite
+    </div>
+
+    <form [formGroup]="form" *ngIf="form" (ngSubmit)="submitForm()">
+      <ion-list>
+        <ion-item lines="none">
+          <ion-input inputmode="email" enterkeyhint="Submit" type="email" placeholder="email@email.com" #input formControlName="email_to_invite">
+          </ion-input>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ion-no-padding desktop-view">
+
+    <ion-button *ngIf="form" class="submit-btn" expand="block" [disabled]="!form || !form.valid || loading"
+      (click)="submitForm()">
+      <ion-spinner *ngIf="loading"></ion-spinner>
+      <span *ngIf="!loading">Send Invite</span>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

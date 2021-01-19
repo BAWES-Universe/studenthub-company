@@ -1,53 +1,67 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
-
     <ion-buttons slot="start">
-      <ion-back-button (click)="dismiss()"></ion-back-button>
+<!--      <ion-back-button (click)="dismiss()"></ion-back-button>-->
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
 
     <ion-title>Team List</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openInviteStaffForm()">Invite Team Member</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
-  <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
+  <ion-segment [(ngModel)]="inProgress">
+    <ion-segment-button value="Team-list">
+      Team
+    </ion-segment-button>
+    <ion-segment-button value="Invitations">
+      Invitations
+    </ion-segment-button>
+  </ion-segment>
 
-  <ion-list class="contact-list">
-    <ion-item-sliding *ngFor="let contact of contactList">
-      <ion-item tappable (click)="dismiss(contact)">
+  <div [ngSwitch]="inProgress">
+
+    <ion-list *ngSwitchCase="'Team-list'" class="contact-list">
+      <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
+        <ion-item-sliding *ngFor="let contact of contactList">
+          <ion-item tappable>
+            <div tabindex="0"></div>
+            <ion-label>
+              <h4>{{ contact.contact_name }}</h4>
+              <h5 *ngIf="contact.company">
+                {{ contact.company.company_common_name_en? contact.company.company_common_name_en: contact.company.company_name }}
+              </h5>
+              <p>{{ contact.contact_position }}</p>
+              <p>
+                <a (click)="doNothing($event)"
+                   *ngFor="let contactEmail of contact.contactEmails">
+                  <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
+                </a>
+              </p>
+              <p>
+                <a (click)="doNothing($event)"
+                   *ngFor="let contactPhone of contact.contactPhones">
+                  <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
+                </a>
+              </p>
+            </ion-label>
+          </ion-item>
+        </ion-item-sliding>
+      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-list>
+    <ion-list *ngSwitchCase="'Invitations'">
+      <ion-item *ngFor="let invitation of pendingSentContactInvitationList">
         <div tabindex="0"></div>
-
         <ion-label>
-          <h4>{{ contact.contact_name }}</h4>
-
-          <h5 *ngIf="contact.company">
-            {{ contact.company.company_common_name_en? contact.company.company_common_name_en: contact.company.company_name }}
-          </h5>
-
-          <p>
-            {{ contact.contact_position }}
-          </p>
-
-          <p>
-            <a (click)="doNothing($event)"
-               *ngFor="let contactEmail of contact.contactEmails">
-              <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
-            </a>
-          </p>
-          <p>
-            <a (click)="doNothing($event)"
-               *ngFor="let contactPhone of contact.contactPhones">
-              <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
-            </a>
-          </p>
-          <small>Created By : {{contact.contact_created_at | date}}</small><br/>
-          <small>Updated By: {{contact.contact_updated_at | date}}</small>
+          {{invitation.email_to_invite}}
         </ion-label>
+        <ion-badge tappable color="danger" (click)="removeInvitation(invitation)" slot="end">Remove Invitation</ion-badge>
       </ion-item>
-    </ion-item-sliding>
-  </ion-list>
-
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    </ion-list>
+  </div>
 </ion-content>
