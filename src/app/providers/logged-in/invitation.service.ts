@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {AuthHttpService} from './authhttp.service';
+import {AuthService} from "../auth.service";
 // service
 
 
@@ -12,7 +13,10 @@ export class InvitationService {
 
   private _invitationEndpoint = '/invitations';
 
-  constructor(private _authHttp: AuthHttpService) { }
+  constructor(
+    private _authHttp: AuthHttpService,
+    public authService: AuthService
+  ) { }
 
   /**
    * Invite by email
@@ -34,10 +38,10 @@ export class InvitationService {
 
   /**
    * Remove invitation
-   * @param agent_invitation_uuid
+   * @param contactInvitationUuid
    */
-  remove(agent_invitation_uuid: string): Observable<any> {
-    const url = `${this._invitationEndpoint}/${agent_invitation_uuid}`;
+  remove(contactInvitationUuid: string): Observable<any> {
+    const url = `${this._invitationEndpoint}/${contactInvitationUuid}`;
     return this._authHttp.delete(url);
   }
 
@@ -55,6 +59,13 @@ export class InvitationService {
    */
   pending(): Observable<any> {
     const url = this._invitationEndpoint + '/pending?expand=agent,employer';
+    return this._authHttp.get(url);
+  }
+  /**
+   * List pending invitations
+   */
+  pendingSentList(): Observable<any> {
+    const url = this._invitationEndpoint + '/pending-sent-list/' + this.authService.company_id;
     return this._authHttp.get(url);
   }
 }

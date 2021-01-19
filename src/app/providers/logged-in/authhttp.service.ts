@@ -30,7 +30,6 @@ export class AuthHttpService {
   getRaw(endpointUrl: string): Observable<any> {
     const url = environment.apiEndpoint + endpointUrl;
     const headers = this._buildAuthHeaders();
-    console.log(headers);
     // https://www.techiediaries.com/angular-httpclient-headers-full-response/
     return this._http.get(url, { headers, observe: 'response' })
         .pipe(
@@ -48,7 +47,6 @@ export class AuthHttpService {
    */
   get(endpointUrl: string): Observable<any> {
     const headers = this._buildAuthHeaders();
-    console.log(headers);
     return this._http.get(environment.apiEndpoint + endpointUrl, { headers })
         .pipe(
             retryWhen(genericRetryStrategy()),

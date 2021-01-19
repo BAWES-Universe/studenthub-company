@@ -7,8 +7,9 @@ import { CustomValidator } from '../../../../../validators/custom.validator';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 // services
 
-import {AuthService} from 'src/app/providers/auth.service';
-import {InvitationService} from 'src/app/providers/logged-in/invitation.service';
+import { AuthService } from 'src/app/providers/auth.service';
+import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class InvitationFormPage implements OnInit {
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public invitationService: InvitationService,
-    public authService: AuthService
+    public authService: AuthService,
+    public eventService: EventService
   ) { }
 
   ngOnInit() {
@@ -83,6 +85,7 @@ export class InvitationFormPage implements OnInit {
       this.loading = false;
 
       if (response.operation == 'success') {
+        this.eventService.loadInvitation$.next();
         this.modalCtrl.dismiss({ refresh: true });
       } else {
         this._handleError(response);
