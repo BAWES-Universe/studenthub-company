@@ -190,6 +190,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/account/account.module').then( m => m.AccountPageModule)
   },
   {
+    path: 'register',
+    loadChildren: () => import('./pages/start-pages/register/register.module').then(m => m.RegisterPageModule),
+    data: {
+      name: 'RegisterPage',
+      disableMenu: true
+    }
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },

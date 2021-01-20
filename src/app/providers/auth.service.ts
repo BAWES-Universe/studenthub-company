@@ -11,6 +11,7 @@ import { Plugins } from '@capacitor/core';
 import { environment } from '../../environments/environment';
 import { EventService } from './event.service';
 import { Company } from '../models/company';
+import {Contact} from "../models/contact";
 
 const { Storage } = Plugins;
 
@@ -40,6 +41,8 @@ export class AuthService {
   public urlLocate = '/auth/locate';
   private _urlUpdatePass = '/auth/update-password';
   private _urlResetPassRequest = '/auth/request-reset-password';
+  public _urlInvitation = '/invitations/by-otp/';
+  public urlRegistration = '/auth/create-account';
 
   constructor(
     public http: HttpClient,
@@ -105,7 +108,7 @@ export class AuthService {
    */
   setEmployer(company: Company) {
     this.company_id = company ? company.company_id : null;
-    
+
     return this.saveInStorage();
   }
 
@@ -319,5 +322,49 @@ export class AuthService {
     }
 
     return html;
+  }
+
+  /**
+   * get invitation detail by otp
+   * @param otp
+   */
+  getInvitation(otp: string): Observable<any> {
+    const url = environment.apiEndpoint + this._urlInvitation + otp;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get(url, { headers })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError(err => this._handleError(err)),
+        first(),
+        map((res: HttpResponse<any>) => res)
+      );
+  }
+
+  /**
+   * create new account
+   * @param contact
+   * @param otp
+   */
+  createAccount(contact: Contact, otp: string): Observable<any> {
+    const url = environment.apiEndpoint + this.urlRegistration;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const params = {
+      name: contact.contact_name,
+      email: contact.contact_email,
+      password: contact.contact_password_hash,
+      otp
+    };
+
+    return this.http.post(url, JSON.stringify(params), { headers })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError(err => this._handleError(err)),
+        first(),
+        map((res: HttpResponse<any>) => res)
+      );
   }
 }
