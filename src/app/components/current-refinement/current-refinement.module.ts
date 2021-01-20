@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { NgAisModule } from 'angular-instantsearch';
 import { CurrentRefinementComponent } from './current-refinement.component';
 import { CommonModule } from '@angular/common';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
     declarations: [       
@@ -13,6 +14,7 @@ import { CommonModule } from '@angular/common';
         IonicModule,
         CommonModule,
         NgAisModule,
+        PipesModule
     ],
     exports: [
         CurrentRefinementComponent

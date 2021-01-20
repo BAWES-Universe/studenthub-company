@@ -3,9 +3,13 @@
 
     <div class="filter-groups">
 
-        <refinement-list data-sort-order="2" [class.is-refined]="arrRefined && arrRefined['candidate_gender']"
+        <refinement-list data-sort-order="1" [class.is-refined]="arrRefined && arrRefined['candidate_gender']"
             label="{{ 'Gender' }}" operator="or" [transformItems]="genderTransformItems"
             attribute="candidate_gender"></refinement-list>
+
+        <range-refinement-list data-sort-order="2"
+            [class.is-refined]="arrRefined['candidate_birth_timestamp']" title="Age"
+            operator="or" attribute="candidate_birth_timestamp"></range-refinement-list>
 
         <refinement-list data-sort-order="3" [class.is-refined]="arrRefined && arrRefined['candidate_driving_license']"
             label="{{ 'Driving license' }}" operator="or" [transformItems]="booleanTransformItems"

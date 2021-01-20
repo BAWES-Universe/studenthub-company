@@ -6,6 +6,7 @@ import { Platform } from "@ionic/angular";
 import { CurrencyPipe } from '@angular/common';
 //services
 import { AuthService } from '../../providers/auth.service';
+import { AgePipe } from 'src/app/pipes/age.pipe';
 
 
 /**
@@ -212,6 +213,14 @@ export class AppliedFiltersComponent extends BaseWidget {
         return item;
     }
 
+    birthTimestampItems(item) {
+        const agePipe = new AgePipe();
+
+        item.appliedLabel =  item.operator + ' ' + agePipe.transform(item.numericValue);
+
+        return item;
+    }
+
     /**
      * Return current selection comma(,) separated
      */
@@ -227,6 +236,10 @@ export class AppliedFiltersComponent extends BaseWidget {
 
             if (b.attributeName == 'candidate_committed') {
                 b = this.committedTransformItems(b);
+            }
+
+            else if(b.attributeName == 'candidate_birth_timestamp') {
+                b = this.birthTimestampItems(b);
             }
 
             else if (b.attributeName == 'have_video') {
