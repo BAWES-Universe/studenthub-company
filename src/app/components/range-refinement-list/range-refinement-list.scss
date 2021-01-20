@@ -1,0 +1,376 @@
+
+.ais-CurrentRefinements-reset {
+    right: 9px;
+}
+
+.ais-RefinementListComponent {
+    .ais-RefinementListContent {
+        .checkbox {
+            margin: 10px 15px 10px 0 !important;
+        }
+    }
+}
+
+.range .range-lower {
+    left: 0;
+}
+
+.range .range-upper {
+    right: 0;
+    float: right;
+}
+
+.ais-CurrentRefinementComponent-reset {
+    right: 10px;
+}
+
+.ais-RefinementListComponent-checkbox {
+    display: none;
+}
+
+.sub-title {
+    margin-top: 0;
+    opacity: 0.7;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.btn-collapse,
+.btn-expand {
+    text-align: center;
+    margin: 10px auto 0 auto;
+    opacity: 0.7;
+    display: block;
+    color: #333;
+    font-size: 14px;
+    text-transform: none;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    height: auto;
+}
+
+.filter-group-name {
+    text-indent: 10px;
+}
+
+.filter-selection {
+    font-weight: bold;
+}
+
+.ais-CurrentRefinements-reset,
+.btn-close {
+    height: 14px;
+    opacity: 0.75;
+    font-size: 12px;
+    color: #292f38;
+    background: transparent;
+    text-transform: none;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    height: 20px;
+}
+
+.ais-CurrentRefinementComponent-reset,
+.ais-CurrentRefinements-reset,
+.btn-close {
+    height: auto;
+} 
+
+.ais-CurrentRefinements-reset {
+    position: absolute;
+    top: 18px;
+}
+
+.btn-close {
+    float: var(--end);
+}
+
+.ais-RefinementListComponent {
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    margin: 7px;
+
+    .ais-RefinementListContent {
+        padding: 16px 10px;
+        z-index: 1;
+        
+        .txt-no-items {
+            text-align: center;
+        }
+
+        .ais-SearchBox {
+            margin-bottom: 10px;
+        }
+
+        label {
+            text-transform: capitalize;
+        }
+
+        .checkbox {
+            position: relative;
+            float: var(--start);
+        }
+
+        .ais-RefinementListComponent-item {
+            display: block;
+            clear: both;
+            line-height: 40px;
+            cursor: pointer;
+        }
+
+        .ais-RefinementListComponent-count {
+            position: absolute;
+            right: 20px;
+            color: #4a4a4a;
+            opacity: 0.7;
+        }
+
+        .ais-RefinementListComponent-labelText {
+            font-size: 14px;
+            color: #4a4a4a;
+        }
+
+        .ais-Highlight {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+            width: calc(100% - 18px);
+            float: var(--start);
+        }
+
+        .ais-Highlight-highlighted {
+            font-weight: bold;
+            font-style: normal;
+        }
+    }
+}
+
+.open {
+    .ais-RefinementListContent {
+        display: block;
+    }
+
+    .list-header {
+        background-color: #f5f5f5;
+        border-radius: 4px 4px 0 0;
+    }
+}
+
+.closed {
+    .list-header {
+        background: #fff;
+        border-radius: 4px;
+    }
+
+    .ais-RefinementListContent {
+        display: none;
+    }
+}
+
+.list-header {
+    font-size: 14px;
+    font-weight: 500;
+    color: #292f38;
+    position: relative;
+    z-index: 2;
+
+    ion-icon {
+        position: absolute;
+        top: 18px;
+    }
+}
+
+[dir="ltr"] .list-header {
+    padding: 17px 10px;
+    
+    ion-icon {
+        margin-left: 2px;
+    }
+}
+
+[dir="rtl"] .list-header {
+    padding: 12px 10px;
+
+    ion-icon {
+        margin-right: 2px;
+    }
+}
+
+.list-header span {
+    display: inline-block;
+    width: calc(100% - 20px);
+}
+
+.closed .list-header span { 
+    width: calc(100% - 50px);
+}
+
+.closed .list-header {
+    span {
+        margin-left: 35px;
+    }
+}
+
+.list-header {
+
+    ion-icon[name="add"],
+    ion-icon[name="checkmark"] {
+        margin-right: 5px;
+    } 
+}
+
+.ais-SearchBox {
+    .ais-SearchBox-submit {
+        display: none;
+    }
+
+    input {
+        width: 100%;
+        height: 50px;
+        border-radius: 4px;
+        border: solid 1px #aaaaaa;
+        font-size: 16px;
+        padding: 15px 20px;
+    }
+
+    input::placeholder {
+        color: rgba(155, 155, 155, 0.6);
+    }
+}
+
+.ais-CurrentRefinements-list {
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: #9b9b9b;
+
+    .ais-CurrentRefinements-category {
+        .ais-CurrentRefinements-delete {
+            background: transparent;
+        }
+    }
+
+    .ais-CurrentRefinements-label {
+        display: none;
+    }
+}
+
+.list {
+    margin-bottom: 0 !important;
+}
+
+.actions {
+    padding: 0 10px;
+
+    button {
+        font-size: 14px;
+        color: rgb(0, 132, 137);
+        height: 40px;
+        background: transparent;
+    }
+
+    .btn-clear {
+        float: var(--start);
+    }
+
+    .btn-apply {
+        float: var(--end);
+    }
+}
+
+.range-selector {
+    margin: 10px 10px 0px 10px;
+}
+
+.range-selector .range-lower,
+.range-selector .range-upper {
+    opacity: 0.7;
+    margin: 0 !important;
+
+    span {
+        opacity: 0.7;
+        color: #333;
+        margin: 0 5px 0 0;
+    }
+}
+
+.txt-default-currency {
+    text-align: center;
+    opacity: 0.7;
+    margin-bottom: 0px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    display: block;
+    white-space: normal;
+    margin-top: 5px !important;
+    font-weight: bold;
+}
+
+.btn-change-currency,
+.btn-change-currency:hover,
+.btn-change-currency:focus,
+.btn-change-currency:visited {
+    background: none;
+    color: #2980EA !important;
+    margin-top: 14px;
+    //display: block;
+    //margin: 15px auto 15px !important;
+}
+
+.btn-change-currency:hover {
+    color: white;
+}
+
+.footer {
+    border-top: 1px solid #ccc;
+    margin-top: 5px;
+    padding-top: 5px;
+
+    .button {
+        width: calc(50% - 6px);
+    }
+}
+
+.ais-CurrentRefinementComponent {
+    margin: 10px 0 0 0;
+}
+
+.ais-CurrentRefinementComponent-reset {
+    position: absolute;
+    top: 15px;
+    font-size: 14px;
+    background: transparent;
+    text-transform: none;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    height: auto;
+}
+
+.ais-CurrentRefinementComponent-list {
+    font-size: 13px;
+    font-weight: 500;
+    color: #9b9b9b;
+}
+
+.range-md .range-knob-handle {
+    margin-right: 0 !important;
+    margin-left: -21px;
+}
+
+.txt-average {
+    opacity: 0.7;
+    color: #333;
+    display: block;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-align: center;
+}

@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { GroupByPipe } from './groupby-pipe';
 import { SortPipe } from './timestamp-pipe';
 import { StoreIdPipe } from './store-id-pipe';
-import {TimeAgoPipe} from './timeago.pipe';
+import { TimeAgoPipe } from './timeago.pipe';
+import { AgePipe } from './age.pipe';
 
 
 // import custom pipes here
@@ -11,14 +12,16 @@ import {TimeAgoPipe} from './timeago.pipe';
         GroupByPipe,
         StoreIdPipe,
         SortPipe,
-        TimeAgoPipe
+        TimeAgoPipe,
+        AgePipe
     ],
     imports: [],
     exports: [
         GroupByPipe,
         StoreIdPipe,
         SortPipe,
-        TimeAgoPipe
+        TimeAgoPipe,
+        AgePipe
     ]
 })
 export class PipesModule {}

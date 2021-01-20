@@ -13,13 +13,15 @@
 </ion-header>
 
 <ion-content>
-  <section class="ion-padding no-transfers" *ngIf="transfers && transfers.length == 0">
+
+  <section class="ion-padding no-transfers" *ngIf="!loading && transfers && transfers.length == 0">
     <ion-icon name="ios-filing-outline"></ion-icon>
     <h2>Create a transfer to start salary distribution</h2>
     <ion-button (click)="presentActionSheetForNewTransfer()">
       Create your first transfer
     </ion-button>
   </section>
+
   <section *ngIf="transfers && transfers.length > 0">
     
     <ion-segment [(ngModel)]="inProgress" *ngIf="totalInProcess > 0 && completedTransfers.length > 0">
