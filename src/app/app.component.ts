@@ -11,6 +11,7 @@ import { EventService } from './providers/event.service';
 import { CandidateService } from './providers/logged-in/candidate.service';
 import { AwsService } from './providers/aws.service';
 import { CompanyService } from './providers/logged-in/company.service';
+import {Router} from "@angular/router";
 
 
 const { SplashScreen } = Plugins;
@@ -38,7 +39,8 @@ export class AppComponent implements OnInit {
     public _menuCtrl: MenuController,
     public awsService: AwsService,
     public companyService: CompanyService,
-    public candidateService: CandidateService
+    public candidateService: CandidateService,
+    public router: Router
   ) {
     this.initializeApp();
     // this.loadTotalEmployee();
@@ -88,7 +90,7 @@ export class AppComponent implements OnInit {
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
       this.loadCompanies();
-      
+
       this.navCtrl.navigateRoot(['/']);
     });
 
@@ -110,13 +112,17 @@ export class AppComponent implements OnInit {
         console.log(logoutReason);
       }
     });
+
+    this.eventService.companyChanged$.subscribe(userEventData => {
+      this.loadTotalEmployee();
+    });
   }
-  
+
   /**
    * load companies list
    */
   async loadCompanies() {
-    
+
     this.companyService.list().subscribe(response => {
 
       this.auth.companies = response;
@@ -169,17 +175,13 @@ export class AppComponent implements OnInit {
    * @param employer
    */
   changeCompany(employer) {
-   
+
     this._menuCtrl.close();
 
     this.resetCompanyDetail(employer);
-
-    if (employer) {
-      this.navCtrl.navigateRoot(['/']);
-    }
-
+    this.navCtrl.navigateRoot(['/']);
     this.eventService.companyChanged$.next({
-      'employer': employer
+     employer
     });
   }
 

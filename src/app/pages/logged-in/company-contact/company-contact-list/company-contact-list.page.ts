@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AlertController, ModalController, PopoverController} from '@ionic/angular';
 // models
 import { Company } from 'src/app/models/company';
 // services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
-import {ModalPopPage} from "../../modal-pop/modal-pop.page";
-import {InvitationPermissionPage} from "../../company/invitation/invitation-permission/invitation-permission.page";
-import {InvitationService} from "../../../../providers/logged-in/invitation.service";
-import {ContactInvitation} from "../../../../models/contact.invitation";
-import {EventService} from "../../../../providers/event.service";
+import {ModalPopPage} from '../../modal-pop/modal-pop.page';
+import {InvitationPermissionPage} from 'src/app/pages/logged-in/company/invitation/invitation-permission/invitation-permission.page';
+import {InvitationService} from 'src/app/providers/logged-in/invitation.service';
+import {ContactInvitation} from 'src/app/models/contact.invitation';
+import {EventService} from 'src/app/providers/event.service';
+import {AuthService} from "../../../../providers/auth.service";
 
 
 @Component({
@@ -16,10 +17,13 @@ import {EventService} from "../../../../providers/event.service";
   templateUrl: './company-contact-list.page.html',
   styleUrls: ['./company-contact-list.page.scss'],
 })
-export class CompanyContactListPage implements OnInit {
+export class CompanyContactListPage implements OnInit, OnDestroy {
 
   public company: Company;
-  public pendingSentContactInvitationList: ContactInvitation[];
+  public invitation = {
+      sent : [],
+      received : []
+  };
 
   public inProgress = 'Team-list';
 
@@ -36,23 +40,36 @@ export class CompanyContactListPage implements OnInit {
   public query = '';
 
   public borderLimit = false;
-
+  public invitationCheckLoop;
   constructor(
     public companyContactService: CompanyContactService,
     public invitationService: InvitationService,
     public popupCtrl: PopoverController,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
-    public eventService: EventService
+    public eventService: EventService,
+    public authService: AuthService
   ) {
     this.eventService.loadInvitation$.subscribe(_ => {
-      this.loadPendingSentList();
+      this.loadInvitationList();
     });
   }
 
   ngOnInit() {
     this.loadData();
-    this.loadPendingSentList();
+    this.loadInvitationList();
+
+    if (!this.invitationCheckLoop) {
+      this.invitationCheckLoop = setInterval(() => {
+        this.loadInvitationList(true);
+      }, 3000);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.invitationCheckLoop) {
+      clearInterval(this.invitationCheckLoop);
+    }
   }
 
   /**
@@ -186,16 +203,20 @@ export class CompanyContactListPage implements OnInit {
   /**
    * load pending sent list
    */
-  loadPendingSentList() {
+  loadInvitationList(silentLoading = false) {
 
-    this.loading = true;
+    if (!silentLoading) {
+      this.loading = true;
+    }
 
-    this.pendingSentContactInvitationList = [];
+    this.invitation.received = [];
+    this.invitation.sent = [];
 
-    this.invitationService.pendingSentList().subscribe(response => {
+    this.invitationService.invitationList().subscribe(response => {
       this.loading = false;
 
-      this.pendingSentContactInvitationList = response;
+      this.invitation.received = response.invitationReceived;
+      this.invitation.sent = response.invitationSent;
     }, () => {
       this.loading = false;
     });
@@ -207,13 +228,13 @@ export class CompanyContactListPage implements OnInit {
     this.invitationService.remove(data.contact_invitation_uuid).subscribe(response => {
 
       if (response.operation == 'success') {
-        this.loadPendingSentList();
+        this.loadInvitationList();
       } else {
 
         this.loading = false;
 
         this.alertCtrl.create({
-          message: response.message,
+          message: this.authService.errorMessage(response.message),
           buttons: ['Okay']
         }).then(prompt => {
           prompt.present();
@@ -222,4 +243,24 @@ export class CompanyContactListPage implements OnInit {
     });
   }
 
+  async accept(data: ContactInvitation) {
+    this.loading = true;
+
+    this.invitationService.accept(data.contact_invitation_uuid).subscribe(response => {
+
+      if (response.operation == 'success') {
+        this.loadInvitationList();
+      } else {
+
+        this.loading = false;
+
+        this.alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ['Okay']
+        }).then(prompt => {
+          prompt.present();
+        });
+      }
+    });
+  }
 }

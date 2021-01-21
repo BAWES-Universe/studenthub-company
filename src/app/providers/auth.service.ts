@@ -108,6 +108,7 @@ export class AuthService {
    */
   setEmployer(company: Company) {
     this.company_id = company ? company.company_id : null;
+    this.name = company ? company.company_name : null;
 
     return this.saveInStorage();
   }
@@ -310,18 +311,26 @@ export class AuthService {
    */
   errorMessage(message): string {
 
-    if (message.length) {
+    if (message.length)
+    {
       return message + '';
     }
 
-    let html = '';
-    for (const i in message.message) {
-      for (const j of message.message[i]) {
-        html += j + '<br />';
+    let a = [];
+
+    for (let i in message) {
+
+      if (!Array.isArray(message[i])) {
+        a.push(message[i]);
+        continue;
+      }
+
+      for (let j of message[i]) {
+        a.push(j);
       }
     }
 
-    return html;
+    return a.join('<br />');
   }
 
   /**

@@ -1,7 +1,6 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-<!--      <ion-back-button (click)="dismiss()"></ion-back-button>-->
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
 
@@ -12,19 +11,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <ion-segment [(ngModel)]="inProgress">
     <ion-segment-button value="Team-list">
       Team
     </ion-segment-button>
-    <ion-segment-button value="Invitations">
-      Invitations
+    <ion-segment-button value="invitations-sent">
+      Invitations <br/>Sent
+    </ion-segment-button>
+    <ion-segment-button value="invitations-receive">
+      Invitations <br/>Receive
     </ion-segment-button>
   </ion-segment>
 
   <div [ngSwitch]="inProgress">
 
     <ion-list *ngSwitchCase="'Team-list'" class="contact-list">
+      <ion-item-divider color="light"><b>Team List</b></ion-item-divider>
       <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
         <ion-item-sliding *ngFor="let contact of contactList">
           <ion-item tappable>
@@ -54,13 +57,24 @@
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
     </ion-list>
-    <ion-list *ngSwitchCase="'Invitations'">
-      <ion-item *ngFor="let invitation of pendingSentContactInvitationList">
+    <ion-list *ngSwitchCase="'invitations-sent'">
+      <ion-item-divider color="light"><b>Sent Invitation List</b></ion-item-divider>
+      <ion-item *ngFor="let invitationSent of  this.invitation.sent">
         <div tabindex="0"></div>
         <ion-label>
-          {{invitation.email_to_invite}}
+          {{invitationSent.email_to_invite}}
         </ion-label>
-        <ion-badge tappable color="danger" (click)="removeInvitation(invitation)" slot="end">Remove Invitation</ion-badge>
+        <ion-badge tappable color="danger" (click)="removeInvitation(invitationSent)" slot="end">Remove Invitation</ion-badge>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'invitations-receive'">
+      <ion-item-divider color="light"><b>Received Invitation List</b></ion-item-divider>
+      <ion-item *ngFor="let invitationReceived of this.invitation.received">
+        <div tabindex="0"></div>
+        <ion-label>
+          {{invitationReceived.company.company_name}}
+        </ion-label>
+        <ion-badge tappable color="primary" (click)="accept(invitationReceived)" slot="end">Accept</ion-badge>
       </ion-item>
     </ion-list>
   </div>

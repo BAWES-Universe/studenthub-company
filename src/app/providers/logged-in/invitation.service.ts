@@ -47,10 +47,10 @@ export class InvitationService {
 
   /**
    * Accept invitation
-   * @param agent_invitation_uuid
+   * @param contact_invitation_uuid
    */
-  accept(agent_invitation_uuid: string): Observable<any> {
-    const url = this._invitationEndpoint + '/accept/' + agent_invitation_uuid;
+  accept(contact_invitation_uuid: string): Observable<any> {
+    const url = this._invitationEndpoint + '/accept/' + contact_invitation_uuid;
     return this._authHttp.patch(url, {});
   }
 
@@ -64,8 +64,8 @@ export class InvitationService {
   /**
    * List pending invitations
    */
-  pendingSentList(): Observable<any> {
-    const url = this._invitationEndpoint + '/pending-sent-list/' + this.authService.company_id;
+  invitationList(): Observable<any> {
+    const url = this._invitationEndpoint + '/invitation-list/' + this.authService.company_id + '?expand=company,contact';
     return this._authHttp.get(url);
   }
 }
