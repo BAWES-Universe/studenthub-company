@@ -20,6 +20,10 @@ export class ChangePasswordPage implements OnInit {
   // Disable submit button if loading response
   public isLoading = false;
 
+  public oldType: string = 'password';
+
+  public type: string = 'password';
+
   constructor(
     private _fb: FormBuilder,
     public accountService: AccountService,
@@ -33,6 +37,14 @@ export class ChangePasswordPage implements OnInit {
       oldPassword: ['', Validators.required],
       newPassword: ['', Validators.required]
     });
+  }
+
+  toggleOldPasswordVisibility() {
+    this.oldType = this.oldType == 'password' ? 'text' : 'password';
+  }
+
+  togglePasswordVisibility() {
+    this.type = this.type == 'password' ? 'text' : 'password';
   }
 
   /**
