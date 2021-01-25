@@ -48,19 +48,19 @@
     <div *ngIf="suggestedSuggestions.length > 0">
       <h4 class="txt-suggested-candidates">Suggested Candidates ({{ suggestedSuggestions.length }})</h4>
 
-      <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions" [model]="suggestion"></suggestion>
+      <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
     <div *ngIf="acceptedSuggestions.length > 0">
       <h4 class="txt-suggested-candidates">Accepted ({{ acceptedSuggestions.length }})</h4>
 
-      <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
+      <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
     <div *ngIf="rejectedSuggestions.length > 0">
       <h4 class="txt-suggested-candidates">Rejected ({{ rejectedSuggestions.length }})</h4>
 
-      <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
+      <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
   </div>
