@@ -4,14 +4,14 @@ import { catchError, first, map, retryWhen, take } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
-
 import { Plugins } from '@capacitor/core';
-
+//models
+import { Company } from '../models/company';
+import { Contact } from "../models/contact";
 // service
 import { environment } from '../../environments/environment';
 import { EventService } from './event.service';
-import { Company } from '../models/company';
-import {Contact} from "../models/contact";
+
 
 const { Storage } = Plugins;
 
@@ -21,6 +21,8 @@ const { Storage } = Plugins;
 export class AuthService {
 
   private accessToken;
+
+  public id: any;
   public company_id: any;
   public name: string;
   public email: string;
@@ -74,11 +76,14 @@ export class AuthService {
       const data = JSON.parse(ret.value);
 
       if (data) {
+
         this.isLogged = true;
+        
         this.accessToken = data.token;
         this.company_id = data.company_id;
         this.email = data.email;
         this.name = data.name;
+        this.id = data.id;
 
         resolve(true);
       } else {
@@ -98,7 +103,8 @@ export class AuthService {
         token: this.accessToken,
         company_id: this.company_id,
         name: this.name,
-        email: this.email
+        email: this.email,
+        id: this.id
       })
     });
   }
@@ -128,6 +134,8 @@ export class AuthService {
     this.company_id = null;
     this.name = null;
     this.email = null;
+    this.id = null;
+
     Storage.clear();
 
     if (!silent) {
@@ -135,7 +143,7 @@ export class AuthService {
     }
     Storage.set({
       key: 'cookieMessageWasApproved',
-      value : (this.displayCookieMessage == '0') ? '1' : '0'
+      value: (this.displayCookieMessage == '0') ? '1' : '0'
     });
   }
 
@@ -148,6 +156,8 @@ export class AuthService {
     this.company_id = response.company_id;
     this.name = response.name;
     this.email = response.email;
+    this.id = response.contact? response.contact?.contact_uuid: response.id;
+
     // Save to Storage
     this.saveInStorage();
 
@@ -242,11 +252,11 @@ export class AuthService {
    * @param newPassword
    */
   changePassword(newPassword: string, token: string): Observable<any> {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.patch(environment.apiEndpoint + this._urlUpdatePass, {
       newPassword,
       token
-    }, {headers}).pipe(
+    }, { headers }).pipe(
       retryWhen(genericRetryStrategy()),
       catchError((err) => this._handleError(err)),
       first(),
@@ -311,8 +321,7 @@ export class AuthService {
    */
   errorMessage(message): string {
 
-    if (message.length)
-    {
+    if (message.length) {
       return message + '';
     }
 
