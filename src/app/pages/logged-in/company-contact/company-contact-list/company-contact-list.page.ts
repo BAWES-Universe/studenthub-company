@@ -1,15 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AlertController, ModalController, PopoverController} from '@ionic/angular';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 // models
 import { Company } from 'src/app/models/company';
 // services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
-import {ModalPopPage} from '../../modal-pop/modal-pop.page';
-import {InvitationPermissionPage} from 'src/app/pages/logged-in/company/invitation/invitation-permission/invitation-permission.page';
-import {InvitationService} from 'src/app/providers/logged-in/invitation.service';
-import {ContactInvitation} from 'src/app/models/contact.invitation';
-import {EventService} from 'src/app/providers/event.service';
-import {AuthService} from "../../../../providers/auth.service";
+import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
+import { ContactInvitation } from 'src/app/models/contact.invitation';
+import { EventService } from 'src/app/providers/event.service';
+import { AuthService } from "../../../../providers/auth.service";
+//pages
+import { ModalPopPage } from '../../modal-pop/modal-pop.page';
+import { InvitationPermissionPage } from 'src/app/pages/logged-in/company/invitation/invitation-permission/invitation-permission.page';
 
 
 @Component({
@@ -20,9 +21,10 @@ import {AuthService} from "../../../../providers/auth.service";
 export class CompanyContactListPage implements OnInit, OnDestroy {
 
   public company: Company;
+
   public invitation = {
-      sent : [],
-      received : []
+    sent: [],
+    received: []
   };
 
   public inProgress = 'Team-list';
@@ -41,6 +43,7 @@ export class CompanyContactListPage implements OnInit, OnDestroy {
 
   public borderLimit = false;
   public invitationCheckLoop;
+
   constructor(
     public companyContactService: CompanyContactService,
     public invitationService: InvitationService,
@@ -90,9 +93,9 @@ export class CompanyContactListPage implements OnInit, OnDestroy {
 
       this.contactList = response.body;
     },
-    () => {
-      this.loading = false;
-    });
+      () => {
+        this.loading = false;
+      });
   }
 
   /**
@@ -111,11 +114,11 @@ export class CompanyContactListPage implements OnInit, OnDestroy {
 
       this.contactList = this.contactList.concat(response.body);
     },
-    error => { },
-    () => {
-      this.loading = false;
-      event.target.complete();
-    });
+      error => { },
+      () => {
+        this.loading = false;
+        event.target.complete();
+      });
   }
 
   doNothing(event) {

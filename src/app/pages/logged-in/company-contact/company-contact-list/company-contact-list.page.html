@@ -28,47 +28,67 @@
 
     <ion-list *ngSwitchCase="'Team-list'" class="contact-list">
       <ion-item-divider color="light"><b>Team List</b></ion-item-divider>
+      
       <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
-        <ion-item-sliding *ngFor="let contact of contactList">
-          <ion-item tappable>
-            <div tabindex="0"></div>
-            <ion-label>
-              <h4>{{ contact.contact_name }}</h4>
-              <h5 *ngIf="contact.company">
-                {{ contact.company.company_common_name_en? contact.company.company_common_name_en: contact.company.company_name }}
-              </h5>
-              <p>{{ contact.contact_position }}</p>
-              <p>
-                <a (click)="doNothing($event)"
-                   *ngFor="let contactEmail of contact.contactEmails">
-                  <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
-                </a>
-              </p>
-              <p>
-                <a (click)="doNothing($event)"
-                   *ngFor="let contactPhone of contact.contactPhones">
-                  <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
-                </a>
-              </p>
-            </ion-label>
-          </ion-item>
-        </ion-item-sliding>
+      
+      <ion-item-sliding *ngFor="let contact of contactList">
+        <ion-item tappable>
+          <div tabindex="0"></div>
+          <ion-label>
+            <h4>
+              <span class="you" *ngIf="contact.contact_uuid == authService.id">You&nbsp;•&nbsp;</span>
+              {{ contact.contact_name }} 
+            </h4>
+            <h5 *ngIf="contact.company">
+              {{ contact.company.company_common_name_en? contact.company.company_common_name_en: contact.company.company_name }}
+            </h5>
+            <p>{{ contact.contact_position }}</p>
+            <p>
+              <a (click)="doNothing($event)"
+                  *ngFor="let contactEmail of contact.contactEmails">
+                <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
+              </a>
+            </p>
+            <p>
+              <a (click)="doNothing($event)"
+                  *ngFor="let contactPhone of contact.contactPhones">
+                <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
+              </a>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-item-sliding>
+      
       <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
+
     </ion-list>
+
     <ion-list *ngSwitchCase="'invitations-sent'">
-      <ion-item-divider color="light"><b>Sent Invitation List</b></ion-item-divider>
-      <ion-item *ngFor="let invitationSent of  this.invitation.sent">
+
+      <ion-item-divider color="light" *ngIf="invitation.sent.length > 0">
+        <b>Sent Invitation List</b>
+      </ion-item-divider>
+      
+      <ion-item *ngFor="let invitationSent of this.invitation.sent">
         <div tabindex="0"></div>
         <ion-label>
           {{invitationSent.email_to_invite}}
         </ion-label>
         <ion-badge tappable color="danger" (click)="removeInvitation(invitationSent)" slot="end">Remove Invitation</ion-badge>
       </ion-item>
+
+      <no-items *ngIf="invitation.sent.length == 0" message="~ No invitation to list! ~"></no-items>
+      
     </ion-list>
+
     <ion-list *ngSwitchCase="'invitations-receive'">
-      <ion-item-divider color="light"><b>Received Invitation List</b></ion-item-divider>
+      
+      <ion-item-divider color="light" *ngIf="invitation.received.length > 0">
+        <b>Received Invitation List</b>
+      </ion-item-divider>
+      
       <ion-item *ngFor="let invitationReceived of this.invitation.received">
         <div tabindex="0"></div>
         <ion-label>
@@ -76,6 +96,9 @@
         </ion-label>
         <ion-badge tappable color="primary" (click)="accept(invitationReceived)" slot="end">Accept</ion-badge>
       </ion-item>
+
+      <no-items *ngIf="invitation.received.length == 0" message="~ No invitation to list! ~"></no-items>
+      
     </ion-list>
   </div>
 </ion-content>
