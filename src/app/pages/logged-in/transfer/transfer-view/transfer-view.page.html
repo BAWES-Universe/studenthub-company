@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button (click)="back()"></ion-back-button>
@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
   <loading-modal [loading]="loading" type="transfer-view"></loading-modal>
   <ng-container *ngIf="!loading">
     <div class="ion-text-center ion-padding" *ngIf="transferDetails">
@@ -124,7 +124,7 @@
 
           <ion-avatar slot="start">
             <ion-img *ngIf="resource.candidate.candidate_personal_photo"
-              src="{{ aws.cloudinaryUrl + resource.candidate.candidate_personal_photo }}"
+              src="{{ aws.cloudinaryUrl + 'candidate-photo/' + resource.candidate.candidate_personal_photo }}"
               (ionError)="loadLogo($event,resource.candidate)"></ion-img>
             <ion-img *ngIf="!resource.candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
           </ion-avatar>

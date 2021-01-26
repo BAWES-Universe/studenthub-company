@@ -1,0 +1,25 @@
+<ion-content class="ion-padding">
+
+  <section class="ion-text-center">
+    <img src="assets/images/request.svg">
+  </section>
+
+  <section class="txt-area ion-text-center">
+
+    <p class="successful-msg">
+      Request Sent Successfully!
+    </p>
+    <p class="request-sent-msg"
+       *ngIf="company_name"
+       [innerHTML]="{ company_name: company_name } "></p>
+
+    <p class="request-sent-msg" *ngIf="!company_name" >
+      Your request has been sent
+    </p>
+  </section>
+  
+  <ion-button class="btn-dashboard" expand="block" (click)="loadHomePage()">
+    Go To Dashboard
+  </ion-button>
+
+</ion-content>

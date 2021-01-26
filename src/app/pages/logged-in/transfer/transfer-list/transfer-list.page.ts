@@ -35,13 +35,20 @@ export class TransferListPage implements OnInit {
 
   public loading = false;
 
+  public borderLimit;
+  
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
     private actionSheetCtrl: ActionSheetController,
     private candidateService: CandidateService,
     private eventService: EventService
-  ) { }
+  ) {
+    this.eventService.companyChanged$.subscribe(() => {
+      this.loadTotalEmployee();
+      this.loadData(1);
+    });
+  }
 
   ngOnInit() {
     // this.loadData(this.currentPage);
@@ -81,7 +88,7 @@ export class TransferListPage implements OnInit {
   doInfinite(infiniteScroll) {
 
     this.currentPage++;
-    
+
     this.loading = true;
 
     this.transferService.list(this.currentPage).subscribe(response => {
@@ -96,6 +103,10 @@ export class TransferListPage implements OnInit {
     () => {
       infiniteScroll.target.complete();
     });
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
   /**
@@ -189,9 +200,9 @@ export class TransferListPage implements OnInit {
 
   public getTotalPendingTransfers() {
     const total =  (this.lockTransfers.length) + (this.draftTransfers.length) + (this.inProgressTransfers.length) + (this.sentTransfers.length);
-    
+
     this.totalInProcess = total;
-      
+
     if (!total) {
       this.inProgress = 'completed';
     }

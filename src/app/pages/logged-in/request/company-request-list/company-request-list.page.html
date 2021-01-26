@@ -1,7 +1,7 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>Request List</ion-title>
     <ion-buttons slot="end">
@@ -10,16 +10,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+<ion-content class="ion-padding" scrollEvents="true" (ionScroll)="logScrolling($event)">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-  <ion-list class="ion-padding">
+  <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
+                    [request]="request" [showStatus]="false"></request-listing>
 
-    <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
-                     [request]="request" [showStatus]="false"></request-listing>
-
-    <loading-modal [loading]="loading" type="request-list"></loading-modal>
-
-  </ion-list>
+  <loading-modal [loading]="loading" type="request-list"></loading-modal>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

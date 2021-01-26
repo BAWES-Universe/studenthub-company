@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController, PopoverController } from '@ionic/angular';
@@ -10,11 +10,6 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 // models
 import { Request } from 'src/app/models/request';
-// pages
-import { CompanyContactListPage } from '../../company-contact/company-contact-list/company-contact-list.page';
-
-
-
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.page.html',
@@ -67,8 +62,6 @@ export class RequestFormPage implements OnInit {
   loadForm() {
     this.company = this.model.company;
     this.form = this.fb.group({
-      contact_name: [(this.model.contact) ? this.model.contact.contact_name : '', Validators.required],
-      contact_uuid: [this.model.contact_uuid, Validators.required],
       position_type: [this.model.request_position_type + '', Validators.required],
       position_title: [this.model.request_position_title, Validators.required],
       number_of_employees: [this.model.request_number_of_employees, Validators.required],
@@ -82,7 +75,6 @@ export class RequestFormPage implements OnInit {
    * Update Model Data based on Form Input
    */
   updateModelDataFromForm() {
-    this.model.contact_uuid = this.form.value.contact_uuid;
     this.model.request_position_type = this.form.value.position_type;
     this.model.request_position_title = this.form.value.position_title;
     this.model.request_number_of_employees = this.form.value.number_of_employees;
@@ -130,7 +122,7 @@ export class RequestFormPage implements OnInit {
       // On Failure
       if (jsonResponse.operation == 'error') {
         const prompt = await this.alertCtrl.create({
-          message: jsonResponse,
+          message: this.authService.errorMessage(jsonResponse),
           buttons: ['Ok']
         });
         prompt.present();
@@ -142,29 +134,6 @@ export class RequestFormPage implements OnInit {
     });
   }
 
-  /**
-   * open popup to select contact
-   * @param e
-   */
-  async openContact(e) {
-    const popover = await this.modalCtrl.create({
-      component: CompanyContactListPage,
-      componentProps: {
-        company: this.company
-      }
-    });
-    popover.onDidDismiss().then((_) => {
-      if (_ && _.data && _.data.companyContact) {
-
-        const contact = _.data.companyContact.contact_name;
-
-        this.form.controls.contact_name.setValue(contact);
-        this.form.controls.contact_uuid.setValue(_.data.companyContact.contact_uuid);
-
-      }
-    });
-    popover.present();
-  }
   /**
    * request detail
    * @param id
@@ -182,13 +151,9 @@ export class RequestFormPage implements OnInit {
 
   resetForm() {
     this.company = null;
-    this.form.controls.company_id.setValue(null);
-    this.form.controls.contact_name.setValue(null);
-    this.form.controls.contact_uuid.setValue(null);
     this.form.controls.position_type.setValue(null);
     this.form.controls.position_title.setValue(null);
     this.form.controls.number_of_employees.setValue(null);
     this.form.controls.additional_info.setValue(null);
-    this.form.controls.company_name.setValue(null);
   }
 }

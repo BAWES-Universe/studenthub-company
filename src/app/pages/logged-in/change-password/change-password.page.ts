@@ -20,6 +20,8 @@ export class ChangePasswordPage implements OnInit {
   // Disable submit button if loading response
   public isLoading = false;
 
+  public borderLimit;
+  
   constructor(
     private _fb: FormBuilder,
     public accountService: AccountService,
@@ -33,6 +35,10 @@ export class ChangePasswordPage implements OnInit {
       oldPassword: ['', Validators.required],
       newPassword: ['', Validators.required]
     });
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
   /**

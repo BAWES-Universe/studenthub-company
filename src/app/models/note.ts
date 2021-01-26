@@ -1,7 +1,8 @@
-import {Company} from './company';
-import {Request} from './request';
+import { Company } from './company';
+import { Request } from './request';
 import { CompanyContact } from './company-contact';
 import { Candidate } from './candidate';
+import { Contact } from './contact';
 
 export class Note {
     note_uuid: string;
@@ -18,7 +19,7 @@ export class Note {
     note_created_datetime: string;
     note_updated_datetime: string;
 
-    companyContact: CompanyContact;
+    contact: Contact;
     candidate: Candidate;
     company: Company;
     request: Request;

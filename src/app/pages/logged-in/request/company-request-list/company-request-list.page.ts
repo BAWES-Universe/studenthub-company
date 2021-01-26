@@ -9,7 +9,7 @@ import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { EventService } from 'src/app/providers/event.service';
-import {AuthService} from 'src/app/providers/auth.service';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -85,13 +85,18 @@ export class CompanyRequestListPage implements OnInit {
       this.scrollPosition = ele.scrollTop;
     });
   }
+  
+  doRefresh(event) {
+    this.list(event);
+  }
 
   /**
    * list all requests
    */
-  async list() {
+  async list(refresher = null) {
 
-    this.loading = true;
+    if(!refresher)
+      this.loading = true;
 
     const urlParams = this.urlParams();
 
@@ -101,6 +106,10 @@ export class CompanyRequestListPage implements OnInit {
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.requests = response.body;
+
+      if(refresher) {
+        refresher.target.complete();
+      }
     },
       error => { },
       () => { this.loading = false; }
@@ -154,7 +163,7 @@ export class CompanyRequestListPage implements OnInit {
     if (this.filters.endDate) {
       urlParams += '&end_date=' + this.filters.endDate;
     }
-    urlParams += '&company_id=' + this.auth.company_id;
+    // urlParams += '&company_id=' + this.auth.company_id;
 
     return urlParams;
   }
@@ -174,7 +183,7 @@ export class CompanyRequestListPage implements OnInit {
 
   requestDetail(request) {
     this.navCtrl.navigateForward('/request-view/' + request.request_uuid, {
-      state : {
+      state: {
         from: 'company-request-list'
       }
     });

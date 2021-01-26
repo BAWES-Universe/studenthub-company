@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="clear-header">
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/ic_cancel.svg" defaultHref="/default"></ion-back-button>
@@ -12,7 +12,9 @@
 
   <div *ngIf="request && !loading">
 
-    <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">{{ request.company.company_name }}</h4>
+    <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">
+      {{ request.company.company_name?request.company.company_name: request.company.company_common_name_en }}
+    </h4>
 
     <p class="txt-looking" *ngIf="request.request_status == 'started'">is looking for </p>
     <p class="txt-looking" *ngIf="request.request_status != 'started'">was looking for </p>
@@ -26,7 +28,7 @@
 
     <p class="txt-additional-info">{{ request.request_additional_info }}</p>
 
-    <div class="requested-by">
+    <div class="requested-by" *ngIf="request.contact">
       Requested by <span class="requested-by-staff" tappable [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span>
       <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
     </div>
@@ -48,19 +50,19 @@
     <div *ngIf="suggestedSuggestions.length > 0">
       <h4 class="txt-suggested-candidates">Suggested Candidates ({{ suggestedSuggestions.length }})</h4>
 
-      <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions" [model]="suggestion"></suggestion>
+      <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
     <div *ngIf="acceptedSuggestions.length > 0">
       <h4 class="txt-suggested-candidates">Accepted ({{ acceptedSuggestions.length }})</h4>
 
-      <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
+      <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
     <div *ngIf="rejectedSuggestions.length > 0">
       <h4 class="txt-suggested-candidates">Rejected ({{ rejectedSuggestions.length }})</h4>
 
-      <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
+      <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
   </div>

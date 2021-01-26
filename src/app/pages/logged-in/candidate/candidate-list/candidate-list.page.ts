@@ -21,6 +21,8 @@ export class CandidateListPage implements OnInit {
   public storeList: Store[];
   public loading = false;
 
+  public borderLimit;
+  
   constructor(
     public navCtrl: NavController,
     public aws: AwsService,
@@ -62,6 +64,10 @@ export class CandidateListPage implements OnInit {
     });
   }
   
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
   onImageError(candidate) {
     candidate.candidate_personal_photo = null;
   }

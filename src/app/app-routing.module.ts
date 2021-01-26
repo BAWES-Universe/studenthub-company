@@ -163,12 +163,48 @@ const routes: Routes = [
       name: 'RequestFormPage',
     }
   },
-
+  {
+    path: 'company-contacts',
+    loadChildren: () => import('./pages/logged-in/company-contact/company-contact-list/company-contact-list.module').then(m => m.CompanyContactListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'RequestFormPage',
+    }
+  },
+  {
+    path: 'update-password/:token',
+    loadChildren: () => import('./pages/start-pages/update-password/update-password.module').then(m => m.UpdatePasswordPageModule),
+    data: {
+      name: 'UpdatePasswordPage',
+    }
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./pages/start-pages/forgot-password/forgot-password.module').then(m => m.ForgotPasswordPageModule),
+    data: {
+      name: 'ForgotPasswordPage',
+    }
+  },
+  {
+    path: 'account',
+    loadChildren: () => import('./pages/logged-in/account/account.module').then( m => m.AccountPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./pages/start-pages/register/register.module').then(m => m.RegisterPageModule),
+    data: {
+      name: 'RegisterPage',
+      disableMenu: true
+    }
+  },
+  {
+    path: 'company-contact-view',
+    loadChildren: () => import('./pages/logged-in/company-contact/company-contact-view/company-contact-view.module').then( m => m.CompanyContactViewPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'
   },
-
 ];
 
 @NgModule({

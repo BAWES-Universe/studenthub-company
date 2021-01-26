@@ -19,6 +19,8 @@ export class CompanyListPage implements OnInit {
   public loading = false;
   public companies: Company[];
 
+  public borderLimit;
+
   constructor(
     public navCtrl: NavController,
     public companyService: CompanyService
@@ -32,8 +34,10 @@ export class CompanyListPage implements OnInit {
   async loadData(page: number) {
 
     this.companies = [];
+    
     this.loading = true;
-    this.companyService.list(page).subscribe(response => {
+
+    this.companyService.listChild(page).subscribe(response => {
       this.loading = false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -57,6 +61,10 @@ export class CompanyListPage implements OnInit {
     );
   }
 
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
   pageLinkColor(page: number) {
 
     if (page == this.currentPage)
@@ -75,7 +83,7 @@ export class CompanyListPage implements OnInit {
 
     this.currentPage++;
 
-    this.companyService.list(this.currentPage).subscribe(response => {
+    this.companyService.listChild(this.currentPage).subscribe(response => {
 
       this.loading = false;
 

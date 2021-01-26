@@ -49,7 +49,6 @@ export class CompanyRequestService {
    */
   create(model: Request): Observable<any> {
     return this.authhttp.post(this.companyRequestEndpoint, {
-      contact_uuid: model.contact_uuid,
       position_type: model.request_position_type,
       position_title: model.request_position_title,
       number_of_employees: model.request_number_of_employees,
@@ -85,8 +84,6 @@ export class CompanyRequestService {
    */
   update(model: Request): Observable<any> {
     return this.authhttp.patch(`${this.companyRequestEndpoint}/${model.request_uuid}`, {
-      company_id: model.company_id,
-      contact_uuid: model.contact_uuid,
       position_type: model.request_position_type,
       position_title: model.request_position_title,
       number_of_employees: model.request_number_of_employees,
@@ -108,7 +105,7 @@ export class CompanyRequestService {
    */
   view(id): Observable<any> {
     const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+      '?expand=requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
     return this.authhttp.get(url);
   }
 
