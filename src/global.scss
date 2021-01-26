@@ -129,3 +129,50 @@ ng5-slider {
       display: none !important;
   }
 }
+
+
+ion-modal,
+ion-router-outlet {
+  ion-header ion-buttons[slot="end"] ion-button {
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #2f80ed;
+    text-transform: none;
+  }
+
+  ion-toolbar,
+  ion-content {
+      --background: #fafafa;
+  }
+
+  ion-title,
+  ion-header {
+      padding-left: 10px;
+      padding-right: 10px;
+  }
+
+  ion-title:not([size="small"]) {
+      font-size: 18px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #000000;
+  }
+
+  ion-content {
+    --padding-start: 30px;
+    --padding-end: 30px;
+  }
+}
+
+ion-header {
+  --background: #fafafa;
+  background: #fafafa;
+}

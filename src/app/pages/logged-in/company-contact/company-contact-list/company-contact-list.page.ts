@@ -269,9 +269,13 @@ export class CompanyContactListPage implements OnInit, OnDestroy {
 
   /**
    * remove member
+   * @param event
    * @param contact
    */
-  async removeMember(contact) {
+  async removeMember(event, contact) {
+    event.preventDefault();
+    event.stopPropagation();
+    
     const prompt = await this.alertCtrl.create({
       message: 'Are you sure you want to remove this staff?',
       buttons: [

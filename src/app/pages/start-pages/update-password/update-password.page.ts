@@ -21,6 +21,8 @@ export class UpdatePasswordPage {
 
   public passwordForm: FormGroup;
 
+  public borderLimit;
+  
   // Disable submit button if loading response
   public isLoading = false;
 
@@ -101,6 +103,10 @@ export class UpdatePasswordPage {
     }, () => {
       this.isLoading = false;
     });
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
   /**

@@ -19,6 +19,8 @@ export class CompanyListPage implements OnInit {
   public loading = false;
   public companies: Company[];
 
+  public borderLimit;
+
   constructor(
     public navCtrl: NavController,
     public companyService: CompanyService
@@ -57,6 +59,10 @@ export class CompanyListPage implements OnInit {
       error => { },
       () => { this.loading = false;}
     );
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
   pageLinkColor(page: number) {

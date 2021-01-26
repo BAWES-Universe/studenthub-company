@@ -22,6 +22,9 @@ export class StoreListPage implements OnInit {
   public companies: Company[];
   public title: string;
   public loading = false;
+
+  public borderLimit;
+
   constructor(
     public navCtrl: NavController,
     public storeService: StoreService,
@@ -77,6 +80,10 @@ export class StoreListPage implements OnInit {
         this.stores.push(item);
       }
     }
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
   rowSelected(model) {

@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
@@ -32,9 +32,7 @@
 
       <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
       
-      <ion-item-sliding *ngFor="let contact of contactList" tappable [routerLink]="'/company-contact-view/' + contact.contact_uuid">
-
-        <ion-item tappable>
+        <ion-item *ngFor="let contact of contactList" tappable [routerLink]="'/company-contact-view/' + contact.contact_uuid">
           <div tabindex="0"></div>
           <ion-label>
             <h4>
@@ -75,9 +73,12 @@
               </a>
             </p>
           </ion-label>
-          <ion-badge color="danger" (click)="removeMember(contact)"  *ngIf="contact.contact_uuid != authService.id" slot="end"><ion-icon name="trash-outline"></ion-icon></ion-badge>
-        </ion-item>
-      </ion-item-sliding>
+          <ion-buttons slot="end">
+            <ion-button color="danger" (click)="removeMember($event, contact)" *ngIf="contact.contact_uuid != authService.id" slot="end">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item> 
 
       <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

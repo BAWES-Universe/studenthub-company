@@ -35,6 +35,8 @@ export class TransferListPage implements OnInit {
 
   public loading = false;
 
+  public borderLimit;
+  
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
@@ -101,6 +103,10 @@ export class TransferListPage implements OnInit {
     () => {
       infiniteScroll.target.complete();
     });
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
   /**

@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/transfer-list"></ion-back-button>
@@ -15,7 +15,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
   <form [formGroup]="form" *ngIf="ready">
 
     <ion-card class="ion-padding">
