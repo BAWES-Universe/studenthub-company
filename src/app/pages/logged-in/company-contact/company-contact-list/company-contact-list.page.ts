@@ -266,4 +266,8 @@ export class CompanyContactListPage implements OnInit, OnDestroy {
       }
     });
   }
+
+  async removeMember(contact) {
+    console.log(contact);
+  }
 }
