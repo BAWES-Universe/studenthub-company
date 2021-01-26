@@ -31,7 +31,7 @@
       <ion-item-divider color="light"><b>Team List</b></ion-item-divider>
 
       <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
-      
+
       <ion-item-sliding *ngFor="let contact of contactList" tappable [routerLink]="'/company-contact-view/' + contact.contact_uuid">
 
         <ion-item tappable>
@@ -39,28 +39,25 @@
           <ion-label>
             <h4>
               <span class="you" *ngIf="contact.contact_uuid == authService.id">You&nbsp;•&nbsp;</span>
-              {{ contact.contact_name }}
+              {{ contact.contact.contact_name }}
             </h4>
-            <h5 *ngIf="contact.company">
-              {{ contact.company.company_common_name_en? contact.company.company_common_name_en: contact.company.company_name }}
-            </h5>
             <p>
-              <ion-badge color="success" *ngIf="contact.contact_email">Login Email : {{ contact.contact_email}}</ion-badge>
-              <ion-badge color="danger" *ngIf="!contact.contact_email">Login Email : Need to update</ion-badge>
+              <ion-badge color="success" *ngIf="contact.contact.contact_email">Login Email : {{ contact.contact.contact_email}}</ion-badge>
+              <ion-badge color="danger" *ngIf="!contact.contact.contact_email">Login Email : Need to update</ion-badge>
             </p>
-            <p>Position : {{ contact.contact_position }}</p>
+            <p>Position : {{ contact.contact.contact_position }}</p>
             <p>Role :
               <span [class.owner]="contact.role == 'Owner'">{{ contact.role }}</span>
             </p>
             <p>
               Receive Email?:
-              <span *ngIf="contact.contact_receive_email">Enabled</span>
-              <span *ngIf="!contact.contact_receive_email">Disabled</span>
+              <span *ngIf="contact.contact.contact_receive_email">Enabled</span>
+              <span *ngIf="!contact.contact.contact_receive_email">Disabled</span>
             </p>
             <p>
               Receive Notification? :
-              <span *ngIf="contact.contact_receive_notification">Enabled</span>
-              <span *ngIf="!contact.contact_receive_notification">Disabled</span>
+              <span *ngIf="contact.contact.contact_receive_notification">Enabled</span>
+              <span *ngIf="!contact.contact.contact_receive_notification">Disabled</span>
             </p>
             <p>
               <a (click)="doNothing($event)"

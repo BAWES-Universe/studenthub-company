@@ -11,6 +11,7 @@ import { AuthService } from "../../../../providers/auth.service";
 //pages
 import { ModalPopPage } from '../../modal-pop/modal-pop.page';
 import { InvitationPermissionPage } from 'src/app/pages/logged-in/company/invitation/invitation-permission/invitation-permission.page';
+import {CompanyContact} from "../../../../models/company-contact";
 
 
 @Component({
@@ -31,7 +32,7 @@ export class CompanyContactListPage implements OnInit, OnDestroy {
 
   public contacts;
 
-  public contactList = [];
+  public contactList: CompanyContact[] = [];
 
   public currentPage: number;
 

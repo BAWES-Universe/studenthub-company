@@ -20,7 +20,7 @@ export class CompanyContactService {
    * @param company_id
    */
   list(page, query = ''): Observable<any>{
-    const url = `${this._endpoint}?expand=contactEmails,contactPhones,company&page=${page}&query=${query}`;
+    const url = `${this._endpoint}?expand=contactEmails,contactPhones,contact&page=${page}&query=${query}`;
     return this._authhttp.getRaw(url);
   }
 

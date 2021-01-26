@@ -96,14 +96,12 @@ export class CompanyContactViewPage implements OnInit {
   }
 
   urlParams() {
-    let url = '&contact_uuid=' + this.contact_uuid;
-
-    return url;
+    return '&contact_uuid=' + this.contact_uuid;
   }
 
   /**
    * load more on scroll to bottom
-   * @param event 
+   * @param event
    */
   doInfinite(event) {
 
@@ -124,6 +122,6 @@ export class CompanyContactViewPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 0) ?  true : false;
+    this.borderLimit = (e.detail.scrollTop > 0);
   }
 }
