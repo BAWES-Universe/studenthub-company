@@ -266,4 +266,46 @@ export class CompanyContactListPage implements OnInit, OnDestroy {
       }
     });
   }
+
+  /**
+   * remove member
+   * @param contact
+   */
+  async removeMember(contact) {
+    const prompt = await this.alertCtrl.create({
+      message: 'Are you sure you want to remove this staff?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('close');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.companyContactService.delete(contact).subscribe(response => {
+
+              if (response.operation == 'success') {
+                this.loadData();
+              } else {
+
+                this.loading = false;
+
+                this.alertCtrl.create({
+                  message: this.authService.errorMessage(response.message),
+                  buttons: ['Okay']
+                }).then(prompt => {
+                  prompt.present();
+                });
+              }
+            });
+          }
+        }
+      ]
+    }).then(alert => {
+      alert.present();
+    });
+  }
 }

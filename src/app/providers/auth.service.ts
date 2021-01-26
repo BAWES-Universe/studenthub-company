@@ -78,7 +78,7 @@ export class AuthService {
       if (data) {
 
         this.isLogged = true;
-        
+
         this.accessToken = data.token;
         this.company_id = data.company_id;
         this.email = data.email;
