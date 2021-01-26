@@ -12,7 +12,9 @@
 
   <div *ngIf="request && !loading">
 
-    <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">{{ request.company.company_name }}</h4>
+    <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">
+      {{ request.company.company_name?request.company.company_name: request.company.company_common_name_en }}
+    </h4>
 
     <p class="txt-looking" *ngIf="request.request_status == 'started'">is looking for </p>
     <p class="txt-looking" *ngIf="request.request_status != 'started'">was looking for </p>
@@ -26,7 +28,7 @@
 
     <p class="txt-additional-info">{{ request.request_additional_info }}</p>
 
-    <div class="requested-by">
+    <div class="requested-by" *ngIf="request.contact">
       Requested by <span class="requested-by-staff" tappable [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span>
       <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
     </div>

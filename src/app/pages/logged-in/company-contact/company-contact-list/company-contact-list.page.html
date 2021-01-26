@@ -12,6 +12,7 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
   <ion-segment [(ngModel)]="inProgress">
     <ion-segment-button value="Team-list">
       Team
@@ -31,7 +32,7 @@
       
       <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
       
-      <ion-item-sliding *ngFor="let contact of contactList">
+      <ion-item-sliding *ngFor="let contact of contactList" tappable [routerLink]="'/company-contact-view/' + contact.contact_uuid">
         <ion-item tappable>
           <div tabindex="0"></div>
           <ion-label>
@@ -92,7 +93,7 @@
       <ion-item *ngFor="let invitationReceived of this.invitation.received">
         <div tabindex="0"></div>
         <ion-label>
-          {{invitationReceived.company.company_name}}
+          {{ invitationReceived.company.company_name }}
         </ion-label>
         <ion-badge tappable color="primary" (click)="accept(invitationReceived)" slot="end">Accept</ion-badge>
       </ion-item>
