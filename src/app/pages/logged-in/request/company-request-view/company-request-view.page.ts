@@ -22,6 +22,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { Request } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
 
+
 @Component({
   selector: 'app-company-request-view',
   templateUrl: './company-request-view.page.html',

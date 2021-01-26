@@ -55,6 +55,8 @@ export class ImportTransferFormPage implements OnInit {
   public start_date; // max date
   public end_date; // max date
 
+  public borderLimit;
+  
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
@@ -137,6 +139,10 @@ export class ImportTransferFormPage implements OnInit {
 
       this.uploading = false;
     });
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
   /**

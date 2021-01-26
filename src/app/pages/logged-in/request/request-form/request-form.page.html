@@ -1,4 +1,4 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/company-request-dashboard"></ion-back-button>
@@ -21,6 +21,7 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+
   <form [formGroup]="form" *ngIf="form">
 
     <ion-list>
@@ -67,18 +68,3 @@
     </ion-list>
   </form>
 </ion-content>
-<ion-footer>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-button [disabled]="form && !form.valid" (click)="save()">
-          <span *ngIf="!saving">Save</span>
-          <ion-spinner *ngIf="saving"></ion-spinner>
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="resetForm();">Reset</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-footer>

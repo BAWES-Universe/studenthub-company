@@ -66,6 +66,8 @@ export class TransferFormPage implements OnInit {
     // pickMode: 'multi'
   };
 
+  public borderLimit;
+  
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
@@ -387,5 +389,9 @@ export class TransferFormPage implements OnInit {
         this.transfer.end_date = to.string;
       }
     }
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 0) ?  true : false;
   }
 }

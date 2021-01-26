@@ -108,7 +108,7 @@
 
         <!----------  My employers  ----------->
 
-        <ion-list lines="none" class="companies-list">
+        <ion-list lines="none" class="companies-list" *ngIf="auth.companies.length > 1">
 
           <ng-container *ngFor="let model of auth.companies" class="list-header">
               <ion-item menuClose *ngIf="model.company_id != auth.company_id" tappable

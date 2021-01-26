@@ -20,6 +20,8 @@ export class StoreViewPage implements OnInit {
 
   public loading: boolean = false;
 
+  public borderLimit;
+  
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
@@ -69,6 +71,10 @@ export class StoreViewPage implements OnInit {
     });
   }
   
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
   onImageError(candidate) {
     candidate.candidate_personal_photo = null;
   }

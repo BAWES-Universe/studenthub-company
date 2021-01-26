@@ -25,6 +25,8 @@ export class CompanyViewPage implements OnInit {
   public pages: number[] = [];
   public loading = false;
 
+  public borderLimit;
+  
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
@@ -92,6 +94,10 @@ export class CompanyViewPage implements OnInit {
       this.company = response;
       this.loading = false;
     });
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
   pageLinkColor(page: number) {

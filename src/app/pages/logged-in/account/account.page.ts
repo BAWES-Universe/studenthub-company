@@ -23,6 +23,8 @@ export class AccountPage implements OnInit {
 
   public model: Contact;
 
+  public borderLimit;
+
   constructor(
     public navCtrl: NavController,
     public alertCtrl: AlertController,
@@ -198,5 +200,9 @@ export class AccountPage implements OnInit {
       // adding new field
       this.addEmail();
     }
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 }
