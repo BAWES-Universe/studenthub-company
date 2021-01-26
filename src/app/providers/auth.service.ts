@@ -26,6 +26,7 @@ export class AuthService {
   public company_id: any;
   public name: string;
   public email: string;
+  public role: string;
 
   public isLogged = false;
 
@@ -84,6 +85,7 @@ export class AuthService {
         this.email = data.email;
         this.name = data.name;
         this.id = data.id;
+        this.role = data.role;
 
         resolve(true);
       } else {
@@ -104,7 +106,8 @@ export class AuthService {
         company_id: this.company_id,
         name: this.name,
         email: this.email,
-        id: this.id
+        id: this.id,
+        role: this.role
       })
     });
   }
@@ -135,12 +138,14 @@ export class AuthService {
     this.name = null;
     this.email = null;
     this.id = null;
+    this.role = null;
 
     Storage.clear();
 
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
+
     Storage.set({
       key: 'cookieMessageWasApproved',
       value: (this.displayCookieMessage == '0') ? '1' : '0'
@@ -156,6 +161,7 @@ export class AuthService {
     this.company_id = response.company_id;
     this.name = response.name;
     this.email = response.email;
+    this.role = response.role;
     this.id = response.contact? response.contact?.contact_uuid: response.id;
 
     // Save to Storage
@@ -176,7 +182,6 @@ export class AuthService {
 
     return Promise.all(promises).then(data => {
       // for guest use language value in storage, for login user loggedInAgent.language_pref
-
 
       if (data[0] && data[0].token) {
         return this.setAccessToken(data[0]);
