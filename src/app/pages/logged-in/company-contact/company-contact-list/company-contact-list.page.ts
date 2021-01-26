@@ -54,15 +54,16 @@ export class CompanyContactListPage implements OnInit, OnDestroy {
     public eventService: EventService,
     public authService: AuthService
   ) {
-    this.eventService.loadInvitation$.subscribe(_ => {
-      this.loadInvitationList();
-    });
   }
 
   ngOnInit() {
     this.loadData();
     this.loadInvitationList();
 
+    this.eventService.loadInvitation$.subscribe(_ => {
+      this.loadInvitationList();
+    });
+    
     if (!this.invitationCheckLoop) {
       this.invitationCheckLoop = setInterval(() => {
         this.loadInvitationList(true);
