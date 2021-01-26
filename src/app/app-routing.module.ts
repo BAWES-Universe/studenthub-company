@@ -198,6 +198,10 @@ const routes: Routes = [
     }
   },
   {
+    path: 'company-contact-view',
+    loadChildren: () => import('./pages/logged-in/company-contact/company-contact-view/company-contact-view.module').then( m => m.CompanyContactViewPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },
