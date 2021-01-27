@@ -141,7 +141,7 @@ ion-router-outlet {
     line-height: normal;
     letter-spacing: normal;
     text-align: left;
-    color: #2f80ed;
+    color: #ffffff;
     text-transform: none;
   }
 
@@ -154,6 +154,9 @@ ion-router-outlet {
   ion-header {
       padding-left: 10px;
       padding-right: 10px;
+      .ion-activatable {
+        color: #000000;
+      }
   }
 
   ion-title:not([size="small"]) {

@@ -67,7 +67,7 @@ export class TransferFormPage implements OnInit {
   };
 
   public borderLimit;
-  
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
@@ -381,8 +381,8 @@ export class TransferFormPage implements OnInit {
       const from: CalendarResult = date.from;
       const to: CalendarResult = date.to;
       if (from.string) {
-        this.form.controls.start_date.setValue(from.string)
-        this.transfer.start_date = from.string
+        this.form.controls.start_date.setValue(from.string);
+        this.transfer.start_date = from.string;
       }
       if (to.string) {
         this.form.controls.end_date.setValue(to.string);
@@ -392,6 +392,6 @@ export class TransferFormPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 0) ?  true : false;
+    this.borderLimit = (e.detail.scrollTop > 0);
   }
 }
