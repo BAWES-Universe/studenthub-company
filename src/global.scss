@@ -130,8 +130,20 @@ ng5-slider {
   }
 }
 
-
-ion-modal,
+ion-modal {
+  ion-router-outlet {
+    ion-header ion-buttons[slot="end"] ion-button {
+      font-size: 18px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: #ffffff;
+    }
+  }
+}
 ion-router-outlet {
   ion-header ion-buttons[slot="end"] ion-button {
     font-size: 18px;
@@ -141,7 +153,6 @@ ion-router-outlet {
     line-height: normal;
     letter-spacing: normal;
     text-align: left;
-    color: #2f80ed;
     text-transform: none;
   }
 
@@ -154,6 +165,9 @@ ion-router-outlet {
   ion-header {
       padding-left: 10px;
       padding-right: 10px;
+      .ion-activatable {
+        color: #000000;
+      }
   }
 
   ion-title:not([size="small"]) {
@@ -175,4 +189,11 @@ ion-router-outlet {
 ion-header {
   --background: #fafafa;
   background: #fafafa;
+}
+.empty-data{
+  text-align: center;
+  margin-top:30px;
+
+  ion-icon{font-size:60px;}
+  h2{margin-top:0;}
 }

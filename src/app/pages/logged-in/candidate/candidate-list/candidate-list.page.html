@@ -11,7 +11,7 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
 
-  <ion-list *ngIf="candidates && !loading">
+  <ion-list *ngIf="candidates && !loading && candidates.length > 0">
     <ion-item tappable (click)="rowSelected(candidate)" *ngFor="let candidate of candidates">
       <div tabindex="0"></div>
       <ion-avatar slot="start">
@@ -24,6 +24,11 @@
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <section class="ion-padding empty" *ngIf="!loading && candidates && candidates.length == 0">
+    <ion-icon name="ios-filing-outline"></ion-icon>
+    <no-items message="No Employee Yet"></no-items>
+  </section>
 
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 

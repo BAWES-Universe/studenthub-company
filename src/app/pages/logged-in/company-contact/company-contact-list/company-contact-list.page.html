@@ -13,18 +13,6 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <ion-segment [(ngModel)]="inProgress">
-    <ion-segment-button value="Team-list">
-      Team
-    </ion-segment-button>
-    <ion-segment-button value="invitations-sent">
-      Invitations <br/>Sent
-    </ion-segment-button>
-    <ion-segment-button value="invitations-receive">
-      Invitations <br/>Receive
-    </ion-segment-button>
-  </ion-segment>
-
   <div [ngSwitch]="inProgress">
 
     <ion-list *ngSwitchCase="'Team-list'" class="contact-list">
@@ -79,12 +67,7 @@
             </a>
           </p>
         </ion-label>
-        <ion-buttons slot="end">
-          <ion-button color="danger" (click)="removeMember($event, contact)" *ngIf="authService.role == 'Owner' && contact.contact_uuid != authService.id" slot="end">
-            <ion-icon name="trash-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-item> 
+      </ion-item>
 
       <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
