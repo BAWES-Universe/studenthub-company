@@ -4,7 +4,8 @@ import {Company} from "./company";
 export class CompanyContact {
     contact_uuid: string;
     company_id: number;
-    role: number;
+    contact_position: string;
+    allow_access: any;
     created_at: string;
     updated_at: string;
     created_by: string;
