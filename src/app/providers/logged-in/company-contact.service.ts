@@ -43,6 +43,15 @@ export class CompanyContactService {
   }
 
   /**
+   * load contact role detail
+   * @param contact_uuid 
+   */
+  viewCompanyContact(contact_uuid): Observable<any>{
+    const url = `${this._endpoint}/view-company-contact?contact_uuid=${contact_uuid}`;
+    return this._authhttp.get(url);
+  }
+  
+  /**
    * Create university
    * @param {Contact} model
    * @returns {Observable<any>}
@@ -52,7 +61,7 @@ export class CompanyContactService {
 
     const params = {
       name: model.contact_name,
-      position: model.contact_position,
+      //position: model.contact_position,
       email: model.contact_email,
       password: model.contact_password,
       receive_email: model.contact_receive_email,
@@ -73,7 +82,7 @@ export class CompanyContactService {
     const url = `${this._endpoint}/${model.contact_uuid}`;
     const params = {
       name: model.contact_name,
-      position: model.contact_position,
+      //position: model.contact_position,
       email: model.contact_email,
       password: model.contact_password,
       receive_email: model.contact_receive_email,

@@ -85,7 +85,6 @@ export class AuthService {
         this.email = data.email;
         this.name = data.name;
         this.id = data.id;
-        this.role = data.role;
 
         resolve(true);
       } else {
@@ -106,8 +105,7 @@ export class AuthService {
         company_id: this.company_id,
         name: this.name,
         email: this.email,
-        id: this.id,
-        role: this.role
+        id: this.id
       })
     });
   }
@@ -138,7 +136,6 @@ export class AuthService {
     this.name = null;
     this.email = null;
     this.id = null;
-    this.role = null;
 
     Storage.clear();
 
@@ -161,7 +158,6 @@ export class AuthService {
     this.company_id = response.company_id;
     this.name = response.name;
     this.email = response.email;
-    this.role = response.role;
     this.id = response.contact? response.contact?.contact_uuid: response.id;
 
     // Save to Storage

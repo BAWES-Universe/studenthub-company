@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 //models
+import { CompanyContact } from 'src/app/models/company-contact';
 import { Contact } from 'src/app/models/contact';
 import { Note } from 'src/app/models/note';
 //services
@@ -21,7 +22,9 @@ export class CompanyContactViewPage implements OnInit {
 
   public loading: boolean = false;
 
-  public companyContact: Contact;
+  public contact: Contact;
+
+  public companyContact: CompanyContact;
 
   public notes: Note[] = [];
 
@@ -47,13 +50,24 @@ export class CompanyContactViewPage implements OnInit {
     const model = window.history.state.model;
 
     if(model) {
-      this.companyContact = model;
+      this.contact = model;
       this.loadNotes();
     }
 
+    this.loadDetail();
+    
     if(!this.companyContact) {
-      this.loadDetail();
+      this.loadCompanyContact();
     }
+  }
+
+  /**
+   * load role details
+   */
+  loadCompanyContact() {
+    this.companyContactService.viewCompanyContact(this.contact_uuid).subscribe(data => {
+      this.companyContact = data;
+    });
   }
 
   /**
@@ -63,7 +77,7 @@ export class CompanyContactViewPage implements OnInit {
     this.loading = true;
 
     this.companyContactService.view(this.contact_uuid).subscribe(data => {
-      this.companyContact = data;
+      this.contact = data;
       //this.loadNotes();
     }, () => {
     }, () => {
