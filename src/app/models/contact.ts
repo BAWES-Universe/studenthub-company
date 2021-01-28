@@ -4,7 +4,6 @@ import {Request} from './request';
 export class Contact {
     contact_uuid: string;
     contact_name: string;
-    contact_position: string;
     contact_email: string;
     contact_password: string;
     contact_receive_email: any;

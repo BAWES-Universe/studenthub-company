@@ -8,6 +8,7 @@ import { CandidateListPageRoutingModule } from './candidate-list-routing.module'
 
 import { CandidateListPage } from './candidate-list.page';
 import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
+import {NoItemsModule} from "../../../../components/no-items/no-items.module";
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {LoadingModalModule} from "../../../../components/loading-modal/loading-m
         FormsModule,
         IonicModule,
         CandidateListPageRoutingModule,
-        LoadingModalModule
+        LoadingModalModule,
+        NoItemsModule
     ],
   declarations: [CandidateListPage]
 })
