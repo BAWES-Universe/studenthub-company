@@ -11,13 +11,18 @@
 </ion-header>
 
 <ion-content class="ion-padding" scrollEvents="true" (ionScroll)="logScrolling($event)">
-  
+
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
                     [request]="request" [showStatus]="false"></request-listing>
+
+  <section class="ion-padding empty-data" *ngIf="!loading && requests && requests.length == 0">
+    <ion-icon name="ios-filing-outline"></ion-icon>
+    <no-items message="No Request Yet"></no-items>
+  </section>
 
   <loading-modal [loading]="loading" type="request-list"></loading-modal>
 
