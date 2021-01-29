@@ -19,7 +19,7 @@ import {CompanyContact} from "../../../../models/company-contact";
   templateUrl: './company-contact-list.page.html',
   styleUrls: ['./company-contact-list.page.scss'],
 })
-export class CompanyContactListPage implements OnInit, OnDestroy {
+export class CompanyContactListPage implements OnInit {
 
   public company: Company;
 
@@ -58,7 +58,7 @@ export class CompanyContactListPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadData();
-    this.loadInvitationList();
+    /*this.loadInvitationList();
 
     this.eventService.loadInvitation$.subscribe(_ => {
       this.loadInvitationList();
@@ -68,14 +68,14 @@ export class CompanyContactListPage implements OnInit, OnDestroy {
       this.invitationCheckLoop = setInterval(() => {
         this.loadInvitationList(true);
       }, 3000);
-    }
+    }*/
   }
 
-  ngOnDestroy() {
+  /*ngOnDestroy() {
     if (this.invitationCheckLoop) {
       clearInterval(this.invitationCheckLoop);
     }
-  }
+  }*/
 
   /**
    * load all contacts

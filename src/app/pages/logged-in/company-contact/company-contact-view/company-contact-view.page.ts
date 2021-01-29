@@ -51,11 +51,12 @@ export class CompanyContactViewPage implements OnInit {
 
     if(model) {
       this.contact = model;
-      this.loadNotes();
     }
 
     this.loadDetail();
     
+    this.loadNotes();
+
     if(!this.companyContact) {
       this.loadCompanyContact();
     }
@@ -78,7 +79,6 @@ export class CompanyContactViewPage implements OnInit {
 
     this.companyContactService.view(this.contact_uuid).subscribe(data => {
       this.contact = data;
-      //this.loadNotes();
     }, () => {
     }, () => {
       this.loading = false;
