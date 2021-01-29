@@ -10,3 +10,18 @@ a ion-icon {
 .owner {
   font-weight: bold;
 }
+
+ion-item {
+
+  ion-badge {
+    margin-right: 5px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  p {
+    margin-bottom: 5px;
+  }
+}
