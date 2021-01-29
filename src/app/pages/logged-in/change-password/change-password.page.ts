@@ -24,6 +24,8 @@ export class ChangePasswordPage implements OnInit {
 
   public type: string = 'password';
 
+  public borderLimit;
+  
   constructor(
     private _fb: FormBuilder,
     public accountService: AccountService,
@@ -45,6 +47,10 @@ export class ChangePasswordPage implements OnInit {
 
   togglePasswordVisibility() {
     this.type = this.type == 'password' ? 'text' : 'password';
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
   /**

@@ -55,6 +55,8 @@ export class ImportTransferFormPage implements OnInit {
   public start_date; // max date
   public end_date; // max date
 
+  public borderLimit;
+  
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
@@ -139,6 +141,10 @@ export class ImportTransferFormPage implements OnInit {
     });
   }
 
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
   /**
    * Handle successfull file upload
    * @param event
@@ -148,7 +154,6 @@ export class ImportTransferFormPage implements OnInit {
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
     if (event.type === 'progress') {
-      console.log(event);
       // This is an upload progress event. Compute and show the % done:
       // this.progress = Math.round(100 * event.loaded / event.total);
     } else if (event.Key && event.Key.length > 0) {

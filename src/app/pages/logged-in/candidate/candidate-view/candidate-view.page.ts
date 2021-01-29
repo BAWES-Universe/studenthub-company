@@ -20,6 +20,8 @@ export class CandidateViewPage implements OnInit {
   public workHistory: any[] = [];
   public loading = false;
 
+  public borderLimit;
+
   constructor(
     public aws: AwsService,
     public activatedRoute: ActivatedRoute,
@@ -27,7 +29,6 @@ export class CandidateViewPage implements OnInit {
     public navCtrl: NavController
   ) {
   }
-
 
   /**
    * Load candidate work history data
@@ -65,6 +66,10 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+  
   onImageError(candidate) {
     candidate.candidate_personal_photo = null;
   }

@@ -46,5 +46,8 @@ export class EventService {
   public noteUpdated$ = new Subject();
   public reloadStats$ = new Subject();
 
+  public companyChanged$ = new Subject();
+
   public totalEmployee$ = new Subject();
+  public loadInvitation$ = new Subject();
 }

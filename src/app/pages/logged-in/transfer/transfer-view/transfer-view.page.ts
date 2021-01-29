@@ -25,6 +25,8 @@ export class TransferViewPage implements OnInit {
   public transferStatus = '';
   public transferStatusDescription = '';
 
+  public borderLimit;
+
   constructor(
     public navCtrl: NavController,
     public aws: AwsService,
@@ -264,6 +266,10 @@ export class TransferViewPage implements OnInit {
     return Number((candidate.company_hourly_rate * candidate.hours) + candidate.bonus).toFixed(3);
   }
 
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
   importTransfer(transfer: Transfer) {
     this.navCtrl.navigateForward('import-transfer-form/' + transfer.transfer_id, {
       state: {
@@ -271,6 +277,7 @@ export class TransferViewPage implements OnInit {
       }
     });
   }
+  
   back() {
     return this.navCtrl.navigateBack('/transfer-list');
   }

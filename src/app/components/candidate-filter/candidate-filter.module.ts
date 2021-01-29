@@ -4,6 +4,7 @@ import { RefinementListModule } from '../refinement-list/refinement-list.module'
 import { CandidateFilterComponent } from './candidate-filter';
 import { NgAisModule } from 'angular-instantsearch';
 import { CommonModule } from "@angular/common";
+import { RangeRefinementModule } from '../range-refinement-list/range-refinement-list.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { CommonModule } from "@angular/common";
     CommonModule,
     IonicModule,
     NgAisModule,
-    RefinementListModule
+    RefinementListModule,
+    RangeRefinementModule
   ],
   exports: [
     CandidateFilterComponent

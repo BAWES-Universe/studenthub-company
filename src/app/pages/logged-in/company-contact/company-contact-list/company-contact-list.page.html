@@ -1,51 +1,71 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-
     <ion-buttons slot="start">
-      <ion-back-button (click)="dismiss()"></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-
-    <ion-title>Client List</ion-title>
+    <ion-title>Team List</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
-  <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <ion-list class="contact-list">
-    <ion-item-sliding *ngFor="let companyContact of contactList">
-      <ion-item tappable (click)="dismiss(companyContact)">
-        <div tabindex="0"></div>
 
-        <ion-label>
-          <h4>{{ companyContact.contact_name }}</h4>
+    <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
 
-          <h5 *ngIf="companyContact.company">
-            {{ companyContact.company.company_common_name_en? companyContact.company.company_common_name_en: companyContact.company.company_name }}
-          </h5>
+    <ion-item *ngFor="let contact of contactList" tappable [routerLink]="'/company-contact-view/' + contact.contact_uuid">
 
-          <p>
-            {{ companyContact.contact_position }}
-          </p>
+      <div tabindex="0"></div>
+      
+      <ion-label>
+        <h4>
+          <span class="you" *ngIf="contact.contact_uuid == authService.id">You&nbsp;•&nbsp;</span>
+          {{ contact.contact.contact_name }}
+        </h4>
 
-          <p>
-            <a (click)="doNothing($event)"
-               *ngFor="let companyContactEmail of companyContact.companyContactEmails">
-              <ion-icon name="mail-outline"></ion-icon> {{ companyContactEmail.email_address }}
-            </a>
-          </p>
-          <p>
-            <a (click)="doNothing($event)"
-               *ngFor="let companyContactPhone of companyContact.companyContactPhones">
-              <ion-icon name="call-outline"></ion-icon> {{ companyContactPhone.phone_number }}
-            </a>
-          </p>
-        </ion-label>
-      </ion-item>
-    </ion-item-sliding>
+        <p *ngIf="contact.contact_position">
+          {{ contact.contact_position }}
+        </p>
+        
+        <p *ngIf="contact.contact.contact_email">
+          <a (click)="doNothing($event)" href="mailto:{{ contact.contact.contact_email }}">
+            <ion-icon name="mail-outline"></ion-icon> {{ contact.contact.contact_email }}
+          </a>
+        </p>
+        
+        <p>
+          <a (click)="doNothing($event)" href="mailto:{{ contactEmail.email_address }}"
+              *ngFor="let contactEmail of contact.contactEmails">
+            <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
+          </a>
+        </p>
+
+        <p>
+          <a (click)="doNothing($event)" href="tel:{{ contactPhone.phone_number }}"
+              *ngFor="let contactPhone of contact.contactPhones">
+            <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
+          </a>
+        </p>
+
+        <ion-badge color="danger" *ngIf="contact.allow_access && !contact.contact.contact_email">
+          Login email need to update
+        </ion-badge>
+        
+        <ion-badge slot="start" color="light" *ngIf="contact.contact.contact_receive_email">
+          <ion-icon name="checkmark-outline"></ion-icon> Receive email
+        </ion-badge>
+
+        <ion-badge slot="start" color="light" *ngIf="contact.contact.contact_receive_notification">
+          <ion-icon name="checkmark-outline"></ion-icon> Receive notification
+        </ion-badge>
+
+      </ion-label>
+    </ion-item>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
   </ion-list>
 
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
 </ion-content>

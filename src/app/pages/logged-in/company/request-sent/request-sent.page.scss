@@ -1,0 +1,73 @@
+
+button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    background: #333333;
+}
+
+.button-block {
+    display: block;
+    clear: both;
+    max-width: 300px;
+    margin: auto !important;
+}
+
+section{
+    margin:50px 0 0 0;
+}
+.txt-area{
+    span{
+        font-weight: 500;
+    }
+    .successful-msg{
+        width: auto;
+        font-size: 25px;
+        font-weight: 500;
+        text-align: center;
+        color: #292f38;
+    }
+
+    .request-sent-msg{
+        width: auto;
+        height: 51px;
+        font-size: 18px;
+        text-align: center;
+        color: #292f38;
+      span {
+        display: block;
+      }
+    }
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img {
+    width: 239px;
+    height: 192px;
+    //width: 50%;
+
+    text-align: center;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.btn-dashboard {
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  height: 50px;
+  border-radius: 4px;
+}
+

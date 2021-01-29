@@ -64,7 +64,27 @@
             </ion-item>
           </ion-menu-toggle>
 
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerLink]="'/company-contacts'" routerLinkActive="active">
+              <div tabindex="0"></div>
+              <ion-icon name="people-outline"  slot="start"></ion-icon>
+              <ion-label>
+                Team
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
           <ion-list-header>Account</ion-list-header>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerLink]="'/account'" routerLinkActive="active">
+              <div tabindex="0"></div>
+              <ion-icon name="person-outline" slot="start"></ion-icon>
+              <ion-label>
+                Account
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
             <ion-item [routerLink]="'/change-password'" routerLinkActive="active">
@@ -85,6 +105,37 @@
           </ion-menu-toggle>
 
         </ion-list>
+
+        <!----------  My employers  ----------->
+
+        <ion-list lines="none" class="companies-list" *ngIf="auth.companies.length > 1">
+
+          <ng-container *ngFor="let model of auth.companies" class="list-header">
+              <ion-item menuClose *ngIf="model.company_id != auth.company_id" tappable
+                  (click)='changeCompany(model)'>
+                  <div tabindex="0"></div>
+                  <ion-avatar slot="start" [class.no-logo]="!model.company_logo">
+                      <ion-icon *ngIf="!model.company_logo" class="no-logo company-logo" name="business">
+                      </ion-icon>
+                      <ion-img src="{{ awsService.cloudinaryUrl + model.company_logo }}"
+                          class="company-logo" *ngIf="model.company_logo"
+                          (ionError)="model.company_logo = null;"
+                      ></ion-img>
+                  </ion-avatar>
+                  <ion-label>
+                      {{ model.company_common_name_en?model.company_common_name_en: model.company_name }}
+                  </ion-label>
+                  <!--
+                  <ion-badge slot="end" color="danger"
+                      *ngIf="model.notificationsCount > 0 && model.notificationsCount < 9">{{ model.notificationsCount }}
+                  </ion-badge>
+                  <ion-badge slot="end" color="danger"
+                      *ngIf="model.notificationsCount > 0 && model.notificationsCount > 9">9+</ion-badge>
+                  -->
+              </ion-item>
+          </ng-container>
+        </ion-list>
+        
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

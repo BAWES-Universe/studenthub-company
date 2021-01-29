@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/transfer-list"></ion-back-button>
@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding ion-text-center">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding ion-text-center">
   <!-- Instructions for Create -->
   <section *ngIf="scenario == 'create'">
     <ion-button fill="outline" color="primary" (click)="downloadTemplate()">

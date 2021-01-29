@@ -34,6 +34,14 @@
       </form>
       <!-- END Login Form -->
 
+      <br />
+
+      <div class="ion-text-center" *ngIf="!isLoading">
+        <a (click)="resetPasswordRequest()" tappable>
+          Forgot your password?
+        </a>
+      </div>
+      
     </ion-card-content>
   </ion-card>
 

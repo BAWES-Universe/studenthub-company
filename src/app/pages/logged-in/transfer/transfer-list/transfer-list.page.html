@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -12,16 +12,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <section class="ion-padding no-transfers" *ngIf="transfers && transfers.length == 0">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <section class="ion-padding no-transfers" *ngIf="!loading && transfers && transfers.length == 0">
     <ion-icon name="ios-filing-outline"></ion-icon>
     <h2>Create a transfer to start salary distribution</h2>
     <ion-button (click)="presentActionSheetForNewTransfer()">
       Create your first transfer
     </ion-button>
   </section>
+
   <section *ngIf="transfers && transfers.length > 0">
-    
+
     <ion-segment [(ngModel)]="inProgress" *ngIf="totalInProcess > 0 && completedTransfers.length > 0">
       <ion-segment-button value="In Progress">
         In Progress
@@ -32,11 +34,11 @@
     </ion-segment>
 
     <div [ngSwitch]="inProgress">
-      
+
       <ion-list *ngSwitchCase="'In Progress'">
         <!-- Locked Transfers, waiting for payment -->
         <div *ngIf="lockTransfers.length > 0">
-          
+
           <ion-item-divider color="light"><b>Waiting for your payment</b></ion-item-divider>
 
           <ion-item tappable *ngFor="let transfer of lockTransfers" (click)="transferDetails(transfer.transfer_id)">
@@ -48,10 +50,10 @@
             <ion-badge slot="end">KWD {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
           </ion-item>
         </div>
-        
+
         <!-- Transfer Drafts -->
         <div *ngIf="draftTransfers.length > 0">
-          
+
           <ion-item-divider color="light"><b>Draft</b></ion-item-divider>
 
           <ion-item tappable *ngFor="let transfer of draftTransfers" (click)="transferDetails(transfer.transfer_id)">
@@ -78,9 +80,9 @@
         </div>
         <!-- Transfers Where Company Sent Payment -->
         <div *ngIf="sentTransfers.length > 0">
-          
+
           <ion-item-divider color="light"><b>Payment Sent</b></ion-item-divider>
-          
+
           <ion-item tappable *ngFor="let transfer of sentTransfers" (click)="transferDetails(transfer.transfer_id)">
             <div tabindex="0"></div>
             <ion-label>
@@ -106,13 +108,13 @@
         </div>
       </ion-list>
     </div>
-    
+
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 
   </section>
-  
+
   <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
 
 </ion-content>

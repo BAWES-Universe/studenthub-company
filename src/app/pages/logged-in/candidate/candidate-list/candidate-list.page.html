@@ -1,4 +1,4 @@
-<ion-header >
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button>
@@ -9,13 +9,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
 
-  <ion-list *ngIf="candidates && !loading">
+  <ion-list *ngIf="candidates && !loading && candidates.length > 0">
     <ion-item tappable (click)="rowSelected(candidate)" *ngFor="let candidate of candidates">
       <div tabindex="0"></div>
       <ion-avatar slot="start">
-        <ion-img *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + candidate.candidate_personal_photo }}" (ionError)="onImageError(candidate)"></ion-img>
+        <ion-img *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" (ionError)="onImageError(candidate)"></ion-img>
         <ion-img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
       </ion-avatar>
       <ion-label  class="candidate_name">
@@ -24,6 +24,11 @@
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <section class="ion-padding empty" *ngIf="!loading && candidates && candidates.length == 0">
+    <ion-icon name="ios-filing-outline"></ion-icon>
+    <no-items message="No Employee Yet"></no-items>
+  </section>
 
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 

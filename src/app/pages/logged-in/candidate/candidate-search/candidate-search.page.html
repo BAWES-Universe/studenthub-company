@@ -1,10 +1,7 @@
-
-<ion-header >
+<ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button>
         <ion-back-button defaultHref="/"></ion-back-button>
-      </ion-button>
     </ion-buttons>
 
     <ion-title>Candidates</ion-title>
@@ -50,14 +47,14 @@
     </ion-row>
   </ion-grid>
 
-  <ais-instantsearch *ngIf="instantSearchConfig" [config]="instantSearchConfig">
+  <ais-instantsearch *ngIf="instantSearchConfig" #instantSearch [config]="instantSearchConfig">
     <ion-grid>
       <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
 
         <ion-col size-sm="12" size-md="4" size-lg="4" class="col-filter">
           <div class="filter-wrapper">
             <candidate-filter [class.hidden]="loading && !nbHits"></candidate-filter>
-                    
+
             <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>
           </div>
         </ion-col>
@@ -71,7 +68,7 @@
                                [labelWithFilter]="'candidates found for '">
               </applied-filters>
             </div>
-   
+
             <div class="searchBox">
               <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results'  }}"></ion-searchbar>
               <!-- <is-search-box [searchAsYouType]="true"
@@ -80,7 +77,7 @@
             </div>
 
           </div>
-          
+
           <ais-infinite-hits class="cv-list">
             <ng-template let-results="results" let-showMore="showMore" let-hits="hits">
 
@@ -110,7 +107,7 @@
       </ion-row>
     </ion-grid>
   </ais-instantsearch>
-  
+
 </ion-content>
 <ion-footer [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
   <ion-toolbar class="ion-no-padding">

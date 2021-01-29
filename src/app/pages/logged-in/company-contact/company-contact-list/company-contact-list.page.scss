@@ -7,3 +7,21 @@ a ion-icon {
     top: 3px;
     margin-right: 5px;
 }
+.owner {
+  font-weight: bold;
+}
+
+ion-item {
+
+  ion-badge {
+    margin-right: 5px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  p {
+    margin-bottom: 5px;
+  }
+}

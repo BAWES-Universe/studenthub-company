@@ -1,5 +1,5 @@
 import { Component, OnInit, ApplicationRef } from '@angular/core';
-import { AlertController, NavController, Platform } from '@ionic/angular';
+import { AlertController, MenuController, NavController, Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
@@ -8,7 +8,10 @@ import { interval, concat } from 'rxjs';
 // services
 import { AuthService } from './providers/auth.service';
 import { EventService } from './providers/event.service';
-import {CandidateService} from './providers/logged-in/candidate.service';
+import { CandidateService } from './providers/logged-in/candidate.service';
+import { AwsService } from './providers/aws.service';
+import { CompanyService } from './providers/logged-in/company.service';
+import {Router} from "@angular/router";
 
 
 const { SplashScreen } = Plugins;
@@ -33,7 +36,11 @@ export class AppComponent implements OnInit {
     public eventService: EventService,
     public navCtrl: NavController,
     public alertCtrl: AlertController,
-    public candidateService: CandidateService
+    public _menuCtrl: MenuController,
+    public awsService: AwsService,
+    public companyService: CompanyService,
+    public candidateService: CandidateService,
+    public router: Router
   ) {
     this.initializeApp();
     // this.loadTotalEmployee();
@@ -52,7 +59,11 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.eventSub();
-    this.loadTotalEmployee();
+
+    if (this.auth.isLogged) {
+      this.loadTotalEmployee();
+      this.loadCompanies();
+    }
   }
 
   logout() {
@@ -78,6 +89,8 @@ export class AppComponent implements OnInit {
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
+      this.loadCompanies();
+
       this.navCtrl.navigateRoot(['/']);
     });
 
@@ -89,8 +102,6 @@ export class AppComponent implements OnInit {
       this.navCtrl.navigateRoot(['/not-found']);
     });
 
-
-
     // On Logout Event, set root to Login Page
     this.eventService.userLoggedOut$.subscribe((logoutReason) => {
       // Set root to Login Page
@@ -99,9 +110,94 @@ export class AppComponent implements OnInit {
       // Show Message explaining logout reason if there's one set
       if (logoutReason) {
         console.log(logoutReason);
-        console.log('Invalid Access');
       }
     });
+
+    this.eventService.companyChanged$.subscribe(userEventData => {
+      this.loadTotalEmployee();
+    });
+  }
+
+  /**
+   * load companies list
+   */
+  async loadCompanies() {
+
+    this.companyService.list().subscribe(response => {
+
+      this.auth.companies = response;
+
+      /*if (this.auth.companies.length > 0 && !this.oneSignalIncluded) {
+
+        this._storage.get('oneSignalStatus').then(status => {
+          if (status !== 2) {
+            this.oneSignalIncluded = true;
+            this._includeOneSignalJs();
+          }
+        });
+      }*/
+
+      if (this.auth.companies.length && this.auth.company_id) {
+
+        const found = this.auth.companies.find((data, key) => {
+          if (data.company_id == this.auth.company_id) {
+            return true;
+          }
+        });
+
+        if (!found) {
+          if (this.auth.companies[0]) {
+            this.eventService.companyChanged$.next({
+              employer: this.auth.companies[0]
+            });
+          } else {
+            this.eventService.companyChanged$.next({ employer: null });
+          }
+        }
+      }
+    });
+    /*
+    // load invitation pending to accept
+
+    this._invitationService.pending().subscribe(response => {
+      this.auth.invitations = response;
+    });
+
+    // list EmployerAccessRequest
+
+    this.requestService.list().subscribe(response => {
+      this.auth.employerAccessRequest = response;
+    });*/
+  }
+
+  /**
+   * change company request
+   * @param employer
+   */
+  changeCompany(employer) {
+
+    this._menuCtrl.close();
+
+    this.resetCompanyDetail(employer);
+    this.navCtrl.navigateRoot(['/']);
+    this.eventService.companyChanged$.next({
+     employer
+    });
+  }
+
+  /**
+   * reset company detail
+   */
+  async resetCompanyDetail(employer) {
+    this.auth.setEmployer(employer);
+
+    /*clearInterval(this.alertSubscription);
+
+    this.alertSubscription = null;
+
+    if (employer) {
+      this.alertSubscribe();
+    }*/
   }
 
   /**
