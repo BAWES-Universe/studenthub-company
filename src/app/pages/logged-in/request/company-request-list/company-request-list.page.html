@@ -1,15 +1,3 @@
-<ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Request List</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="addRequest()">Add Request</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding" scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
@@ -31,3 +19,6 @@
   </ion-infinite-scroll>
 
 </ion-content>
+<ion-footer>
+    <ion-button expand="full" color="dark" (click)="addRequest()">Add Request</ion-button>
+</ion-footer>

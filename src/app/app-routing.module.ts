@@ -7,10 +7,19 @@ import {LoginGuard} from './providers/guards/login-guard.service';
 
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   redirectTo: 'transfer-list',
+  //   pathMatch: 'full'
+  // },
   {
     path: '',
-    redirectTo: 'transfer-list',
-    pathMatch: 'full'
+    loadChildren: () => import('./pages/logged-in/tabs/view/view.module').then(m => m.ViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'ViewPage',
+      preload: true
+    }
   },
   {
     path: 'no-internet',
@@ -49,14 +58,14 @@ const routes: Routes = [
       name: 'ChangePasswordPage'
     }
   },
-  {
-    path: 'candidate-list',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-list/candidate-list.module').then(m => m.CandidateListPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'CandidateListPage'
-    }
-  },
+  // {
+  //   path: 'candidate-list',
+  //   loadChildren: () => import('./pages/logged-in/candidate/candidate-list/candidate-list.module').then(m => m.CandidateListPageModule),
+  //   canActivate: [AuthService],
+  //   data: {
+  //     name: 'CandidateListPage'
+  //   }
+  // },
   {
     path: 'candidate-view',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-view/candidate-view.module').then(m => m.CandidateViewPageModule),
@@ -113,14 +122,14 @@ const routes: Routes = [
       name: 'TransferFormPage'
     }
   },
-  {
-    path: 'transfer-list',
-    loadChildren: () => import('./pages/logged-in/transfer/transfer-list/transfer-list.module').then(m => m.TransferListPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'TransferListPage'
-    }
-  },
+  // {
+  //   path: 'transfer-list',
+  //   loadChildren: () => import('./pages/logged-in/transfer/transfer-list/transfer-list.module').then(m => m.TransferListPageModule),
+  //   canActivate: [AuthService],
+  //   data: {
+  //     name: 'TransferListPage'
+  //   }
+  // },
   {
     path: 'transfer-view',
     loadChildren: () => import('./pages/logged-in/transfer/transfer-view/transfer-view.module').then(m => m.TransferViewPageModule),
@@ -130,23 +139,23 @@ const routes: Routes = [
     }
   },
 
-  {
-    path: 'candidate-search',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then(m => m.CandidateSearchPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'CandidateSearchPage',
-      navDisable: true,
-    }
-  },
-  {
-    path: 'request-list',
-    loadChildren: () => import('./pages/logged-in/request/company-request-list/company-request-list.module').then(m => m.CompanyRequestListPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'CompanyRequestListPage',
-    }
-  },
+  // {
+  //   path: 'candidate-search',
+  //   loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then(m => m.CandidateSearchPageModule),
+  //   canActivate: [AuthService],
+  //   data: {
+  //     name: 'CandidateSearchPage',
+  //     navDisable: true,
+  //   }
+  // },
+  // {
+  //   path: 'request-list',
+  //   loadChildren: () => import('./pages/logged-in/request/company-request-list/company-request-list.module').then(m => m.CompanyRequestListPageModule),
+  //   canActivate: [AuthService],
+  //   data: {
+  //     name: 'CompanyRequestListPage',
+  //   }
+  // },
   {
     path: 'request-view',
     loadChildren: () => import('./pages/logged-in/request/company-request-view/company-request-view.module').then(m => m.CompanyRequestViewPageModule),

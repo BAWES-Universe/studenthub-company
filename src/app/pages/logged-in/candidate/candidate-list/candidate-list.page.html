@@ -1,14 +1,3 @@
-<ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button>
-        <ion-menu-button></ion-menu-button>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Employees</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
 
   <ion-list *ngIf="candidates && !loading && candidates.length > 0">

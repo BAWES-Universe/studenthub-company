@@ -1,147 +1,156 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay" [disabled]="!auth.isLogged || !auth.navEnable">
-      <ion-header>
-        <ion-toolbar class=" navi-header ion-text-center" style="height:auto;">
-          <img class='logo' src="assets/icon.png" />
-          <h3>Studenthub Payroll</h3>
-          <h3>Welcome {{auth.name}}</h3>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
 
-        <ion-list>
-          <ion-menu-toggle auto-hide="false">
-            <ion-item [routerLink]="'/transfer-list'" routerLinkActive="active">
-              <div tabindex="0"></div>
-              <ion-icon name="repeat-outline" slot="start"></ion-icon>
-              <ion-label>
-                Transfers
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
+  <update-alert  (onRefresh)="onUpdateAlertRefresh()" *ngIf="updatesAvailable" (onClose)="onUpdateAlertClose()"></update-alert>
 
-          <ion-menu-toggle auto-hide="false">
-            <ion-item [routerLink]="'/candidate-list'" routerLinkActive="active">
-              <div tabindex="0"></div>
-              <ion-icon name="person-outline"  slot="start"></ion-icon>
-              <ion-label>
-                Employees
-              </ion-label>
-              <ion-badge slot="end" *ngIf="totalEmployees">
-                {{ totalEmployees }}
-              </ion-badge>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false">
-            <ion-item [routerLink]="'/candidate-search'" routerLinkActive="active">
-              <div tabindex="0"></div>
-              <ion-icon name="people-outline"  slot="start"></ion-icon>
-              <ion-label>
-                Candidate Search
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false">
-            <ion-item [routerLink]="'/store-list'" routerLinkActive="active">
-              <div tabindex="0"></div>
-              <ion-icon name="list-outline"  slot="start"></ion-icon>
-              <ion-label>
-                Stores
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false">
-            <ion-item [routerLink]="'/request-list'" routerLinkActive="active">
-              <div tabindex="0"></div>
-              <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
-              <ion-label>
-                Requests
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false">
-            <ion-item [routerLink]="'/company-contacts'" routerLinkActive="active">
-              <div tabindex="0"></div>
-              <ion-icon name="people-outline"  slot="start"></ion-icon>
-              <ion-label>
-                Team
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-list-header>Account</ion-list-header>
-
-          <ion-menu-toggle auto-hide="false">
-            <ion-item [routerLink]="'/account'" routerLinkActive="active">
-              <div tabindex="0"></div>
-              <ion-icon name="person-outline" slot="start"></ion-icon>
-              <ion-label>
-                Account
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false">
-            <ion-item [routerLink]="'/change-password'" routerLinkActive="active">
-              <div tabindex="0"></div>
-              <ion-icon name="key-outline"  slot="start"></ion-icon>
-              <ion-label>
-                Change Password
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false">
-            <ion-item class="ion-activatable ion-focusable" (click)="logout()" lines="none" tappable detail="false">
-              <div tabindex="0"></div>
-              <ion-icon name="log-out-outline" slot="start"></ion-icon>
-              <ion-label>logout</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-        </ion-list>
-
-        <!----------  My employers  ----------->
-
-        <ion-list lines="none" class="companies-list" *ngIf="auth.companies.length > 1">
-
-          <ng-container *ngFor="let model of auth.companies" class="list-header">
-              <ion-item menuClose *ngIf="model.company_id != auth.company_id" tappable
-                  (click)='changeCompany(model)'>
-                  <div tabindex="0"></div>
-                  <ion-avatar slot="start" [class.no-logo]="!model.company_logo">
-                      <ion-icon *ngIf="!model.company_logo" class="no-logo company-logo" name="business">
-                      </ion-icon>
-                      <ion-img src="{{ awsService.cloudinaryUrl + model.company_logo }}"
-                          class="company-logo" *ngIf="model.company_logo"
-                          (ionError)="model.company_logo = null;"
-                      ></ion-img>
-                  </ion-avatar>
-                  <ion-label>
-                      {{ model.company_common_name_en?model.company_common_name_en: model.company_name }}
-                  </ion-label>
-                  <!--
-                  <ion-badge slot="end" color="danger"
-                      *ngIf="model.notificationsCount > 0 && model.notificationsCount < 9">{{ model.notificationsCount }}
-                  </ion-badge>
-                  <ion-badge slot="end" color="danger"
-                      *ngIf="model.notificationsCount > 0 && model.notificationsCount > 9">9+</ion-badge>
-                  -->
-              </ion-item>
-          </ng-container>
-        </ion-list>
-        
-      </ion-content>
-    </ion-menu>
-    <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-split-pane>
+  <!-- prompt user to save cookie -->
 </ion-app>
+
+
+<!--<ion-app>-->
+<!--  <ion-split-pane contentId="main-content">-->
+<!--    <ion-menu contentId="main-content" type="overlay" [disabled]="!auth.isLogged || !auth.navEnable">-->
+<!--      <ion-header>-->
+<!--        <ion-toolbar class=" navi-header ion-text-center" style="height:auto;">-->
+<!--          <img class='logo' src="assets/icon.png" />-->
+<!--          <h3>Studenthub Payroll</h3>-->
+<!--          <h3>Welcome {{auth.name}}</h3>-->
+<!--        </ion-toolbar>-->
+<!--      </ion-header>-->
+<!--      <ion-content>-->
+
+<!--        <ion-list>-->
+<!--          <ion-menu-toggle auto-hide="false">-->
+<!--            <ion-item [routerLink]="'/transfer-list'" routerLinkActive="active">-->
+<!--              <div tabindex="0"></div>-->
+<!--              <ion-icon name="repeat-outline" slot="start"></ion-icon>-->
+<!--              <ion-label>-->
+<!--                Transfers-->
+<!--              </ion-label>-->
+<!--            </ion-item>-->
+<!--          </ion-menu-toggle>-->
+
+<!--          <ion-menu-toggle auto-hide="false">-->
+<!--            <ion-item [routerLink]="'/candidate-list'" routerLinkActive="active">-->
+<!--              <div tabindex="0"></div>-->
+<!--              <ion-icon name="person-outline"  slot="start"></ion-icon>-->
+<!--              <ion-label>-->
+<!--                Employees-->
+<!--              </ion-label>-->
+<!--              <ion-badge slot="end" *ngIf="totalEmployees">-->
+<!--                {{ totalEmployees }}-->
+<!--              </ion-badge>-->
+<!--            </ion-item>-->
+<!--          </ion-menu-toggle>-->
+
+<!--          <ion-menu-toggle auto-hide="false">-->
+<!--            <ion-item [routerLink]="'/candidate-search'" routerLinkActive="active">-->
+<!--              <div tabindex="0"></div>-->
+<!--              <ion-icon name="people-outline"  slot="start"></ion-icon>-->
+<!--              <ion-label>-->
+<!--                Candidate Search-->
+<!--              </ion-label>-->
+<!--            </ion-item>-->
+<!--          </ion-menu-toggle>-->
+
+<!--          <ion-menu-toggle auto-hide="false">-->
+<!--            <ion-item [routerLink]="'/store-list'" routerLinkActive="active">-->
+<!--              <div tabindex="0"></div>-->
+<!--              <ion-icon name="list-outline"  slot="start"></ion-icon>-->
+<!--              <ion-label>-->
+<!--                Stores-->
+<!--              </ion-label>-->
+<!--            </ion-item>-->
+<!--          </ion-menu-toggle>-->
+
+<!--          <ion-menu-toggle auto-hide="false">-->
+<!--            <ion-item [routerLink]="'/request-list'" routerLinkActive="active">-->
+<!--              <div tabindex="0"></div>-->
+<!--              <ion-icon name="chatbubble-outline" slot="start"></ion-icon>-->
+<!--              <ion-label>-->
+<!--                Requests-->
+<!--              </ion-label>-->
+<!--            </ion-item>-->
+<!--          </ion-menu-toggle>-->
+
+<!--          <ion-menu-toggle auto-hide="false">-->
+<!--            <ion-item [routerLink]="'/company-contacts'" routerLinkActive="active">-->
+<!--              <div tabindex="0"></div>-->
+<!--              <ion-icon name="people-outline"  slot="start"></ion-icon>-->
+<!--              <ion-label>-->
+<!--                Team-->
+<!--              </ion-label>-->
+<!--            </ion-item>-->
+<!--          </ion-menu-toggle>-->
+
+<!--          <ion-list-header>Account</ion-list-header>-->
+
+<!--          <ion-menu-toggle auto-hide="false">-->
+<!--            <ion-item [routerLink]="'/account'" routerLinkActive="active">-->
+<!--              <div tabindex="0"></div>-->
+<!--              <ion-icon name="person-outline" slot="start"></ion-icon>-->
+<!--              <ion-label>-->
+<!--                Account-->
+<!--              </ion-label>-->
+<!--            </ion-item>-->
+<!--          </ion-menu-toggle>-->
+
+<!--          <ion-menu-toggle auto-hide="false">-->
+<!--            <ion-item [routerLink]="'/change-password'" routerLinkActive="active">-->
+<!--              <div tabindex="0"></div>-->
+<!--              <ion-icon name="key-outline"  slot="start"></ion-icon>-->
+<!--              <ion-label>-->
+<!--                Change Password-->
+<!--              </ion-label>-->
+<!--            </ion-item>-->
+<!--          </ion-menu-toggle>-->
+
+<!--          <ion-menu-toggle auto-hide="false">-->
+<!--            <ion-item class="ion-activatable ion-focusable" (click)="logout()" lines="none" tappable detail="false">-->
+<!--              <div tabindex="0"></div>-->
+<!--              <ion-icon name="log-out-outline" slot="start"></ion-icon>-->
+<!--              <ion-label>logout</ion-label>-->
+<!--            </ion-item>-->
+<!--          </ion-menu-toggle>-->
+
+<!--        </ion-list>-->
+
+<!--        &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  My employers  -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
+<!--        <ion-list lines="none" class="companies-list" *ngIf="auth.companies.length > 1">-->
+
+<!--          <ng-container *ngFor="let model of auth.companies" class="list-header">-->
+<!--              <ion-item menuClose *ngIf="model.company_id != auth.company_id" tappable-->
+<!--                  (click)='changeCompany(model)'>-->
+<!--                  <div tabindex="0"></div>-->
+<!--                  <ion-avatar slot="start" [class.no-logo]="!model.company_logo">-->
+<!--                      <ion-icon *ngIf="!model.company_logo" class="no-logo company-logo" name="business">-->
+<!--                      </ion-icon>-->
+<!--                      <ion-img src="{{ awsService.cloudinaryUrl + model.company_logo }}"-->
+<!--                          class="company-logo" *ngIf="model.company_logo"-->
+<!--                          (ionError)="model.company_logo = null;"-->
+<!--                      ></ion-img>-->
+<!--                  </ion-avatar>-->
+<!--                  <ion-label>-->
+<!--                      {{ model.company_common_name_en?model.company_common_name_en: model.company_name }}-->
+<!--                  </ion-label>-->
+<!--                  &lt;!&ndash;-->
+<!--                  <ion-badge slot="end" color="danger"-->
+<!--                      *ngIf="model.notificationsCount > 0 && model.notificationsCount < 9">{{ model.notificationsCount }}-->
+<!--                  </ion-badge>-->
+<!--                  <ion-badge slot="end" color="danger"-->
+<!--                      *ngIf="model.notificationsCount > 0 && model.notificationsCount > 9">9+</ion-badge>-->
+<!--                  &ndash;&gt;-->
+<!--              </ion-item>-->
+<!--          </ng-container>-->
+<!--        </ion-list>-->
+
+<!--      </ion-content>-->
+<!--    </ion-menu>-->
+<!--    <ion-router-outlet id="main-content"></ion-router-outlet>-->
+<!--  </ion-split-pane>-->
+<!--</ion-app>-->
 
 <!-- service worker update message -->
 
-<update-alert  (onRefresh)="onUpdateAlertRefresh()" *ngIf="updatesAvailable" (onClose)="onUpdateAlertClose()"></update-alert>
+<!--<update-alert  (onRefresh)="onUpdateAlertRefresh()" *ngIf="updatesAvailable" (onClose)="onUpdateAlertClose()"></update-alert>-->
