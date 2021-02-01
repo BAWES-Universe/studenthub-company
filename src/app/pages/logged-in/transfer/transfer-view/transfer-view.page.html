@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" >
   <loading-modal [loading]="loading" type="transfer-view"></loading-modal>
   <ng-container *ngIf="!loading">
     <div class="ion-text-center ion-padding" *ngIf="transferDetails">

@@ -118,6 +118,7 @@ ion-item.selected {
   --color: var(--ion-color-primary);
 }
 
+.logo{width:60px;}
 h3{margin-top:0; color:white;}
 
 .navi-header {
@@ -183,4 +184,9 @@ h3{margin-top:0; color:white;}
 
 .current {
   background: #f1f1f1;
+}
+
+.navi-header[_ngcontent-afb-c134] {
+  background: #4354a5;
+  --background: #4354a5;
 }
