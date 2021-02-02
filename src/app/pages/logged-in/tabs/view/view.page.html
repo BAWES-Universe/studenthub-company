@@ -1,14 +1,12 @@
   <ion-split-pane content-id="main-content" contentId="main-content">
-    <ion-menu contentId="main-content"  #menu menuId="menu">
-      <ion-header class="menu-header">
-        <ion-toolbar class=" navi-header ion-text-center">
+    <ion-menu side="start" contentId="main-content"  #menuLTR menuId="menuLTR" type="overlay">
+      <ion-header class="navi-header">
           <img class='logo' src="assets/icon.png" />
           <h3>Studenthub Payroll</h3>
           <h3>Welcome {{auth.name}}</h3>
-        </ion-toolbar>
       </ion-header>
       <ion-content>
-        <ion-list lines="none">
+        <ion-list lines="none" (click)="link()">
           <ion-item [routerLink]="'/account'" routerLinkActive="active">
               <ion-icon name="person-outline" slot="start"></ion-icon>
               <ion-label>
@@ -27,7 +25,7 @@
                 Team
               </ion-label>
             </ion-item>
-            <ion-item class="ion-activatable ion-focusable"  lines="none" tappable detail="false">
+            <ion-item class="ion-activatable ion-focusable" (click)="logout()" lines="none" tappable detail="false">
               <ion-icon name="log-out-outline" slot="start"></ion-icon>
               <ion-label>logout</ion-label>
             </ion-item>
@@ -84,60 +82,3 @@
         </ion-tab-bar>
       </ion-tabs>
   </ion-split-pane>
-
-
-<!--<ion-split-pane contentId="main-content">-->
-<!--  <ion-menu contentId="main-content" type="overlay">-->
-<!--      <menu class="main-left-menu"></menu>-->
-<!--  </ion-menu>-->
-
-<!--  <ion-tabs #tabRef id="main-content" [class.plt-mobile]="platform.is('mobile')">-->
-
-<!--    <ion-header>-->
-<!--      <company-header></company-header>-->
-<!--    </ion-header>-->
-
-<!--    <ion-tab-bar class="tabs desktop" #mainTabs slot="top" *ngIf="!platform.is('mobile')">-->
-<!--      <ion-tab-button class="tab-button" layout="icon-start" tab="requests">-->
-<!--        <ion-icon src="assets/icon/job.svg"></ion-icon>-->
-<!--        <ion-label>Requests</ion-label>-->
-<!--      </ion-tab-button>-->
-<!--      <ion-tab-button class="tab-button" layout="icon-start" tab="cv-search">-->
-<!--        <ion-icon src="assets/icon/source.svg"></ion-icon>-->
-<!--        <ion-label>CV Search</ion-label>-->
-<!--      </ion-tab-button>-->
-<!--      <ion-tab-button class="tab-button" layout="icon-start" tab="staff">-->
-<!--        <ion-icon src="assets/icon/msg.svg"></ion-icon>-->
-<!--        <ion-label>Assigned Staff</ion-label>-->
-<!--&lt;!&ndash;        <ion-badge *ngIf="conversationAlert > 0">{{ conversationAlert }}</ion-badge>&ndash;&gt;-->
-<!--      </ion-tab-button>-->
-<!--      <ion-tab-button class="tab-button" layout="icon-start" tab="transfer">-->
-<!--        <ion-icon src="assets/icon/track.svg"></ion-icon>-->
-<!--        <ion-label>Transfers</ion-label>-->
-<!--&lt;!&ndash;        <ion-badge *ngIf="applicationCount > 0">{{ applicationCount }}</ion-badge>&ndash;&gt;-->
-<!--      </ion-tab-button>-->
-<!--    </ion-tab-bar>-->
-
-<!--    <ion-tab-bar class="tabs mobile-view" #mainTabs slot="bottom" *ngIf="platform.is('mobile')">-->
-<!--      <ion-tab-button class="tab-button" layout="icon-top" tab="requests">-->
-<!--        <ion-icon src="assets/icon/job.svg"></ion-icon>-->
-<!--        <ion-label>Requests</ion-label>-->
-<!--      </ion-tab-button>-->
-<!--      <ion-tab-button class="tab-button" layout="icon-top" tab="cv-search">-->
-<!--        <ion-icon src="assets/icon/source.svg"></ion-icon>-->
-<!--        <ion-label>CV Search</ion-label>-->
-<!--      </ion-tab-button>-->
-<!--      <ion-tab-button class="tab-button" layout="icon-top" tab="staff" >-->
-<!--        <ion-icon src="assets/icon/msg.svg"></ion-icon>-->
-<!--        <ion-label>Assigned Staff</ion-label>-->
-<!--&lt;!&ndash;        <ion-badge *ngIf="conversationAlert > 0">{{ conversationAlert }}</ion-badge>&ndash;&gt;-->
-<!--      </ion-tab-button>-->
-<!--      <ion-tab-button class="tab-button" layout="icon-top" tab="transfer">-->
-<!--        <ion-icon src="assets/icon/track.svg"></ion-icon>-->
-<!--        <ion-label>Transfers</ion-label>-->
-<!--&lt;!&ndash;        <ion-badge *ngIf="applicationCount > 0">{{ applicationCount }}</ion-badge>&ndash;&gt;-->
-<!--      </ion-tab-button>-->
-<!--    </ion-tab-bar>-->
-<!--  </ion-tabs>-->
-
-<!--</ion-split-pane>-->

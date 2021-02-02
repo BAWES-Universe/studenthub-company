@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonTabs, Platform, MenuController } from '@ionic/angular';
-import { PreLoad } from '../../../../util/preLoad';
 import { Router } from '@angular/router';
 import {EventService} from 'src/app/providers/event.service';
 import {AuthService} from 'src/app/providers/auth.service';
@@ -18,7 +17,7 @@ export class ViewPage implements OnInit {
 
   @ViewChild(IonTabs, { static: true }) tabRef: IonTabs;
 
-  @ViewChild('menu', { static: false }) menu;
+  @ViewChild('menuLTR', { static: false }) menuLTR;
 
   constructor(
       public platform: Platform,
@@ -66,5 +65,14 @@ export class ViewPage implements OnInit {
 
   ionViewWillEnter() {
     this.eventService.pageSelected$.next('view');
+  }
+
+  logout() {
+    console.log('logout');
+    this.auth.logout();
+  }
+
+  link() {
+    console.log('link');
   }
 }

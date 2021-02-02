@@ -73,19 +73,17 @@ ion-badge  {
     --border-width: 0;
   }
 }
-.menu-header {
-  padding: 0;
 
-  .navi-header {
-    background: #4354a5;
-    --background: #4354a5;
+.navi-header {
+  background: #4354a5;
+  --background: #4354a5;
+  text-align: center;
 
-    h3 {
-      color: #fff;
-    }
+  h3 {
+    color: #fff;
+  }
 
-    .logo {
-      width: 60px;
-    }
+  .logo {
+    width: 60px;
   }
 }
