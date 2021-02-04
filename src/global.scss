@@ -156,10 +156,10 @@ ion-router-outlet {
     text-transform: none;
   }
 
-  ion-toolbar,
-  ion-content {
-      --background: #fafafa;
-  }
+  //ion-toolbar,
+  //ion-content {
+  //    --background: #fafafa;
+  //}
 
   ion-title,
   ion-header {
@@ -196,4 +196,16 @@ ion-header {
 
   ion-icon{font-size:60px;}
   h2{margin-top:0;}
+}
+.split-pane-md.split-pane-visible > .split-pane-side {
+  min-width: 239px;
+  max-width: 19%;
+}
+.split-pane-visible > .split-pane-side {
+  order: -1 !important;
+}
+
+.split-pane-side ion-router-outlet ion-toolbar,
+.split-pane-side ion-router-outlet ion-content{
+  --background: #ffffff;
 }

@@ -1,18 +1,4 @@
-<ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Transfers</ion-title>
-    <ion-buttons slot="end" *ngIf="transfers && transfers.length > 0 && totalEmployees > 0">
-      <ion-button expand="block" (click)="presentActionSheetForNewTransfer()">
-        Create New <br/> Transfer
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-no-padding">
 
   <section class="ion-padding no-transfers" *ngIf="!loading && transfers && transfers.length == 0">
     <ion-icon name="ios-filing-outline"></ion-icon>
@@ -118,3 +104,8 @@
   <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
 
 </ion-content>
+<ion-footer  *ngIf="transfers && transfers.length > 0 && totalEmployees > 0">
+  <ion-button expand="full" color="dark" (click)="presentActionSheetForNewTransfer()">
+    Create New Transfer
+  </ion-button>
+</ion-footer>

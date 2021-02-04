@@ -277,9 +277,9 @@ export class TransferViewPage implements OnInit {
       }
     });
   }
-  
+
   back() {
-    return this.navCtrl.navigateBack('/transfer-list');
+    return this.navCtrl.navigateBack('/view/transfer');
   }
 
   loadLogo($event, candidate) {

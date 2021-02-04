@@ -1,0 +1,128 @@
+.brand {
+    text-align: center;
+}
+
+.nav-btn {
+    background: transparent;
+}
+
+.bar-buttons {
+    position: absolute;
+}
+
+ion-toolbar {
+    --border-width: 0 !important;
+}
+
+.card-header {
+    position: absolute;
+    border-radius: 9px;
+    margin: 0 5px;
+    height: auto;
+    --padding-top: 5px;
+    --padding-start: 8px;
+    --padding-end: 8px;
+    --padding-bottom: 5px;
+    border-radius: 4px;
+    border: solid 1px #e0e0e0;
+    // background-color: #ffffff;
+
+    ion-avatar {
+        width: 40px;
+        height: 40px;
+        float: var(--start);
+    }
+
+    span.initials {
+        color: #ffffff;
+        display: block;
+        float: var(--start);
+        border: 1px solid #fff;
+        border-radius: 50%;
+        padding: 8px 0;
+        height: 30px;
+        width: 30px;
+        text-align: center;
+    }
+
+    span.name {
+        font-size: 16px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #000000;
+        display: block;
+        text-align: center;
+        float: var(--start);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 164px;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+
+    .brand img {
+        width: 86px;
+    }
+
+    .card-header {
+        border: none;
+
+        span.initials {
+            padding: 11px 0;
+            height: 40px;
+            width: 40px;
+        }
+
+        span.name {
+            display: none;
+        }
+    }
+}
+
+[dir="ltr"] {
+    span.name {
+        margin-left: 14px;
+        margin-right: 10px;
+    }
+
+    .toolbar-md {
+        padding: 0;
+    }
+
+    .card-header {
+        right: 1px;
+    }
+}
+
+[dir="rtl"] {
+    span.name {
+        margin-right: 14px;
+        margin-left: 10px;
+    }
+
+    .rtl button {
+        float: right;
+        margin: 0;
+    }
+
+    .toolbar-md {
+        padding: 0;
+    }
+
+    .card-header {
+        left: 1px;
+    }
+}
+
+.platform-mobile {
+    .card-header {
+        span.name {
+            display: none;
+        }
+    }
+}
