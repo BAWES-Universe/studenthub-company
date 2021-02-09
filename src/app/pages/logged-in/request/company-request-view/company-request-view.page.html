@@ -1,10 +1,9 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-     
       <ion-buttons slot="start">
-        <ion-back-button icon="assets/images/ic_cancel.svg" defaultHref="/default"></ion-back-button>
+        <ion-back-button defaultHref="/"></ion-back-button>
       </ion-buttons>
-     
+    <ion-title *ngIf="request && request.company.company_name">{{ request.company.company_name?request.company.company_name: request.company.company_common_name_en }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +13,7 @@
 
     <div *ngIf="request && !loading">
 
-      <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">
+      <h4 class="company-name">
         {{ request.company.company_name?request.company.company_name: request.company.company_common_name_en }}
       </h4>
 

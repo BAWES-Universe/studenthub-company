@@ -1,11 +1,9 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
- 
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/"></ion-back-button>
       </ion-buttons>
       <ion-title>Team List</ion-title>
- 
   </ion-toolbar>
 </ion-header>
 
@@ -13,12 +11,12 @@
   <div class="desktop-view">
     <ion-list class="contact-list">
 
-      <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
+      <ion-searchbar [(ngModel)]="query" *ngIf="contactList && contactList.length > 2" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
 
       <ion-item *ngFor="let contact of contactList" tappable [routerLink]="'/company-contact-view/' + contact.contact_uuid">
 
         <div tabindex="0"></div>
-        
+
         <ion-label>
           <h4>
             <span class="you" *ngIf="contact.contact_uuid == authService.id">You&nbsp;•&nbsp;</span>
@@ -28,13 +26,13 @@
           <p *ngIf="contact.contact_position">
             {{ contact.contact_position }}
           </p>
-          
+
           <p *ngIf="contact.contact.contact_email">
             <a (click)="doNothing($event)" href="mailto:{{ contact.contact.contact_email }}">
               <ion-icon name="mail-outline"></ion-icon> {{ contact.contact.contact_email }}
             </a>
           </p>
-          
+
           <p>
             <a (click)="doNothing($event)" href="mailto:{{ contactEmail.email_address }}"
                 *ngFor="let contactEmail of contact.contactEmails">
@@ -52,7 +50,7 @@
           <ion-badge color="danger" *ngIf="contact.allow_access && !contact.contact.contact_email">
             Login email need to update
           </ion-badge>
-          
+
           <ion-badge slot="start" color="light" *ngIf="contact.contact.contact_receive_email">
             <ion-icon name="checkmark-outline"></ion-icon> Receive email
           </ion-badge>

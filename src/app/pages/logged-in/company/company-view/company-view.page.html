@@ -1,11 +1,9 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-     
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="company-list"></ion-back-button>
+        <ion-back-button defaultHref="/view/requests"></ion-back-button>
       </ion-buttons>
       <ion-title *ngIf="company">{{ company.company_name }}</ion-title>
- 
   </ion-toolbar>
 </ion-header>
 
@@ -15,12 +13,12 @@
     <h5>Stores</h5>
 
     <loading-modal [loading]="loading" type="text-list"></loading-modal>
-    
+
     <ion-list *ngIf="stores && stores.length > 0 && !loading">
       <ion-item tappable
               *ngFor="let store of stores"
               (click)="storeSelected(store)">
-              
+
         <div tabindex="0"></div>
 
         <ion-label>
@@ -34,7 +32,7 @@
     </ion-list>
 
     <!-- Pagination -->
-    
+
     <ion-row class="ion-text-center" *ngIf="!loading">
       <div class="pagination-wrapper">
         <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
