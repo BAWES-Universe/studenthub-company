@@ -1,15 +1,13 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-    
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="/candidate-list"></ion-back-button>
+        <ion-back-button defaultHref="/cv-search"></ion-back-button>
       </ion-buttons>
       <ion-title *ngIf="candidate" class="candidate_name">
         {{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}</ion-title>
-  
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" scrollEvents="true" (ionScroll)="logScrolling($event)" >
 
   <div class="desktop-view">
     <ion-item-group *ngIf="candidate">

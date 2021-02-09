@@ -1,6 +1,6 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-     
+
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/"></ion-back-button>
       </ion-buttons>
@@ -12,12 +12,12 @@
           <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon> Filter
         </ion-button>
       </ion-buttons>
-  
-  </ion-toolbar> 
+
+  </ion-toolbar>
 </ion-header>
 
 <ion-content #container scrollEvents="true" (ionScroll)="logScrolling($event)" class="source-browser-page">
-  <div class="desktop-view">
+  <div class="">
     <!-- loader when config not available -->
 
     <ion-grid *ngIf="!instantSearchConfig" class="dummy">
@@ -42,7 +42,7 @@
             </div>
 
             <div class="loading-candidate">
-              <loading-modal [loading]="true" type="candidate"></loading-modal>
+              <loading-modal [loading]="true" type="candidate-list"></loading-modal>
             </div>
           </div>
         </ion-col>
@@ -84,10 +84,10 @@
               <ng-template let-results="results" let-showMore="showMore" let-hits="hits">
 
                 <div [class.hidden]="refreshingCandidates" class="candidate-wrapper">
-                  <candidate tappable (click)="rowSelected(hit)" type='candidate' [candidate]="hit" *ngFor="let hit of hits"></candidate>
+                  <candidate tappable (click)="rowSelected(hit)" type='candidate-list' [candidate]="hit" *ngFor="let hit of hits"></candidate>
                 </div>
 
-                <loading-modal [loading]="refreshingCandidates || loading" type="candidate"></loading-modal>
+                <loading-modal [loading]="refreshingCandidates || loading" type="candidate-list"></loading-modal>
 
                 <!-- to load more on scroll to bottom, usinng 0(zero) based pagination -->
 
