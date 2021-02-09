@@ -121,7 +121,7 @@ export class AuthService {
     this.company = company;
 
     this.company_id = company ? company.company_id : null;
-    this.name = company ? company.company_name : null;
+    //this.name = company ? company.company_name : null;
 
     return this.saveInStorage();
   }
