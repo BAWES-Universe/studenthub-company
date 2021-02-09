@@ -206,6 +206,16 @@ const routes: Routes = [
       disableMenu: true
     }
   },
+
+  {
+    path: 'cv-search',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then(m => m.CandidateSearchPageModule),
+    data: {
+      name: 'CandidateSearchPage',
+      navDisable: true,
+    },
+    canActivate: [AuthService]
+  },
   {
     path: 'company-contact-view',
     loadChildren: () => import('./pages/logged-in/company-contact/company-contact-view/company-contact-view.module').then( m => m.CompanyContactViewPageModule)

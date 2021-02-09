@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { ViewPage } from './view.page';
 import { ViewPageRoutingModule } from './view.routing.module';
 import {CompanyHeaderModule} from 'src/app/components/company-header/company-header.module';
+import { MenuModule } from 'src/app/components/menu/menu.module';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    MenuModule,
     CompanyHeaderModule,
     ViewPageRoutingModule,
     RouterModule.forChild(routes)

@@ -4,21 +4,26 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
-                    [request]="request" [showStatus]="false"></request-listing>
+  <div class="desktop-view">
+    
+    <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)" [request]="request"
+      [showStatus]="false"></request-listing>
 
-  <section class="ion-padding empty-data" *ngIf="!loading && requests && requests.length == 0">
-    <ion-icon name="ios-filing-outline"></ion-icon>
-    <no-items message="No Request Yet"></no-items>
-  </section>
+    <section class="ion-padding empty-data" *ngIf="!loading && requests && requests.length == 0">
+      <ion-icon name="ios-filing-outline"></ion-icon>
+      <no-items message="No Request Yet"></no-items>
+    </section>
 
-  <loading-modal [loading]="loading" type="request-list"></loading-modal>
+    <loading-modal [loading]="loading" type="request-list"></loading-modal>
 
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
 
 </ion-content>
 <ion-footer>
-    <ion-button expand="full" color="dark" (click)="addRequest()">Add Request</ion-button>
+  <div class="desktop-view">
+    <ion-button  color="dark" (click)="addRequest()">Add Request</ion-button>
+  </div>
 </ion-footer>

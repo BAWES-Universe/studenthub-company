@@ -7,6 +7,7 @@ import { Store } from "src/app/models/store";
 //services
 import { CandidateService } from "src/app/providers/logged-in/candidate.service";
 import { AwsService } from 'src/app/providers/aws.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class CandidateListPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public aws: AwsService,
+    public eventService: EventService,
     public candidateService: CandidateService,
     public params: ActivatedRoute,
   ) {
@@ -33,6 +35,11 @@ export class CandidateListPage implements OnInit {
   }
 
   ngOnInit() {
+
+    this.eventService.companyChanged$.subscribe(() => {
+      this.loadCandidateList();
+    });
+
     this.loadCandidateList();
   }
 

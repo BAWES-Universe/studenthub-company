@@ -63,6 +63,10 @@ export class AppComponent implements OnInit {
     if (this.auth.isLogged) {
       this.loadTotalEmployee();
       this.loadCompanies();
+
+      if (!this.auth.company && this.auth.company_id) {
+        this.loadCompanyDetail();
+      }
     }
   }
 
@@ -118,6 +122,17 @@ export class AppComponent implements OnInit {
     });
   }
 
+  loadCompanyDetail() {
+
+    if (!this.auth.company_id) {
+      return this.auth.setEmployer(null);
+    }
+
+    this.companyService.view(this.auth.company_id).subscribe(response => {
+      this.auth.setEmployer(response);
+    });
+  }
+
   /**
    * load companies list
    */
@@ -168,36 +183,6 @@ export class AppComponent implements OnInit {
     this.requestService.list().subscribe(response => {
       this.auth.employerAccessRequest = response;
     });*/
-  }
-
-  /**
-   * change company request
-   * @param employer
-   */
-  changeCompany(employer) {
-
-    this._menuCtrl.close();
-
-    this.resetCompanyDetail(employer);
-    this.navCtrl.navigateRoot(['/']);
-    this.eventService.companyChanged$.next({
-     employer
-    });
-  }
-
-  /**
-   * reset company detail
-   */
-  async resetCompanyDetail(employer) {
-    this.auth.setEmployer(employer);
-
-    /*clearInterval(this.alertSubscription);
-
-    this.alertSubscription = null;
-
-    if (employer) {
-      this.alertSubscribe();
-    }*/
   }
 
   /**

@@ -19,18 +19,6 @@ const routes: Routes = [
                 }]
             },
             {
-                path: 'cv-search',
-                children: [{
-                  path: '',
-                  loadChildren: () => import('../../candidate/candidate-search/candidate-search.module').then(m => m.CandidateSearchPageModule),
-                  data: {
-                    name: 'CandidateSearchPage',
-                    navDisable: true,
-                  }
-                }],
-                canActivate: [AuthService]
-            },
-            {
                 path: 'staff',
                 children: [{
                   path: '',

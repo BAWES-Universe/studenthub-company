@@ -20,6 +20,7 @@ import {CompanyContactListPageModule} from './pages/logged-in/company-contact/co
 import {ModalPopPageModule} from './pages/logged-in/modal-pop/modal-pop.module';
 import {InvitationFormPageModule} from './pages/logged-in/company/invitation/invitation-form/invitation-form.module';
 import {CompanyHeaderModule} from './components/company-header/company-header.module';
+import { MenuModule } from './components/menu/menu.module';
 
 
 export function startupServiceFactory(authService) {
@@ -38,6 +39,7 @@ export function startupServiceFactory(authService) {
     CalendarModule,
     ModalPopPageModule,
     CompanyHeaderModule,
+    MenuModule,
     InvitationFormPageModule,
     // IonicStorageModule.forRoot({
     //   name: '__payroll_company',

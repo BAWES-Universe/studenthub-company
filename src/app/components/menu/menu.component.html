@@ -1,0 +1,71 @@
+<div *ngIf="auth.company" dir="ltr" class="menu-wraper">
+  
+  <ion-toolbar class="toolbar" *ngIf="auth.company">
+    <div class="company-logo">
+      <ion-avatar [class.no-logo]="!auth.company.company_logo">
+        <ion-icon *ngIf="!auth.company.company_logo" class="no-logo main-logo" name="business">
+        </ion-icon>
+        <ion-img src="{{ awsService.cloudinaryUrl + auth.company.company_logo }}"
+            class="company-logo" *ngIf="auth.company.company_logo"
+            (ionError)="auth.company.company_logo = null;"
+        ></ion-img>
+      </ion-avatar>
+    </div>
+    <ion-label class="heading">
+        {{ auth.company.company_name }}
+    </ion-label>
+  </ion-toolbar>
+
+  <ion-list lines="none" class="pages">
+    <ion-item menuClose [routerLink]="'/account'" routerLinkActive="active">
+      <div tabindex="0"></div>
+      <ion-label>
+        Company Profile
+      </ion-label>
+    </ion-item>
+
+    <ion-item menuClose [routerLink]="'/store-list'" routerLinkActive="active">
+      <div tabindex="0"></div>
+      <ion-label>
+        Your Stores
+      </ion-label>
+    </ion-item>
+    <ion-item menuClose [routerLink]="'/company-contacts'" routerLinkActive="active">
+      <div tabindex="0"></div>
+      <ion-label>
+        Team
+      </ion-label>
+    </ion-item>
+    <ion-item class="ion-activatable ion-focusable" (click)="auth.logout()" lines="none" tappable detail="false">
+      <div tabindex="0"></div>
+      <ion-label>logout</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list lines="none" class="companies-list" *ngIf="auth.companies.length > 1">
+
+    <ng-container *ngFor="let model of auth.companies" class="list-header">
+        <ion-item menuClose *ngIf="model.company_id != auth.company_id" tappable
+            (click)='changeCompany(model)'>
+            <div tabindex="0"></div>
+            <ion-avatar slot="start" [class.no-logo]="!model.company_logo">
+                <ion-icon *ngIf="!model.company_logo" class="no-logo company-logo" name="business">
+                </ion-icon>
+                <ion-img src="{{ awsService.cloudinaryUrl + model.company_logo }}"
+                    class="company-logo" *ngIf="model.company_logo"
+                    (ionError)="model.company_logo = null;"
+                ></ion-img>
+            </ion-avatar>
+            <ion-label>
+                {{ model.company_common_name_en?model.company_common_name_en: model.company_name }}
+            </ion-label>
+            <!--
+            <ion-badge slot="end" color="danger"
+                *ngIf="model.notificationsCount > 0 && model.notificationsCount < 9">{{ model.notificationsCount }}
+            </ion-badge>
+            <ion-badge slot="end" color="danger"
+                *ngIf="model.notificationsCount > 0 && model.notificationsCount > 9">9+</ion-badge>-->
+        </ion-item>
+    </ng-container>
+  </ion-list>
+</div>

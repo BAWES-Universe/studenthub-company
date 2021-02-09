@@ -71,6 +71,10 @@ export class CompanyRequestListPage implements OnInit {
 
     this.list();
 
+    this.eventService.companyChanged$.subscribe(() => {
+      this.list();
+    });
+
     this.eventService.companyRequestUpdate$.subscribe(_ => {
       this.list();
     });

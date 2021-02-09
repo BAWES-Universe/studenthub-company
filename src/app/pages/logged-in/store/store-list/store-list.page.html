@@ -1,56 +1,62 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{title}}</ion-title>
+    
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/"></ion-back-button>
+      </ion-buttons>
+      <ion-title>{{title}}</ion-title>
+  
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
 
-  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  <div class="desktop-view">
 
-  <ion-list *ngIf="companies && !loading">
-    <ion-item tappable
-            *ngFor="let company of companies"
-            (click)="companySelected(company)">
+    <ion-list *ngIf="companies && !loading">
+      <ion-item tappable
+              *ngFor="let company of companies"
+              (click)="companySelected(company)">
 
-      <div tabindex="0"></div>
-
-      <ion-label>{{ company.company_id }} - {{ company.company_name }}</ion-label>
-
-      <!-- Assigned employees count badge -->
-      <ion-badge slot="end" *ngIf="company.totalCandidates && company.totalCandidates > 0">
-        {{ company.totalCandidates }} {{ company.totalCandidates > 1 ? "employees" : "employee" }}
-      </ion-badge>
-      <!-- Subcompany count badge -->
-      <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
-        {{ company.subCompanies.length }} {{ company.subCompanies.length > 1 ? "subcompanies" : "subcompany" }}
-      </ion-badge>
-      <!-- Store count badge -->
-      <ion-badge slot="end" *ngIf="company.stores && company.stores.length > 0">
-        {{ company.stores.length }} {{ company.stores.length > 1 ? "stores" : "store" }}
-      </ion-badge>
-    </ion-item>
-  </ion-list>
-
-  <ion-list *ngIf="stores && !loading">
-    <ion-item-sliding *ngFor="let store of stores">
-      <ion-item (click)="rowSelected(store)" tappable>
         <div tabindex="0"></div>
-        <ion-label>
-          <h5>{{ store.store_id }} {{ store.store_name }}</h5>
-          <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
-        </ion-label>
-        <ion-badge slot="end" *ngIf="store.totalCandidates > 0">
-          {{ store.totalCandidates }} {{ store.totalCandidates > 1 ? "employees" : "employee" }}
+
+        <ion-label>{{ company.company_id }} - {{ company.company_name }}</ion-label>
+
+        <!-- Assigned employees count badge -->
+        <ion-badge slot="end" *ngIf="company.totalCandidates && company.totalCandidates > 0">
+          {{ company.totalCandidates }} {{ company.totalCandidates > 1 ? "employees" : "employee" }}
+        </ion-badge>
+        <!-- Subcompany count badge -->
+        <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
+          {{ company.subCompanies.length }} {{ company.subCompanies.length > 1 ? "subcompanies" : "subcompany" }}
+        </ion-badge>
+        <!-- Store count badge -->
+        <ion-badge slot="end" *ngIf="company.stores && company.stores.length > 0">
+          {{ company.stores.length }} {{ company.stores.length > 1 ? "stores" : "store" }}
         </ion-badge>
       </ion-item>
-    </ion-item-sliding>
-  </ion-list>
+    </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-list *ngIf="stores && !loading">
+      <ion-item-sliding *ngFor="let store of stores">
+        <ion-item (click)="rowSelected(store)" tappable>
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>{{ store.store_id }} {{ store.store_name }}</h5>
+            <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
+          </ion-label>
+          <ion-badge slot="end" *ngIf="store.totalCandidates > 0">
+            {{ store.totalCandidates }} {{ store.totalCandidates > 1 ? "employees" : "employee" }}
+          </ion-badge>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  </div>
+
 </ion-content>
