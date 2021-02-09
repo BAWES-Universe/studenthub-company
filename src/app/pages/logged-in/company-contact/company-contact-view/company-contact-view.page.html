@@ -1,13 +1,15 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar class="container">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
+   
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/"></ion-back-button>
+      </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
-  <div class="container">
+  <div class="desktop-view">
     <ion-list *ngIf="contact">
       <ion-item>
         <div tabindex="0"></div>

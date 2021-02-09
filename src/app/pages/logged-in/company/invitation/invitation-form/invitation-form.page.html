@@ -1,8 +1,10 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
+    
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+  
   </ion-toolbar>
 </ion-header>
 
@@ -27,11 +29,12 @@
 
 <ion-footer>
   <ion-toolbar class="ion-no-padding desktop-view">
-
-    <ion-button *ngIf="form" class="submit-btn" expand="block" [disabled]="!form || !form.valid || loading"
-      (click)="submitForm()">
-      <ion-spinner *ngIf="loading"></ion-spinner>
-      <span *ngIf="!loading">Send Invite</span>
-    </ion-button>
+    <div class="desktop-view">
+      <ion-button *ngIf="form" class="submit-btn" [disabled]="!form || !form.valid || loading"
+        (click)="submitForm()">
+        <ion-spinner *ngIf="loading"></ion-spinner>
+        <span *ngIf="!loading">Send Invite</span>
+      </ion-button>
+    </div>
   </ion-toolbar>
 </ion-footer>

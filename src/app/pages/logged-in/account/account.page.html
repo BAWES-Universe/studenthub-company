@@ -1,85 +1,89 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>
+  <ion-toolbar>  
+    
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>Account</ion-title>
+    
   </ion-toolbar>
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
-  <form [formGroup]="form" *ngIf="form">
+  <div class="desktop-view">
+    <form [formGroup]="form" *ngIf="form">
 
-    <ion-list>
-      <ion-item>
-        <ion-label position="floating">Name</ion-label>
-        <ion-input type="text" formControlName="name" ></ion-input>
-      </ion-item>
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">Name</ion-label>
+          <ion-input type="text" formControlName="name" ></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" inputmode="email" autocomplete="email"
-          formControlName="email"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" inputmode="email" autocomplete="email"
+            formControlName="email"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label>Receive Email?</ion-label>
-        <ion-toggle slot="end" formControlName="receive_email"></ion-toggle>
-      </ion-item>
+        <ion-item>
+          <ion-label>Receive Email?</ion-label>
+          <ion-toggle slot="end" formControlName="receive_email"></ion-toggle>
+        </ion-item>
 
-      <ion-item>
-        <ion-label>Receive Notification?</ion-label>
-        <ion-toggle slot="end" formControlName="receive_notification"></ion-toggle>
-      </ion-item>
+        <ion-item>
+          <ion-label>Receive Notification?</ion-label>
+          <ion-toggle slot="end" formControlName="receive_notification"></ion-toggle>
+        </ion-item>
 
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>Other Emails </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Other Emails </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
 
-          <div *ngFor="let email of emails.controls; let i = index">
-            <ion-item [formGroup]="email">
+            <div *ngFor="let email of emails.controls; let i = index">
+              <ion-item [formGroup]="email">
 
-              <ion-input type="email" autocomplete="off1" (ionChange)="onEmailChange($event, i)" formControlName="email_address" inputmode="email"
-                enterkeyhint="Next"></ion-input>
+                <ion-input type="email" autocomplete="off1" (ionChange)="onEmailChange($event, i)" formControlName="email_address" inputmode="email"
+                  enterkeyhint="Next"></ion-input>
 
-              <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="emails.controls.length -1 != i" (click)="removeEmail(i)">
-                <img src="assets/images/close.svg">
-              </ion-button>
+                <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="emails.controls.length -1 != i" (click)="removeEmail(i)">
+                  <img src="assets/images/close.svg">
+                </ion-button>
 
-            </ion-item>
-          </div>
-        </ion-card-content>
-      </ion-card>
+              </ion-item>
+            </div>
+          </ion-card-content>
+        </ion-card>
 
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>Phones </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Phones </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
 
-          <div *ngFor="let phone of phones.controls; let i = index">
-            <ion-item [formGroup]="phone">
+            <div *ngFor="let phone of phones.controls; let i = index">
+              <ion-item [formGroup]="phone">
 
-              <ion-input type="telephone" autocomplete="off1" (ionChange)="onPhoneChange($event, i)" formControlName="phone_number" inputmode="telephone"
-                    enterkeyhint="Next"></ion-input>
+                <ion-input type="telephone" autocomplete="off1" (ionChange)="onPhoneChange($event, i)" formControlName="phone_number" inputmode="telephone"
+                      enterkeyhint="Next"></ion-input>
 
-              <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="phones.controls.length -1 != i" (click)="removePhone(i)">
-                <img src="assets/images/close.svg">
-              </ion-button>
+                <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="phones.controls.length -1 != i" (click)="removePhone(i)">
+                  <img src="assets/images/close.svg">
+                </ion-button>
 
-            </ion-item>
-          </div>
-        </ion-card-content>
-      </ion-card>
+              </ion-item>
+            </div>
+          </ion-card-content>
+        </ion-card>
 
-    </ion-list>
+      </ion-list>
 
-    <div class="ion-padding">
-      <ion-button [disabled]="loading || !form.dirty || !form.valid" (click)="save()" expands="block">
-        <ion-spinner *ngIf="loading"></ion-spinner>
-        <span *ngIf="!loading">Submit</span>
-      </ion-button>
-    </div>
-  </form>
+      <div class="ion-padding">
+        <ion-button [disabled]="loading || !form.dirty || !form.valid" (click)="save()" expands="block">
+          <ion-spinner *ngIf="loading"></ion-spinner>
+          <span *ngIf="!loading">Submit</span>
+        </ion-button>
+      </div>
+    </form>
+  </div>
 </ion-content>

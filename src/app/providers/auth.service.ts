@@ -28,6 +28,8 @@ export class AuthService {
   public email: string;
   public role: string;
 
+  public company: Company;
+  
   public isLogged = false;
 
   public displayCookieMessage = '0';
@@ -51,7 +53,9 @@ export class AuthService {
     public http: HttpClient,
     public router: Router,
     public eventService: EventService
-  ) { }
+  ) { 
+
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -114,6 +118,8 @@ export class AuthService {
    * Save company when user change company
    */
   setEmployer(company: Company) {
+    this.company = company;
+
     this.company_id = company ? company.company_id : null;
     this.name = company ? company.company_name : null;
 

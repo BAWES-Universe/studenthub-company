@@ -1,5 +1,10 @@
 .brand {
     text-align: center;
+
+    img {
+        vertical-align: middle;
+        width: 150px;
+    }
 }
 
 .nav-btn {
@@ -43,6 +48,7 @@ ion-toolbar {
         height: 30px;
         width: 30px;
         text-align: center;
+        display: none;
     }
 
     span.name {
@@ -65,9 +71,9 @@ ion-toolbar {
 
 @media only screen and (max-width: 900px) {
 
-    .brand img {
+    /*.brand img {
         width: 86px;
-    }
+    }*/
 
     .card-header {
         border: none;
@@ -76,6 +82,7 @@ ion-toolbar {
             padding: 11px 0;
             height: 40px;
             width: 40px;
+            display:block;
         }
 
         span.name {
@@ -123,6 +130,10 @@ ion-toolbar {
     .card-header {
         span.name {
             display: none;
+        }
+
+        .initials {
+            display: block;
         }
     }
 }

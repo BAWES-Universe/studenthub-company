@@ -190,6 +190,50 @@ ion-header {
   --background: #fafafa;
   background: #fafafa;
 }
+
+ion-footer .desktop-view,
+ion-content .desktop-view {
+  max-width: 787px;
+  margin: 0 auto;
+}
+
+ion-footer {
+  box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 9px;
+
+  ion-button {
+    height: 50px;
+    margin: auto !important;
+    display: block;
+    border-radius: 4px !important;
+    --border-radius: 4px;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    text-transform: none;
+    --box-shadow: none;
+  }
+
+  ion-button[disabled] {
+      background: #bdbdbd;
+      --color: #fff;
+      --opacity: 1;
+      --background: #bdbdbd;
+      --background-focused: #bdbdbd;
+      --background-hover: #bdbdbd;
+      border-radius: 4px;
+      --border-radius: 4px;
+  }
+
+  .button-disabled {
+      background-color: #bdbdbd;
+      --background: #bdbdbd;
+      --background-focused: #bdbdbd;
+      --background-hover: #bdbdbd;
+  }
+}
+
 .empty-data{
   text-align: center;
   margin-top:30px;
@@ -197,10 +241,12 @@ ion-header {
   ion-icon{font-size:60px;}
   h2{margin-top:0;}
 }
+
 .split-pane-md.split-pane-visible > .split-pane-side {
   min-width: 239px;
   max-width: 19%;
 }
+
 .split-pane-visible > .split-pane-side {
   order: -1 !important;
 }
@@ -208,4 +254,9 @@ ion-header {
 .split-pane-side ion-router-outlet ion-toolbar,
 .split-pane-side ion-router-outlet ion-content{
   --background: #ffffff;
+}
+
+.main-right-menu,
+.main-left-menu {
+    padding: 26px 0 0 0;
 }
