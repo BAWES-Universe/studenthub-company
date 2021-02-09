@@ -9,8 +9,8 @@
   </div>
   <ion-button fill="clear" slot="end" class="card-header buttons-end-slot" (click)="loadPage('account')" color="dark">
       
-      <span class="initials" *ngIf="!auth.profile_photo" [style.backgroundColor]="bgColorWhenNoPhoto">{{initials}}</span>
-      <!--
+      <span class="initials" [style.backgroundColor]="bgColorWhenNoPhoto">{{initials}}</span>
+      <!--*ngIf="!auth.profile_photo"
           <ion-avatar class="pull-left"  slot="start"  *ngIf="auth.profile_photo">
           <img src="{{ awsService.cloudinaryUrl }},w_40,h_40,c_thumb,g_face/agent-photo/{{ auth.profile_photo }}" class="circle" width="30" />
       </ion-avatar>
