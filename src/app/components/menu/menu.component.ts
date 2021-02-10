@@ -56,4 +56,8 @@ export class MenuComponent implements OnInit {
       this.alertSubscribe();
     }*/
   }
+
+  closeMenu() {
+    this._menuCtrl.close();
+  }
 }

@@ -14,47 +14,40 @@
     </ion-label>
   </ion-toolbar>
 
-  <ion-list lines="none" class="pages">
-    <ion-menu-toggle>
-      <ion-item menuClose [routerLink]="'/company-edit'" routerLinkActive="active">
-        <div tabindex="0"></div>
-        <ion-label>
-          Company Profile
-        </ion-label>
-      </ion-item>
-    </ion-menu-toggle>
+  <ion-list lines="none" class="pages" (click)="closeMenu()">
+  
+    <ion-item [routerLink]="'/company-edit'" routerLinkActive="active">
+      <div tabindex="0"></div>
+      <ion-label>
+        Company Profile
+      </ion-label>
+    </ion-item>
 
-    <ion-menu-toggle>
-      <ion-item menuClose [routerLink]="'/store-list'" routerLinkActive="active">
-        <div tabindex="0"></div>
-        <ion-label>
-          Your Stores
-        </ion-label>
-      </ion-item>
-    </ion-menu-toggle>
+    <ion-item [routerLink]="'/store-list'" routerLinkActive="active">
+      <div tabindex="0"></div>
+      <ion-label>
+        Your Stores
+      </ion-label>
+    </ion-item> 
 
-    <ion-menu-toggle>
-      <ion-item menuClose [routerLink]="'/company-contacts'" routerLinkActive="active">
-        <div tabindex="0"></div>
-        <ion-label>
-          Team
-        </ion-label>
-      </ion-item>
-    </ion-menu-toggle>
+    <ion-item [routerLink]="'/company-contacts'" routerLinkActive="active">
+      <div tabindex="0"></div>
+      <ion-label>
+        Team
+      </ion-label>
+    </ion-item> 
 
-    <ion-menu-toggle>
-      <ion-item class="ion-activatable ion-focusable" (click)="auth.logout()" lines="none" tappable detail="false">
-        <div tabindex="0"></div>
-        <ion-label>logout</ion-label>
-      </ion-item>
-    </ion-menu-toggle>
+    <ion-item class="ion-activatable ion-focusable" (click)="auth.logout()" lines="none" tappable detail="false">
+      <div tabindex="0"></div>
+      <ion-label>logout</ion-label>
+    </ion-item> 
 
   </ion-list>
 
   <ion-list lines="none" class="companies-list" *ngIf="auth.companies.length > 1">
 
-    <ion-menu-toggle *ngFor="let model of auth.companies" class="list-header">
-      <ion-item menuClose *ngIf="model.company_id != auth.company_id" tappable (click)='changeCompany(model)'>
+    <ng-container *ngFor="let model of auth.companies" class="list-header">
+      <ion-item *ngIf="model.company_id != auth.company_id" tappable (click)='changeCompany(model)'>
         <div tabindex="0"></div>
         <ion-avatar slot="start" [class.no-logo]="!model.company_logo">
           <ion-icon *ngIf="!model.company_logo" class="no-logo company-logo" name="business">
@@ -72,7 +65,7 @@
             <ion-badge slot="end" color="danger"
                 *ngIf="model.notificationsCount > 0 && model.notificationsCount > 9">9+</ion-badge>-->
       </ion-item>
-    </ion-menu-toggle>
+    </ng-container>
 
   </ion-list>
 </div>
