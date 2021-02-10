@@ -162,10 +162,14 @@ export class AppComponent implements OnInit {
 
         if (!found) {
           if (this.auth.companies[0]) {
+            this.auth.setEmployer(this.auth.companies[0]);
+
             this.eventService.companyChanged$.next({
               employer: this.auth.companies[0]
             });
           } else {
+            this.auth.setEmployer(null);
+
             this.eventService.companyChanged$.next({ employer: null });
           }
         }

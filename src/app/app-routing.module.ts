@@ -221,6 +221,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/company-contact/company-contact-view/company-contact-view.module').then( m => m.CompanyContactViewPageModule)
   },
   {
+    path: 'company-edit',
+    loadChildren: () => import('./pages/logged-in/company/company-edit/company-edit.module').then( m => m.CompanyEditPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },
