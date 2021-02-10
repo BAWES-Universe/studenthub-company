@@ -13,7 +13,7 @@
 
       <ion-searchbar [(ngModel)]="query" *ngIf="contactList && contactList.length > 2" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
 
-      <ion-item *ngFor="let contact of contactList" tappable [routerLink]="'/company-contact-view/' + contact.contact_uuid">
+      <ion-item *ngFor="let contact of contactList">
 
         <div tabindex="0"></div>
 
