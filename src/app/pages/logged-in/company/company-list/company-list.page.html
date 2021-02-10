@@ -1,24 +1,29 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Sub Companies</ion-title>
+     
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Sub Companies</ion-title>
+   
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
-  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  <div class="desktop-view">
+    
+    <ion-list *ngIf="!loading">
+      <ion-item *ngFor="let company of companies" (click)="rowSelected(company)" tappable>
+        <div tabindex="0"></div>
+        <ion-label>{{ company.company_id}} {{ company.company_name}}</ion-label>
+      </ion-item>
+    </ion-list>
+
+    <loading-modal [loading]="loading" type="text-list"></loading-modal>
+    
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   
-  <ion-list *ngIf="!loading">
-    <ion-item *ngFor="let company of companies" (click)="rowSelected(company)" tappable>
-      <div tabindex="0"></div>
-      <ion-label>{{ company.company_id}} {{ company.company_name}}</ion-label>
-    </ion-item>
-  </ion-list>
-
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
+  </div>
 </ion-content>

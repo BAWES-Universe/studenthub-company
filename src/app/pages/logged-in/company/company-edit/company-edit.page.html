@@ -1,0 +1,64 @@
+<ion-header [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar>  
+    
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Company Profile</ion-title>
+    
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+  <div class="desktop-view">
+    <form [formGroup]="form" *ngIf="form">
+      
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">Company name per license</ion-label>
+          <ion-input type="text" formControlName="name"></ion-input>
+        </ion-item>
+
+        <!--
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" inputmode="email" autocomplete="email"
+            formControlName="email"></ion-input>
+        </ion-item>-->
+        
+        <ion-item>
+          <ion-label position="floating">Common name - English</ion-label>
+          <ion-input type="text" formControlName="common_name_en" ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Common name - Arabic</ion-label>
+          <ion-input type="text" formControlName="common_name_ar"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Description - English</ion-label>
+          <ion-textarea formControlName="description_en"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Description - Arabic</ion-label>
+          <ion-textarea formControlName="description_ar"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Website</ion-label>
+          <ion-input type="text" inputmode="url" formControlName="website"></ion-input>
+        </ion-item>
+
+      </ion-list>
+
+      <div class="ion-padding">
+        <ion-button [disabled]="loading || !form.dirty || !form.valid" (click)="save()" expands="block">
+          <ion-spinner *ngIf="loading"></ion-spinner>
+          <span *ngIf="!loading">Submit</span>
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

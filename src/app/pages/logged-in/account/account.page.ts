@@ -4,6 +4,7 @@ import { AlertController, NavController } from '@ionic/angular';
 //models
 import { Contact } from 'src/app/models/contact';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { AuthService } from 'src/app/providers/auth.service';
 //validator
 import { CustomValidator } from 'src/app/validators/custom.validator';
 
@@ -28,6 +29,7 @@ export class AccountPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public alertCtrl: AlertController,
+    public authService: AuthService,
     public accountService: AccountService,
     private _fb: FormBuilder
   ) { }
@@ -166,6 +168,11 @@ export class AccountPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == "success") {
+
+        this.authService.name = this.model.contact_name;
+        this.authService.email = this.model.contact_email;
+        this.authService.saveInStorage();
+        
         this.navCtrl.navigateRoot(['/']);
       }
 

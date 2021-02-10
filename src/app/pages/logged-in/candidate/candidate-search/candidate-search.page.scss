@@ -208,7 +208,7 @@ applied-filters {
   height: 100%;
   top: 55px;
   overflow: scroll;
-  padding-bottom: 100px !important;
+  padding-bottom: 100px;
 }
 
 .filter-wrapper.mobile {
@@ -376,5 +376,7 @@ ion-back-button {
     width: 100%;
     position: relative;
     top: 0;
+    overflow: auto;
+    padding-bottom: 0;
   }
 }

@@ -1,10 +1,20 @@
-<ion-toolbar class="company-header">
-    <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  <ion-buttons slot="end">
-    <ion-button class="" (click)="loadPage('account')" color="dark">
-        <span class="name">{{ auth.name }}</span>
-    </ion-button>
+<ion-toolbar class="company-header" dir="ltr">
+  <ion-buttons slot="start">
+      <ion-menu-button>
+          <ion-icon src="assets/images/ic_drawer.svg"></ion-icon>
+      </ion-menu-button>
   </ion-buttons>
+  <div class='brand ion-text-center'>
+      <img src="assets/logo.png" />
+  </div>
+  <ion-button fill="clear" slot="end" class="card-header buttons-end-slot" (click)="loadPage('account')" color="dark">
+      
+      <span class="initials" [style.backgroundColor]="bgColorWhenNoPhoto">{{initials}}</span>
+      <!--*ngIf="!auth.profile_photo"
+          <ion-avatar class="pull-left"  slot="start"  *ngIf="auth.profile_photo">
+          <img src="{{ awsService.cloudinaryUrl }},w_40,h_40,c_thumb,g_face/agent-photo/{{ auth.profile_photo }}" class="circle" width="30" />
+      </ion-avatar>
+      -->
+      <span class="name">{{ auth.name }}</span>
+  </ion-button>
 </ion-toolbar>

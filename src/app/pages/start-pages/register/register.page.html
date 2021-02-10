@@ -1,11 +1,13 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar [class.hide-back-button]="otp">
-    <ion-buttons slot="start">
-        <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <div class='brand'>
-      <img src="assets/logo.png" />
-    </div>
+   
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="/"></ion-back-button>
+      </ion-buttons>
+      <div class='brand'>
+        <img src="assets/logo.png" />
+      </div>
+    
   </ion-toolbar>
 </ion-header>
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" class='contentArea ion-padding'>

@@ -65,6 +65,10 @@ export class StoreListPage implements OnInit {
   }
 
   _handleResponse(response) {
+    if (!response) {
+      this.title = 'Stores';
+    }
+
     if (response && response[0].company_name) {
       this.title = 'Companies';
 
@@ -91,7 +95,7 @@ export class StoreListPage implements OnInit {
     // Load Detail Page
     this.navCtrl.navigateForward('store-view/' + model.store_id, {
       state : {
-        model: model
+        model
       }
     });
   }
@@ -100,7 +104,7 @@ export class StoreListPage implements OnInit {
     // Load Detail Page
     this.navCtrl.navigateForward('company-view/' + model.company_id , {
       state : {
-        model: model
+        model
       }
     });
   }

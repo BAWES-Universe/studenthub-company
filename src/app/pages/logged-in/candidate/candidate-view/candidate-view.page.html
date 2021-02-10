@@ -1,149 +1,160 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/candidate-list"></ion-back-button>
-    </ion-buttons>
-    <ion-title *ngIf="candidate"  class="candidate_name">{{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}</ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/cv-search"></ion-back-button>
+      </ion-buttons>
+      <ion-title *ngIf="candidate" class="candidate_name">
+        {{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" scrollEvents="true" (ionScroll)="logScrolling($event)" >
+  <div class="desktop-view">
+    <ion-item-group *ngIf="candidate && !loading">
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-avatar slot="start">
+          <ion-img *ngIf="candidate.candidate_personal_photo"
+            src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}"
+            (ionError)="onImageError(candidate)"></ion-img>
+          <ion-img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <h2 class="candidate_name">
+            {{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}</h2>
+          <p *ngIf="candidate.candidate_name">{{ candidate.candidate_name_ar }}</p>
+          <p>C{{ candidate.candidate_id }}</p>
+        </ion-label>
+      </ion-item>
 
-  <loading-modal [loading]="loading" type="candidate-detail"></loading-modal>
+      <ion-item href='tel:{{ candidate.candidate_phone }}' *ngIf="candidate.candidate_phone" target='_blank'>
+        <div tabindex="0"></div>
+        <ion-icon name="call" slot="start"></ion-icon>
+        <ion-label>{{ candidate.candidate_phone }}</ion-label>
+      </ion-item>
 
-  <ion-item-group *ngIf="candidate">
-    <ion-item>
-      <div tabindex="0"></div>
-      <ion-avatar slot="start">
-        <ion-img *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" (ionError)="onImageError(candidate)"></ion-img>
-        <ion-img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
-      </ion-avatar>
-      <ion-label>
-        <h2 class="candidate_name">{{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}</h2>
-        <p *ngIf="candidate.candidate_name">{{ candidate.candidate_name_ar }}</p>
-        <p>C{{ candidate.candidate_id }}</p>
-      </ion-label>
-    </ion-item>
+      <ion-item href='mailto:{{ candidate.candidate_email }}' *ngIf="candidate.candidate_email" target='_blank'>
+        <div tabindex="0"></div>
+        <ion-icon name="mail" slot="start"></ion-icon>
+        <ion-label>{{ candidate.candidate_email }}</ion-label>
+      </ion-item>
 
-    <ion-item href='tel:{{ candidate.candidate_phone }}' *ngIf="candidate.candidate_phone" target='_blank'>
-      <div tabindex="0"></div>
-      <ion-icon name="call" slot="start"></ion-icon>
-      <ion-label>{{ candidate.candidate_phone }}</ion-label>
-    </ion-item>
+      <ion-item *ngIf="candidate.area || candidate.candidate_address_line1" lines="none">
+        <div tabindex="0"></div>
+        <ion-icon name="pin" slot="start"></ion-icon>
 
-    <ion-item href='mailto:{{ candidate.candidate_email }}' *ngIf="candidate.candidate_email" target='_blank'>
-      <div tabindex="0"></div>
-      <ion-icon name="mail" slot="start"></ion-icon>
-      <ion-label>{{ candidate.candidate_email }}</ion-label>
-    </ion-item>
+        <ion-label *ngIf="candidate.candidate_address_line1">
+          {{ candidate.candidate_address_line1 }}
+          <p *ngIf="candidate.area">
+            {{ candidate.area.area_name_en }}<span *ngIf="candidate.country">,
+              {{ candidate.country.country_name_en }}
+            </span>
+          </p>
+        </ion-label>
 
-    <ion-item *ngIf="candidate.area || candidate.candidate_address_line1">
-      <div tabindex="0"></div>
-      <ion-icon name="pin" slot="start"></ion-icon>
-
-      <ion-label *ngIf="candidate.candidate_address_line1">
-        {{ candidate.candidate_address_line1 }}
-        <p *ngIf="candidate.area">
+        <ion-label *ngIf="!candidate.candidate_address_line1 && candidate.area">
           {{ candidate.area.area_name_en }}<span *ngIf="candidate.country">,
             {{ candidate.country.country_name_en }}
           </span>
-        </p>
-      </ion-label>
+        </ion-label>
+      </ion-item>
 
-      <ion-label *ngIf="!candidate.candidate_address_line1">
-          {{ candidate.area.area_name_en }}<span *ngIf="candidate.country">,
-            {{ candidate.country.country_name_en }}
-          </span>
-      </ion-label>
-    </ion-item>
+      <ion-item-divider color="light" *ngIf="workHistory && workHistory.length > 0">Store Assignment</ion-item-divider>
 
-    <ion-item-divider color="light" *ngIf="workHistory && workHistory.length > 0">Store Assignment</ion-item-divider>
+      <ion-item *ngIf="workHistory && workHistory.length > 0" lines="none">
+        <div tabindex="0"></div>
+        <ion-label>
+          <p *ngFor="let history of workHistory">
+            <label>{{ history.store.store_name }}: {{ history.start_date | date }} </label> to
+            <label *ngIf="history.end_date">{{ history.end_date | date }}</label>
+            <label *ngIf="!history.end_date">now</label>
+          </p>
+        </ion-label>
+      </ion-item>
 
-    <ion-item *ngIf="workHistory">
-      <div tabindex="0"></div>
-      <p *ngFor="let history of workHistory">
-        <label>{{ history.store.store_name }}: {{ history.start_date | date }} </label> to
-        <label *ngIf="history.end_date" >{{ history.end_date | date }}</label>
-        <label *ngIf="!history.end_date" >now</label>
-      </p>
-    </ion-item>
+      <ion-item-divider color="light">Personal</ion-item-divider>
 
-    <ion-item-divider color="light">Personal</ion-item-divider>
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Age</h5>
+          <p>{{ candidate.age }}</p>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Age</h5>
-        <p>{{ candidate.age }}</p>
-      </ion-label>
-    </ion-item>
+      <ion-item *ngIf="candidate.nationality">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Nationality</h5>
+          <p>{{ candidate.nationality.country_name_en }}</p>
+        </ion-label>
+      </ion-item>
 
-    <ion-item *ngIf="candidate.nationality">
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Nationality</h5>
-        <p>{{ candidate.nationality.country_name_en }}</p>
-      </ion-label>
-    </ion-item>
+      <ion-item *ngIf="candidate.university">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>University</h5>
+          <p>
+            {{ candidate.university.university_name_en }}
+            <span *ngIf="!candidate.university.university_name_en">{{ candidate.university.university_name_ar }}</span>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Birth date</h5>
+          <p>{{ candidate.candidate_birth_date }}</p>
+        </ion-label>
+      </ion-item>
 
-    <ion-item *ngIf="candidate.university">
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>University</h5>
-        <p>
-          {{ candidate.university.university_name_en }}
-          <span *ngIf="!candidate.university.university_name_en">{{ candidate.university.university_name_ar }}</span>
-        </p>
-      </ion-label>
-    </ion-item>
+      <ng-container
+        *ngIf="candidate.company &&
+        (candidate.company.company_id == authService.company_id || candidate.company.parent_company_id == authService.company_id)"
+      >
+        <ion-item-divider *ngIf="candidate.candidate_civil_id" color="light">Civil ID</ion-item-divider>
 
-    <ion-item-divider *ngIf="candidate.candidate_civil_id" color="light">Civil ID</ion-item-divider>
+        <ion-item *ngIf="candidate.candidate_civil_id">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>Civil ID Number</h5>
+            <p>{{ candidate.candidate_civil_id }}</p>
+          </ion-label>
+        </ion-item>
 
-    <ion-item *ngIf="candidate.candidate_civil_id">
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Civil ID Number</h5>
-        <p>{{ candidate.candidate_civil_id }}</p>
-      </ion-label>
-    </ion-item>
+        <ion-item *ngIf="candidate.candidate_civil_expiry_date">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>Expiry Date</h5>
+            <p>{{ candidate.candidate_civil_expiry_date }}</p>
+          </ion-label>
+        </ion-item>
 
-    <ion-item>
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Birth date</h5>
-        <p>{{ candidate.candidate_birth_date }}</p>
-      </ion-label>
-    </ion-item>
+        <ion-item *ngIf="candidate.candidate_civil_photo_front">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>ID Photo Front</h5>
+            <p>
+              <a [href]="aws.permanentBucketUrl + candidate.candidate_civil_photo_front" target='_blank'>
+                {{ candidate.candidate_civil_photo_front }}
+              </a>
+            </p>
+          </ion-label>
+        </ion-item>
 
-    <ion-item *ngIf="candidate.candidate_civil_expiry_date">
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Expiry Date</h5>
-        <p>{{ candidate.candidate_civil_expiry_date }}</p>
-      </ion-label>
-    </ion-item>
+        <ion-item *ngIf="candidate.candidate_civil_photo_back">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>ID Photo Back</h5>
+            <p>
+              <a [href]="aws.permanentBucketUrl + candidate.candidate_civil_photo_back" target='_blank'>
+                {{ candidate.candidate_civil_photo_back }}
+              </a>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ng-container>
+    </ion-item-group>
+    <loading-modal [loading]="loading" type="candidate-detail"></loading-modal>
+  </div>
 
-    <ion-item *ngIf="candidate.candidate_civil_photo_front">
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>ID Photo Front</h5>
-        <p>
-          <a [href]="aws.permanentBucketUrl + candidate.candidate_civil_photo_front" target='_blank'>
-            {{ candidate.candidate_civil_photo_front }}
-          </a>
-        </p>
-      </ion-label>
-    </ion-item>
-
-    <ion-item *ngIf="candidate.candidate_civil_photo_back">
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>ID Photo Back</h5>
-        <p>
-          <a [href]="aws.permanentBucketUrl + candidate.candidate_civil_photo_back" target='_blank'>
-            {{ candidate.candidate_civil_photo_back }}
-          </a>
-        </p>
-      </ion-label>
-    </ion-item>
-  </ion-item-group>
 </ion-content>
