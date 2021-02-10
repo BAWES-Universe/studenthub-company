@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-// models
-import { Candidate } from '../../../../models/candidate';
-// services
-import { CandidateService } from '../../../../providers/logged-in/candidate.service';
-import { AwsService } from 'src/app/providers/aws.service';
 import {NavController} from '@ionic/angular';
+// models
+import { Candidate } from 'src/app/models/candidate';
+// services
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { AwsService } from 'src/app/providers/aws.service';
+import { AuthService } from 'src/app/providers/auth.service';
+
 
 
 @Component({
@@ -26,9 +28,9 @@ export class CandidateViewPage implements OnInit {
     public aws: AwsService,
     public activatedRoute: ActivatedRoute,
     public candidateService: CandidateService,
-    public navCtrl: NavController
-  ) {
-  }
+    public navCtrl: NavController,
+    public authService: AuthService
+  ) { }
 
   /**
    * Load candidate work history data
@@ -50,7 +52,7 @@ export class CandidateViewPage implements OnInit {
     }
 
     this.loadData();
-    
+
     this.loadWorkHistoryData();
   }
 
@@ -69,7 +71,7 @@ export class CandidateViewPage implements OnInit {
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
-  
+
   onImageError(candidate) {
     candidate.candidate_personal_photo = null;
   }

@@ -8,9 +8,8 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding" scrollEvents="true" (ionScroll)="logScrolling($event)" >
-
   <div class="desktop-view">
-    <ion-item-group *ngIf="candidate">
+    <ion-item-group *ngIf="candidate && !loading">
       <ion-item>
         <div tabindex="0"></div>
         <ion-avatar slot="start">
@@ -39,7 +38,7 @@
         <ion-label>{{ candidate.candidate_email }}</ion-label>
       </ion-item>
 
-      <ion-item *ngIf="candidate.area || candidate.candidate_address_line1">
+      <ion-item *ngIf="candidate.area || candidate.candidate_address_line1" lines="none">
         <div tabindex="0"></div>
         <ion-icon name="pin" slot="start"></ion-icon>
 
@@ -52,7 +51,7 @@
           </p>
         </ion-label>
 
-        <ion-label *ngIf="!candidate.candidate_address_line1">
+        <ion-label *ngIf="!candidate.candidate_address_line1 && candidate.area">
           {{ candidate.area.area_name_en }}<span *ngIf="candidate.country">,
             {{ candidate.country.country_name_en }}
           </span>
@@ -61,13 +60,15 @@
 
       <ion-item-divider color="light" *ngIf="workHistory && workHistory.length > 0">Store Assignment</ion-item-divider>
 
-      <ion-item *ngIf="workHistory">
+      <ion-item *ngIf="workHistory && workHistory.length > 0" lines="none">
         <div tabindex="0"></div>
-        <p *ngFor="let history of workHistory">
-          <label>{{ history.store.store_name }}: {{ history.start_date | date }} </label> to
-          <label *ngIf="history.end_date">{{ history.end_date | date }}</label>
-          <label *ngIf="!history.end_date">now</label>
-        </p>
+        <ion-label>
+          <p *ngFor="let history of workHistory">
+            <label>{{ history.store.store_name }}: {{ history.start_date | date }} </label> to
+            <label *ngIf="history.end_date">{{ history.end_date | date }}</label>
+            <label *ngIf="!history.end_date">now</label>
+          </p>
+        </ion-label>
       </ion-item>
 
       <ion-item-divider color="light">Personal</ion-item-divider>
@@ -98,18 +99,7 @@
           </p>
         </ion-label>
       </ion-item>
-
-      <ion-item-divider *ngIf="candidate.candidate_civil_id" color="light">Civil ID</ion-item-divider>
-
-      <ion-item *ngIf="candidate.candidate_civil_id">
-        <div tabindex="0"></div>
-        <ion-label>
-          <h5>Civil ID Number</h5>
-          <p>{{ candidate.candidate_civil_id }}</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item>
+      <ion-item lines="none">
         <div tabindex="0"></div>
         <ion-label>
           <h5>Birth date</h5>
@@ -117,39 +107,53 @@
         </ion-label>
       </ion-item>
 
-      <ion-item *ngIf="candidate.candidate_civil_expiry_date">
-        <div tabindex="0"></div>
-        <ion-label>
-          <h5>Expiry Date</h5>
-          <p>{{ candidate.candidate_civil_expiry_date }}</p>
-        </ion-label>
-      </ion-item>
+      <ng-container
+        *ngIf="candidate.company &&
+        (candidate.company.company_id == authService.company_id || candidate.company.parent_company_id == authService.company_id)"
+      >
+        <ion-item-divider *ngIf="candidate.candidate_civil_id" color="light">Civil ID</ion-item-divider>
 
-      <ion-item *ngIf="candidate.candidate_civil_photo_front">
-        <div tabindex="0"></div>
-        <ion-label>
-          <h5>ID Photo Front</h5>
-          <p>
-            <a [href]="aws.permanentBucketUrl + candidate.candidate_civil_photo_front" target='_blank'>
-              {{ candidate.candidate_civil_photo_front }}
-            </a>
-          </p>
-        </ion-label>
-      </ion-item>
+        <ion-item *ngIf="candidate.candidate_civil_id">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>Civil ID Number</h5>
+            <p>{{ candidate.candidate_civil_id }}</p>
+          </ion-label>
+        </ion-item>
 
-      <ion-item *ngIf="candidate.candidate_civil_photo_back">
-        <div tabindex="0"></div>
-        <ion-label>
-          <h5>ID Photo Back</h5>
-          <p>
-            <a [href]="aws.permanentBucketUrl + candidate.candidate_civil_photo_back" target='_blank'>
-              {{ candidate.candidate_civil_photo_back }}
-            </a>
-          </p>
-        </ion-label>
-      </ion-item>
+        <ion-item *ngIf="candidate.candidate_civil_expiry_date">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>Expiry Date</h5>
+            <p>{{ candidate.candidate_civil_expiry_date }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="candidate.candidate_civil_photo_front">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>ID Photo Front</h5>
+            <p>
+              <a [href]="aws.permanentBucketUrl + candidate.candidate_civil_photo_front" target='_blank'>
+                {{ candidate.candidate_civil_photo_front }}
+              </a>
+            </p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="candidate.candidate_civil_photo_back">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>ID Photo Back</h5>
+            <p>
+              <a [href]="aws.permanentBucketUrl + candidate.candidate_civil_photo_back" target='_blank'>
+                {{ candidate.candidate_civil_photo_back }}
+              </a>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ng-container>
     </ion-item-group>
-
     <loading-modal [loading]="loading" type="candidate-detail"></loading-modal>
   </div>
 
