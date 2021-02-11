@@ -221,3 +221,435 @@
     padding: 17px 24px 52px 24px !important;
   }
 }
+
+
+/*---------------------- candidate-view --------------------*/
+
+.candidate-view {
+
+  ion-thumbnail {
+    width: 136px;
+    height: 136px;
+    --border-radius: 100%;
+    margin: 38px 0 32px 0;
+  }
+
+  .fulltimer-name,
+  h2.candidate-name {
+    margin: 32px 0 3px 0;
+    height: 58px;
+    width: 250px;
+  }
+
+  h4.candidate-name {
+    margin: 5px 0 5px 0;
+    height: 46px;
+    width: 175px;
+  }
+
+  .hourly-rate {
+    height: 26px;
+    width: 300px;
+    margin: 3px 0 4px 0;
+  }
+
+  .birth-date {
+    margin: 0px 0 12px 0;
+
+    .txt-born-on {
+      width: 95px;
+      height: 22px;
+      display: block;
+    }
+
+    .txt-birth-date {
+      width: 175px;
+      height: 17px;
+      margin-top: 12px;
+    }
+  }
+
+  .tag,
+  .job-status {
+    width: 165px;
+    height: 25px;
+    margin: 0 0 17px 0px;
+    border-radius: 0;
+  }
+
+  .objective {
+    margin: 0 0 12px 0;
+
+    ion-skeleton-text {
+      height: 18px;
+    }
+
+    ion-skeleton-text:nth-child(1) {
+      width: 60%;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 80%;
+    }
+
+    ion-skeleton-text:nth-child(3) {
+      width: 40%;
+    }
+  }
+
+  .details ion-item {
+    --inner-border-width: 0;
+    --padding-start: 58px;
+    margin-bottom: 5px;
+
+    ion-label {
+      white-space: normal;
+      margin-bottom: 5px;
+    }
+
+    h5 {
+      margin: 0 0 7px 0;
+      height: 19px;
+    }
+
+    p {
+      margin: 3px 0 13px 0;
+      height: 17px;
+    }
+  }
+
+  .work-history-wrapper ion-item,
+  .phone,
+  .email,
+  .whatsapp {
+    --padding-start: 46px;
+    --inner-border-width: 0;
+    --padding-start: 58px;
+    margin-bottom: 5px;
+
+    ion-label {
+      white-space: normal;
+      margin-bottom: 0;
+    }
+
+    h5 {
+      margin: 0;
+      height: 19px;
+    }
+
+    p {
+      margin: 3px 0 0 0;
+      height: 17px;
+    }
+  }
+
+  .skills,
+  .experiences {
+    p {
+      margin-top: 10px;
+    }
+
+    span {
+      clear: both;
+      display: block;
+    }
+  }
+
+  .video {
+    --background: url('src/assets/images/ic_video.svg') no-repeat 0px 11px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 170px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .resume {
+    --background: url('src/assets/images/ic_ad.svg') no-repeat 0px 11px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 80px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .skills {
+    --background: url('src/assets/images/ic_food_tools.svg') no-repeat 0px 11px;
+
+    ion-skeleton-text:nth-child(2) {
+      width: 250px;
+    }
+
+    ion-skeleton-text:nth-child(1) {
+      width: 50px;
+    }
+  }
+
+  .experiences {
+    --background: url('src/assets/images/ic_suitcase.svg') no-repeat 0px 11px;
+
+    ion-skeleton-text:nth-child(2) {
+      width: 250px;
+    }
+
+    ion-skeleton-text:nth-child(1) {
+      width: 150px;
+    }
+
+  }
+
+  .area {
+    --background: url('src/assets/images/ic_home_2.svg') no-repeat 0px 11px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 180px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .phone {
+    --background: url('src/assets/images/ic_phone.svg') no-repeat 0px 15px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 170px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .whatsapp {
+    --padding-start: 0px;
+    --background: none;
+
+    ion-icon {
+      color: #000;
+    }
+
+    ion-skeleton-text:nth-child(1) {
+      width: 180px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .email {
+    --background: url('src/assets/images/ic_message.svg') no-repeat 0px 15px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 180px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .nationality {
+    --background: url('src/assets/images/ic_globe.svg') no-repeat 0px 15px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 70px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 120px;
+    }
+  }
+
+  .gender {
+    --background: url('src/assets/images/ic_swipe.svg') no-repeat 0px 15px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 160px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .university {
+    --background: url('src/assets/images/md-school.svg') no-repeat 0px 15px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 160px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .driving-license {
+    --background: url('src/assets/images/ic_car.svg') no-repeat 0px 15px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 160px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 150px;
+    }
+  }
+
+  .mother-nationality {
+    --background: url('src/assets/images/ic_username.svg') no-repeat 0px 15px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 170px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .id-number {
+    --background: url('src/assets/images/ic_feed.svg') no-repeat 0px 15px;
+
+    ion-skeleton-text:nth-child(1) {
+      width: 160px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .civil-front,
+  .civil-back {
+    --background: url('src/assets/images/ic_profile_info.svg') no-repeat 0px 15px;
+
+    p {
+      margin-bottom: 7px;
+    }
+
+    ion-skeleton-text:nth-child(1) {
+      width: 100px;
+    }
+  }
+
+  .civil-id-image {
+    height: 200px !important;
+    width: 150px;
+  }
+
+  .bank {
+    --background: url('src/assets/images/ic_bank.svg') no-repeat 0px 15px;
+
+    h5,
+    p {
+      margin-bottom: 0 !important
+    }
+
+    ion-skeleton-text:nth-child(1) {
+      width: 170px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 90%;
+    }
+  }
+
+  .created-at {
+    --background: url('src/assets/images/ic_timer.svg') no-repeat 0px 15px;
+
+    p {
+      margin-bottom: 0 !important;
+    }
+
+    ion-skeleton-text:nth-child(1) {
+      width: 160px;
+    }
+
+    ion-skeleton-text:nth-child(2) {
+      width: 180px;
+    }
+  }
+
+  .area,
+  .phone,
+  .email,
+  .nationality,
+  .gender,
+  .university,
+  .driving-license,
+  .mother-nationality,
+  .id-number,
+  .civil-front,
+  .civil-back {
+    margin-bottom: 5px;
+  }
+
+  .txt-expiring-on {
+    opacity: 0.85;
+  }
+
+  .note-wrapper,
+  .suggestion-wrapper {
+    .heading {
+      margin: 22px 0 24px 0;
+      font-size: 21px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: #000;
+    }
+
+    note {
+      margin: 0 0 9px;
+    }
+
+    ion-item {
+      --inner-border-width: 0;
+      --padding-top: 3px;
+      --padding-end: 0px;
+      --padding-bottom: 3px;
+      --padding-start: 21px;
+      --background: none;
+      margin-bottom: 9px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+
+      ion-label {
+        line-height: 1.65;
+      }
+
+      ion-note {
+        width: 34px;
+        height: 25px;
+        margin: 13px 0 0;
+        padding: 5px 9px 2px;
+        background-color: #f2f2f2;
+      }
+    }
+  }
+
+  .note-wrapper {
+    margin-bottom: 23px;
+
+    .heading {
+      margin-top: 32px;
+    }
+  }
+  .right-side{
+    padding-top: 165px;
+  }
+}
+

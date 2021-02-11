@@ -39,7 +39,7 @@ export class CandidateService {
    * @param candidate_id
    */
   workHistory(candidate_id): Observable<any> {
-    let url = this._candidateEndpoint + '/work-history/' + candidate_id + '?expand=store';
+    let url = this._candidateEndpoint + '/work-history/' + candidate_id + '?expand=store,company';
     return this._authhttp.get(url);
   }
 
@@ -48,7 +48,7 @@ export class CandidateService {
    * @param candidate_id
    */
   view(candidate_id): Observable<any> {
-    const url = this._candidateEndpoint + '/' + candidate_id + '?expand=store,university,nationality,country,area,company';
+    const url = this._candidateEndpoint + '/' + candidate_id + '?expand=store,university,nationality,country,area,company,candidateSkills,candidateExperiences';
     return this._authhttp.get(url);
   }
 }
