@@ -9,7 +9,8 @@ export class Store {
     store_name: string;
     store_location: string;
     store_status: number;
-    
+    store_total_candidates: number;
+
     // Related
     candidates: Candidate[];
     company: Company;

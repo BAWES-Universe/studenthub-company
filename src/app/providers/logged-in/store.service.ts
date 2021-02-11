@@ -48,7 +48,8 @@ export class StoreService {
    * @returns {Observable<any>}
    */
   listByCompanyStore(page: number): Observable<any> {
-    let url = this._storeEndpoint + '/company-store' + '?page=' + page + '&expand=subCompanies,stores,totalCandidates';
-    return this._authhttp.get(url);
+    // let url = this._storeEndpoint + '/company-store' + '?page=' + page + '&expand=candidates,subCompanies,stores,stores.mall,stores.brand,stores.candidates,totalCandidates';
+    let url = this._storeEndpoint + '/company-store' + '?page=' + page + '&expand=candidates,mall,brand,totalCandidates,company';
+    return this._authhttp.getRaw(url);
   }
 }

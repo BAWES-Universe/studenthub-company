@@ -1,59 +1,39 @@
-<ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>
-
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="/"></ion-back-button>
-      </ion-buttons>
-      <ion-title>{{title}}</ion-title>
-
-  </ion-toolbar>
-</ion-header>
-
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
-
   <div class="desktop-view">
-
-    <ion-list *ngIf="companies && !loading">
-      <ion-item tappable
-              *ngFor="let company of companies"
-              (click)="companySelected(company)">
-
-        <div tabindex="0"></div>
-
-        <ion-label>{{ company.company_id }} - {{ company.company_name }}</ion-label>
-
-        <!-- Assigned employees count badge -->
-        <ion-badge slot="end" *ngIf="company.totalCandidates && company.totalCandidates > 0">
-          {{ company.totalCandidates }} {{ company.totalCandidates > 1 ? "employees" : "employee" }}
+   <ion-list *ngIf="stores && !loading" class="store-list">
+      <ion-card *ngFor="let store of stores">
+        <ion-badge color="light" *ngIf="store.store_total_candidates > 0">
+          {{store.store_total_candidates}} staff
         </ion-badge>
-        <!-- Subcompany count badge -->
-        <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
-          {{ company.subCompanies.length }} {{ company.subCompanies.length > 1 ? "subcompanies" : "subcompany" }}
-        </ion-badge>
-        <!-- Store count badge -->
-        <ion-badge slot="end" *ngIf="company.stores && company.stores.length > 0">
-          {{ company.stores.length }} {{ company.stores.length > 1 ? "stores" : "store" }}
-        </ion-badge>
-      </ion-item>
-    </ion-list>
-
-    <ion-list *ngIf="stores && !loading">
-      <ion-item-sliding *ngFor="let store of stores">
-        <ion-item (click)="rowSelected(store)" tappable>
+        <ion-card-content>
           <div tabindex="0"></div>
           <ion-label>
-            <h5>{{ store.store_id }} {{ store.store_name }}</h5>
-            <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
+            <h5 class="store_name">{{ store.store_name }}</h5>
+            <div class="store-details" *ngIf="store.store_location || store.brand || store.mall">
+              <p *ngIf="store.store_location"><ion-icon name="paper-plane-outline"></ion-icon> <span>{{ store.store_location }}</span></p>
+              <p *ngIf="store.brand"><ion-icon name="pricetag-outline"></ion-icon> <span>{{ store.brand.brand_name_en }}</span></p>
+              <p *ngIf="store.mall"><ion-icon name="storefront-outline"></ion-icon><span>{{ store.mall.mall_name_en }}</span></p>
+            </div>
           </ion-label>
-          <ion-badge slot="end" *ngIf="store.totalCandidates > 0">
-            {{ store.totalCandidates }} {{ store.totalCandidates > 1 ? "employees" : "employee" }}
-          </ion-badge>
-        </ion-item>
-      </ion-item-sliding>
+          <ion-list *ngIf="store.candidates && store.candidates.length > 0">
+            <ion-item tappable (click)="candidateSelected(candidate)" *ngFor="let candidate of store.candidates">
+              <div tabindex="0"></div>
+              <ion-avatar slot="start">
+                <ion-img *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" (ionError)="onImageError(candidate)"></ion-img>
+                <ion-img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon.png"></ion-img>
+              </ion-avatar>
+              <ion-label  class="candidate_name">
+                {{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}<br/>
+                <small>{{ store.store_name }} @ {{ store.company.company_name }}</small>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
     </ion-list>
 
     <no-items message="~ No store found ~" *ngIf="!loading && stores.length == 0 && companies.length == 0"></no-items>
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 

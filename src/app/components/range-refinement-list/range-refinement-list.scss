@@ -78,7 +78,7 @@
 .ais-CurrentRefinements-reset,
 .btn-close {
     height: auto;
-} 
+}
 
 .ais-CurrentRefinements-reset {
     position: absolute;
@@ -98,7 +98,7 @@
     .ais-RefinementListContent {
         padding: 16px 10px;
         z-index: 1;
-        
+
         .txt-no-items {
             text-align: center;
         }
@@ -188,7 +188,7 @@
 
 [dir="ltr"] .list-header {
     padding: 17px 10px;
-    
+
     ion-icon {
         margin-left: 2px;
     }
@@ -207,13 +207,13 @@
     width: calc(100% - 20px);
 }
 
-.closed .list-header span { 
+.closed .list-header span {
     width: calc(100% - 50px);
 }
 
 .closed .list-header {
     span {
-        margin-left: 35px;
+        margin-left: 25px;
     }
 }
 
@@ -222,7 +222,7 @@
     ion-icon[name="add"],
     ion-icon[name="checkmark"] {
         margin-right: 5px;
-    } 
+    }
 }
 
 .ais-SearchBox {
