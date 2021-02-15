@@ -15,7 +15,7 @@
   </ion-toolbar>
 
   <ion-list lines="none" class="pages" (click)="closeMenu()">
-  
+
     <ion-item [routerLink]="'/company-edit'" routerLinkActive="active">
       <div tabindex="0"></div>
       <ion-label>
@@ -23,24 +23,17 @@
       </ion-label>
     </ion-item>
 
-    <ion-item [routerLink]="'/store-list'" routerLinkActive="active">
-      <div tabindex="0"></div>
-      <ion-label>
-        Your Stores
-      </ion-label>
-    </ion-item> 
-
     <ion-item [routerLink]="'/company-contacts'" routerLinkActive="active">
       <div tabindex="0"></div>
       <ion-label>
         Team
       </ion-label>
-    </ion-item> 
+    </ion-item>
 
     <ion-item class="ion-activatable ion-focusable" (click)="auth.logout()" lines="none" tappable detail="false">
       <div tabindex="0"></div>
       <ion-label>logout</ion-label>
-    </ion-item> 
+    </ion-item>
 
   </ion-list>
 

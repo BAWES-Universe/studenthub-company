@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, NavController } from "@ionic/angular";
-//models
-import { Store } from "src/app/models/store";
-import { Company } from "src/app/models/company";
-//service
-import { StoreService } from "src/app/providers/logged-in/store.service";
+import { NavController } from '@ionic/angular';
+// models
+import { Store } from 'src/app/models/store';
+import { Company } from 'src/app/models/company';
+// service
+import { StoreService } from 'src/app/providers/logged-in/store.service';
+import {AwsService} from 'src/app/providers/aws.service';
 
 
 @Component({
@@ -20,7 +21,6 @@ export class StoreListPage implements OnInit {
 
   public stores: Store[];
   public companies: Company[];
-  public title: string;
   public loading = false;
 
   public borderLimit;
@@ -28,7 +28,7 @@ export class StoreListPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public storeService: StoreService,
-    private _loadingCtrl: LoadingController
+    private aws: AwsService
   ) { }
 
   ngOnInit() {
@@ -42,7 +42,9 @@ export class StoreListPage implements OnInit {
 
     this.loading = true;
     this.storeService.listByCompanyStore(1).subscribe(response => {
-      this._handleResponse(response);
+        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+        this.stores = response.body;
     },
       error => { },
       () => { this.loading = false; }
@@ -56,7 +58,9 @@ export class StoreListPage implements OnInit {
   doInfinite(infiniteScroll) {
     this.currentPage++;
     this.storeService.listByCompanyStore(this.currentPage).subscribe(response => {
-      this._handleResponse(response);
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.stores = this.stores.concat(response.body);
     },
       error => { },
       () => {
@@ -64,48 +68,16 @@ export class StoreListPage implements OnInit {
       });
   }
 
-  _handleResponse(response) {
-    if (!response) {
-      this.title = 'Stores';
-    }
-
-    if (response && response[0].company_name) {
-      this.title = 'Companies';
-
-      for (let item of response) {
-        this.companies.push(item);
-      }
-    }
-
-    if (response && response[0].store_name) {
-      this.title = 'Stores';
-
-      for (let item of response) {
-        this.stores.push(item);
-      }
-    }
-  }
-
-  logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20);
-  }
-
-  rowSelected(model) {
-
+  candidateSelected(model) {
     // Load Detail Page
-    this.navCtrl.navigateForward('store-view/' + model.store_id, {
+    this.navCtrl.navigateForward('candidate-view/' + model.candidate_id , {
       state : {
         model
       }
     });
   }
 
-  companySelected(model) {
-    // Load Detail Page
-    this.navCtrl.navigateForward('company-view/' + model.company_id , {
-      state : {
-        model
-      }
-    });
+  onImageError(candidate) {
+    candidate.candidate_personal_photo = null;
   }
 }

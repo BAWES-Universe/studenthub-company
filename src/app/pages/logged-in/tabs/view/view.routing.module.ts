@@ -22,9 +22,9 @@ const routes: Routes = [
                 path: 'staff',
                 children: [{
                   path: '',
-                  loadChildren: () => import('../../candidate/candidate-list/candidate-list.module').then(m => m.CandidateListPageModule),
+                  loadChildren: () => import('../../store/store-list/store-list.module').then(m => m.StoreListPageModule),
                   data: {
-                    name: 'CandidateListPage'
+                    name: 'StoreListPage'
                   }
                 }],
                 canActivate: [AuthService]

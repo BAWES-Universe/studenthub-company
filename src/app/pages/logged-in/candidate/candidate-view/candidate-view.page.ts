@@ -9,7 +9,6 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { AuthService } from 'src/app/providers/auth.service';
 
 
-
 @Component({
   selector: 'app-candidate-view',
   templateUrl: './candidate-view.page.html',
@@ -72,8 +71,30 @@ export class CandidateViewPage implements OnInit {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
 
-  onImageError(candidate) {
+  onPhotoError(candidate) {
     candidate.candidate_personal_photo = null;
   }
-}
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+  toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
 
+  onCivilBackError(candidate) {
+    candidate.candidate_civil_photo_back = null;
+  }
+  onCivilFrontError(candidate) {
+    candidate.candidate_civil_photo_front = null;
+  }
+  getResumeUrl(candidate) {
+    return this.aws.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
+  }
+
+  area(area, country) {
+    return `${area.area_name_en } ${country.country_name_en}`;
+  }
+}
