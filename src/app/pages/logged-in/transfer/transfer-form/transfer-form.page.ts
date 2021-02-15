@@ -391,6 +391,10 @@ export class TransferFormPage implements OnInit {
     }
   }
 
+  clearSelection() {
+    this.transfer.start_date = this.transfer.end_date = null;
+  }
+  
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 0);
   }
