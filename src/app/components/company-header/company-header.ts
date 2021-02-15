@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { MenuController, NavController } from '@ionic/angular';
 import {AuthService} from 'src/app/providers/auth.service';
 import {EventService} from 'src/app/providers/event.service';
+import { AccountService } from 'src/app/providers/logged-in/account.service';
 // services
 
 /**
@@ -35,6 +36,7 @@ export class CompanyHeaderComponent implements OnInit{
         public auth: AuthService,
         public navCtrl: NavController,
         public _menuCtrl: MenuController,
+        public accountService: AccountService,
         public eventService: EventService,
     ) {
         this.eventService.profileUpdated$.subscribe(() => {
@@ -61,12 +63,25 @@ export class CompanyHeaderComponent implements OnInit{
      * name intials
      */
     nameTitle() {
-        if (this.auth.name) {
-            const name = this.auth.name;
+        console.log(this.auth.profile_name);
+        
+        if (this.auth.profile_name) {
+            const name = this.auth.profile_name;
             const initials = name.match(/\b\w/g) || [];
             this.initials = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
             this.generateAgentInitial();
+        } else {
+            this.loadProfile();
         }
+    }
+
+    loadProfile() {
+        this.accountService.view().subscribe(response => {
+            this.auth.profile_name = response.contact_name;
+            this.auth.saveInStorage();
+
+            this.nameTitle();
+        });
     }
 
     /**

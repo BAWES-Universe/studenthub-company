@@ -24,7 +24,7 @@ export class AuthService {
 
   public id: any;
   public company_id: any;
-  public name: string;
+  public profile_name: string;
   public email: string;
   public role: string;
 
@@ -87,7 +87,7 @@ export class AuthService {
         this.accessToken = data.token;
         this.company_id = data.company_id;
         this.email = data.email;
-        this.name = data.name;
+        this.profile_name = data.profile_name;
         this.id = data.id;
 
         resolve(true);
@@ -107,7 +107,7 @@ export class AuthService {
       value: JSON.stringify({
         token: this.accessToken,
         company_id: this.company_id,
-        name: this.name,
+        profile_name: this.profile_name,
         email: this.email,
         id: this.id
       })
@@ -121,8 +121,7 @@ export class AuthService {
     this.company = company;
 
     this.company_id = company ? company.company_id : null;
-    //this.name = company ? company.company_name : null;
-
+    
     return this.saveInStorage();
   }
 
@@ -139,7 +138,7 @@ export class AuthService {
 
     this.accessToken = null;
     this.company_id = null;
-    this.name = null;
+    this.profile_name = null;
     this.email = null;
     this.id = null;
 
@@ -162,7 +161,7 @@ export class AuthService {
 
     this.accessToken = response.token;
     this.company_id = response.company_id;
-    this.name = response.name;
+    this.profile_name = response.profile_name;
     this.email = response.email;
     this.id = response.contact? response.contact?.contact_uuid: response.id;
 
