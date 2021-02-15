@@ -5,7 +5,7 @@ import { Store } from 'src/app/models/store';
 import { Company } from 'src/app/models/company';
 // service
 import { StoreService } from 'src/app/providers/logged-in/store.service';
-import {AwsService} from 'src/app/providers/aws.service';
+import { AwsService } from 'src/app/providers/aws.service';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class StoreListPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public storeService: StoreService,
-    private aws: AwsService
+    public aws: AwsService
   ) { }
 
   ngOnInit() {
@@ -75,6 +75,10 @@ export class StoreListPage implements OnInit {
         model
       }
     });
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 0);
   }
 
   onImageError(candidate) {
