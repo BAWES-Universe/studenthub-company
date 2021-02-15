@@ -64,9 +64,9 @@ export class AppComponent implements OnInit {
       this.loadTotalEmployee();
       this.loadCompanies();
 
-      if (!this.auth.company && this.auth.company_id) {
+      /*if (!this.auth.company && this.auth.company_id) {
         this.loadCompanyDetail();
-      }
+      }*/
     }
   }
 
@@ -93,6 +93,7 @@ export class AppComponent implements OnInit {
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
+
       this.loadCompanies();
 
       this.navCtrl.navigateRoot(['/']);
@@ -152,10 +153,11 @@ export class AppComponent implements OnInit {
         });
       }*/
 
-      if (this.auth.companies.length && this.auth.company_id) {
+      if (this.auth.companies.length > 0) {
 
         const found = this.auth.companies.find((data, key) => {
           if (data.company_id == this.auth.company_id) {
+            this.auth.setEmployer(data);
             return true;
           }
         });
