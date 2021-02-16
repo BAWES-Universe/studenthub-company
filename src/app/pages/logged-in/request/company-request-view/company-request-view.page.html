@@ -28,6 +28,8 @@
       </b>
 
       <p class="txt-additional-info">{{ request.request_additional_info }}</p>
+      <p class="txt-additional-info">{{ request.request_job_description }}</p>
+      <p class="txt-additional-info">{{ request.request_compensation }}</p>
 
       <div class="requested-by" *ngIf="request.contact">
         Requested by <span class="requested-by-staff">{{ request.contact.contact_name }}</span>
