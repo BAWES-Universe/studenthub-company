@@ -91,6 +91,10 @@ export class AppComponent implements OnInit {
       this.totalEmployees = userEventData;
     });
 
+    this.eventService.errorStorage$.subscribe(() => {
+      this.navCtrl.navigateForward(['app-error']);
+    });
+
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
 
@@ -150,6 +154,8 @@ export class AppComponent implements OnInit {
             this.oneSignalIncluded = true;
             this._includeOneSignalJs();
           }
+        }).catch(r => {
+          this.eventService.errorStorage$.next();
         });
       }*/
 

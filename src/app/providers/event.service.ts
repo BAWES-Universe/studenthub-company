@@ -19,6 +19,8 @@ export class EventService {
   public profileCompleteRequired$ = new Subject();
   public error404$ = new Subject();
   public error500$ = new Subject();
+  public errorStorage$ = new Subject();
+  
   public userLogined$ = new Subject();
   public pageSelected$ = new Subject();
   public internetOffline$ = new Subject();

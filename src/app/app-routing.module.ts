@@ -220,6 +220,11 @@ const routes: Routes = [
     path: 'company-edit',
     loadChildren: () => import('./pages/logged-in/company/company-edit/company-edit.module').then( m => m.CompanyEditPageModule)
   },
+
+  {
+    path: 'app-error',
+    loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'
