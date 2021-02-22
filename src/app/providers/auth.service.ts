@@ -24,12 +24,12 @@ export class AuthService {
 
   public id: any;
   public company_id: any;
-  public name: string;
+  public profile_name: string;
   public email: string;
   public role: string;
 
   public company: Company;
-  
+
   public isLogged = false;
 
   public displayCookieMessage = '0';
@@ -53,7 +53,7 @@ export class AuthService {
     public http: HttpClient,
     public router: Router,
     public eventService: EventService
-  ) { 
+  ) {
 
   }
 
@@ -77,24 +77,27 @@ export class AuthService {
         resolve(true);
       }
 
-      const ret = await Storage.get({ key: 'loggedInCompany' });
-      const data = JSON.parse(ret.value);
+      Storage.get({ key: 'loggedInCompany' }).then(ret => {
+        const data = JSON.parse(ret.value);
 
-      if (data) {
+        if (data) {
 
-        this.isLogged = true;
+          this.isLogged = true;
 
-        this.accessToken = data.token;
-        this.company_id = data.company_id;
-        this.email = data.email;
-        this.name = data.name;
-        this.id = data.id;
+          this.accessToken = data.token;
+          this.company_id = data.company_id;
+          this.email = data.email;
+          this.profile_name = data.profile_name;
+          this.id = data.id;
 
-        resolve(true);
-      } else {
-        resolve(false);
-        this.logout('invalid access');
-      }
+          resolve(true);
+        } else {
+          resolve(false);
+          this.logout('invalid access');
+        }
+      }).catch(r => {
+        this.eventService.errorStorage$.next();
+      });
     });
   }
 
@@ -107,10 +110,12 @@ export class AuthService {
       value: JSON.stringify({
         token: this.accessToken,
         company_id: this.company_id,
-        name: this.name,
+        profile_name: this.profile_name,
         email: this.email,
         id: this.id
       })
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
   }
 
@@ -121,7 +126,6 @@ export class AuthService {
     this.company = company;
 
     this.company_id = company ? company.company_id : null;
-    //this.name = company ? company.company_name : null;
 
     return this.saveInStorage();
   }
@@ -139,11 +143,13 @@ export class AuthService {
 
     this.accessToken = null;
     this.company_id = null;
-    this.name = null;
+    this.profile_name = null;
     this.email = null;
     this.id = null;
 
-    Storage.clear();
+    Storage.clear().catch(r => {
+      this.eventService.errorStorage$.next();
+    });
 
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
@@ -152,6 +158,8 @@ export class AuthService {
     Storage.set({
       key: 'cookieMessageWasApproved',
       value: (this.displayCookieMessage == '0') ? '1' : '0'
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
   }
 
@@ -162,9 +170,9 @@ export class AuthService {
 
     this.accessToken = response.token;
     this.company_id = response.company_id;
-    this.name = response.name;
+    this.profile_name = response.profile_name;
     this.email = response.email;
-    this.id = response.contact? response.contact?.contact_uuid: response.id;
+    this.id = response.contact ? response.contact?.contact_uuid : response.id;
 
     // Save to Storage
     this.saveInStorage();
@@ -177,19 +185,17 @@ export class AuthService {
 
   // This is the method you want to call at bootstrap
   async load(): Promise<any> {
-    const ret = await Storage.get({ key: 'loggedInCompany' });
-    const promises = [
-      JSON.parse(ret.value)
-    ];
+    Storage.get({ key: 'loggedInCompany' }).then(ret => {
 
-    return Promise.all(promises).then(data => {
-      // for guest use language value in storage, for login user loggedInAgent.language_pref
+      let company = JSON.parse(ret.value);
 
-      if (data[0] && data[0].token) {
-        return this.setAccessToken(data[0]);
+      if (company && company.token) {
+        return this.setAccessToken(company);
       } else {
         // return this.logout('error with store variables',true);
       }
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
   }
 
@@ -211,6 +217,8 @@ export class AuthService {
         this.setAccessToken(user, redirect);
         this.accessToken = user.token;
       }
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
 
     return this.accessToken;
@@ -253,6 +261,7 @@ export class AuthService {
       map((res) => res)
     );
   }
+
   /**
    * Change password by password reset token
    * @param token

@@ -13,7 +13,7 @@
 
       <ion-searchbar [(ngModel)]="query" *ngIf="contactList && contactList.length > 2" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
 
-      <ion-item *ngFor="let contact of contactList" tappable [routerLink]="'/company-contact-view/' + contact.contact_uuid">
+      <ion-item *ngFor="let contact of contactList">
 
         <div tabindex="0"></div>
 
@@ -55,9 +55,10 @@
             <ion-icon name="checkmark-outline"></ion-icon> Receive email
           </ion-badge>
 
+          <!--
           <ion-badge slot="start" color="light" *ngIf="contact.contact.contact_receive_notification">
             <ion-icon name="checkmark-outline"></ion-icon> Receive notification
-          </ion-badge>
+          </ion-badge>-->
 
         </ion-label>
       </ion-item>

@@ -217,12 +217,13 @@ const routes: Routes = [
     canActivate: [AuthService]
   },
   {
-    path: 'company-contact-view',
-    loadChildren: () => import('./pages/logged-in/company-contact/company-contact-view/company-contact-view.module').then( m => m.CompanyContactViewPageModule)
-  },
-  {
     path: 'company-edit',
     loadChildren: () => import('./pages/logged-in/company/company-edit/company-edit.module').then( m => m.CompanyEditPageModule)
+  },
+
+  {
+    path: 'app-error',
+    loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },
   {
     path: '**',

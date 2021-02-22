@@ -1,6 +1,6 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-    
+
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/company-request-dashboard"></ion-back-button>
       </ion-buttons>
@@ -18,7 +18,7 @@
           <ion-spinner *ngIf="saving"></ion-spinner>
         </ion-button>
       </ion-buttons>
- 
+
   </ion-toolbar>
 </ion-header>
 
@@ -56,18 +56,28 @@
           <ion-input type="text" formControlName="position_title"></ion-input>
         </ion-item>
       </ion-list>
-
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">Job Description</ion-label>
+          <ion-input type="text" formControlName="job_description"></ion-input>
+        </ion-item>
+      </ion-list>
       <ion-list>
         <ion-item>
           <ion-label position="floating">Number of employees</ion-label>
           <ion-input type="text" formControlName="number_of_employees"></ion-input>
         </ion-item>
       </ion-list>
-
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Additional info</ion-label>
-          <ion-textarea formControlName="additional_info" placeholder="Female only, Lebanese Jordanian Syrian NO EGYPTIAN"></ion-textarea>
+          <ion-label position="floating">Compensation</ion-label>
+          <ion-textarea formControlName="compensation" placeholder="Please provide compensation detail"></ion-textarea>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">Additional notes to the recruiter</ion-label>
+          <ion-textarea formControlName="additional_info" placeholder="Anything you type here will be shared to the recruiter and be kept private from the employees you're looking to hire"></ion-textarea>
         </ion-item>
       </ion-list>
     </form>

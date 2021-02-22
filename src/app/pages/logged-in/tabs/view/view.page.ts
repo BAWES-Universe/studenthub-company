@@ -34,33 +34,6 @@ export class ViewPage implements OnInit {
 
   eventSubscriptions() {
 
-    /**
-     * remove old count new company created
-    //  */
-    // this.eventService.agentCompanyChanged$.subscribe(() => {
-    //   this.conversationAlert = this.applicationCount = null;
-    // });
-    //
-    // this.eventService.companyCreated$.subscribe(() => {
-    //   this.conversationAlert = this.applicationCount = null;
-    // });
-    //
-    // this.eventService.applicationCount$.subscribe((applicationCount: number) => {
-    //
-    //   if (this.applicationCount != applicationCount) {
-    //     this.eventService.updateStats$.next();
-    //   }
-    //
-    //   this.applicationCount = applicationCount;
-    // });
-    //
-    // this.eventService.conversationCount$.subscribe((counts: number) => {
-    //   if (counts) {
-    //     this.conversationAlert = counts;
-    //   } else {
-    //     this.conversationAlert = null;
-    //   }
-    // });
   }
 
   ionViewWillEnter() {

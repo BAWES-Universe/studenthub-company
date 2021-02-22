@@ -169,7 +169,7 @@ export class AccountPage implements OnInit {
       // On Success
       if (jsonResponse.operation == "success") {
 
-        this.authService.name = this.model.contact_name;
+        this.authService.profile_name = this.model.contact_name;
         this.authService.email = this.model.contact_email;
         this.authService.saveInStorage();
         

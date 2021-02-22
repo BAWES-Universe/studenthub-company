@@ -8,7 +8,15 @@
       {{ request.request_position_title }}</b>
     </h3>
 
-    <p *ngIf="request.request_additional_info" class="txt-additional-info">{{ request.request_additional_info }} </p>
+    <p *ngIf="request.request_additional_info" class="txt-additional-info">
+      {{ (request.request_additional_info.length > 100) ? request.request_additional_info.substring(0,100)+'...' : request.request_additional_info }}
+    </p>
+    <p *ngIf="request.request_job_description" class="txt-additional-info">
+      {{ (request.request_job_description.length > 100) ? request.request_job_description.substring(0,100)+'...' : request.request_job_description }}
+    </p>
+    <p *ngIf="request.request_compensation" class="txt-additional-info">
+      {{ (request.request_compensation.length > 100) ? request.request_compensation.substring(0,100)+'...'  : request.request_compensation }}
+    </p>
     <small class="time">Request made {{ request.request_created_datetime | timeAgo }} </small>
 
     <div *ngIf="request" class="content-footer" [class.background-grey]="active" [class.background-red]="!active" [class.background-green]="request.request_status == 'delivered'">

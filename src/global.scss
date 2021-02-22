@@ -163,8 +163,8 @@ ion-router-outlet {
 
   ion-title,
   ion-header {
-      padding-left: 10px;
-      padding-right: 10px;
+      //padding-left: 10px;
+      //padding-right: 10px;
       .ion-activatable {
         color: #000000;
       }
@@ -181,8 +181,10 @@ ion-router-outlet {
   }
 
   ion-content {
-    --padding-start: 30px;
-    --padding-end: 30px;
+    //--padding-start: 30px;
+    //--padding-end: 30px;
+    --padding-start: 10px;
+    --padding-end: 10px;
   }
 }
 

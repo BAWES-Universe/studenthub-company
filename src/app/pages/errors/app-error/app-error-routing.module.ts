@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CompanyContactViewPage } from './company-contact-view.page';
+import { AppErrorPage } from './app-error.page';
 
 const routes: Routes = [
   {
-    path: ':contact_uuid',
-    component: CompanyContactViewPage
+    path: '',
+    component: AppErrorPage
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CompanyContactViewPageRoutingModule {}
+export class AppErrorPageRoutingModule {}
