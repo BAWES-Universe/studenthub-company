@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ModalController, AlertController, PopoverController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // services
-
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 // models
 import { Request } from 'src/app/models/request';
+
+
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.page.html',
@@ -36,7 +37,6 @@ export class RequestFormPage implements OnInit {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private authService: AuthService,
-    private popoverCtrl: PopoverController,
     private location: Location,
     private eventService: EventService,
     private route: ActivatedRoute
@@ -61,14 +61,15 @@ export class RequestFormPage implements OnInit {
 
   loadForm() {
     this.company = this.model.company;
+
     this.form = this.fb.group({
       position_type: [this.model.request_position_type + '', Validators.required],
       position_title: [this.model.request_position_title, Validators.required],
       number_of_employees: [this.model.request_number_of_employees, Validators.required],
+      location: [this.model.request_location],
       additional_info: [this.model.request_additional_info],
       job_description: [this.model.request_job_description, Validators.required],
-      compensation: [this.model.request_compensation, Validators.required],
-
+      compensation: [this.model.request_compensation, Validators.required]
     });
 
     this.operation = (this.requestID) ? 'Update' : 'Create';
@@ -84,6 +85,7 @@ export class RequestFormPage implements OnInit {
     this.model.request_additional_info = this.form.value.additional_info;
     this.model.request_job_description = this.form.value.job_description;
     this.model.request_compensation = this.form.value.compensation;
+    this.model.request_location = this.form.value.location;
   }
 
   /**
@@ -154,6 +156,9 @@ export class RequestFormPage implements OnInit {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
 
+  /**
+   * reser form controls 
+   */
   resetForm() {
     this.company = null;
     this.form.controls.position_type.setValue(null);
@@ -162,5 +167,6 @@ export class RequestFormPage implements OnInit {
     this.form.controls.additional_info.setValue(null);
     this.form.controls.job_description.setValue(null);
     this.form.controls.compensation.setValue(null);
+    this.form.controls.location.setValue(null);
   }
 }

@@ -54,6 +54,7 @@ export class CompanyRequestService {
       number_of_employees: model.request_number_of_employees,
       additional_info: model.request_additional_info,
       compensation: model.request_compensation,
+      location: model.request_location,
       job_description: model.request_job_description
     });
   }
@@ -91,6 +92,7 @@ export class CompanyRequestService {
       number_of_employees: model.request_number_of_employees,
       additional_info: model.request_additional_info,
       compensation: model.request_compensation,
+      location: model.request_location,
       job_description: model.request_job_description
     });
   }
