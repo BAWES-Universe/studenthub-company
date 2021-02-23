@@ -15,6 +15,7 @@ export class Request {
     request_job_description: string;
     request_compensation: string;
     request_number_of_employees: number;
+    request_location: string;
     request_additional_info: string;
     request_status: any;
     // request_status: Status;

@@ -28,6 +28,11 @@
       </b>
 
       <p class="txt-additional-info">{{ request.request_additional_info }}</p>
+
+      <p class="txt-additional-info" *ngIf="request.request_location">
+        {{ request.request_location }}
+      </p>
+
       <p class="txt-additional-info">{{ request.request_job_description }}</p>
       <p class="txt-additional-info">{{ request.request_compensation }}</p>
 
