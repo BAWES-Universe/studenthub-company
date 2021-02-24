@@ -31,7 +31,7 @@ export class CompanyRequestService {
    */
   listWithPagination(page: number, urlParams: string = ''): Observable<any> {
     const url = this.companyRequestEndpoint + '?page=' + page + urlParams +
-      '&expand=staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+      '&expand=staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations';
     return this.authhttp.getRaw(url);
   }
 
@@ -39,7 +39,7 @@ export class CompanyRequestService {
    * requests started/active but not by login user
    */
   listActiveRequests(filterParams = '') : Observable<any> {
-    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=staff,lastActivity,lastActivity.createdBy,company';
+    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=staff,lastActivity,lastActivity.createdBy,company,invitations';
     return this.authhttp.get(url);
   }
 
@@ -111,7 +111,7 @@ export class CompanyRequestService {
    */
   view(id): Observable<any> {
     const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+      '?expand=requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,invitations.candidate';
     return this.authhttp.get(url);
   }
 

@@ -76,6 +76,16 @@
           [model]="suggestion"></suggestion>
       </div>
 
+
+      <h4 class="txt-activities">Invited Candidates</h4>
+
+      <div class="activity-container">
+
+        <ng-container *ngFor="let invitation of request.invitations;let i = index;">
+          <candidate [candidate]="invitation.candidate"></candidate>
+        </ng-container>
+      </div>
+
     </div>
 
     <loading-modal [loading]="loading" type="request-detail"></loading-modal>

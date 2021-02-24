@@ -2,6 +2,7 @@ import { Staff } from './staff';
 import { Company } from './company';
 import { Note } from './note';
 import { Contact } from './contact';
+import {Invitation} from './invitation';
 
 
 export class Request {
@@ -27,6 +28,7 @@ export class Request {
     contact: Contact;
     company: Company;
     lastActivity: Note;
+    invitations: Invitation[];
 }
 /*
 enum Status {
