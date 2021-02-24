@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>
+  <ion-toolbar class="desktop-view">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/cv-search"></ion-back-button>
     </ion-buttons>
@@ -261,3 +261,8 @@
     <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
   </div>
 </ion-content>
+<ion-footer>
+  <div class="desktop-view">
+    <ion-button color="dark" (click)="invite()">Invite for request</ion-button>
+  </div>
+</ion-footer>

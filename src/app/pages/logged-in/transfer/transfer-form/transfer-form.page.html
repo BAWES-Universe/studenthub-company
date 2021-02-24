@@ -1,6 +1,6 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>
-     
+  <ion-toolbar  class="desktop-view">
+
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/transfer-list"></ion-back-button>
       </ion-buttons>
@@ -10,7 +10,7 @@
           Save
         </ion-button>
       </ion-buttons>
-     
+
   </ion-toolbar>
 </ion-header>
 
@@ -21,7 +21,7 @@
     <form [formGroup]="form" *ngIf="ready">
 
       <ion-card class="ion-padding card-date-range">
-        
+
         <h4>I am transferring for work done in the following time period:</h4>
 
         <ion-button *ngIf="!transfer.start_date || !transfer.end_date" (click)="openCalendar()">Please select the date Range</ion-button>

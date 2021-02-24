@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {NavController} from '@ionic/angular';
+import {ModalController, NavController} from '@ionic/angular';
 // models
 import { Candidate } from 'src/app/models/candidate';
 // services
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import {InvitePage} from "../../invite/invite.page";
+
 
 
 @Component({
@@ -28,7 +30,8 @@ export class CandidateViewPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public candidateService: CandidateService,
     public navCtrl: NavController,
-    public authService: AuthService
+    public authService: AuthService,
+    public modalCtrl: ModalController
   ) { }
 
   /**
@@ -96,5 +99,33 @@ export class CandidateViewPage implements OnInit {
 
   area(area, country) {
     return `${area.area_name_en } ${country.country_name_en}`;
+  }
+
+  /**
+   * invite candidate for open request
+   */
+  async invite() {
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: InvitePage,
+      componentProps: {
+        candidate: this.candidate
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e.data && e.data.refresh && e.data.invitedCount) {
+        // this.loadNotes();
+        // this.candidate.invited = e.data.invitedCount;
+      }
+    });
+    await modal.present();
   }
 }

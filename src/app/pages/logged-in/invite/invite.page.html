@@ -1,0 +1,33 @@
+<ion-header [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-back-button (click)="close()"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Select Request</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+
+  <form [formGroup]="form" *ngIf="form">
+    <div class="" *ngIf="activeRequests">
+      <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequests" tappable [request]="request"
+                       [showStatus]="false"></request-listing>
+
+      <section class="ion-padding empty-data" *ngIf="!loadingRequests && activeRequests && activeRequests.length == 0">
+        <ion-icon name="ios-filing-outline"></ion-icon>
+        <no-items message="No Request Yet"></no-items>
+      </section>
+
+      <loading-modal [loading]="loadingRequests" type="request-list"></loading-modal>
+
+      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </div>
+  </form>
+
+</ion-content>
+

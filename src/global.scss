@@ -194,7 +194,8 @@ ion-header {
 }
 
 ion-footer .desktop-view,
-ion-content .desktop-view {
+ion-content .desktop-view,
+ion-toolbar.desktop-view {
   max-width: 787px;
   margin: 0 auto;
 }
