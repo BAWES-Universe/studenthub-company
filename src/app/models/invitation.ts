@@ -1,4 +1,5 @@
 import {Candidate} from './candidate';
+import {Suggestion} from './suggestion';
 
 export class Invitation {
   invitation_uuid: string;
@@ -12,4 +13,5 @@ export class Invitation {
   invitation_created_at: string;
   invitation_updated_at: string;
   candidate: Candidate;
+  suggestion: Suggestion;
 }

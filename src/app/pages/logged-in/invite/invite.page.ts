@@ -69,7 +69,7 @@ export class InvitePage implements OnInit {
   loadRequests() {
     this.loadingRequests = true;
 
-    this.requestService.listWithPagination(1, '&position_type=2').subscribe(response => {
+    this.requestService.listWithPagination(1, '&position_type=2&request_status=started').subscribe(response => {
 
       this.loadingRequests = false;
 

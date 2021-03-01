@@ -82,7 +82,7 @@
       <div class="activity-container">
 
         <ng-container *ngFor="let invitation of request.invitations;let i = index;">
-          <candidate [candidate]="invitation.candidate"></candidate>
+          <candidate [candidate]="invitation.candidate" [invitation]="invitation"></candidate>
         </ng-container>
       </div>
 

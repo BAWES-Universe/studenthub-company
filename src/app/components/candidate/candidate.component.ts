@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-//models
+// models
 import { Candidate } from 'src/app/models/candidate';
-//services
+// services
 import { AwsService } from 'src/app/providers/aws.service';
+import {Invitation} from 'src/app/models/invitation';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 export class CandidateComponent implements OnInit {
 
   @Input() candidate: Candidate;
+  @Input() invitation: Invitation;
 
   constructor(
     public aws: AwsService
