@@ -38,9 +38,9 @@ export class CompanyRequestService {
   /**
    * requests started/active but not by login user
    */
-  listActiveRequests(filterParams = '') : Observable<any> {
-    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=staff,lastActivity,lastActivity.createdBy,company,invitations';
-    return this.authhttp.get(url);
+  listActiveRequests(page: number, filterParams = '') : Observable<any> {
+    let url = this.companyRequestEndpoint + '/active?page=' + page + filterParams;
+    return this.authhttp.getRaw(url);
   }
 
   /**
