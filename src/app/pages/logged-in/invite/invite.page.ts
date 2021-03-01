@@ -6,10 +6,9 @@ import { Candidate } from 'src/app/models/candidate';
 import { Request } from 'src/app/models/request';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
-import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 // services
 import { CompanyRequestService } from '../../../providers/logged-in/company-request.service';
-import {RequestCandidateInvitationService} from "../../../providers/logged-in/request-candidate-invitation.service";
+import { RequestCandidateInvitationService } from "../../../providers/logged-in/request-candidate-invitation.service";
 
 
 @Component({
@@ -69,7 +68,7 @@ export class InvitePage implements OnInit {
   loadRequests() {
     this.loadingRequests = true;
 
-    this.requestService.listWithPagination(1, '&position_type=2&request_status=started').subscribe(response => {
+    this.requestService.listActiveRequests(1, '&position_type=2').subscribe(response => {
 
       this.loadingRequests = false;
 
@@ -93,13 +92,13 @@ export class InvitePage implements OnInit {
 
     const urlParams = '&position_type=2';
 
-    this.requestService.listWithPagination(this.currentPage, urlParams).subscribe(response => {
+    this.requestService.listActiveRequests(this.currentPage, urlParams).subscribe(response => {
 
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-        this.activeRequests = this.activeRequests.concat(response.body);
-      },
+      this.activeRequests = this.activeRequests.concat(response.body);
+    },
       error => { },
       () => {
         this.loading = false;
