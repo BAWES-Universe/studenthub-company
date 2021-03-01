@@ -25,13 +25,13 @@
       </ion-badge>
 
       <ng-container *ngIf="invitation">
-        <ion-badge *ngIf="invitation.suggestion && invitation.suggestion.suggestion_status == 1" color="warning">
+        <ion-badge *ngIf="invitation && invitation.invitation_status == 1" color="warning">
           Invited
         </ion-badge>
-        <ion-badge *ngIf="invitation.suggestion && invitation.suggestion.suggestion_status == 3" color="success">
+        <ion-badge *ngIf="invitation && invitation.invitation_status == 3" color="warning">
           Invitation Accepted
         </ion-badge>
-        <ion-badge *ngIf="invitation.suggestion && invitation.suggestion.suggestion_status == 2" color="danger">
+        <ion-badge *ngIf="invitation && invitation.invitation_status == 2" color="danger">
           Invitation Rejected
         </ion-badge>
       </ng-container>
