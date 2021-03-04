@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, ModalController } from '@ionic/angular';
+import {AlertController, ModalController, ToastController} from '@ionic/angular';
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { Request } from 'src/app/models/request';
@@ -40,7 +40,8 @@ export class InvitePage implements OnInit {
     public authService: AuthService,
     public eventService: EventService,
     public invitationService: RequestCandidateInvitationService,
-    public requestService: CompanyRequestService
+    public requestService: CompanyRequestService,
+    public toastCtrl: ToastController
   ) { }
 
   ngOnInit() {
@@ -127,6 +128,11 @@ export class InvitePage implements OnInit {
 
       // On Success
       if (response.operation == 'success') {
+        await this.toastCtrl.create({
+          message: response.message
+        }).then(prompt => {
+          prompt.present();
+        });
         // Close the page
         this.close(true, response.invitedCount);
       }

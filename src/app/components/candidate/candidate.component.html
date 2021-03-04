@@ -8,7 +8,7 @@
     </ion-avatar>
 
     <ion-label>
-      <h2 class="candidate_name">{{ candidate.candidate_name ?candidate.candidate_name : candidate.candidate_name_ar }}</h2>
+      <h2 tappable class="candidate_name">{{ candidate.candidate_name ?candidate.candidate_name : candidate.candidate_name_ar }}</h2>
 
       <!--
       <ion-badge *ngIf="candidate.approved == 0 && candidate.isProfileCompleted == true" color="warning">
