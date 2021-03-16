@@ -16,9 +16,10 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 
 	transform(value: string) {
 		this.removeTimer();
-    let GMTDate = new Date();
 
-		let d = (value) ? new Date(value.replace(/-/g, '/') + ' GMT') : GMTDate['toGMTString']();
+    	let GMTDate = new Date();
+
+		let d = (value) ? new Date(value.replace(/-/g, '/') + ' GMT+03:00') : GMTDate['toGMTString']();
 		let now = new Date();
 		let seconds = Math.round(Math.abs((now.getTime() - d.getTime())/1000));
 		let timeToUpdate = (Number.isNaN(seconds)) ? 1000 : this.getSecondsUntilUpdate(seconds) * 1000;

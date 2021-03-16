@@ -33,6 +33,7 @@ export class CompanyRequestViewPage implements OnInit {
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public request: Request;
+  
   public requestActivities: Note[] = [];
 
   public suggestedSuggestions = [];
