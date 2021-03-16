@@ -13,7 +13,6 @@ export class AgePipe implements PipeTransform {
 
 	transform(value: number) {
 	
-
         if(!value) {
         	return 0;
         }
