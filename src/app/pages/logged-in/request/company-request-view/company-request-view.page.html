@@ -11,6 +11,10 @@
 
   <div class="desktop-view">
 
+    <ion-button class="btn-cv-search" routerLink="/cv-search">
+      CV Search: Invite candidates to apply for this position
+    </ion-button>
+
     <div *ngIf="request && !loading">
 
       <h4 class="company-name">
@@ -91,5 +95,6 @@
     </div>
 
     <loading-modal [loading]="loading" type="request-detail"></loading-modal>
+
   </div>
 </ion-content>

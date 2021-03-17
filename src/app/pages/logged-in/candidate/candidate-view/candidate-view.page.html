@@ -258,11 +258,14 @@
       </ion-grid>
     </div>
 
-    <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
+    <loading-modal [loading]="loading && !candidate" type="candidate-view"></loading-modal>
   </div>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="candidate && !loading">
   <div class="desktop-view">
-    <ion-button color="dark" (click)="invite()">Invite for request</ion-button>
+    <ion-button color="dark" [disabled]="candidate.invitedCount" (click)="invite()">
+      <span *ngIf="!candidate.invitedCount">Invite for request</span>
+      <span *ngIf="candidate.invitedCount">Invited</span>
+    </ion-button>
   </div>
 </ion-footer>
