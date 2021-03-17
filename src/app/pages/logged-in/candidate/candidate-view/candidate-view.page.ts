@@ -123,7 +123,7 @@ export class CandidateViewPage implements OnInit {
 
       if (e.data && e.data.refresh && e.data.invitedCount) {
         // this.loadNotes();
-        // this.candidate.invited = e.data.invitedCount;
+        this.candidate.invitedCount = e.data.invitedCount;
       }
     });
     await modal.present();

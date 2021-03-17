@@ -128,11 +128,6 @@ export class InvitePage implements OnInit {
 
       // On Success
       if (response.operation == 'success') {
-        await this.toastCtrl.create({
-          message: response.message
-        }).then(prompt => {
-          prompt.present();
-        });
         // Close the page
         this.close(true, response.invitedCount);
       }
