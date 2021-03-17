@@ -123,4 +123,12 @@ export class CompanyRequestService {
     let url = this.companyRequestEndpoint + '/add-activity';
     return this.authhttp.post(url, params);
   }
+
+  /**
+   * request count
+   * @returns {Observable<any>}
+   */
+  requestCount(): Observable<any> {
+    return this.authhttp.get(this.companyRequestEndpoint + '/count');
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonTabs, Platform, MenuController } from '@ionic/angular';
+import {IonTabs, Platform, MenuController, AlertController} from '@ionic/angular';
 import { Router } from '@angular/router';
 import {EventService} from 'src/app/providers/event.service';
 import {AuthService} from 'src/app/providers/auth.service';
@@ -24,7 +24,8 @@ export class ViewPage implements OnInit {
       public menuCtrl: MenuController,
       public router: Router,
       public eventService: EventService,
-      public auth: AuthService
+      public auth: AuthService,
+      public alertCtrl: AlertController
   ) {
     this.eventSubscriptions();
   }
