@@ -16,10 +16,18 @@
           placeholder="Your Email Address">
         </ion-input>
 
-        <ion-input type="password" #passwordInput
-                   formControlName="password"
-                   placeholder="Your Password">
-        </ion-input>
+        <div class="password_field">
+          <ion-input type="{{type}}" #passwordInput
+                     formControlName="password"
+                     placeholder="Your Password">
+          </ion-input>
+          <ion-button  fill="clear" class="password_change_icon skip-hover" (click)="showPassword()">
+            <ion-icon *ngIf="!showPass" name="eye"></ion-icon>
+            <ion-icon *ngIf="showPass" name="eye-off"></ion-icon>
+          </ion-button>
+        </div>
+
+
 
         <div class="ion-text-center submit-btn">
           <ion-button expand="block" type="submit"
@@ -41,7 +49,7 @@
           Forgot your password?
         </a>
       </div>
-      
+
     </ion-card-content>
   </ion-card>
 

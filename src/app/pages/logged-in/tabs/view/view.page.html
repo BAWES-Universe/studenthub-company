@@ -1,6 +1,6 @@
   <ion-split-pane content-id="main-content" contentId="main-content">
     <ion-menu side="start" contentId="main-content" #menuLTR menuId="menuLTR" type="overlay">
-      
+
       <app-menu class="main-left-menu"></app-menu>
 
     </ion-menu>
@@ -14,7 +14,7 @@
       <ion-tab-bar class="tabs desktop" #mainTabs slot="top" *ngIf="!platform.is('mobile')">
         <ion-tab-button class="tab-button" layout="icon-start" tab="requests">
           <ion-icon name="chatbubble-outline"></ion-icon>
-          <ion-label>Requests</ion-label>
+          <ion-label>Hire</ion-label>
         </ion-tab-button>
 
         <ion-tab-button class="tab-button" layout="icon-start" routerLink="/cv-search">
@@ -37,7 +37,7 @@
       <ion-tab-bar class="tabs mobile-view" #mainTabs slot="bottom" *ngIf="platform.is('mobile')">
         <ion-tab-button class="tab-button" layout="icon-top" tab="requests">
           <ion-icon name="chatbubble-outline"></ion-icon>
-          <ion-label>Requests</ion-label>
+          <ion-label>Hire</ion-label>
         </ion-tab-button>
 
         <ion-tab-button class="tab-button" layout="icon-top" routerLink="/cv-search">

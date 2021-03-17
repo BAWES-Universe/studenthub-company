@@ -25,6 +25,9 @@ export class LoginPage implements OnInit {
 
   // Store number of invalid password attempts to suggest reset password
   private _numberOfLoginAttempts = 0;
+  public type = 'password';
+
+  public showPass = false;
 
   constructor(
     public navCtrl: NavController,
@@ -124,5 +127,15 @@ export class LoginPage implements OnInit {
    */
   resetPasswordRequest() {
     this.router.navigate(['forgot-password']);
+  }
+
+  showPassword() {
+    this.showPass = !this.showPass;
+
+    if (this.showPass) {
+      this.type = 'text';
+    } else {
+      this.type = 'password';
+    }
   }
 }

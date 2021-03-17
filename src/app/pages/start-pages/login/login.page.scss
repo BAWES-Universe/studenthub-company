@@ -41,3 +41,39 @@
 .submit-btn ion-spinner {
   color: #000;
 }
+
+
+.password_field {
+  position: relative;
+
+  ion-input {
+    --padding-end: 60px;
+  }
+}
+
+.password_change_icon {
+  position: absolute;
+  bottom: 0;
+  z-index: 111;
+  opacity: 0.7;
+  background: transparent;
+  top: 15px;
+
+  ion-icon {
+    font-size: 22px;
+    color: #000;
+  }
+}
+
+.password_change_icon:focus {
+  outline: none;
+}
+
+.password_change_icon {
+  right: 0;
+  top: 0;
+}
+
+.password_field input {
+  padding-right: 30px !important;
+}
