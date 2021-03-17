@@ -5,6 +5,11 @@
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>Account</ion-title>
+    <ion-buttons slot="end">
+          <ion-button fill="clear" (click)="authService.logout()">
+            Logout
+          </ion-button>
+    </ion-buttons>
 
   </ion-toolbar>
 </ion-header>
