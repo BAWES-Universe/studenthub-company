@@ -66,7 +66,7 @@ export class AuthService {
     if (route.routeConfig.path == 'cv-search' && this.active_request_count == '0') {
       this.alertCtrl.create({
           header: 'CV Search Usage Alert',
-          message: 'Please create request to use search',
+          message: 'Please create request to use search & wait for staff to look into the request.',
           buttons: ['OK']
       }).then( alert => {
         alert.present();
