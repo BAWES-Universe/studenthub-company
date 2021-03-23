@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>
+  <ion-toolbar class="desktop-view">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/cv-search"></ion-back-button>
     </ion-buttons>
@@ -258,6 +258,14 @@
       </ion-grid>
     </div>
 
-    <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
+    <loading-modal [loading]="loading && !candidate" type="candidate-view"></loading-modal>
   </div>
 </ion-content>
+<ion-footer *ngIf="candidate && !loading">
+  <div class="desktop-view">
+    <ion-button color="dark" [disabled]="candidate.invitedCount" (click)="invite()">
+      <span *ngIf="!candidate.invitedCount">Invite for request</span>
+      <span *ngIf="candidate.invitedCount">Invited</span>
+    </ion-button>
+  </div>
+</ion-footer>

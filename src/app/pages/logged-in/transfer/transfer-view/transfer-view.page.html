@@ -1,10 +1,10 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>
+  <ion-toolbar  class="desktop-view">
 
     <ion-buttons slot="start">
       <ion-back-button (click)="back()"></ion-back-button>
     </ion-buttons>
-     
+
       <ion-title>
         Transfer
         <span *ngIf="transferDetails?.company_total">
@@ -17,7 +17,7 @@
           Delete
         </ion-button>
       </ion-buttons>
-   
+
   </ion-toolbar>
 </ion-header>
 

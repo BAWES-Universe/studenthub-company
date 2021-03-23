@@ -11,6 +11,7 @@ import { Contact } from "../models/contact";
 // service
 import { environment } from '../../environments/environment';
 import { EventService } from './event.service';
+import {AlertController} from "@ionic/angular";
 
 
 const { Storage } = Plugins;
@@ -27,6 +28,7 @@ export class AuthService {
   public profile_name: string;
   public email: string;
   public role: string;
+  public active_request_count: any;
 
   public company: Company;
 
@@ -52,15 +54,25 @@ export class AuthService {
   constructor(
     public http: HttpClient,
     public router: Router,
-    public eventService: EventService
-  ) {
-
-  }
+    public eventService: EventService,
+    public alertCtrl: AlertController
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
+    if (route.routeConfig.path == 'cv-search' && this.active_request_count == '0') {
+      this.alertCtrl.create({
+          header: 'CV Search Usage Alert',
+          message: 'Please create request to use search & wait for staff to look into the request.',
+          buttons: ['OK']
+      }).then( alert => {
+        alert.present();
+      });
+      return false;
+    }
     /**
      * new router changes don't wait for startup service
      * https://github.com/angular/angular/issues/14615
@@ -81,7 +93,6 @@ export class AuthService {
         const data = JSON.parse(ret.value);
 
         if (data) {
-
           this.isLogged = true;
 
           this.accessToken = data.token;
@@ -89,6 +100,7 @@ export class AuthService {
           this.email = data.email;
           this.profile_name = data.profile_name;
           this.id = data.id;
+          this.active_request_count = data.active_request_count;
 
           resolve(true);
         } else {
@@ -112,11 +124,21 @@ export class AuthService {
         company_id: this.company_id,
         profile_name: this.profile_name,
         email: this.email,
-        id: this.id
+        id: this.id,
+        active_request_count: this.active_request_count
       })
     }).catch(r => {
       this.eventService.errorStorage$.next();
     });
+  }
+
+  /**
+   * Save company when user change company
+   */
+  setActiveRequest(count) {
+    this.active_request_count = count;
+
+    return this.saveInStorage();
   }
 
   /**
@@ -146,6 +168,7 @@ export class AuthService {
     this.profile_name = null;
     this.email = null;
     this.id = null;
+    this.active_request_count = null;
 
     Storage.clear().catch(r => {
       this.eventService.errorStorage$.next();
@@ -173,6 +196,7 @@ export class AuthService {
     this.profile_name = response.profile_name;
     this.email = response.email;
     this.id = response.contact ? response.contact?.contact_uuid : response.id;
+    this.active_request_count = response.active_request_count;
 
     // Save to Storage
     this.saveInStorage();

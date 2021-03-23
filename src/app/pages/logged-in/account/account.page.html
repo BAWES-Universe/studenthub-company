@@ -1,11 +1,16 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>  
-    
+  <ion-toolbar  class="desktop-view">
+
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>Account</ion-title>
-    
+    <ion-buttons slot="end">
+          <ion-button fill="clear" (click)="authService.logout()">
+            Logout
+          </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
@@ -35,7 +40,7 @@
           <ion-toggle slot="end" formControlName="receive_notification"></ion-toggle>
         </ion-item>
         -->
-        
+
         <ion-card>
           <ion-card-header>
             <ion-card-title>Other Emails </ion-card-title>

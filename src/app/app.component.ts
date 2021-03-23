@@ -12,6 +12,7 @@ import { CandidateService } from './providers/logged-in/candidate.service';
 import { AwsService } from './providers/aws.service';
 import { CompanyService } from './providers/logged-in/company.service';
 import {Router} from "@angular/router";
+import {CompanyRequestService} from "./providers/logged-in/company-request.service";
 
 
 const { SplashScreen } = Plugins;
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
     public awsService: AwsService,
     public companyService: CompanyService,
     public candidateService: CandidateService,
+    public requestService: CompanyRequestService,
     public router: Router
   ) {
     this.initializeApp();
@@ -75,6 +77,14 @@ export class AppComponent implements OnInit {
   }
 
   eventSub() {
+
+    setInterval(data => {
+        this.requestService.requestCount().subscribe(data => {
+          if (parseInt(data.active_request_count) != parseInt(this.auth.active_request_count)) {
+            this.auth.setActiveRequest(data.active_request_count);
+          }
+        });
+    },10000);
 
     // Check for network connection
     this.eventService.internetOffline$.subscribe(async () => {

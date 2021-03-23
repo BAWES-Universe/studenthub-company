@@ -63,4 +63,5 @@ export class Candidate {
   candidateSkills: any;
   candidateIdCard: any;
   pendingField: any[];
+  invitedCount: number;
 }

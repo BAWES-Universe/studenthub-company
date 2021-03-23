@@ -84,15 +84,15 @@ ion-footer.filter-closed {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  button.days-btn p , h4 {
-    color: #fff !important;
-  }
-
-  button.days-btn.today{
-    background: grey!important;
-  }
-}
+//@media (prefers-color-scheme: dark) {
+//  button.days-btn p , h4 {
+//    color: #fff !important;
+//  }
+//
+//  button.days-btn.today{
+//    background: grey!important;
+//  }
+//}
 
 .clear-header:after {
   display: none;
@@ -169,6 +169,9 @@ ion-router-outlet {
         color: #000000;
       }
   }
+  ion-header {
+    background: #fff;
+  }
 
   ion-title:not([size="small"]) {
       font-size: 18px;
@@ -194,7 +197,8 @@ ion-header {
 }
 
 ion-footer .desktop-view,
-ion-content .desktop-view {
+ion-content .desktop-view,
+ion-toolbar.desktop-view {
   max-width: 787px;
   margin: 0 auto;
 }

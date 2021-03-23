@@ -31,16 +31,16 @@ export class CompanyRequestService {
    */
   listWithPagination(page: number, urlParams: string = ''): Observable<any> {
     const url = this.companyRequestEndpoint + '?page=' + page + urlParams +
-      '&expand=staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+      '&expand=staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations';
     return this.authhttp.getRaw(url);
   }
 
   /**
    * requests started/active but not by login user
    */
-  listActiveRequests(filterParams = '') : Observable<any> {
-    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=staff,lastActivity,lastActivity.createdBy,company';
-    return this.authhttp.get(url);
+  listActiveRequests(page: number, filterParams = '') : Observable<any> {
+    let url = this.companyRequestEndpoint + '/active?page=' + page + filterParams;
+    return this.authhttp.getRaw(url);
   }
 
   /**
@@ -54,6 +54,7 @@ export class CompanyRequestService {
       number_of_employees: model.request_number_of_employees,
       additional_info: model.request_additional_info,
       compensation: model.request_compensation,
+      location: model.request_location,
       job_description: model.request_job_description
     });
   }
@@ -91,6 +92,7 @@ export class CompanyRequestService {
       number_of_employees: model.request_number_of_employees,
       additional_info: model.request_additional_info,
       compensation: model.request_compensation,
+      location: model.request_location,
       job_description: model.request_job_description
     });
   }
@@ -109,7 +111,7 @@ export class CompanyRequestService {
    */
   view(id): Observable<any> {
     const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+      '?expand=requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,invitations.candidate,invitations.suggestion';
     return this.authhttp.get(url);
   }
 
@@ -120,5 +122,13 @@ export class CompanyRequestService {
   addActivity(params) : Observable<any> {
     let url = this.companyRequestEndpoint + '/add-activity';
     return this.authhttp.post(url, params);
+  }
+
+  /**
+   * request count
+   * @returns {Observable<any>}
+   */
+  requestCount(): Observable<any> {
+    return this.authhttp.get(this.companyRequestEndpoint + '/count');
   }
 }

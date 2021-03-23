@@ -11,19 +11,21 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { RecentActivityComponent } from 'src/app/components/recent-activity/recent-activity.component';
 import { SuggestionModule } from 'src/app/components/suggestion/suggestion.module';
+import {CandidateModule} from "../../../../components/candidate/candidate.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    PipesModule,
-    IonicModule,
-    SuggestionModule,
-    LoadingModalModule,
-    CompanyRequestViewRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        PipesModule,
+        IonicModule,
+        SuggestionModule,
+        LoadingModalModule,
+        CompanyRequestViewRoutingModule,
+        CandidateModule
+    ],
   declarations: [
-    CompanyRequestViewPage, 
+    CompanyRequestViewPage,
     RecentActivityComponent
   ]
 })

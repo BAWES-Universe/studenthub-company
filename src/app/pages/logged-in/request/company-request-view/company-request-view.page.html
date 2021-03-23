@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar>
+  <ion-toolbar class="desktop-view">
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/"></ion-back-button>
       </ion-buttons>
@@ -10,6 +10,10 @@
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
 
   <div class="desktop-view">
+
+    <ion-button class="btn-cv-search" routerLink="/cv-search">
+      CV Search: Invite candidates to apply for this position
+    </ion-button>
 
     <div *ngIf="request && !loading">
 
@@ -28,11 +32,16 @@
       </b>
 
       <p class="txt-additional-info">{{ request.request_additional_info }}</p>
+
+      <p class="txt-additional-info" *ngIf="request.request_location">
+        {{ request.request_location }}
+      </p>
+
       <p class="txt-additional-info">{{ request.request_job_description }}</p>
       <p class="txt-additional-info">{{ request.request_compensation }}</p>
 
-      <div class="requested-by" *ngIf="request.contact">
-        Requested by <span class="requested-by-staff">{{ request.contact.contact_name }}</span>
+      <div class="requested-by">
+        Requested <ng-container *ngIf="request.contact">by <span class="requested-by-staff">{{ request.contact.contact_name }}</span></ng-container>
         <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
       </div>
 
@@ -71,8 +80,21 @@
           [model]="suggestion"></suggestion>
       </div>
 
+
+      <h4 class="txt-activities" *ngIf="request.invitations && request.invitations.length > 0">
+        Invited Candidates
+      </h4>
+
+      <div class="activity-container">
+
+        <ng-container *ngFor="let invitation of request.invitations;let i = index;">
+          <candidate [routerLink]="['/candidate-view/',invitation.candidate.candidate_id]" [candidate]="invitation.candidate" [invitation]="invitation"></candidate>
+        </ng-container>
+      </div>
+
     </div>
 
     <loading-modal [loading]="loading" type="request-detail"></loading-modal>
+
   </div>
 </ion-content>

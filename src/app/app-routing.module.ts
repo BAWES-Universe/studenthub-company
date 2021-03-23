@@ -218,7 +218,8 @@ const routes: Routes = [
   },
   {
     path: 'company-edit',
-    loadChildren: () => import('./pages/logged-in/company/company-edit/company-edit.module').then( m => m.CompanyEditPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-edit/company-edit.module').then( m => m.CompanyEditPageModule),
+    canActivate: [AuthService]
   },
 
   {
