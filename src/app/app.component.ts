@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
   public totalEmployees;
 
   public updatesAvailable = false;
+  public subscribeForRequest;
 
   constructor(
     public updates: SwUpdate,
@@ -60,11 +61,11 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.eventSub();
 
     if (this.auth.isLogged) {
       this.loadTotalEmployee();
       this.loadCompanies();
+      this.eventSub();
 
       /*if (!this.auth.company && this.auth.company_id) {
         this.loadCompanyDetail();
@@ -78,7 +79,7 @@ export class AppComponent implements OnInit {
 
   eventSub() {
 
-    setInterval(data => {
+    this.subscribeForRequest = setInterval(data => {
         this.requestService.requestCount().subscribe(data => {
           if (parseInt(data.active_request_count) != parseInt(this.auth.active_request_count)) {
             this.auth.setActiveRequest(data.active_request_count);
@@ -123,6 +124,9 @@ export class AppComponent implements OnInit {
 
     // On Logout Event, set root to Login Page
     this.eventService.userLoggedOut$.subscribe((logoutReason) => {
+      if (this.subscribeForRequest) {
+        clearInterval(this.subscribeForRequest);
+      }
       // Set root to Login Page
       this.navCtrl.navigateRoot(['/login']);
 
