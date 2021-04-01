@@ -283,10 +283,7 @@ export class CompanyContactListPage implements OnInit {
       buttons: [
         {
           text: 'No',
-          role: 'cancel',
-          handler: () => {
-            console.log('close');
-          }
+          role: 'cancel'
         },
         {
           text: 'Yes',

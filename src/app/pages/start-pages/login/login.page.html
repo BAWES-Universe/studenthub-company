@@ -9,31 +9,28 @@
 
       <!-- Login Form -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()"  class="classicInput" novalidate>
-
-        <ion-input type="email" #emailInput
-          inputmode="email"
-          formControlName="email"
-          placeholder="Your Email Address">
-        </ion-input>
-
-        <div class="password_field">
-          <ion-input type="{{type}}" #passwordInput
-                     formControlName="password"
-                     placeholder="Your Password">
+        <ion-item lines="none">
+          <ion-input type="email" #emailInput
+            inputmode="email"
+            formControlName="email"
+            placeholder="Your Email Address">
           </ion-input>
-          <ion-button  fill="clear" class="password_change_icon skip-hover" (click)="showPassword()">
-            <ion-icon *ngIf="!showPass" name="eye"></ion-icon>
-            <ion-icon *ngIf="showPass" name="eye-off"></ion-icon>
+        </ion-item>
+
+        <ion-item lines="none" class="field-password">
+          <ion-input type="{{type}}" #passwordInput formControlName="password" placeholder="Your Password">
+          </ion-input>
+
+          <ion-button class="btn-password" fill="clear" (click)="showPassword()">
+            <ion-icon *ngIf="type == 'password'" name="eye"></ion-icon>
+            <ion-icon *ngIf="type != 'password'" name="eye-off"></ion-icon>
           </ion-button>
-        </div>
-
-
+        </ion-item>
 
         <div class="ion-text-center submit-btn">
           <ion-button expand="block" type="submit"
                   [disabled]="!loginForm.valid || isLoading ||
                         (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)">
-
             <ion-spinner *ngIf="isLoading"></ion-spinner>
             <span *ngIf="!isLoading">Sign in</span>
           </ion-button>

@@ -42,11 +42,6 @@ export class ViewPage implements OnInit {
   }
 
   logout() {
-    console.log('logout');
     this.auth.logout();
-  }
-
-  link() {
-    console.log('link');
   }
 }

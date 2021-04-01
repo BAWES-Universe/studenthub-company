@@ -483,6 +483,10 @@ export class CandidateSearchPage implements OnInit {
    */
   instantSearchConfigRefactor(makeStateKey, HttpHeaders, response) {
 
+    if(!response.securedApiKey) {
+      return this.navCtrl.navigateRoot(['/']);
+    }
+
     return {
       indexName: environment.algoliaCandidateIndex,
       searchClient: this.createSSRSearchClient({

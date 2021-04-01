@@ -1,4 +1,4 @@
-import { Component, OnInit, ApplicationRef } from '@angular/core';
+import { Component, OnInit, ApplicationRef, OnDestroy } from '@angular/core';
 import { AlertController, MenuController, NavController, Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { SwUpdate } from '@angular/service-worker';
@@ -22,7 +22,7 @@ const { SplashScreen } = Plugins;
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   public selectedIndex;
   public totalEmployees;
@@ -65,27 +65,48 @@ export class AppComponent implements OnInit {
     if (this.auth.isLogged) {
       this.loadTotalEmployee();
       this.loadCompanies();
-      this.eventSub();
 
       /*if (!this.auth.company && this.auth.company_id) {
         this.loadCompanyDetail();
       }*/
     }
+
+    this.subscribeToEvents();
   }
 
   logout() {
     this.auth.logout();
   }
 
-  eventSub() {
+  ngOnDestroy() {
 
-    this.subscribeForRequest = setInterval(data => {
-        this.requestService.requestCount().subscribe(data => {
-          if (parseInt(data.active_request_count) != parseInt(this.auth.active_request_count)) {
-            this.auth.setActiveRequest(data.active_request_count);
-          }
-        });
-    },10000);
+    if (this.subscribeForRequest) {
+      clearInterval(this.subscribeForRequest);
+      this.subscribeForRequest = null;
+    }
+  }
+
+  /**
+   * check for request count
+   */
+  checkRequestCount() {
+    this.requestService.requestCount().subscribe(data => {
+      if (parseInt(data.active_request_count) != parseInt(this.auth.active_request_count)) {
+        this.auth.setActiveRequest(data.active_request_count);
+      }
+    });
+  }
+
+  /**
+   * subscribe to events 
+   */
+  subscribeToEvents() {
+
+    if(this.auth.isLogged && !this.subscribeForRequest) {
+      this.subscribeForRequest = setInterval(data => {
+        this.checkRequestCount();
+      }, 10000);
+    }
 
     // Check for network connection
     this.eventService.internetOffline$.subscribe(async () => {
@@ -108,7 +129,13 @@ export class AppComponent implements OnInit {
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
-
+ 
+      if(!this.subscribeForRequest) {
+        this.subscribeForRequest = setInterval(data => {
+          this.checkRequestCount();
+        }, 10000);
+      }
+      
       this.loadCompanies();
 
       this.navCtrl.navigateRoot(['/']);
@@ -124,9 +151,12 @@ export class AppComponent implements OnInit {
 
     // On Logout Event, set root to Login Page
     this.eventService.userLoggedOut$.subscribe((logoutReason) => {
+
       if (this.subscribeForRequest) {
         clearInterval(this.subscribeForRequest);
+        this.subscribeForRequest = null;
       }
+
       // Set root to Login Page
       this.navCtrl.navigateRoot(['/login']);
 
