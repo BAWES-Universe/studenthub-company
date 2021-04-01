@@ -62,8 +62,7 @@ export class CompanyHeaderComponent implements OnInit{
     /**
      * name intials
      */
-    nameTitle() {
-        console.log(this.auth.profile_name);
+    nameTitle() { 
         
         if (this.auth.profile_name) {
             const name = this.auth.profile_name;

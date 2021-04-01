@@ -64,6 +64,7 @@ export class AuthService {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if (route.routeConfig.path == 'cv-search' && this.active_request_count == '0') {
+    
       this.alertCtrl.create({
           header: 'CV Search Usage Alert',
           message: 'Please create request to use search & wait for staff to look into the request.',
@@ -71,8 +72,10 @@ export class AuthService {
       }).then( alert => {
         alert.present();
       });
-      return false;
+
+      return this.router.navigate(['/']);
     }
+
     /**
      * new router changes don't wait for startup service
      * https://github.com/angular/angular/issues/14615
@@ -103,11 +106,11 @@ export class AuthService {
           this.active_request_count = data.active_request_count;
 
           resolve(true);
-        } else {
+        } else { 
           resolve(false);
           this.logout('invalid access');
         }
-      }).catch(r => {
+      }).catch(r => { 
         this.eventService.errorStorage$.next();
       });
     });
@@ -174,7 +177,7 @@ export class AuthService {
       this.eventService.errorStorage$.next();
     });
 
-    if (!silent) {
+    if (!silent) { 
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
 
@@ -209,6 +212,7 @@ export class AuthService {
 
   // This is the method you want to call at bootstrap
   async load(): Promise<any> {
+
     Storage.get({ key: 'loggedInCompany' }).then(ret => {
 
       let company = JSON.parse(ret.value);
@@ -216,6 +220,8 @@ export class AuthService {
       if (company && company.token) {
         return this.setAccessToken(company);
       } else {
+        //console.log('redirect to login');
+        //this.router.navigate(['/login']);
         // return this.logout('error with store variables',true);
       }
     }).catch(r => {
