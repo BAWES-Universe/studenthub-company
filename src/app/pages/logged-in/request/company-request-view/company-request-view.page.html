@@ -11,7 +11,8 @@
 
   <div class="desktop-view">
 
-    <ion-button class="btn-cv-search" routerLink="/cv-search">
+    <ion-button *ngIf="request && request.request_status == 'started'" 
+      class="btn-cv-search" routerLink="/cv-search">
       CV Search: Invite candidates to apply for this position
     </ion-button>
 
