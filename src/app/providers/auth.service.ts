@@ -63,7 +63,7 @@ export class AuthService {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if (route.routeConfig.path == 'cv-search' && this.active_request_count == '0') {
+    /*if (route.routeConfig.path == 'cv-search' && this.active_request_count == '0') {
     
       this.alertCtrl.create({
           header: 'CV Search Usage Alert',
@@ -74,7 +74,7 @@ export class AuthService {
       });
 
       return this.router.navigate(['/']);
-    }
+    }*/
 
     /**
      * new router changes don't wait for startup service
