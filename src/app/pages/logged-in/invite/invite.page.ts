@@ -69,7 +69,7 @@ export class InvitePage implements OnInit {
   loadRequests() {
     this.loadingRequests = true;
 
-    this.requestService.listActiveRequests(1, '&position_type=2').subscribe(response => {
+    this.requestService.listActiveRequests(1).subscribe(response => {
 
       this.loadingRequests = false;
 
@@ -91,9 +91,7 @@ export class InvitePage implements OnInit {
 
     this.currentPage++;
 
-    const urlParams = '&position_type=2';
-
-    this.requestService.listActiveRequests(this.currentPage, urlParams).subscribe(response => {
+    this.requestService.listActiveRequests(this.currentPage).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
