@@ -1,10 +1,11 @@
-<ion-header [class.add-border]="borderLimit" class="clear-header">
+<ion-header [class.add-border]="borderLimit">
   <ion-toolbar>
     <ion-buttons slot="start">
         <ion-back-button (click)="close()"></ion-back-button>
     </ion-buttons>
-
-    <ion-title>Select Request</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <div class="title">Which position are you considering {{candidate.candidate_name}} for?</div>
   </ion-toolbar>
 
 </ion-header>
@@ -13,7 +14,7 @@
 
   <form [formGroup]="form" *ngIf="form">
     <div class="" *ngIf="activeRequests">
-      
+
       <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequests" tappable [request]="request"
                        [showStatus]="false"></request-listing>
 
