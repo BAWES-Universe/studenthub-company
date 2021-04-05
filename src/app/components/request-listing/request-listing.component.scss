@@ -53,6 +53,26 @@ h1 {
   text-align: left;
   color: #292f38;
 }
+
+ion-grid {
+  border-radius: 4px;
+  border: solid 1px #828282;
+  background-color: #ffffff;
+  padding: 3px 13px;
+  margin-top: 22px;
+}
+
+ion-col span {
+  opacity: 0.8;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.42;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4f4f4f;
+}
 ion-card {
     margin-left: 0;
     margin-right: 0;

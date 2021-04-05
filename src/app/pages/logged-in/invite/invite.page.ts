@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {AlertController, ModalController, ToastController} from '@ionic/angular';
+import {AlertController, LoadingController, ModalController, ToastController} from '@ionic/angular';
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { Request } from 'src/app/models/request';
@@ -41,7 +41,8 @@ export class InvitePage implements OnInit {
     public eventService: EventService,
     public invitationService: RequestCandidateInvitationService,
     public requestService: CompanyRequestService,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public loadCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -57,7 +58,7 @@ export class InvitePage implements OnInit {
     });
   }
 
-  selectRequest(request) {
+  async selectRequest(request) {
     this.form.controls.request_uuid.setValue(request.request_uuid);
     this.form.controls.request_uuid.markAsDirty();
     this.save();
@@ -117,16 +118,20 @@ export class InvitePage implements OnInit {
   /**
    * save suggestion
    */
-  save() {
-    this.loading = true;
-
+  async save() {
+    const load = await this.loadCtrl.create();
+    load.present();
     this.invitationService.create(this.form.value).subscribe(async response => {
-
-      this.loading = false;
 
       // On Success
       if (response.operation == 'success') {
         // Close the page
+
+        const prompt = await this.toastCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          duration: 2000
+        });
+        prompt.present();
         this.close(true, response.invitedCount);
       }
 
@@ -139,8 +144,9 @@ export class InvitePage implements OnInit {
         prompt.present();
       }
     }, () => {
-      this.loading = false;
-    });
+    }, () => {
+        load.dismiss();
+      });
   }
 
   /**

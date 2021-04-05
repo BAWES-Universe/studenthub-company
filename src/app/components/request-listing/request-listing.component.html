@@ -5,18 +5,28 @@
     <div class="created-at">on {{request.request_updated_datetime | date}}</div>
 
     <ion-list lines="none">
-      <ion-item>
+      <ion-item *ngIf="request.request_location">
         <ion-icon class="icon" src="assets/images/ic_location.svg"></ion-icon>
-        <label>Recent</label>
+        <label>{{request.request_location}}</label>
       </ion-item>
       <ion-item>
         <ion-icon class="icon" src="assets/images/ic_suitcase-light.svg"></ion-icon>
-        <label>Recent</label>
+        <label>{{request.request_number_of_employees}} people<span *ngIf="request.request_position_type == 1">, Full-time</span><span *ngIf="request.request_position_type == 2">, Part-time</span>
+        </label>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="request.request_compensation">
         <ion-icon class="icon" src="assets/images/componsation.svg"></ion-icon>
-        <label>Recent</label>
+        <label>{{request.request_compensation}}</label>
       </ion-item>
     </ion-list>
+
+    <ion-grid *ngIf="showStatus">
+      <ion-row>
+        <ion-col>{{request.stats.invited}} <br/><span>Invited</span></ion-col>
+        <ion-col>{{request.stats.suggested}} <br/><span>Suggested</span></ion-col>
+        <ion-col>{{request.stats.accepted}} <br/><span>Accepted</span></ion-col>
+        <ion-col>{{request.stats.rejected}} <br/><span>Rejected</span></ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-card-content>
 </ion-card>
