@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController, NavController, LoadingController, ModalController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
+import {TranslateLabelService} from "../../../providers/translate-label.service";
 
 
 const { Storage } = Plugins;
@@ -16,7 +17,8 @@ export class AppErrorPage implements OnInit {
     private modalCtrl: ModalController,
     public navCtrl: NavController,
     public toastCtrl: ToastController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    public translateLabelService: TranslateLabelService
   ) { }
 
   ngOnInit() {
@@ -40,14 +42,14 @@ export class AppErrorPage implements OnInit {
    * Open home page
    */
   async home() {
-    
+
     Storage.get({ key: 'loggedInUser' }).then(ret => {
 
       this.navCtrl.navigateRoot('/');
     }).catch(r => {
 
       this.toastCtrl.create({
-        message: 'Please, enable cookies/ storage.',
+        message: this.translateLabelService.transform('Please, enable cookies/ storage.'),
         duration: 3000,
       }).then(toast => toast.present());
     });

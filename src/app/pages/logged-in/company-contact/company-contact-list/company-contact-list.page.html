@@ -3,7 +3,7 @@
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/"></ion-back-button>
       </ion-buttons>
-      <ion-title>Team List</ion-title>
+      <ion-title>{{"Team List" | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -48,11 +48,12 @@
           </p>
 
           <ion-badge color="danger" *ngIf="contact.allow_access && !contact.contact.contact_email">
-            Login email need to update
+            {{"Login email need to update" | translate}}
           </ion-badge>
 
           <ion-badge slot="start" color="light" *ngIf="contact.contact.contact_receive_email">
-            <ion-icon name="checkmark-outline"></ion-icon> Receive email
+            <ion-icon name="checkmark-outline"></ion-icon>
+            {{"Receive email" | translate}}
           </ion-badge>
 
           <!--

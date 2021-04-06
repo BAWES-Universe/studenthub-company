@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 // models
 import { Request } from 'src/app/models/request';
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -39,7 +40,8 @@ export class RequestFormPage implements OnInit {
     private authService: AuthService,
     private location: Location,
     private eventService: EventService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private translateService: TranslateService
   ) {
   }
 
@@ -130,7 +132,7 @@ export class RequestFormPage implements OnInit {
       if (jsonResponse.operation == 'error') {
         const prompt = await this.alertCtrl.create({
           message: this.authService.errorMessage(jsonResponse),
-          buttons: ['Ok']
+          buttons: [this.translateService.translations('Ok')]
         });
         prompt.present();
       }
@@ -157,7 +159,7 @@ export class RequestFormPage implements OnInit {
   }
 
   /**
-   * reser form controls 
+   * reser form controls
    */
   resetForm() {
     this.company = null;

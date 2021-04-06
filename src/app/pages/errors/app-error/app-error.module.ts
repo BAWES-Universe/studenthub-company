@@ -4,14 +4,16 @@ import { IonicModule } from '@ionic/angular';
 import { AppErrorPageRoutingModule } from './app-error-routing.module';
 
 import { AppErrorPage } from './app-error.page';
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
-  imports: [
-    CommonModule, 
-    IonicModule,
-    AppErrorPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        IonicModule,
+        AppErrorPageRoutingModule,
+        TranslateModule
+    ],
   declarations: [AppErrorPage]
 })
 export class AppErrorPageModule {}

@@ -3,7 +3,7 @@
    <ion-list *ngIf="stores && !loading" class="store-list">
       <ion-card *ngFor="let store of stores">
         <ion-badge color="light" *ngIf="store.store_total_candidates > 0">
-          {{store.store_total_candidates}} staff
+          {{store.store_total_candidates}} {{"staff" | translate}}
         </ion-badge>
         <ion-card-content>
           <div tabindex="0"></div>

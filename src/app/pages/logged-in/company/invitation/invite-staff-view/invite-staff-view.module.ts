@@ -5,6 +5,7 @@ import { InviteStaffViewPage } from './invite-staff-view.page';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
+import {TranslateModule} from "@ngx-translate/core";
 
 // import { SharedModule } from "../../../../../shared.module";
 
@@ -19,7 +20,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    TranslateModule
   ],
   declarations: [InviteStaffViewPage]
 })

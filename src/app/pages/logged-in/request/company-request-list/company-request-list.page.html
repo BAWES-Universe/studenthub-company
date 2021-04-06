@@ -5,7 +5,7 @@
   </ion-refresher>
 
   <div class="desktop-view">
-    
+
     <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)" [request]="request"
       [showStatus]="false"></request-listing>
 
@@ -24,6 +24,6 @@
 </ion-content>
 <ion-footer>
   <div class="desktop-view">
-    <ion-button  color="dark" (click)="addRequest()">Add Request</ion-button>
+    <ion-button  color="dark" (click)="addRequest()">{{"Add Request" | translate}}</ion-button>
   </div>
 </ion-footer>

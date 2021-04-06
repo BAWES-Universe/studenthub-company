@@ -1,17 +1,17 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-     
+
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-title>Sub Companies</ion-title>
-   
+      <ion-title>{{"Sub Companies" | translate}}</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
   <div class="desktop-view">
-    
+
     <ion-list *ngIf="!loading">
       <ion-item *ngFor="let company of companies" (click)="rowSelected(company)" tappable>
         <div tabindex="0"></div>
@@ -20,10 +20,10 @@
     </ion-list>
 
     <loading-modal [loading]="loading" type="text-list"></loading-modal>
-    
+
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
-  
+
   </div>
 </ion-content>

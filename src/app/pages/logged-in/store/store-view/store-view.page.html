@@ -1,11 +1,11 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-    
+
       <ion-buttons slot="start">
         <ion-back-button defaultHref="store-list"></ion-back-button>
       </ion-buttons>
       <ion-title *ngIf="store">{{ store.store_name }}</ion-title>
-   
+
   </ion-toolbar>
 </ion-header>
 
@@ -30,7 +30,7 @@
       <ion-item *ngIf="store.mall">
         <div tabindex="0"></div>
         <ion-label>
-          <h5>Mall</h5>
+          <h5>{{"Mall" | translate}}</h5>
           <p>
             <ion-icon name="business-outline"></ion-icon> {{ store.mall.mall_name_en }}
           </p>
@@ -40,7 +40,7 @@
       <ion-item *ngIf="store.store_location">
         <div tabindex="0"></div>
         <ion-label>
-          <h5>Location</h5>
+          <h5>{{"Location" | translate}}</h5>
           <p>
             <ion-icon name="location-outline"></ion-icon> {{ store.store_location }}
           </p>
@@ -49,7 +49,7 @@
 
       <ng-container *ngIf="store.candidates">
 
-        <ion-item-divider color="light"><b>Assigned Employees</b></ion-item-divider>
+        <ion-item-divider color="light"><b>{{"Assigned Employees" | translate}}</b></ion-item-divider>
 
         <ion-item tappable *ngFor="let candidateMember of store.candidates" (click)="candidateSelected(candidateMember)">
           <div tabindex="0"></div>
@@ -65,7 +65,7 @@
         </ion-item>
 
         <no-items *ngIf="store.candidates.length == 0" message="~ No Employees Assigned Yet! ~"></no-items>
-        
+
       </ng-container>
 
     </ion-list>

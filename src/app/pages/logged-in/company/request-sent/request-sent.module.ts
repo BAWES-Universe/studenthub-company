@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { RequestSentPage } from './request-sent.page';
+import {TranslateModule} from "@ngx-translate/core";
 
 const routes: Routes = [
   { path: '', component: RequestSentPage },
@@ -14,12 +15,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes),
+        TranslateModule
+    ],
   declarations: [RequestSentPage]
 })
 export class RequestSentPageModule {}

@@ -9,6 +9,7 @@ import { EventService } from 'src/app/providers/event.service';
 // services
 import { CompanyRequestService } from '../../../providers/logged-in/company-request.service';
 import { RequestCandidateInvitationService } from "../../../providers/logged-in/request-candidate-invitation.service";
+import {TranslateLabelService} from "../../../providers/translate-label.service";
 
 
 @Component({
@@ -41,7 +42,8 @@ export class InvitePage implements OnInit {
     public eventService: EventService,
     public invitationService: RequestCandidateInvitationService,
     public requestService: CompanyRequestService,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public translateService: TranslateLabelService
   ) { }
 
   ngOnInit() {
@@ -134,7 +136,7 @@ export class InvitePage implements OnInit {
       if (response.operation == 'error') {
         const prompt = await this.alertCtrl.create({
           message: this.authService.errorMessage(response.message),
-          buttons: ['Okay']
+          buttons: [this.translateService.transform('Okay')]
         });
         prompt.present();
       }

@@ -12,6 +12,8 @@ import { AuthService } from "../../../../providers/auth.service";
 import { ModalPopPage } from '../../modal-pop/modal-pop.page';
 import { InvitationPermissionPage } from 'src/app/pages/logged-in/company/invitation/invitation-permission/invitation-permission.page';
 import {CompanyContact} from "../../../../models/company-contact";
+import {TranslateService} from "@ngx-translate/core";
+import {TranslateLabelService} from "../../../../providers/translate-label.service";
 
 
 @Component({
@@ -52,30 +54,14 @@ export class CompanyContactListPage implements OnInit {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public eventService: EventService,
-    public authService: AuthService
+    public authService: AuthService,
+    public translateService: TranslateLabelService
   ) {
   }
 
   ngOnInit() {
     this.loadData();
-    /*this.loadInvitationList();
-
-    this.eventService.loadInvitation$.subscribe(_ => {
-      this.loadInvitationList();
-    });
-    
-    if (!this.invitationCheckLoop) {
-      this.invitationCheckLoop = setInterval(() => {
-        this.loadInvitationList(true);
-      }, 3000);
-    }*/
   }
-
-  /*ngOnDestroy() {
-    if (this.invitationCheckLoop) {
-      clearInterval(this.invitationCheckLoop);
-    }
-  }*/
 
   /**
    * load all contacts
@@ -240,7 +226,7 @@ export class CompanyContactListPage implements OnInit {
 
         this.alertCtrl.create({
           message: this.authService.errorMessage(response.message),
-          buttons: ['Okay']
+          buttons: [this.translateService.transform('Okay')]
         }).then(prompt => {
           prompt.present();
         });
@@ -261,7 +247,7 @@ export class CompanyContactListPage implements OnInit {
 
         this.alertCtrl.create({
           message: this.authService.errorMessage(response.message),
-          buttons: ['Okay']
+          buttons: [this.translateService.transform('Okay')]
         }).then(prompt => {
           prompt.present();
         });
@@ -277,16 +263,16 @@ export class CompanyContactListPage implements OnInit {
   async removeMember(event, contact) {
     event.preventDefault();
     event.stopPropagation();
-    
+
     const prompt = await this.alertCtrl.create({
-      message: 'Are you sure you want to remove this staff?',
+      message: this.translateService.transform('Are you sure you want to remove this staff?'),
       buttons: [
         {
-          text: 'No',
+          text: this.translateService.transform('No'),
           role: 'cancel'
         },
         {
-          text: 'Yes',
+          text: this.translateService.transform('Yes'),
           handler: () => {
             this.companyContactService.delete(contact).subscribe(response => {
 
@@ -298,7 +284,7 @@ export class CompanyContactListPage implements OnInit {
 
                 this.alertCtrl.create({
                   message: this.authService.errorMessage(response.message),
-                  buttons: ['Okay']
+                  buttons: [this.translateService.transform('Okay')]
                 }).then(prompt => {
                   prompt.present();
                 });

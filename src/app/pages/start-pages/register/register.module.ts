@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { RegisterPage } from './register.page';
+import {TranslateModule} from "@ngx-translate/core";
 
 const routes: Routes = [
   // {
@@ -19,13 +20,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ReactiveFormsModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        ReactiveFormsModule,
+        RouterModule.forChild(routes),
+        TranslateModule
+    ],
   declarations: [RegisterPage]
 })
 export class RegisterPageModule {}

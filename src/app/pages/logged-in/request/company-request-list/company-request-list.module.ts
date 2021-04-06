@@ -12,6 +12,7 @@ import { DateDropdownModule } from 'src/app/components/date-dropdown/date-dropdo
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import {RequestListingModule} from 'src/app/components/request-listing/request-listing.module';
 import {NoItemsModule} from "../../../../components/no-items/no-items.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import {NoItemsModule} from "../../../../components/no-items/no-items.module";
         DateDropdownModule,
         RequestListingModule,
         CompanyRequestListPageRoutingModule,
-        NoItemsModule
+        NoItemsModule,
+        TranslateModule
     ],
   declarations: [CompanyRequestListPage]
 })

@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ForgotPasswordPage } from './forgot-password.page';
+import {TranslateModule} from "@ngx-translate/core";
 
 const routes: Routes = [
   {
@@ -15,12 +16,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule, 
-    ReactiveFormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        IonicModule,
+        RouterModule.forChild(routes),
+        TranslateModule
+    ],
   declarations: [ForgotPasswordPage]
 })
 export class ForgotPasswordPageModule {}

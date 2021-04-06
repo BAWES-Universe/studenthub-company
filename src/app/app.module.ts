@@ -7,7 +7,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './providers/auth.service';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { environment } from '../environments/environment';
 // import { IonicStorageModule, Storage } from "@ionic/storage";
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
@@ -21,11 +21,18 @@ import {ModalPopPageModule} from './pages/logged-in/modal-pop/modal-pop.module';
 import {InvitationFormPageModule} from './pages/logged-in/company/invitation/invitation-form/invitation-form.module';
 import {CompanyHeaderModule} from './components/company-header/company-header.module';
 import { MenuModule } from './components/menu/menu.module';
-import {InvitePageModule} from "./pages/logged-in/invite/invite.module";
+import {InvitePageModule} from './pages/logged-in/invite/invite.module';
+
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
+}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -51,6 +58,13 @@ export function startupServiceFactory(authService) {
     CompanyContactListPageModule,
     UpdateAlertModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers: [
     {

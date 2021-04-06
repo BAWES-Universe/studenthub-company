@@ -1,10 +1,10 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar class="light">
-     
+
       <ion-buttons slot="start">
         <ion-back-button (click)="dismiss()"></ion-back-button>
       </ion-buttons>
- 
+
   </ion-toolbar>
 </ion-header>
 
@@ -12,33 +12,33 @@
 
   <div class="desktop-view">
     <div class="title-txt">
-      What permissions would you like to give this team member?
+      {{"What permissions would you like to give this team member ?" | translate}}
     </div>
 
     <div class="buttons-wrapper">
       <ion-button [class.selected]="role == 1" fill="clear" (click)="setRole('Owner')">
-        <b>Owner</b>
+        <b>{{"Owner" | translate}}</b>
 <!--        <p>-->
 <!--          Members can source talent, post and manage jobs along with the ability to delete their own drafts-->
 <!--        </p>-->
       </ion-button>
 
       <ion-button [class.selected]="role == 2" fill="clear" (click)="setRole('HR')">
-        <b>HR</b>
+        <b>{{"HR" | translate}}</b>
 <!--        <p>-->
 <!--          Admins can do what members can do along with updating of company profile, and closing and archiving of all active jobs-->
 <!--        </p>-->
       </ion-button>
 
       <ion-button [class.selected]="role == 3" fill="clear" (click)="setRole('Finance')">
-        <b>Finance</b>
+        <b>{{"Finance" | translate}}</b>
 <!--        <p>-->
 <!--          Owners have full access to this company profile and can invite team members to manage your recruitment process-->
 <!--        </p>-->
       </ion-button>
 
       <ion-button [class.selected]="role == 3" fill="clear" (click)="setRole('Other')">
-        <b>Other</b>
+        <b>{{"Other" | translate}}</b>
 <!--        <p>-->
 <!--          Owners have full access to this company profile and can invite team members to manage your recruitment process-->
 <!--        </p>-->

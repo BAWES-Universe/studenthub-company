@@ -1,0 +1,9 @@
+{
+    "Welcome": "Welcome",
+    "password_max_length" : "Password can not be greater than {{value}} character",
+    "password_minlength" : "Password can not be less than {{value}} character",
+    "view_all_notes": "View all {{ value }} notes",
+    "suggested_candidates_count": "Suggested Candidates ({{ value }})",
+    "accepted_count": "Accepted ({{ value }})",
+    "rejected_count": "Rejected ({{ value }})"
+}

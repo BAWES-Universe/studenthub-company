@@ -9,6 +9,7 @@ import { CandidateViewPageRoutingModule } from './candidate-view-routing.module'
 import { CandidateViewPage } from './candidate-view.page';
 import {LoadingModalModule} from '../../../../components/loading-modal/loading-modal.module';
 import {PipesModule} from '../../../../pipes/pipes.module';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import {PipesModule} from '../../../../pipes/pipes.module';
         IonicModule,
         PipesModule,
         CandidateViewPageRoutingModule,
-        LoadingModalModule
+        LoadingModalModule,
+        TranslateModule
     ],
   declarations: [CandidateViewPage]
 })

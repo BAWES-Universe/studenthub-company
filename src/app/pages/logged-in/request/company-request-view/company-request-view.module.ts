@@ -12,6 +12,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { RecentActivityComponent } from 'src/app/components/recent-activity/recent-activity.component';
 import { SuggestionModule } from 'src/app/components/suggestion/suggestion.module';
 import {CandidateModule} from "../../../../components/candidate/candidate.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import {CandidateModule} from "../../../../components/candidate/candidate.module
         SuggestionModule,
         LoadingModalModule,
         CompanyRequestViewRoutingModule,
-        CandidateModule
+        CandidateModule,
+        TranslateModule
     ],
   declarations: [
     CompanyRequestViewPage,

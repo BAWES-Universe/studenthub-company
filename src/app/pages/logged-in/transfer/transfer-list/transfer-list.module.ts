@@ -8,6 +8,7 @@ import { TransferListPageRoutingModule } from './transfer-list-routing.module';
 
 import { TransferListPage } from './transfer-list.page';
 import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {LoadingModalModule} from "../../../../components/loading-modal/loading-m
         FormsModule,
         IonicModule,
         TransferListPageRoutingModule,
-        LoadingModalModule
+        LoadingModalModule,
+        TranslateModule
     ],
   declarations: [TransferListPage]
 })

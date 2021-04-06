@@ -7,6 +7,7 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { AuthService } from 'src/app/providers/auth.service';
 //validator
 import { CustomValidator } from 'src/app/validators/custom.validator';
+import {TranslateLabelService} from "../../../providers/translate-label.service";
 
 
 @Component({
@@ -31,7 +32,8 @@ export class AccountPage implements OnInit {
     public alertCtrl: AlertController,
     public authService: AuthService,
     public accountService: AccountService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private translateLabelService: TranslateLabelService
   ) { }
 
   ngOnInit() {
@@ -66,7 +68,7 @@ export class AccountPage implements OnInit {
           email_address: [contactEmail.email_address, []]//CustomValidator.emailValidator
         }));
       }
- 
+
     if(this.model.contactPhones)
       for (let contactPhone of this.model.contactPhones) {
         phoneCtrls.push(this._fb.group({
@@ -172,7 +174,7 @@ export class AccountPage implements OnInit {
         this.authService.profile_name = this.model.contact_name;
         this.authService.email = this.model.contact_email;
         this.authService.saveInStorage();
-        
+
         this.navCtrl.navigateRoot(['/']);
       }
 
@@ -180,7 +182,7 @@ export class AccountPage implements OnInit {
       if (jsonResponse.operation == "error") {
         let prompt = await this.alertCtrl.create({
           message: JSON.stringify(jsonResponse.message),
-          buttons: ["Okay"]
+          buttons: [this._translate('Okay')]
         });
         prompt.present();
       }
@@ -211,5 +213,9 @@ export class AccountPage implements OnInit {
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  _translate(lbl) {
+    return this.translateLabelService.transform(lbl);
   }
 }

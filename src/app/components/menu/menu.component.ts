@@ -4,6 +4,7 @@ import { MenuController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/providers/auth.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { EventService } from 'src/app/providers/event.service';
+import {TranslateLabelService} from "../../providers/translate-label.service";
 
 
 @Component({
@@ -18,11 +19,12 @@ export class MenuComponent implements OnInit {
     public navCtrl: NavController,
     public awsService: AwsService,
     public eventService: EventService,
-    public auth: AuthService
+    public auth: AuthService,
+    public translateService: TranslateLabelService
   ) { }
 
   ngOnInit() {
-    
+
   }
 
   /**
@@ -34,7 +36,7 @@ export class MenuComponent implements OnInit {
     this._menuCtrl.close();
 
     this.resetCompanyDetail(employer);
-    
+
     this.navCtrl.navigateRoot(['/']);
 
     this.eventService.companyChanged$.next({
@@ -59,5 +61,10 @@ export class MenuComponent implements OnInit {
 
   closeMenu() {
     this._menuCtrl.close();
+  }
+
+  changeLanguage(event) {
+    const lang = this.translateService.currentLang == 'ar' ? 'en' : 'ar';
+    this.eventService.setLanguagePref$.next(lang);
   }
 }

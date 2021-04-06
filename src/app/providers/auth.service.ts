@@ -12,7 +12,9 @@ import { Contact } from "../models/contact";
 import { environment } from '../../environments/environment';
 import { EventService } from './event.service';
 import {AlertController} from "@ionic/angular";
+import { TranslateLabelService } from './translate-label.service';
 
+declare var navigator;
 
 const { Storage } = Plugins;
 
@@ -44,6 +46,13 @@ export class AuthService {
 
   public companies: Company[] = [];
 
+  public language_pref: string;
+
+  public language = {
+    code: 'en',
+    name: 'English'
+  };
+
   private urlBasicAuth = '/auth/login';
   public urlLocate = '/auth/locate';
   private _urlUpdatePass = '/auth/update-password';
@@ -55,6 +64,7 @@ export class AuthService {
     public http: HttpClient,
     public router: Router,
     public eventService: EventService,
+    public translate: TranslateLabelService,
     public alertCtrl: AlertController
   ) { }
 
@@ -64,7 +74,7 @@ export class AuthService {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     /*if (route.routeConfig.path == 'cv-search' && this.active_request_count == '0') {
-    
+
       this.alertCtrl.create({
           header: 'CV Search Usage Alert',
           message: 'Please create request to use search & wait for staff to look into the request.',
@@ -106,11 +116,11 @@ export class AuthService {
           this.active_request_count = data.active_request_count;
 
           resolve(true);
-        } else { 
+        } else {
           resolve(false);
           this.logout('invalid access');
         }
-      }).catch(r => { 
+      }).catch(r => {
         this.eventService.errorStorage$.next();
       });
     });
@@ -128,7 +138,8 @@ export class AuthService {
         profile_name: this.profile_name,
         email: this.email,
         id: this.id,
-        active_request_count: this.active_request_count
+        active_request_count: this.active_request_count,
+        language_pref: this.language_pref
       })
     }).catch(r => {
       this.eventService.errorStorage$.next();
@@ -177,7 +188,7 @@ export class AuthService {
       this.eventService.errorStorage$.next();
     });
 
-    if (!silent) { 
+    if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
 
@@ -213,9 +224,65 @@ export class AuthService {
   // This is the method you want to call at bootstrap
   async load(): Promise<any> {
 
-    Storage.get({ key: 'loggedInCompany' }).then(ret => {
+    Storage.get({ key: 'loggedInCompany' }).then(async ret => {
 
       let company = JSON.parse(ret.value);
+
+      // guest user who visited previously and saved preference
+
+      const { value } = await Storage.get({ key: 'language_pref' });
+
+      if (value) {
+        this.language_pref = value;
+
+        this.language = this.language_pref == 'ar' ? {
+          name: 'عربى',
+          code: 'ar'
+        } : {
+          code: 'en',
+          name: 'English'
+        };
+
+        // new user
+
+      } else {
+
+        const browserLanguage = navigator.languages
+          ? navigator.languages[0]
+          : (navigator.language || navigator.userLanguage);
+
+        if (browserLanguage && browserLanguage.indexOf('en') > -1) {
+          this.language = {
+            code: 'en',
+            name: 'English'
+          };
+        } else {
+          this.language = {
+            name: 'عربى',
+            code: 'ar'
+          };
+        }
+      }
+
+      // for guest use language value in storage, for login user loggedInAgent.language_pref
+
+      if (company && company.language_pref) {
+        this.language = company.language_pref == 'ar' ? {
+          name: 'عربى',
+          code: 'ar'
+        } : {
+          code: 'en',
+          name: 'English'
+        };
+      }
+
+      this.translate.setDefaultLang('en');
+
+      this.translate.use(this.language.code);
+
+      document.getElementsByTagName('html')[0].setAttribute('dir', (this.language.code == 'ar') ? 'rtl' : 'ltr');
+
+
 
       if (company && company.token) {
         return this.setAccessToken(company);
@@ -431,4 +498,29 @@ export class AuthService {
         map((res: HttpResponse<any>) => res)
       );
   }
+
+  /**
+   * Set language pref for current user
+   */
+  setLanguagePref(language_pref) {
+
+    Storage.set({ 'key': 'language_pref', value: language_pref }).catch(r => {
+      this.eventService.errorStorage$.next();
+    });
+
+    this.language_pref = language_pref;
+
+    this.language = this.language_pref == 'ar' ? {
+      name: 'عربى',
+      code: 'ar'
+    } : {
+      code: 'en',
+      name: 'English'
+    };
+
+    if (this.accessToken) {
+      this.saveInStorage();
+    }
+  }
+
 }

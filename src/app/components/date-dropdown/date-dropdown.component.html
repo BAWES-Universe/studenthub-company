@@ -27,7 +27,7 @@
 
 <div *ngIf="platform.is('mobile')" >
   <ion-datetime [min]="minDateString" [max]="maxDateString"
-    doneText="{{ 'Done'}}" cancelText="{{ 'Cancel'}}" placeholder="{{ placeholder }}"
+    doneText="{{ 'Done' | translate}}" cancelText="{{ 'Cancel' | translate}}" placeholder="{{ placeholder }}"
     pickerFormat="{{ pickerFormat }}" displayFormat="{{ displayFormat }}" [value]="value"
     (ionChange)="onDateChange($event)"></ion-datetime>
 </div>

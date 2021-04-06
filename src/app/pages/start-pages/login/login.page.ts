@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 // Service
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
+import {TranslateLabelService} from "../../../providers/translate-label.service";
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,8 @@ export class LoginPage implements OnInit {
     private _auth: AuthService,
     private _alertCtrl: AlertController,
     private eventService: EventService,
-    private router: Router
+    private router: Router,
+    public translateService: TranslateLabelService
   ) {
   }
 
@@ -137,5 +139,10 @@ export class LoginPage implements OnInit {
     } else {
       this.type = 'password';
     }
+  }
+
+  changeLanguage(event) {
+    const lang = this.translateService.currentLang == 'ar' ? 'en' : 'ar';
+    this.eventService.setLanguagePref$.next(lang);
   }
 }

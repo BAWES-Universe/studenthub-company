@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { NoInternetPage } from './no-internet.page';
+import {TranslateModule} from "@ngx-translate/core";
 
 const routes: Routes = [
   {
@@ -14,11 +15,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule, 
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        IonicModule,
+        RouterModule.forChild(routes),
+        TranslateModule
+    ],
   declarations: [NoInternetPage]
 })
 export class NoInternetPageModule {}

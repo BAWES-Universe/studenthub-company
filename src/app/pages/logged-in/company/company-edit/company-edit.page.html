@@ -5,7 +5,7 @@
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Company Profile</ion-title>
+    <ion-title>{{"Company Profile" | translate}}</ion-title>
 
   </ion-toolbar>
 </ion-header>
@@ -15,7 +15,7 @@
 
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Company name per license</ion-label>
+          <ion-label position="floating">{{"Company name per license" | translate}}</ion-label>
           <ion-input type="text" formControlName="name"></ion-input>
         </ion-item>
 
@@ -27,27 +27,27 @@
         </ion-item>-->
 
         <ion-item>
-          <ion-label position="floating">Common name - English</ion-label>
+          <ion-label position="floating">{{"Common name - English" | translate}}</ion-label>
           <ion-input type="text" formControlName="common_name_en" ></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Common name - Arabic</ion-label>
+          <ion-label position="floating">{{"Common name - Arabic" | translate}}</ion-label>
           <ion-input type="text" formControlName="common_name_ar"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Description - English</ion-label>
+          <ion-label position="floating">{{"Description - English" | translate}}</ion-label>
           <ion-textarea formControlName="description_en"></ion-textarea>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Description - Arabic</ion-label>
+          <ion-label position="floating">{{"Description - Arabic" | translate}}</ion-label>
           <ion-textarea formControlName="description_ar"></ion-textarea>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Website</ion-label>
+          <ion-label position="floating">{{"Website" | translate}}</ion-label>
           <ion-input type="text" inputmode="url" formControlName="website"></ion-input>
         </ion-item>
 
@@ -56,7 +56,7 @@
       <div class="ion-padding">
         <ion-button [disabled]="loading || !form.dirty || !form.valid" (click)="save()" expands="block">
           <ion-spinner *ngIf="loading"></ion-spinner>
-          <span *ngIf="!loading">Submit</span>
+          <span *ngIf="!loading">{{"Submit" | translate}}</span>
         </ion-button>
       </div>
     </form>

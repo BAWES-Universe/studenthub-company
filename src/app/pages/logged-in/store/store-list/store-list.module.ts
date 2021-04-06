@@ -9,6 +9,7 @@ import { StoreListPageRoutingModule } from './store-list-routing.module';
 import { StoreListPage } from './store-list.page';
 import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
 import {NoItemsModule} from "../../../../components/no-items/no-items.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import {NoItemsModule} from "../../../../components/no-items/no-items.module";
         IonicModule,
         StoreListPageRoutingModule,
         LoadingModalModule,
-        NoItemsModule
+        NoItemsModule,
+        TranslateModule
     ],
   declarations: [StoreListPage]
 })

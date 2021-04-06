@@ -4,16 +4,18 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 
 import { DateDropdownComponent } from './date-dropdown.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
     DateDropdownComponent
   ],
-  imports: [
-    CommonModule,
-    IonicModule,
-    FormsModule
-  ],
+    imports: [
+        CommonModule,
+        IonicModule,
+        FormsModule,
+        TranslateModule
+    ],
   exports: [
     DateDropdownComponent
   ]

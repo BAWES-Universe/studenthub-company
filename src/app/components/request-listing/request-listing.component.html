@@ -2,9 +2,9 @@
   <ion-card-content>
 <!--    <h1 *ngIf="request.company">{{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name }}</h1>-->
     <h3>
-      Looking for <b>{{ request.request_number_of_employees }}
-      <span *ngIf="request.request_position_type == 1">Full-time</span>
-      <span *ngIf="request.request_position_type == 2">Part-time</span>
+      {{"Looking for" | translate}} <b>{{ request.request_number_of_employees }}
+      <span *ngIf="request.request_position_type == 1">{{"Full-time" | translate}}</span>
+      <span *ngIf="request.request_position_type == 2">{{"Part-time" | translate}}</span>
       {{ request.request_position_title }}</b>
     </h3>
 
@@ -17,12 +17,12 @@
     <p *ngIf="request.request_compensation" class="txt-additional-info">
       {{ (request.request_compensation.length > 100) ? request.request_compensation.substring(0,100)+'...'  : request.request_compensation }}
     </p>
-    <small class="time">Request made {{ request.request_created_datetime | timeAgo }} </small>
+    <small class="time">{{"Request made" | translate}} {{ request.request_created_datetime | timeAgo }} </small>
 
     <div *ngIf="request" class="content-footer" [class.background-grey]="active" [class.background-red]="!active" [class.background-green]="request.request_status == 'delivered'">
-      <p *ngIf="request.request_status == 'delivered'">Delivered {{ request.request_updated_datetime | timeAgo }} </p>
-      <p *ngIf="request.request_status == 'cancelled'">Cancelled {{ request.request_updated_datetime | timeAgo }} </p>
-      <p *ngIf="request.request_status == 'started' || request.request_status == 'pending'">Last updated {{ request.request_updated_datetime | timeAgo }} </p>
+      <p *ngIf="request.request_status == 'delivered'">{{"Delivered" | translate}} {{ request.request_updated_datetime | timeAgo }} </p>
+      <p *ngIf="request.request_status == 'cancelled'">{{"Cancelled" | translate}} {{ request.request_updated_datetime | timeAgo }} </p>
+      <p *ngIf="request.request_status == 'started' || request.request_status == 'pending'">{{"Last updated" | translate}} {{ request.request_updated_datetime | timeAgo }} </p>
     </div>
   </ion-card-content>
 </ion-card>

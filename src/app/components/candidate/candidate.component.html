@@ -18,13 +18,13 @@
 
     <ng-container *ngIf="invitation">
       <ion-badge *ngIf="invitation && invitation.invitation_status == 1" color="warning">
-        Invited
+        {{"Invited" | translate}}
       </ion-badge>
       <ion-badge *ngIf="invitation && invitation.invitation_status == 3" color="success">
-        Invitation Accepted
+        {{"Invitation Accepted" | translate}}
       </ion-badge>
       <ion-badge *ngIf="invitation && invitation.invitation_status == 2" color="danger">
-        Invitation Rejected
+        {{"Invitation Rejected" | translate}}
       </ion-badge>
     </ng-container>
   </ion-label>
