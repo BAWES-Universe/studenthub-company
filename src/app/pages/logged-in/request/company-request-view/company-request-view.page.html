@@ -55,7 +55,7 @@
         </ng-container>
 
         <ion-button class="btn-view-notes" *ngIf="requestActivities.length > 2" (click)="toggleActivityExpanded()">
-          <span *ngIf="!activityExpanded">{{"view_all_notes" | translate: { value : requestActivities.length }}</span>
+          <span *ngIf="!activityExpanded">{{"view_all_notes" | translate: { value : requestActivities.length } }}</span>
           <span *ngIf="activityExpanded">{{"Collapse" | translate}}</span>
         </ion-button>
       </div>
