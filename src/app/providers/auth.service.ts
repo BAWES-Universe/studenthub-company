@@ -83,7 +83,7 @@ export class AuthService {
       this.alertCtrl.create({
           header: 'CV Search Usage Alert',
           message: 'Please create request to use search & wait for staff to look into the request.',
-          buttons: ['OK']
+          buttons: ['Okay']
       }).then( alert => {
         alert.present();
       });
@@ -108,9 +108,13 @@ export class AuthService {
       }
 
       Storage.get({ key: 'loggedInCompany' }).then(ret => {
+
+        console.log(ret);
+        
         const data = JSON.parse(ret.value);
 
-        if (data) {
+        if (data && data.token) {
+
           this.isLogged = true;
 
           this.accessToken = data.token;
@@ -125,6 +129,8 @@ export class AuthService {
           this.logout('invalid access');
         }
       }).catch(r => {
+        resolve(false);
+
         this.eventService.errorStorage$.next();
       });
     });
@@ -564,9 +570,10 @@ export class AuthService {
       password: contact.contact_password_hash,
       otp: otp,
       receive_email: contact.contact_receive_email,
-      contactPhones: contact.contactPhones,
+      //contactPhones: contact.contactPhones,
       company_name: companyContact.company.company_name,
-      contact_position: companyContact.contact_position
+      contact_position: companyContact.contact_position,
+      phone_number: contact.contactPhones[0]['phone_number'],
     };
 
     return this.http.post(url, JSON.stringify(params), { headers })

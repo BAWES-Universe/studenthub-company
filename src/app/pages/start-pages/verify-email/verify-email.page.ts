@@ -69,9 +69,9 @@ export class VerifyEmailPage implements OnInit {
     public route: ActivatedRoute,
     public navCtrl: NavController,
     public translateService: TranslateLabelService,
-    public _authService: AuthService,
+    public authService: AuthService,
     public accountService: AccountService,
-    public eventService: EventService,
+    public eventService: EventService, 
     public _loadingCtrl: LoadingController,
     public _toastCtrl: ToastController,
     public _alertCtrl: AlertController,
@@ -80,7 +80,7 @@ export class VerifyEmailPage implements OnInit {
   }
 
   ngOnInit() {
-    // if (!this._authService.isLogin) {
+    // if (!this.authService.isLogged) {
     //  this.router.navigate(['view']);
     // }
 
@@ -178,6 +178,8 @@ export class VerifyEmailPage implements OnInit {
 
         this.isAlreadyVerified(data);
       }, 5 * 1000);
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
   }
 
@@ -233,7 +235,7 @@ export class VerifyEmailPage implements OnInit {
    */
   isAlreadyVerified(res) {
 
-    this.isAlreadyVerifiedSubscription = this._authService.isAlreadyVerified(res).subscribe(response => {
+    this.isAlreadyVerifiedSubscription = this.authService.isAlreadyVerified(res).subscribe(response => {
 
       if (response.status == 1) {
         this.onSuccess(res);
@@ -261,9 +263,11 @@ export class VerifyEmailPage implements OnInit {
 
     clearInterval(this.emailVerifiedSubscription);
 
-    Storage.remove({ key: 'unVerifiedToken' });
+    Storage.remove({ key: 'unVerifiedToken' }).catch(r => {
+      this.eventService.errorStorage$.next();
+    });
 
-    if (this._authService.isLogged) {
+    if (this.authService.isLogged) {
 
       this.eventService.profileUpdated$.next();//email updated
 
@@ -272,7 +276,7 @@ export class VerifyEmailPage implements OnInit {
     // on sign up
 
     } else {
-      this._authService.setAccessToken(res, true);
+      this.authService.setAccessToken(res, true);
     }
   }
 
@@ -325,7 +329,7 @@ export class VerifyEmailPage implements OnInit {
 
     let action;
 
-    if (this._authService.isLogged) {
+    if (this.authService.isLogged) {
       const candidate = new Contact;
       candidate.contact_email = data.newEmail;
       action = this.accountService.updateEmail(candidate);
@@ -335,7 +339,7 @@ export class VerifyEmailPage implements OnInit {
         'unVerifiedToken': this.unVerifiedToken,
         'newEmail': data.newEmail
       };
-      action = this._authService.updateEmail(params);
+      action = this.authService.updateEmail(params);
     }
 
     this.updateEmailSubscription = action.subscribe(async result => {
@@ -408,7 +412,7 @@ export class VerifyEmailPage implements OnInit {
 
     this.loader = true;
 
-    this.verifyEmailSubscription = this._authService.verifyEmail(this.email, this.code).subscribe(async res => {
+    this.verifyEmailSubscription = this.authService.verifyEmail(this.email, this.code).subscribe(async res => {
 
       this.loader = false;
 
@@ -434,9 +438,9 @@ export class VerifyEmailPage implements OnInit {
    * Request to resend verification mail
    */
   resendVerificationEmail() {
-    const ok = this.translateService.transform('ok');
+    const ok = this.translateService.transform('Okay');
 
-    this.resendEmailSubscription = this._authService.resendVerificationEmail(this.email).subscribe(async res => {
+    this.resendEmailSubscription = this.authService.resendVerificationEmail(this.email).subscribe(async res => {
 
       const alert = await this._alertCtrl.create({
         message: this.translateService.errorMessage(res.message),
@@ -460,6 +464,6 @@ export class VerifyEmailPage implements OnInit {
    * Logout
    */
   logout(reason) {
-    this._authService.logout(reason, false);
+    this.authService.logout(reason, false);
   }
 }

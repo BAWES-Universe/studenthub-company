@@ -77,7 +77,7 @@ export class ChangePasswordPage implements OnInit {
         const alert = await this._alertCtrl.create({
           header: this.translateService.transform('Success'),
           message: res.message,
-          buttons: [this.translateService.transform('Ok')],
+          buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
         this.passwordForm.reset();
@@ -87,7 +87,7 @@ export class ChangePasswordPage implements OnInit {
         const alert = await this._alertCtrl.create({
           header: this.translateService.transform('Error'),
           message: res.message,
-          buttons: [this.translateService.transform('Ok')],
+          buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
       }

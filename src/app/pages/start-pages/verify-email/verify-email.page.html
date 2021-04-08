@@ -1,12 +1,12 @@
-<ion-content class='contentArea ion-padding'>
-    <ion-toolbar *ngIf="this._authService.isLogin">
+<ion-content [attr.dir]="translateService.direction()" class='contentArea ion-padding'>
+    <ion-toolbar *ngIf="authService.isLogged">
         <ion-buttons slot="start">
             <ion-back-button defaultHref="/view/home"></ion-back-button>
         </ion-buttons>
     </ion-toolbar>
     
-    <div class='brand' [class.zero-top-margin]="this._authService.isLogin">
-        <img src="assets/img/undraw_newsletter_vovu.svg" />
+    <div class='brand' [class.zero-top-margin]="authService.isLogged">
+        <img src="assets/images/undraw_newsletter_vovu.svg" />
     </div>
 
     <div class='loginCard'>

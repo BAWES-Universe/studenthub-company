@@ -2,11 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 import { CustomValidator } from '../../../validators/custom.validator';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { Plugins } from '@capacitor/core';
 // Service
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
-import {TranslateLabelService} from "../../../providers/translate-label.service";
+import { TranslateLabelService } from "../../../providers/translate-label.service";
+
+
+const { Storage } = Plugins;
 
 @Component({
   selector: 'app-login',
@@ -60,17 +64,30 @@ export class LoginPage implements OnInit {
 
 
     this._auth.basicAuth(email, password).subscribe(res => {
+
       this.isLoading = false;
 
       if (res.operation == 'success') {
         // Successfully logged in, set the access token within AuthService
         this._auth.setAccessToken(res);
-      } else if (res.operation == 'error') {
+
+      } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
+
+        Storage.set({ 'key': "unVerifiedToken", "value": JSON.stringify(res.unVerifiedToken) }).catch(r => {
+          this.eventService.errorStorage$.next();
+        });
+
+        this.router.navigate([
+          'verify-email',
+          res['unVerifiedToken']['email']
+        ]);
+
+      } else {
 
         this.alertMsg(
           'Unable to Log In',
           res.message,
-          'Ok'
+          'Okay'
         );
       }
 
@@ -85,8 +102,8 @@ export class LoginPage implements OnInit {
         if (this._numberOfLoginAttempts > 2) {
           this.alertMsg(
             'Trouble Logging In?',
-            'If you\'ve forgotten your password, contact us to have it reset.',
-            'Ok'
+            "If you've forgotten your password, contact us to have it reset.",
+            'Okay'
           );
         }
         else {
@@ -103,7 +120,7 @@ export class LoginPage implements OnInit {
         this.alertMsg(
           'Unable to Log In',
           'There seems to be an issue connecting to Payroll servers. Please contact us if the issue persists.',
-          'Ok'
+          'Okay'
         );
       }
     });
@@ -117,13 +134,13 @@ export class LoginPage implements OnInit {
    */
   async alertMsg(header, msg, button) {
     const alert = await this._alertCtrl.create({
-      header,
-      message: msg,
-      buttons: [button],
+      header: this.translateService.transform(header),
+      message: this.translateService.transform(msg),
+      buttons: [this.translateService.transform(button)],
     });
     alert.present();
   }
-  
+
   openRegisterPage() {
     this.router.navigate(['register']);
   }

@@ -212,6 +212,7 @@ a,
     color: red;
     background: white;
     display: table;
+    font-size: 12px;
 }
 
 @media only screen and (orientation:landscape) {
@@ -302,4 +303,8 @@ ion-item {
     --padding-start: 0;
     --highlight-background: transparent;
     outline: none;
+
+    ion-label {
+        white-space: normal;
+    }
 }

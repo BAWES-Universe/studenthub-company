@@ -7,7 +7,7 @@ import { Invoice } from "src/app/models/invoice";
 //service
 import { TransferService } from "src/app/providers/logged-in/transfer.service";
 import { AwsService } from 'src/app/providers/aws.service';
-import {TranslateLabelService} from "../../../../providers/translate-label.service";
+import { TranslateLabelService } from "../../../../providers/translate-label.service";
 
 
 @Component({
@@ -38,10 +38,12 @@ export class TransferViewPage implements OnInit {
     public _toastCtrl: ToastController,
     public translateLabelService: TranslateLabelService
   ) {
-    this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
+
+    this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
+    
     this.loadData();
   }
 

@@ -18,7 +18,7 @@
   "Password" : "كلمة المرور",
   "Please enter password" : "الرجاء إدخال كلمة المرور",
   "password_max_length" : "كلمة المرور لا يمكن أن تكون أكبر من {{value}} حرف",
-  "password_minlength" : "كلمة المرور لا يمكن أن تكون أقل من {{value}} حرف",
+  "password_min_length" : "كلمة المرور لا يمكن أن تكون أقل من {{value}} حرف",
   "Create an account" : "انشئ حساب",
   "Type your new password" : "اكتب كلمة مرورك الجديدة",
   "Submit" : "يقدم",
@@ -249,5 +249,18 @@
   "All done!": "كله تمام!",
   "Transfer Total": "إجمالي التحويل",
   "Update": "تحديث",
-  "Create" : "خلق"
+  "Create" : "خلق",
+  "Unable to Log In": "غير قادر على تسجيل الدخول",
+  "Trouble Logging In?": "مشكلة في تسجيل الدخول؟",
+  "If you've forgotten your password, contact us to have it reset.": "إذا نسيت كلمة المرور الخاصة بك ، فاتصل بنا لإعادة تعيينها.",
+  "Invalid email or password": "البريد الإلكتروني أو كلمة السر خاطئة",
+  "The information entered is incorrect. Please try again.": "المعلومات التي تم إدخالها غير صحيحة. حاول مرة اخرى.",
+  "There seems to be an issue connecting to Payroll servers. Please contact us if the issue persists.": "يبدو أن هناك مشكلة في الاتصال بخوادم كشوف المرتبات. يرجى الاتصال بنا إذا استمرت المشكلة.",
+  "Your Name": "اسمك",
+  "Your Company Name": "اسم شركتك",
+  "Please enter company name": "الرجاء إدخال اسم الشركة",
+  "Your Job Title": "المسمى الوظيفي",
+  "Your Phone Number": "رقم تليفونك",
+  "Please enter phone number": "الرجاء إدخال رقم الهاتف",
+  "I would like to receives email notifications": "أود أن أتلقى إشعارات البريد الإلكتروني"
 }

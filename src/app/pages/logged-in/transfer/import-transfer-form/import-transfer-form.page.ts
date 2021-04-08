@@ -183,7 +183,7 @@ export class ImportTransferFormPage implements OnInit {
 
         let prompt = await this._alertCtrl.create({
           message: data.message,
-          buttons: ["Ok"]
+          buttons: ["Okay"]
         });
         prompt.present();
 
@@ -198,7 +198,7 @@ export class ImportTransferFormPage implements OnInit {
 
         let prompt = await this._alertCtrl.create({
           message: this.authService.errorMessage(data.message),
-          buttons: ["Ok"]
+          buttons: ["Okay"]
         });
         prompt.present();
       }
@@ -223,7 +223,7 @@ export class ImportTransferFormPage implements OnInit {
 
           let prompt = await this._alertCtrl.create({
             message: data.message,
-            buttons: ["Ok"]
+            buttons: ["Okay"]
           });
           prompt.present();
 
@@ -241,7 +241,7 @@ export class ImportTransferFormPage implements OnInit {
         if (data.operation == "error") {
           let prompt = await this._alertCtrl.create({
             message: this.authService.errorMessage(data.message),
-            buttons: ["Ok"]
+            buttons: ["Okay"]
           });
           prompt.present();
         }

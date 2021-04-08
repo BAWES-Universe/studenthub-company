@@ -12,6 +12,8 @@ import { CompanyContact } from 'src/app/models/company-contact';
 import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
+import { EventService } from 'src/app/providers/event.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 const { Storage } = Plugins;
@@ -52,6 +54,8 @@ export class RegisterPage implements OnDestroy {
     // private _storage: Storage,
     private _formService: FormBuilder,
     public authService: AuthService,
+    public eventService: EventService,
+    public translateService: TranslateLabelService,
     private _alertCtrl: AlertController,
     private _router: Router,
     private _activeRouter: ActivatedRoute
@@ -81,8 +85,10 @@ export class RegisterPage implements OnDestroy {
     }
   }
 
-  async ionViewWillEnter() {
+  /*async ionViewWillEnter() {
     this.content.scrollToPoint(0, this.scrollPosition);
+
+    console.log(this.authService.isLogged);
 
     if (this.authService.isLogged) {
       this._router.navigate(['/']);
@@ -97,7 +103,7 @@ export class RegisterPage implements OnDestroy {
       this.loadInvitation();
     }
   }
-
+*/
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 25);
   }
@@ -197,18 +203,19 @@ export class RegisterPage implements OnDestroy {
 
         if (res.operation === 'success') {
 
-          Storage.set({ 'key': "unVerifiedToken", "value": JSON.stringify(res.unVerifiedToken) }).then(() => {
+          Storage.set({ 'key': "unVerifiedToken", "value": JSON.stringify(res.unVerifiedToken) }).catch(r => {
+            this.eventService.errorStorage$.next();
+          });
 
-            this._router.navigate([
-              'verify-email',
-              res['email']
-            ]);      
-          });  
+          this._router.navigate([
+            'verify-email',
+            res['unVerifiedToken']['email']
+          ]);      
 
         } else if (res.operation === 'error') {
           this._alertCtrl.create({
             message: res.message,
-            buttons: ['Ok']
+            buttons: ['Okay']
           }).then(alert => {
             alert.present();
           });
