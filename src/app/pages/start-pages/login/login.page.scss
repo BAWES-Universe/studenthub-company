@@ -68,12 +68,14 @@ ion-item.field-password {
   text-transform: none;
   --background: none;
   --box-shadow: none;
-  color: #4a4a4a;
   font-weight: normal;
   margin: auto;
   display: block;
   font-size: 16px;
   margin-top: 49px;
+  width: 250px;
+  height: 60px;
+  --padding-top: 10px;
 
   span {
     position: absolute;

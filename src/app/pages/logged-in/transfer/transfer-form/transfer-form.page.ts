@@ -293,7 +293,7 @@ export class TransferFormPage implements OnInit {
       if (jsonResponse.operation == 'error') {
         const prompt = await this._alertCtrl.create({
           message: this._authService.errorMessage(jsonResponse.message),
-          buttons: [this.translateService.transform('Ok')]
+          buttons: [this.translateService.transform('Okay')]
         });
         prompt.present();
       }

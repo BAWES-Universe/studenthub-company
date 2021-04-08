@@ -320,7 +320,7 @@ export class CompanyRequestViewPage implements OnInit {
               } else {
                 this.toastCtrl.create({
                   message: response.message,
-                  buttons: ['Ok']
+                  buttons: ['Okay']
                 }).then(prompt => {
                   prompt.present();
                 });

@@ -1,20 +1,23 @@
-<ion-header [class.add-border]="borderLimit" class="clear-header">
+<ion-header [attr.dir]="translateService.direction()" [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar [class.hide-back-button]="otp">
 
       <ion-buttons slot="start">
           <ion-back-button defaultHref="/"></ion-back-button>
       </ion-buttons>
-      <div class='brand'>
-        <img src="assets/logo.png" />
-      </div>
 
   </ion-toolbar>
 </ion-header>
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" class='contentArea ion-padding'>
+<ion-content [attr.dir]="translateService.direction()" [scrollEvents]="true" (ionScroll)="logScrolling($event)" class='contentArea ion-padding'>
 
-  <div class='registerCard'>
 
-    <div class='authArea'>
+  <div class='brand'>
+    <ion-img src="assets/icon.png"></ion-img>
+    <h3>Studenthub Payroll</h3>
+  </div>
+
+  <ion-card class='registerCard'>
+    <ion-card-content class='authArea'>
+ 
       <form [formGroup]="registerForm" *ngIf="registerForm" (ngSubmit)="registerSubmit()" (keyup.enter)="registerSubmit()"  novalidate>
 
         <ion-item>
@@ -24,7 +27,7 @@
 
         <div class="error-message"
           *ngIf="!registerForm.controls.name.valid && (registerForm.controls.name.touched ||  isLoading)">
-          <p>{{"Please enter name" | translate}}</p>
+          <p>{{ "Please enter name" | translate}}</p>
         </div>
 
         <ion-item>
@@ -53,7 +56,7 @@
         </div>
 
         <ion-item>
-          <ion-label position="floating">{{"Email Address" | translate}}</ion-label>
+          <ion-label position="floating">{{ "Email Address" | translate}}</ion-label>
           <ion-input inputmode="email" enterkeyhint="Next" type="email" [readonly]="this.otp" formControlName="email"></ion-input>
         </ion-item>
 
@@ -89,23 +92,24 @@
           </p>
 
           <p *ngIf="registerForm.controls.password.errors && registerForm.controls.password.errors.minlength">
-            {{'password_minlength' | translate:{ value: registerForm.controls.password.errors.minlength.requiredLength } }}
+            {{'password_min_length' | translate:{ value: registerForm.controls.password.errors.minlength.requiredLength } }}
           </p>
 
         </div>
 
-        <ion-item>
+        <ion-item lines="none">
           <ion-label>
-            <ion-checkbox formControlName="receive_email"></ion-checkbox>
             {{ "I would like to receives email notifications" | translate }}
           </ion-label>
+          <ion-checkbox slot="start" formControlName="receive_email"></ion-checkbox>
         </ion-item>
  
         <ion-button type="submit" class="btn-register" [disabled]="!registerForm.valid || isLoading">
           <ion-spinner *ngIf="isLoading"></ion-spinner>
-          <span *ngIf="!isLoading">{{"Create an account" | translate}}</span>
+          <span *ngIf="!isLoading">{{ "Create an account" | translate}}</span>
         </ion-button>
       </form>
-    </div>
-  </div>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

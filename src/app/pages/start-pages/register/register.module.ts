@@ -9,10 +9,10 @@ import { RegisterPage } from './register.page';
 import {TranslateModule} from "@ngx-translate/core";
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   component: RegisterPage
-  // },
+  {
+     path: '',
+     component: RegisterPage
+  },
   {
     path: ':otp',
     component: RegisterPage
