@@ -350,6 +350,7 @@ export class AuthService {
     const url = environment.apiEndpoint + this._urlResetPassRequest;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      Language: this.translate.currentLang
     });
     return this.http.post(url, { email }, { headers }).pipe(
       retryWhen(genericRetryStrategy()),
@@ -481,6 +482,7 @@ export class AuthService {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      Language: this.translate.currentLang
     });
 
     const params = {
