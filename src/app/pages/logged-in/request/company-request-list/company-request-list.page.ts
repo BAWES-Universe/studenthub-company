@@ -29,6 +29,7 @@ export class CompanyRequestListPage implements OnInit {
   public currentPage = 1;
   public pages: number[] = [];
   public requests: Request[] = [];
+  public segment = 'open';
 
   public filters: {
     companyName: string,
@@ -41,6 +42,16 @@ export class CompanyRequestListPage implements OnInit {
       startDate: null,
       endDate: null
     };
+
+  public requestStats: {
+    open: Request[],
+    completed: Request[],
+    cancelled: Request[]
+  } = {
+    open: [],
+    completed: [],
+    cancelled: []
+  };
 
   public min; // min date
   public max; // max date
@@ -89,7 +100,7 @@ export class CompanyRequestListPage implements OnInit {
       this.scrollPosition = ele.scrollTop;
     });
   }
-  
+
   doRefresh(event) {
     this.list(event);
   }
@@ -110,7 +121,7 @@ export class CompanyRequestListPage implements OnInit {
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.requests = response.body;
-
+      this.calculateStats();
       if(refresher) {
         refresher.target.complete();
       }
@@ -138,6 +149,7 @@ export class CompanyRequestListPage implements OnInit {
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.requests = this.requests.concat(response.body);
+      this.calculateStats();
     },
       error => { },
       () => {
@@ -195,5 +207,23 @@ export class CompanyRequestListPage implements OnInit {
 
   addRequest() {
     this.navCtrl.navigateForward('/request-form');
+  }
+
+  segmentChange(event) {
+    this.segment = event.detail.value;
+  }
+
+  calculateStats() {
+    this.requests.map(request => {
+      if (request.request_status == 'started'){
+        this.requestStats.open.push(request);
+      }
+      if (request.request_status == 'delivered'){
+        this.requestStats.completed.push(request);
+      }
+      if (request.request_status == 'cancelled'){
+        this.requestStats.cancelled.push(request);
+      }
+    });
   }
 }

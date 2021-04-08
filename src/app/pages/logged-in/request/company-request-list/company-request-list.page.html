@@ -5,9 +5,39 @@
   </ion-refresher>
 
   <div class="desktop-view">
+    <div class="btn-div">
+      <ion-button  class="btn-add-request" (click)="addRequest()">Add new request</ion-button>
+    </div>
 
-    <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)" [request]="request"
-      [showStatus]="false"></request-listing>
+    <div class="segment-div">
+      <ion-segment [value]="segment" (ionChange)="segmentChange($event)">
+        <ion-segment-button value="open">
+          <ion-label>Open ({{requestStats.open.length}})</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="completed">
+          <ion-label>Completed ({{requestStats.completed.length}})</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="cancelled">
+          <ion-label>Cancelled ({{requestStats.cancelled.length}})</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <div *ngIf="segment == 'open'">
+      <request-listing *ngFor="let request of requestStats.open" tappable (click)="requestDetail(request)" [request]="request"
+                       [showStatus]="true"></request-listing>
+    </div>
+
+    <div *ngIf="segment == 'completed'">
+      <request-listing *ngFor="let request of requestStats.completed" tappable (click)="requestDetail(request)" [request]="request"
+                       [showStatus]="true"></request-listing>
+    </div>
+
+    <div *ngIf="segment == 'cancelled'">
+      <request-listing *ngFor="let request of requestStats.cancelled" tappable (click)="requestDetail(request)" [request]="request"
+                       [showStatus]="true"></request-listing>
+    </div>
+
 
     <section class="ion-padding empty-data" *ngIf="!loading && requests && requests.length == 0">
       <ion-icon name="ios-filing-outline"></ion-icon>
@@ -22,8 +52,3 @@
   </div>
 
 </ion-content>
-<ion-footer>
-  <div class="desktop-view">
-    <ion-button  color="dark" (click)="addRequest()">{{"Add Request" | translate}}</ion-button>
-  </div>
-</ion-footer>

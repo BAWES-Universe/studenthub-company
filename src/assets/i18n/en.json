@@ -5,5 +5,6 @@
     "view_all_notes": "View all {{ value }} notes",
     "suggested_candidates_count": "Suggested Candidates ({{ value }})",
     "accepted_count": "Accepted ({{ value }})",
-    "rejected_count": "Rejected ({{ value }})"
+    "rejected_count": "Rejected ({{ value }})",
+    "which_candidate_position" : "Which position are you considering {{value}} for?"
 }

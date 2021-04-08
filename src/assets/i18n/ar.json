@@ -225,5 +225,7 @@
   "I" : "أنا",
   "Client" : "عميل",
   "Refresh" : "ينعش",
-  "A new version is available" : "إصدار جديد متوفر"
+  "A new version is available" : "إصدار جديد متوفر",
+  "which_candidate_position" : "Which position are you considering {{value}} for?"
+
 }

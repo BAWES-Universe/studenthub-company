@@ -1,4 +1,78 @@
+.icon {
+  font-size: 35px;
+  color: #ffC977;
+  vertical-align: middle;
+  margin-right: 19px;
+  width: 18px;
+}
+label{
+  vertical-align: middle;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.44;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4f4f4f;
+}
+ion-item {
+  --padding-start: 0;
+  --min-height: 16px;
+  padding: 0;
+  margin: 0;
+}
+h1 {
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #292f38;
+}
 
+.created-at {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.44;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4f4f4f;
+}
+.requested-by {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #292f38;
+}
+
+ion-grid {
+  border-radius: 4px;
+  border: solid 1px #828282;
+  background-color: #ffffff;
+  padding: 3px 13px;
+  margin-top: 22px;
+}
+
+ion-col span {
+  opacity: 0.8;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.42;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4f4f4f;
+}
 ion-card {
     margin-left: 0;
     margin-right: 0;
@@ -62,7 +136,7 @@ ion-card {
         letter-spacing: normal;
         text-align: left;
         color: #000;
-        padding: 17px 24px 55px 24px;
+        padding: 24px 24px 24px 24px;
 
         .content-footer {
           position: absolute;
