@@ -29,11 +29,12 @@ export class Request {
     company: Company;
     lastActivity: Note;
     invitations: Invitation[];
+    stats: Stats;
 }
-/*
-enum Status {
-    pending,
-    started,
-    delivered,
-    cancelled
-}*/
+
+class Stats {
+  accepted: string;
+  invited: string;
+  rejected: string;
+  suggested: string;
+}

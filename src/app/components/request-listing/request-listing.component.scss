@@ -1,4 +1,78 @@
+.icon {
+  font-size: 35px;
+  color: #ffC977;
+  vertical-align: middle;
+  margin-right: 19px;
+  width: 18px;
+}
+label{
+  vertical-align: middle;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.44;
+  letter-spacing: normal;
+  text-align: justify;
+  color: #4f4f4f;
+}
+ion-item {
+  --padding-start: 0;
+  --min-height: 16px;
+  padding: 0;
+  margin: 0;
+}
+h1 {
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: justify;
+  color: #292f38;
+}
 
+.created-at {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.44;
+  letter-spacing: normal;
+  text-align: justify;
+  color: #4f4f4f;
+}
+.requested-by {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: justify;
+  color: #292f38;
+}
+
+ion-grid {
+  border-radius: 4px;
+  border: solid 1px #828282;
+  background-color: #ffffff;
+  padding: 3px 13px;
+  margin-top: 22px;
+}
+
+ion-col span {
+  opacity: 0.8;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.42;
+  letter-spacing: normal;
+  text-align: justify;
+  color: #4f4f4f;
+}
 ion-card {
     margin-left: 0;
     margin-right: 0;
@@ -11,7 +85,6 @@ ion-card {
         margin: 0;
         position: relative;
         background-color: #f2c94c;
-        margin-bottom: 0;
 
         ion-card-title {
             font-size: 21px;
@@ -20,7 +93,7 @@ ion-card {
             font-style: normal;
             line-height: 1.31;
             letter-spacing: normal;
-            text-align: left;
+            text-align: justify;
             color: #000000;
         }
 
@@ -31,7 +104,7 @@ ion-card {
             font-style: normal;
             line-height: 1.31;
             letter-spacing: normal;
-            text-align: left;
+            text-align: justify;
             color: #000000;
         }
 
@@ -42,7 +115,7 @@ ion-card {
             font-style: normal;
             line-height: 1.31;
             letter-spacing: normal;
-            text-align: left;
+            text-align: justify;
             color: #000;
             margin: 10px 0 5px 0;
         }
@@ -60,9 +133,9 @@ ion-card {
         font-style: normal;
         line-height: 1.65;
         letter-spacing: normal;
-        text-align: left;
+        text-align: justify;
         color: #000;
-        padding: 17px 24px 55px 24px;
+        padding: 24px 24px 24px 24px;
 
         .content-footer {
           position: absolute;
@@ -93,7 +166,7 @@ ion-card {
           font-style: normal;
           line-height: 1.65;
           letter-spacing: normal;
-          text-align: left;
+          text-align: justify;
         }
 
         h1 {
@@ -103,7 +176,7 @@ ion-card {
           font-style: normal;
           line-height: 1.65;
           letter-spacing: normal;
-          text-align: left;
+          text-align: justify;
           color: #000000;
         }
         h3 {
@@ -113,7 +186,7 @@ ion-card {
           font-style: normal;
           line-height: 1.65;
           letter-spacing: normal;
-          text-align: left;
+          text-align: justify;
         }
         h5 {
           font-size: 16px;
@@ -122,7 +195,7 @@ ion-card {
           font-style: normal;
           line-height: 1.65;
           letter-spacing: normal;
-          text-align: left;
+          text-align: justify;
           color: #000;
           margin-top: 40px;
           margin-bottom: 10px;
@@ -135,7 +208,7 @@ ion-card {
           font-style: normal;
           line-height: 1.65;
           letter-spacing: normal;
-          text-align: left;
+          text-align: justify;
           color: #000;
         }
     }
@@ -163,4 +236,10 @@ ion-card {
 
 .pending-request {
   padding: 17px 24px 52px 24px!important;
+}
+[dir="rtl"] {
+  .icon {
+    margin-left: 19px;
+    margin-right: 0;
+  }
 }

@@ -3,8 +3,11 @@
     <ion-buttons slot="start">
         <ion-back-button (click)="close()"></ion-back-button>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <div class="title">{{"which_candidate_position" | translate: {
+      value: candidate.candidate_name} }}</div>
 
-    <ion-title>{{"Select Request" | translate}}</ion-title>
   </ion-toolbar>
 
 </ion-header>

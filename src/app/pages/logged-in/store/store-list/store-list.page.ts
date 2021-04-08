@@ -6,6 +6,7 @@ import { Company } from 'src/app/models/company';
 // service
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import {TranslateLabelService} from "../../../../providers/translate-label.service";
 
 
 @Component({
@@ -28,7 +29,8 @@ export class StoreListPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public storeService: StoreService,
-    public aws: AwsService
+    public aws: AwsService,
+    public translateService: TranslateLabelService,
   ) { }
 
   ngOnInit() {
