@@ -19,7 +19,7 @@
 
         <ion-label>
           <h4>
-            <span class="you" *ngIf="contact.contact_uuid == authService.id">You&nbsp;•&nbsp;</span>
+            <span class="you" *ngIf="contact.contact_email == authService.email">You&nbsp;•&nbsp;</span>
             {{ contact.contact.contact_name }}
           </h4>
 

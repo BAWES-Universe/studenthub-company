@@ -123,6 +123,10 @@ export class LoginPage implements OnInit {
     });
     alert.present();
   }
+  
+  openRegisterPage() {
+    this.router.navigate(['register']);
+  }
 
   /**
    * reset password

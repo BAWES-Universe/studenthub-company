@@ -225,5 +225,7 @@
   "I" : "أنا",
   "Client" : "عميل",
   "Refresh" : "ينعش",
-  "A new version is available" : "إصدار جديد متوفر"
+  "A new version is available" : "إصدار جديد متوفر",
+  "Don't have an account?": "ليس لديك حساب؟",
+  "Sign up": "سجل"  
 }
