@@ -44,6 +44,15 @@ export class AccountService {
   }
 
   /**
+   * Update email address 
+   * @param contact Contact 
+   */
+  updateEmail(contact: Contact): Observable<any> {
+    let url = this._accountEndpoint + '/update-email';
+    return this._authhttp.post(url, { email: contact.contact_email });
+  }
+
+  /**
    * change password
    * @param oldPassword
    * @param newPassword

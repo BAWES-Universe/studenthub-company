@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {AlertController, ModalController, ToastController} from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { Request } from 'src/app/models/request';
@@ -9,7 +9,7 @@ import { EventService } from 'src/app/providers/event.service';
 // services
 import { CompanyRequestService } from '../../../providers/logged-in/company-request.service';
 import { RequestCandidateInvitationService } from "../../../providers/logged-in/request-candidate-invitation.service";
-import {TranslateLabelService} from "../../../providers/translate-label.service";
+import { TranslateLabelService } from "../../../providers/translate-label.service";
 
 
 @Component({

@@ -58,7 +58,7 @@ export class UpdatePasswordPage {
    */
   dismiss() {
     // this.modalCtrl.dismiss();
-    this.navCtrl.navigateRoot('/landing');
+    this.navCtrl.navigateRoot('/login');
   }
 
   /**

@@ -46,7 +46,9 @@
           {{"Forgot your password ?" | translate}}
         </a>
       </div>
-<br/>
+
+      <br/>
+
       <div class="ion-text-center" *ngIf="!isLoading" tappable>
         <a *ngIf="translateService.currentLang == 'ar'" (click)="changeLanguage($event)">English</a>
         <a *ngIf="translateService.currentLang == 'en'" (click)="changeLanguage($event)">عربى</a>
@@ -54,5 +56,10 @@
 
     </ion-card-content>
   </ion-card>
+
+  <ion-button (click)="openRegisterPage()" class="btn-register">
+    <span>{{ "Don't have an account?" | translate }} </span> <br />
+    <b>{{ "Sign up" | translate }}</b>
+  </ion-button>
 
 </ion-content>

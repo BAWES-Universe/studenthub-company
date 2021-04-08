@@ -18,13 +18,38 @@
       <form [formGroup]="registerForm" *ngIf="registerForm" (ngSubmit)="registerSubmit()" (keyup.enter)="registerSubmit()"  novalidate>
 
         <ion-item>
-          <ion-label position="floating">{{"Name" | translate}}</ion-label>
+          <ion-label position="floating">{{ "Your Name" | translate}}*</ion-label>
           <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="name" maxlength="30"></ion-input>
         </ion-item>
 
         <div class="error-message"
           *ngIf="!registerForm.controls.name.valid && (registerForm.controls.name.touched ||  isLoading)">
           <p>{{"Please enter name" | translate}}</p>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">{{ "Your Company Name" | translate}}*</ion-label>
+          <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="company_name" maxlength="30"></ion-input>
+        </ion-item>
+
+        <div class="error-message"
+          *ngIf="!registerForm.controls.company_name.valid && (registerForm.controls.company_name.touched ||  isLoading)">
+          <p>{{ "Please enter company name" | translate}}</p>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">{{ "Your Job Title" | translate}}</ion-label>
+          <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="contact_position" maxlength="30"></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="floating">{{ "Your Phone Number" | translate}}*</ion-label>
+          <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="phone_number" maxlength="30"></ion-input>
+        </ion-item>
+
+        <div class="error-message"
+          *ngIf="!registerForm.controls.phone_number.valid && (registerForm.controls.phone_number.touched ||  isLoading)">
+          <p>{{ "Please enter phone number" | translate}}</p>
         </div>
 
         <ion-item>
@@ -69,6 +94,13 @@
 
         </div>
 
+        <ion-item>
+          <ion-label>
+            <ion-checkbox formControlName="receive_email"></ion-checkbox>
+            {{ "I would like to receives email notifications" | translate }}
+          </ion-label>
+        </ion-item>
+ 
         <ion-button type="submit" class="btn-register" [disabled]="!registerForm.valid || isLoading">
           <ion-spinner *ngIf="isLoading"></ion-spinner>
           <span *ngIf="!isLoading">{{"Create an account" | translate}}</span>
