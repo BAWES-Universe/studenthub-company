@@ -6,5 +6,11 @@
     "suggested_candidates_count": "Suggested Candidates ({{ value }})",
     "accepted_count": "Accepted ({{ value }})",
     "rejected_count": "Rejected ({{ value }})",
-    "which_candidate_position" : "Which position are you considering {{value}} for?"
+    "which_candidate_position" : "Which position are you considering {{value}} for?",
+    "open_value": "Open ({{value}})",
+    "completed_value" : "Completed ({{value}})",
+    "cancelled_value" : "Cancelled ({{value}})",
+    "requested_by_value" : "Requested by <b>{{value}}</b>",
+    "ppl_count" : "{{value}} people",
+    "staff_count" : "{{value}} staff"
 }

@@ -13,7 +13,7 @@ label{
   font-style: normal;
   line-height: 1.44;
   letter-spacing: normal;
-  text-align: left;
+  text-align: justify;
   color: #4f4f4f;
 }
 ion-item {
@@ -29,7 +29,7 @@ h1 {
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  text-align: left;
+  text-align: justify;
   color: #292f38;
 }
 
@@ -40,7 +40,7 @@ h1 {
   font-style: normal;
   line-height: 1.44;
   letter-spacing: normal;
-  text-align: left;
+  text-align: justify;
   color: #4f4f4f;
 }
 .requested-by {
@@ -50,7 +50,7 @@ h1 {
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  text-align: left;
+  text-align: justify;
   color: #292f38;
 }
 
@@ -70,7 +70,7 @@ ion-col span {
   font-style: normal;
   line-height: 1.42;
   letter-spacing: normal;
-  text-align: left;
+  text-align: justify;
   color: #4f4f4f;
 }
 ion-card {
@@ -85,7 +85,6 @@ ion-card {
         margin: 0;
         position: relative;
         background-color: #f2c94c;
-        margin-bottom: 0;
 
         ion-card-title {
             font-size: 21px;
@@ -94,7 +93,7 @@ ion-card {
             font-style: normal;
             line-height: 1.31;
             letter-spacing: normal;
-            text-align: left;
+            text-align: justify;
             color: #000000;
         }
 
@@ -105,7 +104,7 @@ ion-card {
             font-style: normal;
             line-height: 1.31;
             letter-spacing: normal;
-            text-align: left;
+            text-align: justify;
             color: #000000;
         }
 
@@ -116,7 +115,7 @@ ion-card {
             font-style: normal;
             line-height: 1.31;
             letter-spacing: normal;
-            text-align: left;
+            text-align: justify;
             color: #000;
             margin: 10px 0 5px 0;
         }
@@ -134,7 +133,7 @@ ion-card {
         font-style: normal;
         line-height: 1.65;
         letter-spacing: normal;
-        text-align: left;
+        text-align: justify;
         color: #000;
         padding: 24px 24px 24px 24px;
 
@@ -167,7 +166,7 @@ ion-card {
           font-style: normal;
           line-height: 1.65;
           letter-spacing: normal;
-          text-align: left;
+          text-align: justify;
         }
 
         h1 {
@@ -177,7 +176,7 @@ ion-card {
           font-style: normal;
           line-height: 1.65;
           letter-spacing: normal;
-          text-align: left;
+          text-align: justify;
           color: #000000;
         }
         h3 {
@@ -187,7 +186,7 @@ ion-card {
           font-style: normal;
           line-height: 1.65;
           letter-spacing: normal;
-          text-align: left;
+          text-align: justify;
         }
         h5 {
           font-size: 16px;
@@ -196,7 +195,7 @@ ion-card {
           font-style: normal;
           line-height: 1.65;
           letter-spacing: normal;
-          text-align: left;
+          text-align: justify;
           color: #000;
           margin-top: 40px;
           margin-bottom: 10px;
@@ -209,7 +208,7 @@ ion-card {
           font-style: normal;
           line-height: 1.65;
           letter-spacing: normal;
-          text-align: left;
+          text-align: justify;
           color: #000;
         }
     }
@@ -237,4 +236,10 @@ ion-card {
 
 .pending-request {
   padding: 17px 24px 52px 24px!important;
+}
+[dir="rtl"] {
+  .icon {
+    margin-left: 19px;
+    margin-right: 0;
+  }
 }

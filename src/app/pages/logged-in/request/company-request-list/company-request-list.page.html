@@ -6,19 +6,19 @@
 
   <div class="desktop-view">
     <div class="btn-div">
-      <ion-button  class="btn-add-request" (click)="addRequest()">Add new request</ion-button>
+      <ion-button  class="btn-add-request" (click)="addRequest()">{{"Add new request" | translate}}</ion-button>
     </div>
 
     <div class="segment-div">
       <ion-segment [value]="segment" (ionChange)="segmentChange($event)">
         <ion-segment-button value="open">
-          <ion-label>Open ({{requestStats.open.length}})</ion-label>
+          <ion-label>{{"open_value" | translate: {value:requestStats.open.length} }}</ion-label>
         </ion-segment-button>
         <ion-segment-button value="completed">
-          <ion-label>Completed ({{requestStats.completed.length}})</ion-label>
+          <ion-label>{{"completed_value" |  translate: {value: requestStats.completed.length} }}</ion-label>
         </ion-segment-button>
         <ion-segment-button value="cancelled">
-          <ion-label>Cancelled ({{requestStats.cancelled.length}})</ion-label>
+          <ion-label>{{"cancelled_value" |  translate: {value: requestStats.completed.length} }}</ion-label>
         </ion-segment-button>
       </ion-segment>
     </div>

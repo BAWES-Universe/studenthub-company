@@ -1,7 +1,7 @@
-<ion-card [class.pending]="request.request_status == 'pending'" tappable>
+<ion-card [class.pending]="request.request_status == 'pending'" tappable [attr.dir]="translateService.direction()">
   <ion-card-content>
     <h1>{{ request.request_position_title }}</h1>
-    <div class="requested-by" *ngIf="request.requestCreatedBy">Requested by <b>{{ request.requestCreatedBy.staff_name }}</b></div>
+    <div class="requested-by" *ngIf="request.requestCreatedBy" [innerHTML]="'requested_by_value' | translate:{value: request.requestCreatedBy.staff_name}"></div>
     <div class="created-at">on {{request.request_updated_datetime | date}}</div>
 
     <ion-list lines="none">
@@ -11,7 +11,9 @@
       </ion-item>
       <ion-item>
         <ion-icon class="icon" src="assets/images/ic_suitcase-light.svg"></ion-icon>
-        <label>{{request.request_number_of_employees}} people<span *ngIf="request.request_position_type == 1">, Full-time</span><span *ngIf="request.request_position_type == 2">, Part-time</span>
+        <label>{{"ppl_count" | translate: {value: request.request_number_of_employees} }}<span *ngIf="request.request_position_type == 1">,
+          {{"Full-time" | translate}}</span>
+          <span *ngIf="request.request_position_type == 2">, {{"Part-time" | translate}}</span>
         </label>
       </ion-item>
       <ion-item *ngIf="request.request_compensation">
@@ -22,10 +24,10 @@
 
     <ion-grid *ngIf="showStatus">
       <ion-row>
-        <ion-col>{{request.stats.invited}} <br/><span>Invited</span></ion-col>
-        <ion-col>{{request.stats.suggested}} <br/><span>Suggested</span></ion-col>
-        <ion-col>{{request.stats.accepted}} <br/><span>Accepted</span></ion-col>
-        <ion-col>{{request.stats.rejected}} <br/><span>Rejected</span></ion-col>
+        <ion-col>{{request.stats.invited}} <br/><span>{{"Invited" | translate}}</span></ion-col>
+        <ion-col>{{request.stats.suggested}} <br/><span>{{"Suggested" | translate}}</span></ion-col>
+        <ion-col>{{request.stats.accepted}} <br/><span>{{"Accepted" | translate}}</span></ion-col>
+        <ion-col>{{request.stats.rejected}} <br/><span>{{"Rejected" | translate}}</span></ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>

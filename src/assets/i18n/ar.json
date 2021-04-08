@@ -226,6 +226,26 @@
   "Client" : "عميل",
   "Refresh" : "ينعش",
   "A new version is available" : "إصدار جديد متوفر",
-  "which_candidate_position" : "Which position are you considering {{value}} for?"
-
+  "which_candidate_position" : "ما هو المنصب الذي تفكر فيه {{value}}؟",
+  "open_value": "({{value}}) فتح",
+  "completed_value" : "({{value}}) مكتمل",
+  "cancelled_value" : "({{value}}) ألغيت",
+  "Add new request" : "إضافة طلب جديد",
+  "requested_by_value" : "مطلوب من قبل <b> {{value}} </b>",
+  "ppl_count" : "{{value}} أشخاص",
+  "Suggested" : "مقترح",
+  "Accepted" : "وافقت",
+  "Rejected" : "مرفوض",
+  "staff_count" : "{{value}} طاقم عمل",
+  "Transfer Draft" : "مسودة التحويل",
+  "`Lock Transfer` once you are done inputting hours worked by your assigned employees. Invoices will be sent to you after lock.": "\"قفل النقل\" بمجرد الانتهاء من إدخال ساعات العمل من قبل الموظفين المعينين. سيتم إرسال الفواتير إليك بعد القفل.",
+  "Invoices for this transfer has been sent to you and are available for download below.": "تم إرسال الفواتير الخاصة بهذا التحويل إليك وهي متاحة للتنزيل أدناه.",
+  "Waiting for bank to verify payment received to start distribution of payment.": "في انتظار قيام البنك بالتحقق من استلام الدفعة لبدء توزيع المدفوعات.",
+  "Distribution in Progress": "جاري التوزيع",
+  "Your payment has been received and is currently being distributed to your assigned employees.": "تم استلام دفعتك ويتم توزيعها حاليًا على الموظفين المعينين لك.",
+  "Transfer Complete": "نقل كامل",
+  "All done!": "كله تمام!",
+  "Transfer Total": "إجمالي التحويل",
+  "Update": "تحديث",
+  "Create" : "خلق"
 }

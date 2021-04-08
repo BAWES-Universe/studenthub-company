@@ -10,6 +10,7 @@ import { EventService } from 'src/app/providers/event.service';
 // models
 import { Request } from 'src/app/models/request';
 import {TranslateService} from "@ngx-translate/core";
+import {TranslateLabelService} from "../../../../providers/translate-label.service";
 
 
 @Component({
@@ -41,7 +42,7 @@ export class RequestFormPage implements OnInit {
     private location: Location,
     private eventService: EventService,
     private route: ActivatedRoute,
-    private translateService: TranslateService
+    private translateService: TranslateLabelService
   ) {
   }
 
@@ -74,7 +75,7 @@ export class RequestFormPage implements OnInit {
       compensation: [this.model.request_compensation, Validators.required]
     });
 
-    this.operation = (this.requestID) ? 'Update' : 'Create';
+    this.operation = (this.requestID) ? this.translateService.transform('Update') : this.translateService.transform('Create');
   }
 
   /**
@@ -131,8 +132,8 @@ export class RequestFormPage implements OnInit {
       // On Failure
       if (jsonResponse.operation == 'error') {
         const prompt = await this.alertCtrl.create({
-          message: this.authService.errorMessage(jsonResponse),
-          buttons: [this.translateService.translations('Ok')]
+          message: this.translateService.errorMessage(jsonResponse),
+          buttons: [this.translateService.transform('Ok')]
         });
         prompt.present();
       }
