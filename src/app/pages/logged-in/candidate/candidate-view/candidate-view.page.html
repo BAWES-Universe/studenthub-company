@@ -261,7 +261,7 @@
     <loading-modal [loading]="loading && !candidate" type="candidate-view"></loading-modal>
   </div>
 </ion-content>
-<ion-footer *ngIf="candidate && !loading">
+<ion-footer *ngIf="candidate && !loading ">
   <div class="desktop-view">
     <ion-button color="dark" [disabled]="candidate.invitedCount" (click)="invite()">
       <span *ngIf="!candidate.invitedCount">{{"Invite for request" | translate}}</span>
