@@ -24,6 +24,7 @@ export class Company {
     company_updated_at: string;
     deleted: number;
     totalCandidates: number;
+    company_approved_to_hire: any;
     subcompanies: Company[];
     subCompanies: Company[];
     stores: Store[];
