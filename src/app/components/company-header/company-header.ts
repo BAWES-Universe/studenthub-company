@@ -3,6 +3,7 @@ import { MenuController, NavController } from '@ionic/angular';
 import {AuthService} from 'src/app/providers/auth.service';
 import {EventService} from 'src/app/providers/event.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import {TranslateLabelService} from "../../providers/translate-label.service";
 // services
 
 /**
@@ -38,6 +39,7 @@ export class CompanyHeaderComponent implements OnInit{
         public _menuCtrl: MenuController,
         public accountService: AccountService,
         public eventService: EventService,
+        public translationService: TranslateLabelService,
     ) {
         this.eventService.profileUpdated$.subscribe(() => {
             this.nameTitle();
@@ -62,8 +64,8 @@ export class CompanyHeaderComponent implements OnInit{
     /**
      * name intials
      */
-    nameTitle() { 
-        
+    nameTitle() {
+
         if (this.auth.profile_name) {
             const name = this.auth.profile_name;
             const initials = name.match(/\b\w/g) || [];

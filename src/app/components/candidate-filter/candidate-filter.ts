@@ -1,6 +1,6 @@
-import { Component, forwardRef, Inject } from '@angular/core';
+import {ChangeDetectorRef, Component, forwardRef, Inject} from '@angular/core';
 import { NgAisInstantSearch } from 'angular-instantsearch';
-
+import {TranslateLabelService} from "../../providers/translate-label.service";
 
 /**
  * Display candidate filter
@@ -23,13 +23,13 @@ export class CandidateFilterComponent {
 
         return items.map(item => {
             if (item.name == '1' || item.label == '1') {
-                item.label = item.highlighted = item.name = 'Male';
+                item.label = item.highlighted = item.name = this.translateService.transform('Male');
             }
             else if (item.name == '2' || item.label == '2') {
-                item.label = item.highlighted = item.name = 'Female';
+                item.label = item.highlighted = item.name = this.translateService.transform('Female');
             }
             else if (item.name == '3' || item.label == '3') {
-                item.label = item.highlighted = item.name = 'Other';
+                item.label = item.highlighted = item.name = this.translateService.transform('Other');
             }
 
             return item;
@@ -43,10 +43,10 @@ export class CandidateFilterComponent {
 
         return items.map(item => {
             if (item.name == '0' || item.label == '0') {
-                item.label = item.highlighted = item.name = 'Not Assigned';
+                item.label = item.highlighted = item.name = this.translateService.transform('Not Assigned');
             }
             else if (item.name == '1' || item.label == '1') {
-                item.label = item.highlighted = item.name = 'Assigned';
+                item.label = item.highlighted = item.name = this.translateService.transform('Assigned');
             }
 
             return item;
@@ -60,10 +60,10 @@ export class CandidateFilterComponent {
 
         return items.map(item => {
             if (item.name == '1' || item.label == '1') {
-                item.label = item.highlighted = item.name = 'Yes';
+                item.label = item.highlighted = item.name = this.translateService.transform('Yes');
             }
             else if (item.name == '2' || item.label == '2') {
-                item.label = item.highlighted = item.name = 'No';
+                item.label = item.highlighted = item.name = this.translateService.transform('No');
             }
 
             return item;
@@ -77,10 +77,10 @@ export class CandidateFilterComponent {
 
         return items.map(item => {
             if (item.name == '1' || item.label == '1') {
-                item.label = item.highlighted = item.name = 'Yes';
+                item.label = item.highlighted = item.name = this.translateService.transform('Yes');
             }
             else if (item.name == '2' || item.label == '2') {
-                item.label = item.highlighted = item.name = 'No';
+                item.label = item.highlighted = item.name = this.translateService.transform('No');
             }
 
             return item;
@@ -89,7 +89,8 @@ export class CandidateFilterComponent {
 
     constructor(
         @Inject(forwardRef(() => NgAisInstantSearch))
-        public instantSearchParent
+        public instantSearchParent,
+        public translateService: TranslateLabelService
     ) {
     }
 

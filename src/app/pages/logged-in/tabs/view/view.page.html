@@ -1,8 +1,11 @@
   <ion-split-pane content-id="main-content" contentId="main-content">
-    <ion-menu side="start" contentId="main-content" #menuLTR menuId="menuLTR" type="overlay">
 
+    <ion-menu side="start" [disabled]="translationService.direction() == 'rtl'" contentId="main-content" #menuLTR menuId="menuLTR" type="overlay">
       <app-menu class="main-left-menu"></app-menu>
+    </ion-menu>
 
+    <ion-menu side="end" [disabled]="translationService.direction() == 'ltr'" contentId="main-content" #menuRTL menuId="menuRTL" type="overlay">
+      <app-menu class="main-left-menu"></app-menu>
     </ion-menu>
 
     <ion-tabs #tabRef id="main-content" [class.plt-mobile]="platform.is('mobile')">

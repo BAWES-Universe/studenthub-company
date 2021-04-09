@@ -354,8 +354,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (language.code == 'ar') {
       document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+      document.getElementsByClassName('company-header')[0].setAttribute('dir', 'rtl');
     } else {
       document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+      document.getElementsByClassName('company-header')[0].setAttribute('dir', 'ltr');
     }
   }
 }
