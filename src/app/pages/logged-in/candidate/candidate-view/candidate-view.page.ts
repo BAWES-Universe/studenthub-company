@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ModalController, NavController} from '@ionic/angular';
+import {AlertController, ModalController, NavController} from '@ionic/angular';
 // models
 import { Candidate } from 'src/app/models/candidate';
 // services
@@ -8,6 +8,7 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
 import { AwsService } from 'src/app/providers/aws.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import {InvitePage} from "../../invite/invite.page";
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 
@@ -29,7 +30,9 @@ export class CandidateViewPage implements OnInit {
     public aws: AwsService,
     public activatedRoute: ActivatedRoute,
     public candidateService: CandidateService,
+    public alertCtrl: AlertController,
     public navCtrl: NavController,
+    public translateService: TranslateLabelService,
     public authService: AuthService,
     public modalCtrl: ModalController
   ) { }
@@ -105,6 +108,15 @@ export class CandidateViewPage implements OnInit {
    * invite candidate for open request
    */
   async invite() {
+
+    if(!this.authService.company.company_approved_to_hire) {
+      
+      let prompt = await this.alertCtrl.create({
+        message: this.translateService.transform("We've not approved to invite candidate, please contact us for assistance."),
+        buttons: [this.translateService.transform('Okay')]
+      });
+      return prompt.present();
+    }
 
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
