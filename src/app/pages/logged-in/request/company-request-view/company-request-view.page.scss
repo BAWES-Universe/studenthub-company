@@ -245,3 +245,8 @@ ion-grid {
         width: 100% !important;
     }
 }
+[dir="rtl"] {
+  .requested-by {
+    margin: 39px 6px 28px 39px;
+  }
+}

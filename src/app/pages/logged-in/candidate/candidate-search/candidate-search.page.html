@@ -67,8 +67,8 @@
             <div class="list-header" *ngIf="showSearchBox">
 
               <div class="applied-filters-wrapper">
-                <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'candidates found'"
-                                [labelWithFilter]="'candidates found for '">
+                <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'candidates found' | translate"
+                                [labelWithFilter]="'candidates found for ' | translate">
                 </applied-filters>
               </div>
 

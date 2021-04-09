@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateLabelService.direction()">
 
   <div class="desktop-view">
 
@@ -42,7 +42,7 @@
       <p class="txt-additional-info">{{ request.request_compensation }}</p>
 
       <div class="requested-by">
-        Requested <ng-container *ngIf="request.contact">by <span class="requested-by-staff">{{ request.contact.contact_name }}</span></ng-container>
+        <ng-container *ngIf="request.contact">{{"Requested by" | translate}} <span class="requested-by-staff">{{ request.contact.contact_name }}</span></ng-container>
         <div class="requested-by-time">{{"on" | translate}} {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
       </div>
 

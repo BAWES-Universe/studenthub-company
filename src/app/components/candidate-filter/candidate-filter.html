@@ -8,7 +8,7 @@
             attribute="candidate_gender"></refinement-list>
 
         <range-refinement-list data-sort-order="2"
-            [class.is-refined]="arrRefined['candidate_birth_timestamp']" title="Age"
+            [class.is-refined]="arrRefined['candidate_birth_timestamp']" title="{{ 'Age' | translate }}"
             operator="or" attribute="candidate_birth_timestamp"></range-refinement-list>
 
         <refinement-list data-sort-order="3" [class.is-refined]="arrRefined && arrRefined['candidate_driving_license']"
@@ -33,13 +33,13 @@
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
             attribute="bank.bank_name"></refinement-list>
 
-        <refinement-list label="{{ 'Home Location' }}" [searchable]="true"
+        <refinement-list label="{{ 'Home Location' | translate }}" [searchable]="true"
             data-sort-order="8" [class.is-refined]="arrRefined['currentLocations.en']"
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
             attribute="currentLocations.en"></refinement-list>
 
-        <refinement-list label="{{ 'Nationality' }}" [searchable]="true"
+        <refinement-list label="{{ 'Nationality' | translate }}" [searchable]="true"
             data-sort-order="9" [class.is-refined]="arrRefined['country.country_name_en']"
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate}}"
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
