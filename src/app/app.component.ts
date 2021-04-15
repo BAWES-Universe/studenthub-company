@@ -13,6 +13,8 @@ import { AwsService } from './providers/aws.service';
 import { CompanyService } from './providers/logged-in/company.service';
 import {Router} from "@angular/router";
 import {CompanyRequestService} from "./providers/logged-in/company-request.service";
+import {TranslateLabelService} from "./providers/translate-label.service";
+import {LanguageService} from "./providers/language.service";
 
 
 const { SplashScreen } = Plugins;
@@ -43,7 +45,9 @@ export class AppComponent implements OnInit, OnDestroy {
     public companyService: CompanyService,
     public candidateService: CandidateService,
     public requestService: CompanyRequestService,
-    public router: Router
+    public router: Router,
+    public translateService: TranslateLabelService,
+    public languageService: LanguageService
   ) {
     this.initializeApp();
     // this.loadTotalEmployee();
@@ -98,7 +102,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * subscribe to events 
+   * subscribe to events
    */
   subscribeToEvents() {
 
@@ -129,13 +133,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
- 
+
       if(!this.subscribeForRequest) {
         this.subscribeForRequest = setInterval(data => {
           this.checkRequestCount();
         }, 10000);
       }
-      
+
       this.loadCompanies();
 
       this.navCtrl.navigateRoot(['/']);
@@ -169,6 +173,37 @@ export class AppComponent implements OnInit, OnDestroy {
     this.eventService.companyChanged$.subscribe(userEventData => {
       this.loadTotalEmployee();
     });
+
+    /**
+     * Save user language preference after login
+     */
+    this.eventService.setLanguagePref$.subscribe(language_pref => {
+
+      /**
+       * changing status on `side` property change
+       * https://github.com/ionic-team/ionic/blob/master/core/src/components/menu/menu.tsx
+       *
+       if (language_pref == 'ar') {
+        this.menuRTL.side = 'end';//changing english to arabic
+      } else {
+        this.menuLTR.side = 'end';//changing arabic to english
+      }*/
+
+      this.languageService.listToTranslate().subscribe(languages => {
+
+        for (const element of languages) {
+          if (element.code == language_pref) {
+
+            // change language
+
+            this.translateTo(element);
+
+            break;
+          }
+        }
+      });
+    });
+
   }
 
   loadCompanyDetail() {
@@ -305,5 +340,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.candidateService.total().subscribe(result => {
       this.totalEmployees = result;
     });
+  }
+
+  /**
+   * Change app language
+   * @param language
+   */
+  translateTo(language) {
+
+    this.translateService.use(language.code).subscribe();
+
+    this.auth.setLanguagePref(language.code);
+
+    if (language.code == 'ar') {
+      document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+      document.getElementsByClassName('company-header')[0].setAttribute('dir', 'rtl');
+    } else {
+      document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+      document.getElementsByClassName('company-header')[0].setAttribute('dir', 'ltr');
+    }
   }
 }

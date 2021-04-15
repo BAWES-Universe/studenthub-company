@@ -10,17 +10,19 @@ import { TransferFormPage } from './transfer-form.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DateDropdownModule } from 'src/app/components/date-dropdown/date-dropdown.module';
 import { CalendarModule } from 'ion2-calendar';
+import {TranslateModule} from "@ngx-translate/core";
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    IonicModule,
-    TransferFormPageRoutingModule,
-    PipesModule,
-    DateDropdownModule,
-    CalendarModule
-  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        IonicModule,
+        TransferFormPageRoutingModule,
+        PipesModule,
+        DateDropdownModule,
+        CalendarModule,
+        TranslateModule
+    ],
   exports: [
     PipesModule
   ],

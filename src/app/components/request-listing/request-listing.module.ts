@@ -3,17 +3,19 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RequestListingComponent} from './request-listing.component';
 import {PipesModule} from 'src/app/pipes/pipes.module';
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
   declarations: [
     RequestListingComponent
   ],
-  imports: [
-    CommonModule,
-    IonicModule,
-    PipesModule,
-  ],
+    imports: [
+        CommonModule,
+        IonicModule,
+        PipesModule,
+        TranslateModule,
+    ],
   exports: [
     RequestListingComponent
   ]

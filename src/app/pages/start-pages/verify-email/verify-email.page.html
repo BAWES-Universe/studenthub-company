@@ -1,0 +1,69 @@
+<ion-content [attr.dir]="translateService.direction()" class='contentArea ion-padding'>
+    <ion-toolbar *ngIf="authService.isLogged">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/view/home"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+    
+    <div class='brand' [class.zero-top-margin]="authService.isLogged">
+        <img src="assets/images/undraw_newsletter_vovu.svg" />
+    </div>
+
+    <div class='loginCard'>
+        <div class='authArea'>
+
+            <section>
+                <span class="message">
+                    {{ "Confirm your account" | translate }}
+                </span>
+
+                <span>
+                    {{ "Please check your inbox to confirm your email address" | translate }}
+                </span>
+
+                <span class="txt-email">{{ email }}</span>
+
+            </section>
+
+            <ng-container>
+
+                <section>
+                    <span>{{ "or input the verification code below" | translate }}</span>
+                </section>
+
+                <div class="input-wrapper">
+                    <ion-input inputmode="text" enterkeyhint="{{ 'Next' | translate }}" [(ngModel)]="c1" placeholder="0" #ic1 (ionChange)="onChange($event, ic2)"
+                        (ionFocus)="onFocus($event, c1)" type="text" maxlength="1"></ion-input>
+                    <ion-input inputmode="text" enterkeyhint="{{ 'Next' | translate }}" [(ngModel)]="c2" placeholder="0" #ic2 (ionChange)="onChange($event, ic3, ic1)"
+                        (ionFocus)="onFocus($event, c2)" type="text" maxlength="1"></ion-input>
+                    <ion-input inputmode="text" enterkeyhint="{{ 'Next' | translate }}" [(ngModel)]="c3" placeholder="0" #ic3 (ionChange)="onChange($event, ic4, ic2)"
+                        (ionFocus)="onFocus($event, c3)" type="text" maxlength="1"></ion-input>
+                    <ion-input inputmode="text" enterkeyhint="{{ 'Next' | translate }}" [(ngModel)]="c4" placeholder="0" #ic4 (ionChange)="onChange($event, null, ic3)"
+                        (ionFocus)="onFocus($event, c4)" type="text" maxlength="1"></ion-input>
+                </div>
+
+                <ion-button (click)="codeChange(ic1.value, ic2.value, ic3.value, ic4.value)"  fill="clear" class="btn skip-hover" [disabled]="loader || !ic1.value || !ic2.value || !ic3.value || !ic4.value"
+                    >
+                    <ion-spinner *ngIf="loader"></ion-spinner>
+                    <span *ngIf="!loader">{{ "Submit" | translate }}</span>
+                </ion-button>
+
+            </ng-container>
+
+            <ion-button fill="clear" class="btn-resend skip-hover" (click)="resendVerificationEmail()">
+                {{ "Resend verification email" | translate }}
+            </ion-button>
+
+        </div>
+    </div>
+
+</ion-content>
+<ion-footer [class.hidden]="keyboardIsVisible || !unVerifiedToken">
+    <ion-toolbar class="ion-no-padding">
+
+        <a class="update-btn" tappable (click)="updateEmail()">
+            <span>{{ "Update" | translate }}</span>&nbsp;
+            <span class="email-btn">{{ "Email address" | translate }}</span>
+        </a>
+    </ion-toolbar>
+</ion-footer>

@@ -14,21 +14,23 @@ import { LoadingModalModule } from '../../../../components/loading-modal/loading
 import { CandidateModule } from '../../../../components/candidate/candidate.module';
 import { NoItemsModule } from '../../../../components/no-items/no-items.module';
 import { NgAisModule } from 'angular-instantsearch';
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    NgAisModule,
-    CandidateFilterModule,
-    AppliedFiltersModule,
-    LoadingModalModule,
-    CandidateModule,
-    NoItemsModule,
-    CandidateSearchPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        NgAisModule,
+        CandidateFilterModule,
+        AppliedFiltersModule,
+        LoadingModalModule,
+        CandidateModule,
+        NoItemsModule,
+        CandidateSearchPageRoutingModule,
+        TranslateModule
+    ],
   declarations: [CandidateSearchPage]
 })
 export class CandidateSearchPageModule { }

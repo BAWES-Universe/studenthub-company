@@ -7,15 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { RequestFormPageRoutingModule } from './request-form-routing.module';
 
 import { RequestFormPage } from './request-form.page';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ReactiveFormsModule,
-    RequestFormPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        ReactiveFormsModule,
+        RequestFormPageRoutingModule,
+        TranslateModule
+    ],
   declarations: [RequestFormPage]
 })
 export class RequestFormPageModule {}

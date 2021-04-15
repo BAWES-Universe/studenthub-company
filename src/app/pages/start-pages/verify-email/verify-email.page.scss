@@ -1,0 +1,165 @@
+.content {
+    color: black !important;
+}
+
+section {
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.44;
+    color: #292f38;
+
+    span {
+        display: block;
+        width: 100%;
+    }
+
+    .txt-email {
+        font-weight: 500;
+        margin: 10px 0;
+    }
+}
+
+.input-wrapper {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    display: flex;
+    direction: ltr;
+
+    ion-input {
+        background: transparent !important;
+        color: black !important;
+        margin: 13px 11px !important;
+        border-bottom: 1px solid black;
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        padding: 0 0 10px;
+        line-height: 77px;
+        --padding-start: 0;
+        --padding-end: 0;
+    }
+}
+
+ion-footer {
+    text-align: center;
+    display: block;
+
+    .update-btn {
+        font-size: 18px;
+        color: #4a4a4a;
+        text-decoration: none;
+        margin-bottom: 10px;
+        display: block;
+
+        .email-btn{
+            color: #4a4a4a;
+            font-weight: bold;
+        }
+    }
+}
+
+.loginCard {
+    max-width: 530px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.brand {
+    text-align: center;
+
+    img {
+        margin: 40px 0;
+        width: 180px;
+    }
+}
+
+.authArea .message {
+    width: 100%;
+    font-size: 25px;
+    font-weight: 500;
+    text-align: center;
+    color: #292f38;
+}
+
+.lbl_code {
+    opacity: 0.5;
+    font-size: 14px;
+    text-align: center;
+    color: black;
+}
+
+.btn {
+    background: #f24459;
+    color: #fff;
+    width: 100%;
+    max-width: 335px;
+    height: 50px;
+    border-radius: 4px !important;
+    --border-radius: 4px;
+    text-transform: capitalize;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    display: block;
+    margin: auto !important;
+    padding: 0;
+    --border-width: 0 0 0 0;
+    --inner-border-width: 0;
+    border: none;
+}
+
+.btn[disabled] { 
+    background: #bdbdbd;
+    --opacity: 1;
+    --background: #bdbdbd;
+    --background-focused: #bdbdbd; 
+    --background-hover: #bdbdbd;
+}  
+
+.btn-resend {
+    background: transparent;
+    margin: 20px auto;
+    text-align: center;
+    display: block;
+    font-size: 14px;
+    color:#f24459;
+    text-transform: none;
+    font-weight: bold;
+}
+
+//ion-footer::before {
+//    background: none;
+//}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: black !important;
+    opacity: 0.3;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    color: black !important;
+    opacity: 0.3;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    color: black !important;
+    opacity: 0.3;
+}
+:-moz-placeholder { /* Firefox 18- */
+    color: black !important;
+    opacity: 0.3;
+}
+
+.alert-wrapper {
+    .alert-input-group {
+        padding: 0 20px 2px !important;
+    }
+
+    .alert-button-group {
+        padding: 4px 8px 4px 17px!important;
+    }
+}
+
+.zero-top-margin img{
+    margin-top: 0;
+}
+

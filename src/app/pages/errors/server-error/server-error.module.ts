@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ServerErrorPage } from './server-error.page';
+import {TranslateModule} from "@ngx-translate/core";
 
 
 const routes: Routes = [
@@ -16,12 +17,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes),
+        TranslateModule
+    ],
   declarations: [ServerErrorPage]
 })
 export class ServerErrorPageModule {}

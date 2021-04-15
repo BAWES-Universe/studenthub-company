@@ -1,4 +1,5 @@
-<ion-content class='contentArea ion-padding'>
+<ion-content class='contentArea ion-padding' [attr.dir]="translateService.direction()">
+
   <div class='brand'>
     <ion-img src="assets/icon.png"></ion-img>
     <h3>Studenthub Payroll</h3>
@@ -13,12 +14,12 @@
           <ion-input type="email" #emailInput
             inputmode="email"
             formControlName="email"
-            placeholder="Your Email Address">
+            placeholder="{{'Your Email Address' | translate}}">
           </ion-input>
         </ion-item>
 
         <ion-item lines="none" class="field-password">
-          <ion-input type="{{type}}" #passwordInput formControlName="password" placeholder="Your Password">
+          <ion-input type="{{type}}" #passwordInput formControlName="password" placeholder="{{'Your Password' | translate}}">
           </ion-input>
 
           <ion-button class="btn-password" fill="clear" (click)="showPassword()">
@@ -32,7 +33,7 @@
                   [disabled]="!loginForm.valid || isLoading ||
                         (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)">
             <ion-spinner *ngIf="isLoading"></ion-spinner>
-            <span *ngIf="!isLoading">Sign in</span>
+            <span *ngIf="!isLoading">{{"Sign in" | translate}}</span>
           </ion-button>
         </div>
 
@@ -43,11 +44,23 @@
 
       <div class="ion-text-center" *ngIf="!isLoading">
         <a (click)="resetPasswordRequest()" tappable>
-          Forgot your password?
+          {{"Forgot your password ?" | translate}}
         </a>
+      </div>
+
+      <br/>
+
+      <div class="ion-text-center" *ngIf="!isLoading" tappable>
+        <a *ngIf="translateService.currentLang == 'ar'" (click)="changeLanguage($event)">English</a>
+        <a *ngIf="translateService.currentLang == 'en'" (click)="changeLanguage($event)">عربى</a>
       </div>
 
     </ion-card-content>
   </ion-card>
+
+  <ion-button (click)="openRegisterPage()" class="btn-register">
+    <span>{{ "Don't have an account?" | translate }} </span> <br />
+    <b>{{ "Sign up" | translate }}</b>
+  </ion-button>
 
 </ion-content>

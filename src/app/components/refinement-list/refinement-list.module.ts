@@ -8,10 +8,11 @@ import { CurrentRefinementModule } from '../current-refinement/current-refinemen
 import { IsFacetsSearchModule } from '../is-facets-search/is-facets-search.module';
 import { CommonModule } from '@angular/common';
 import { NgAisFacetsSearch } from 'angular-instantsearch/refinement-list/facets-search';
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
-    declarations: [        
+    declarations: [
         RefinementListComponent
     ],
     imports: [
@@ -20,9 +21,10 @@ import { NgAisFacetsSearch } from 'angular-instantsearch/refinement-list/facets-
         NgAisModule,
         IsFacetsSearchModule,
         CommonModule,
-    //     ais-facets-search,
-    //    NgAisFacetsSearch,     
-    //    NgAisRefinementListModule
+        TranslateModule,
+        //     ais-facets-search,
+        //    NgAisFacetsSearch,
+        //    NgAisRefinementListModule
     ],
     exports: [
         RefinementListComponent

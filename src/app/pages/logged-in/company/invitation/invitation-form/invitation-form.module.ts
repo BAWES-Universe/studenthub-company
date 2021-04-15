@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { InvitationFormPage } from './invitation-form.page';
+import {TranslateModule} from "@ngx-translate/core";
 
 // import { SharedModule } from '../../../../../shared.module';
 
@@ -18,14 +19,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    // SharedModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IonicModule,
+        // SharedModule,
+        RouterModule.forChild(routes),
+        TranslateModule
+    ],
   declarations: [InvitationFormPage]
 })
 export class InvitationFormPageModule {}

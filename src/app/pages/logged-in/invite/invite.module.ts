@@ -10,18 +10,20 @@ import { InvitePage } from './invite.page';
 import { RequestListingModule } from 'src/app/components/request-listing/request-listing.module';
 import {NoItemsModule} from "../../../components/no-items/no-items.module";
 import {LoadingModalModule} from "../../../components/loading-modal/loading-modal.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    RequestListingModule,
-    InvitePageRoutingModule,
-    NoItemsModule,
-    LoadingModalModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IonicModule,
+        RequestListingModule,
+        InvitePageRoutingModule,
+        NoItemsModule,
+        LoadingModalModule,
+        TranslateModule
+    ],
   declarations: [InvitePage]
 })
 export class InvitePageModule {}

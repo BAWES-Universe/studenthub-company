@@ -13,14 +13,14 @@ export class Contact {
     contact_password_reset_token: string;
     contact_created_at: string;
     contact_updated_at: string;
-    contactEmails: contactEmail[];
-    contactPhones: contactPhone[];
+    contactEmails: ContactEmail[];
+    contactPhones: ContactPhone[];
     notes: Note[];
     contactStats: any;
     requests: Request[];
 }
 
-export class contactEmail {
+export class ContactEmail {
     email_uuid: string;
     contact_uuid: string;
     email_address: string;
@@ -28,7 +28,7 @@ export class contactEmail {
     email_updated_datetime: string;
 }
 
-export class contactPhone {
+export class ContactPhone {
     phone_uuid: string;
     contact_uuid: string;
     phone_number: string;

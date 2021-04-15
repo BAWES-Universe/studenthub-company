@@ -4,17 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 import { NgModule } from "@angular/core";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
   declarations: [
     LoadingModalComponent
   ],
-  imports: [ 
-    CommonModule,
-    FormsModule,
-    IonicModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        TranslateModule
+    ],
   exports: [
     LoadingModalComponent,
   ]

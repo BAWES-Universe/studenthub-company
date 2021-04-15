@@ -183,7 +183,7 @@ export class ImportTransferFormPage implements OnInit {
 
         let prompt = await this._alertCtrl.create({
           message: data.message,
-          buttons: ["Ok"]
+          buttons: ["Okay"]
         });
         prompt.present();
 
@@ -198,7 +198,7 @@ export class ImportTransferFormPage implements OnInit {
 
         let prompt = await this._alertCtrl.create({
           message: this.authService.errorMessage(data.message),
-          buttons: ["Ok"]
+          buttons: ["Okay"]
         });
         prompt.present();
       }
@@ -223,7 +223,7 @@ export class ImportTransferFormPage implements OnInit {
 
           let prompt = await this._alertCtrl.create({
             message: data.message,
-            buttons: ["Ok"]
+            buttons: ["Okay"]
           });
           prompt.present();
 
@@ -241,7 +241,7 @@ export class ImportTransferFormPage implements OnInit {
         if (data.operation == "error") {
           let prompt = await this._alertCtrl.create({
             message: this.authService.errorMessage(data.message),
-            buttons: ["Ok"]
+            buttons: ["Okay"]
           });
           prompt.present();
         }
@@ -311,5 +311,15 @@ export class ImportTransferFormPage implements OnInit {
 
   clearSelection() {
     this.start_date = this.end_date = null;
+  }
+
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+   toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
   }
 }

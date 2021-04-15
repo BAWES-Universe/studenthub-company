@@ -8,15 +8,17 @@ import { ImportTransferFormPageRoutingModule } from './import-transfer-form-rout
 
 import { ImportTransferFormPage } from './import-transfer-form.page';
 import { DateDropdownModule } from 'src/app/components/date-dropdown/date-dropdown.module';
+import {TranslateModule} from "@ngx-translate/core";
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    ImportTransferFormPageRoutingModule,
-    DateDropdownModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IonicModule,
+        ImportTransferFormPageRoutingModule,
+        DateDropdownModule,
+        TranslateModule
+    ],
   declarations: [ImportTransferFormPage]
 })
 export class ImportTransferFormPageModule {}

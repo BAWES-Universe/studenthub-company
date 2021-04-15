@@ -1,9 +1,9 @@
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding"  [attr.dir]="translateService.direction()">
   <div class="desktop-view">
    <ion-list *ngIf="stores && !loading" class="store-list">
       <ion-card *ngFor="let store of stores">
         <ion-badge color="light" *ngIf="store.store_total_candidates > 0">
-          {{store.store_total_candidates}} staff
+          {{"staff_count" | translate: {value:store.store_total_candidates} }}
         </ion-badge>
         <ion-card-content>
           <div tabindex="0"></div>

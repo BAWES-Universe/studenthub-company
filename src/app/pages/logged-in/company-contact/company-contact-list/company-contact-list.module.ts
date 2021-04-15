@@ -9,17 +9,19 @@ import { CompanyContactListPageRoutingModule } from './company-contact-list-rout
 import { CompanyContactListPage } from './company-contact-list.page';
 
 import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ReactiveFormsModule,
-    NoItemsModule,
-    CompanyContactListPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        ReactiveFormsModule,
+        NoItemsModule,
+        CompanyContactListPageRoutingModule,
+        TranslateModule
+    ],
   declarations: [CompanyContactListPage]
 })
 export class CompanyContactListPageModule {}

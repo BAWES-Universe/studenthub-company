@@ -1,28 +1,68 @@
 import { Injectable } from '@angular/core';
-
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class TranslateLabelService {
+export class TranslateLabelService  extends TranslateService {
 
-    convertedValue: string;
+  convertedValue: string;
+
+  /**
+   * Get translation for given word
+   * @param keyString
+   */
+  transform(keyString: string, params = null): string {
+
+    if (!keyString) {
+      return keyString;
+    }
+
+    this.convertedValue = '';
+
+    this.get(keyString, params).subscribe(value => {
+      this.convertedValue = value;
+    });
+
+    return this.convertedValue ? this.convertedValue : keyString;
+  }
+
+  /**
+   * return app direction
+   */
+  direction() {
+    return this.currentLang == 'ar' ? 'rtl' : 'ltr';
+  }
+
+  /**
+   * Return content based on language selected
+   * @param enContent
+   * @param arContent
+   */
+  langContent(enContent, arContent) {
+
+    if (this.currentLang == 'ar' && arContent) {
+      return arContent;
+    }
+
+    return enContent ? enContent : arContent;
+  }
 
     /**
      * if content in english
      */
     isEnglish(s) {
         if (s && s[0]) {
-            let english = /^[A-Za-z0-9_ ?<>~!@#$%^&*(){}/,.|-]*$/;
+            const english = /^[A-Za-z0-9_ ?<>~!@#$%^&*(){}/,.|-]*$/;
             return english.test(s[0]);
         }
         return false;
     }
-    
+
     /**
-     * json to string error message 
-     * @param message 
+     * json to string error message
+     * @param message
      */
     errorMessage(message): string {
 
@@ -31,16 +71,16 @@ export class TranslateLabelService {
             return message + '';
 		}
 
-        let a = [];
+        const a = [];
 
-        for (let i in message) {
+        for (const i in message) {
 
             if (!Array.isArray(message[i])) {
                 a.push(message[i]);
                 continue;
             }
 
-            for (let j of message[i]) {
+            for (const j of message[i]) {
                 a.push(j);
             }
         }

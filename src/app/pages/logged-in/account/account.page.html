@@ -4,10 +4,10 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>Account</ion-title>
+    <ion-title>{{"Account" | translate}}</ion-title>
     <ion-buttons slot="end">
           <ion-button fill="clear" (click)="authService.logout()">
-            Logout
+            {{"Logout" | translate}}
           </ion-button>
     </ion-buttons>
 
@@ -19,18 +19,18 @@
 
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Name</ion-label>
+          <ion-label position="floating">{{"Name" | translate}}</ion-label>
           <ion-input type="text" formControlName="name" ></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Email</ion-label>
+          <ion-label position="floating">{{"Email" | translate}}</ion-label>
           <ion-input type="email" inputmode="email" autocomplete="email"
             formControlName="email"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label>Receive Email?</ion-label>
+          <ion-label>{{"Receive Email ?" | translate}}</ion-label>
           <ion-toggle slot="end" formControlName="receive_email"></ion-toggle>
         </ion-item>
 
@@ -43,7 +43,7 @@
 
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Other Emails </ion-card-title>
+            <ion-card-title>{{"Other Emails" | translate}} </ion-card-title>
           </ion-card-header>
           <ion-card-content>
 
@@ -64,7 +64,7 @@
 
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Phones </ion-card-title>
+            <ion-card-title>{{"Phones" | translate}} </ion-card-title>
           </ion-card-header>
           <ion-card-content>
 
@@ -88,7 +88,7 @@
       <div class="ion-padding">
         <ion-button [disabled]="loading || !form.dirty || !form.valid" (click)="save()" expands="block">
           <ion-spinner *ngIf="loading"></ion-spinner>
-          <span *ngIf="!loading">Submit</span>
+          <span *ngIf="!loading">{{"Submit" | translate}}</span>
         </ion-button>
       </div>
     </form>

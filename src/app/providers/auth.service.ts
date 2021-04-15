@@ -5,14 +5,18 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
 import { Plugins } from '@capacitor/core';
+import { AlertController } from "@ionic/angular";
+import { environment } from '../../environments/environment';
 //models
 import { Company } from '../models/company';
 import { Contact } from "../models/contact";
+import { CompanyContact } from '../models/company-contact';
 // service
-import { environment } from '../../environments/environment';
 import { EventService } from './event.service';
-import {AlertController} from "@ionic/angular";
+import { TranslateLabelService } from './translate-label.service';
 
+
+declare var navigator;
 
 const { Storage } = Plugins;
 
@@ -44,17 +48,28 @@ export class AuthService {
 
   public companies: Company[] = [];
 
-  private urlBasicAuth = '/auth/login';
-  public urlLocate = '/auth/locate';
+  public language_pref: string;
+
+  public language = {
+    code: 'en',
+    name: 'English'
+  };
+
+  private _urlBasicAuth = '/auth/login';
   private _urlUpdatePass = '/auth/update-password';
   private _urlResetPassRequest = '/auth/request-reset-password';
-  public _urlInvitation = '/invitations/by-otp/';
-  public urlRegistration = '/auth/create-account';
+  private _urlInvitation = '/invitations/by-otp/';
+  private _urlRegistration = '/auth/create-account';
+  private _urlresendVerificationEmail = '/auth/resend-verification-email';
+  private _urlUpdateCandidateEmail = '/auth/update-email';
+  private _urlIsEmailVerified = '/auth/is-email-verified';
+  private _urlVerifyEmail = '/auth/verify-email';
 
   constructor(
     public http: HttpClient,
     public router: Router,
     public eventService: EventService,
+    public translate: TranslateLabelService,
     public alertCtrl: AlertController
   ) { }
 
@@ -64,11 +79,11 @@ export class AuthService {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     /*if (route.routeConfig.path == 'cv-search' && this.active_request_count == '0') {
-    
+
       this.alertCtrl.create({
           header: 'CV Search Usage Alert',
           message: 'Please create request to use search & wait for staff to look into the request.',
-          buttons: ['OK']
+          buttons: ['Okay']
       }).then( alert => {
         alert.present();
       });
@@ -93,24 +108,29 @@ export class AuthService {
       }
 
       Storage.get({ key: 'loggedInCompany' }).then(ret => {
+
+        console.log(ret);
+        
         const data = JSON.parse(ret.value);
 
-        if (data) {
+        if (data && data.token) {
+
           this.isLogged = true;
 
           this.accessToken = data.token;
           this.company_id = data.company_id;
           this.email = data.email;
           this.profile_name = data.profile_name;
-          this.id = data.id;
           this.active_request_count = data.active_request_count;
 
           resolve(true);
-        } else { 
+        } else {
           resolve(false);
           this.logout('invalid access');
         }
-      }).catch(r => { 
+      }).catch(r => {
+        resolve(false);
+
         this.eventService.errorStorage$.next();
       });
     });
@@ -127,8 +147,8 @@ export class AuthService {
         company_id: this.company_id,
         profile_name: this.profile_name,
         email: this.email,
-        id: this.id,
-        active_request_count: this.active_request_count
+        active_request_count: this.active_request_count,
+        language_pref: this.language_pref
       })
     }).catch(r => {
       this.eventService.errorStorage$.next();
@@ -170,14 +190,13 @@ export class AuthService {
     this.company_id = null;
     this.profile_name = null;
     this.email = null;
-    this.id = null;
     this.active_request_count = null;
 
     Storage.clear().catch(r => {
       this.eventService.errorStorage$.next();
     });
 
-    if (!silent) { 
+    if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
 
@@ -198,7 +217,6 @@ export class AuthService {
     this.company_id = response.company_id;
     this.profile_name = response.profile_name;
     this.email = response.email;
-    this.id = response.contact ? response.contact?.contact_uuid : response.id;
     this.active_request_count = response.active_request_count;
 
     // Save to Storage
@@ -213,9 +231,63 @@ export class AuthService {
   // This is the method you want to call at bootstrap
   async load(): Promise<any> {
 
-    Storage.get({ key: 'loggedInCompany' }).then(ret => {
+    Storage.get({ key: 'loggedInCompany' }).then(async ret => {
 
       let company = JSON.parse(ret.value);
+
+      // guest user who visited previously and saved preference
+
+      const { value } = await Storage.get({ key: 'language_pref' });
+
+      if (value) {
+        this.language_pref = value;
+
+        this.language = this.language_pref == 'ar' ? {
+          name: 'عربى',
+          code: 'ar'
+        } : {
+          code: 'en',
+          name: 'English'
+        };
+
+        // new user
+
+      } else {
+
+        const browserLanguage = navigator.languages
+          ? navigator.languages[0]
+          : (navigator.language || navigator.userLanguage);
+
+        if (browserLanguage && browserLanguage.indexOf('en') > -1) {
+          this.language = {
+            code: 'en',
+            name: 'English'
+          };
+        } else {
+          this.language = {
+            name: 'عربى',
+            code: 'ar'
+          };
+        }
+      }
+
+      // for guest use language value in storage, for login user loggedInAgent.language_pref
+
+      if (company && company.language_pref) {
+        this.language = company.language_pref == 'ar' ? {
+          name: 'عربى',
+          code: 'ar'
+        } : {
+          code: 'en',
+          name: 'English'
+        };
+      }
+
+      this.translate.setDefaultLang('en');
+
+      this.translate.use(this.language.code);
+
+      document.getElementsByTagName('html')[0].setAttribute('dir', (this.language.code == 'ar') ? 'rtl' : 'ltr');
 
       if (company && company.token) {
         return this.setAccessToken(company);
@@ -265,7 +337,7 @@ export class AuthService {
     const authHeader = new HttpHeaders({
       Authorization: 'Basic ' + btoa(`${email}:${password}`),
     });
-    const url = environment.apiEndpoint + this.urlBasicAuth;
+    const url = environment.apiEndpoint + this._urlBasicAuth;
     return this.http.get(url, {
       headers: authHeader,
     }).pipe(
@@ -283,6 +355,7 @@ export class AuthService {
     const url = environment.apiEndpoint + this._urlResetPassRequest;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      Language: this.translate.currentLang
     });
     return this.http.post(url, { email }, { headers }).pipe(
       retryWhen(genericRetryStrategy()),
@@ -308,6 +381,79 @@ export class AuthService {
       first(),
       map((res) => res)
     );
+  }
+
+  /**
+   * Verify email
+   * @param email
+   * @param code
+   */
+  verifyEmail(email: string, code: string) {
+    const url = environment.apiEndpoint + this._urlVerifyEmail;
+    const headers = this._buildAuthHeaders();
+    return this.http.post(url, { email: email, 'code': code }, { headers: headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+
+  /**
+   * Resend verification email
+   * @param email
+   */
+   resendVerificationEmail(email: string) {
+    const url = environment.apiEndpoint + this._urlresendVerificationEmail;
+    const headers = this._buildAuthHeaders();
+    return this.http.post(url, { 'email': email }, { headers: headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+
+  /**
+   * Check if email already verified
+   * @param res
+   */
+   isAlreadyVerified(res): Observable<any> {
+    const url = environment.apiEndpoint + this._urlIsEmailVerified;
+    return this.http.post(url, res, { headers: this._buildAuthHeaders() }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+
+  /**
+   * Update email address
+   * @param params params
+   */
+  updateEmail(params: any): Observable<any> {
+    const url = environment.apiEndpoint + this._urlUpdateCandidateEmail;
+    return this.http.post(url, params, { headers: this._buildAuthHeaders() }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+
+  /**
+   * Build the Auth Headers for All Verb Requests
+   * @returns {HttpHeaders}
+   */
+   public _buildAuthHeaders() {
+    // Get Bearer Token from Auth Service
+
+    // Build Headers with Bearer Token
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Language': this.translate.currentLang
+    });
   }
 
   /**
@@ -407,20 +553,27 @@ export class AuthService {
   /**
    * create new account
    * @param contact
+   * @param companyContact
    * @param otp
    */
-  createAccount(contact: Contact, otp: string): Observable<any> {
-    const url = environment.apiEndpoint + this.urlRegistration;
+  createAccount(contact: Contact, companyContact: CompanyContact, otp: string): Observable<any> {
+    const url = environment.apiEndpoint + this._urlRegistration;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      Language: this.translate.currentLang
     });
 
     const params = {
       name: contact.contact_name,
       email: contact.contact_email,
       password: contact.contact_password_hash,
-      otp
+      otp: otp,
+      receive_email: contact.contact_receive_email,
+      //contactPhones: contact.contactPhones,
+      company_name: companyContact.company.company_name,
+      contact_position: companyContact.contact_position,
+      phone_number: contact.contactPhones[0]['phone_number'],
     };
 
     return this.http.post(url, JSON.stringify(params), { headers })
@@ -431,4 +584,29 @@ export class AuthService {
         map((res: HttpResponse<any>) => res)
       );
   }
+
+  /**
+   * Set language pref for current user
+   */
+  setLanguagePref(language_pref) {
+
+    Storage.set({ 'key': 'language_pref', value: language_pref }).catch(r => {
+      this.eventService.errorStorage$.next();
+    });
+
+    this.language_pref = language_pref;
+
+    this.language = this.language_pref == 'ar' ? {
+      name: 'عربى',
+      code: 'ar'
+    } : {
+      code: 'en',
+      name: 'English'
+    };
+
+    if (this.accessToken) {
+      this.saveInStorage();
+    }
+  }
+
 }

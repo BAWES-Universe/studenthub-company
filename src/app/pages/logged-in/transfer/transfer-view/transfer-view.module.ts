@@ -9,6 +9,7 @@ import { TransferViewPageRoutingModule } from './transfer-view-routing.module';
 import { TransferViewPage } from './transfer-view.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import {LoadingModalModule} from "../../../../components/loading-modal/loading-m
         IonicModule,
         TransferViewPageRoutingModule,
         PipesModule,
-        LoadingModalModule
+        LoadingModalModule,
+        TranslateModule
     ],
     exports: [
         PipesModule

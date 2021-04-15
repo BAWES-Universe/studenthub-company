@@ -5,7 +5,9 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <div class="title">Which position are you considering {{candidate.candidate_name}} for?</div>
+    <div class="title">{{"which_candidate_position" | translate: {
+      value: candidate.candidate_name} }}</div>
+
   </ion-toolbar>
 
 </ion-header>

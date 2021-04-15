@@ -28,6 +28,7 @@ import {
   CalendarComponentOptions
 } from 'ion2-calendar';
 import {DefaultDate} from "ion2-calendar/dist/calendar.model";
+import {TranslateLabelService} from "../../../../providers/translate-label.service";
 
 @Component({
   selector: 'app-transfer-form',
@@ -81,7 +82,8 @@ export class TransferFormPage implements OnInit {
     public _toastCtrl: ToastController,
     private _fb: FormBuilder,
     private _authService: AuthService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private translateService: TranslateLabelService
   ) {
 
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -206,12 +208,12 @@ export class TransferFormPage implements OnInit {
     for (const entry of this.transfer.transferCandidates) {
       // Check if any candidates have unset hours or 0 hours set
       if (!entry.hours || entry.hours == 0) {
-        error = 'You have set that some employees haven\'t worked any hours. Are you sure?';
+        error = this.translateService.transform('You have set that some employees haven\'t worked any hours. Are you sure?');
       }
 
       // Check if any candidates have worked more than 180 hours
       if (entry.hours > 180) {
-        error = 'You have employees set to have worked for more than 180 hours. are you sure?';
+        error = this.translateService.transform('You have employees set to have worked for more than 180 hours. are you sure?');
       }
 
       // Prompt to show user where error is or Save if he knows about it.
@@ -220,14 +222,14 @@ export class TransferFormPage implements OnInit {
           message: error,
           buttons: [
             {
-              text: 'Show me where',
+              text: this.translateService.transform('Show me where'),
               role: 'cancel',
               handler: () => {
                 this.scrollTo('candidate_' + entry.candidate_id);
               }
             },
             {
-              text: 'Yes',
+              text: this.translateService.transform('Yes'),
               handler: () => {
                 this.save();
               }
@@ -291,7 +293,7 @@ export class TransferFormPage implements OnInit {
       if (jsonResponse.operation == 'error') {
         const prompt = await this._alertCtrl.create({
           message: this._authService.errorMessage(jsonResponse.message),
-          buttons: ['Ok']
+          buttons: [this.translateService.transform('Okay')]
         });
         prompt.present();
       }
@@ -338,8 +340,11 @@ export class TransferFormPage implements OnInit {
    * Close the Page
    */
   close() {
-    const data = { refresh: false };
-    // this._viewCtrl.dismiss(data);
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        overlay.dismiss();
+      }
+    });
   }
 
   /**
@@ -393,6 +398,16 @@ export class TransferFormPage implements OnInit {
 
   clearSelection() {
     this.transfer.start_date = this.transfer.end_date = null;
+  }
+
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+   toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
   }
   
   logScrolling(e) {

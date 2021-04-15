@@ -7,6 +7,7 @@ import { Invoice } from "src/app/models/invoice";
 //service
 import { TransferService } from "src/app/providers/logged-in/transfer.service";
 import { AwsService } from 'src/app/providers/aws.service';
+import { TranslateLabelService } from "../../../../providers/translate-label.service";
 
 
 @Component({
@@ -34,12 +35,15 @@ export class TransferViewPage implements OnInit {
     private _loadingCtrl: LoadingController,
     public activatedRoute: ActivatedRoute,
     public alertCtrl: AlertController,
-    public _toastCtrl: ToastController
+    public _toastCtrl: ToastController,
+    public translateLabelService: TranslateLabelService
   ) {
-    this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
+
+    this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
+    
     this.loadData();
   }
 
@@ -77,24 +81,24 @@ export class TransferViewPage implements OnInit {
   private _updateTransferStatus() {
     switch (this.transferDetails.transfer_status) {
       case 10: // Draft
-        this.transferStatus = 'Transfer Draft';
-        this.transferStatusDescription = '\'Lock Transfer\' once you are done inputting hours worked by your assigned employees. Invoices will be sent to you after lock.';
+        this.transferStatus = this._translate('Transfer Draft');
+        this.transferStatusDescription = this._translate('`Lock Transfer` once you are done inputting hours worked by your assigned employees. Invoices will be sent to you after lock.');
         break;
       case 5: // Transfer Locked
-        this.transferStatus = 'Waiting for your payment';
-        this.transferStatusDescription = 'Invoices for this transfer have been sent to you and are available for download below.';
+        this.transferStatus = this._translate('Waiting for your payment');
+        this.transferStatusDescription = this._translate('Invoices for this transfer has been sent to you and are available for download below.');
         break;
       case 1: // Payment Sent
-        this.transferStatus = 'Payment Sent';
-        this.transferStatusDescription = 'Waiting for bank to verify payment received to start distribution of payment.';
+        this.transferStatus = this._translate('Payment Sent');
+        this.transferStatusDescription = this._translate('Waiting for bank to verify payment received to start distribution of payment.');
         break;
       case 3: // Distribution in Progress
-        this.transferStatus = 'Distribution in Progress';
-        this.transferStatusDescription = 'Your payment has been received and is currently being distributed to your assigned employees.';
+        this.transferStatus = this._translate('Distribution in Progress');
+        this.transferStatusDescription = this._translate('Your payment has been received and is currently being distributed to your assigned employees.');
         break;
       case 4: // Transfer Complete
-        this.transferStatus = 'Transfer Complete';
-        this.transferStatusDescription = 'All done!';
+        this.transferStatus = this._translate('Transfer Complete');
+        this.transferStatusDescription = this._translate('All done!');
         break;
     }
   }
@@ -284,5 +288,19 @@ export class TransferViewPage implements OnInit {
 
   loadLogo($event, candidate) {
     candidate.candidate_personal_photo = null;
+  }
+
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+   toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+  
+  _translate(key) {
+    return this.translateLabelService.transform(key);
   }
 }

@@ -40,3 +40,9 @@
     }
   }
 }
+[dir="rtl"] {
+  ion-badge {
+    left: 15px;
+    right: auto;
+  }
+}

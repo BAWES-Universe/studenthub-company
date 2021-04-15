@@ -20,7 +20,7 @@ export class EventService {
   public error404$ = new Subject();
   public error500$ = new Subject();
   public errorStorage$ = new Subject();
-  
+
   public userLogined$ = new Subject();
   public pageSelected$ = new Subject();
   public internetOffline$ = new Subject();
@@ -52,4 +52,5 @@ export class EventService {
 
   public totalEmployee$ = new Subject();
   public loadInvitation$ = new Subject();
+  public setLanguagePref$ = new Subject();
 }

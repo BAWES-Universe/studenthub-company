@@ -6,13 +6,14 @@ import { FormsModule } from "@angular/forms";
 import { RangeRefinementComponent } from './range-refinement-list';
 
 import { NgAisModule } from 'angular-instantsearch';
-import { Ng5SliderModule } from 'ng5-slider'; 
+import { Ng5SliderModule } from 'ng5-slider';
 
 import { PipesModule } from '../../pipes/pipes.module';
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
-    declarations: [     
+    declarations: [
         RangeRefinementComponent
     ],
     imports: [
@@ -22,6 +23,7 @@ import { PipesModule } from '../../pipes/pipes.module';
         FormsModule,
         PipesModule,
         Ng5SliderModule,
+        TranslateModule,
     ],
     exports: [
         RangeRefinementComponent

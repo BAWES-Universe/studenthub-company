@@ -202,10 +202,29 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./pages/start-pages/register/register.module').then(m => m.RegisterPageModule),
     data: {
-      name: 'RegisterPage',
-      disableMenu: true
+      name: 'RegisterPage'
     }
   },
+
+  // updating email by deeplink/url
+
+  {
+    path: 'verify-email/:email/:code',
+    loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then(m => m.VerifyEmailPageModule),
+    data: {
+      name: 'VerifyEmailPage',
+    }
+  },
+
+  // updating email from sidebar + registration
+
+  {
+    path: 'verify-email/:email',
+    loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then(m => m.VerifyEmailPageModule),
+    data: {
+      name: 'VerifyEmailPage',
+    }
+  }, 
 
   {
     path: 'cv-search',

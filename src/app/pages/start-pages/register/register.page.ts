@@ -1,13 +1,22 @@
 import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Platform, AlertController, ModalController, IonContent } from '@ionic/angular';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Plugins } from '@capacitor/core';
 // models
-import { Contact } from 'src/app/models/contact';
-import {AuthService} from 'src/app/providers/auth.service';
-import {CustomValidator} from 'src/app/validators/custom.validator';
+import { Contact, ContactPhone } from 'src/app/models/contact';
+import { Company } from 'src/app/models/company';
+import { CompanyContact } from 'src/app/models/company-contact';
+// validations
+import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
+import { AuthService } from 'src/app/providers/auth.service';
+import { EventService } from 'src/app/providers/event.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+
+
+const { Storage } = Plugins;
 
 @Component({
   selector: 'app-register',
@@ -17,15 +26,17 @@ import {CustomValidator} from 'src/app/validators/custom.validator';
 export class RegisterPage implements OnDestroy {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
-
-  public isMobile: boolean;
+ 
   public isLoading: boolean;
 
   public otp;
   // Disable submit button if loading response
 
   public registerForm: FormGroup;
+
   public model: Contact;
+
+  public companyContact: CompanyContact;
 
   public type = 'password';
   public showPass = false;
@@ -43,21 +54,19 @@ export class RegisterPage implements OnDestroy {
     // private _storage: Storage,
     private _formService: FormBuilder,
     public authService: AuthService,
+    public eventService: EventService,
+    public translateService: TranslateLabelService,
     private _alertCtrl: AlertController,
-    private _platform: Platform,
-    private _modalCtrl: ModalController,
     private _router: Router,
     private _activeRouter: ActivatedRoute
   ) {
-    this.isMobile = this.isLoading = false;
+  }
 
-    this._platform.ready().then(() => {
-      if (this._platform.is('capacitor') && this._platform.is('mobile')) {
-        this.isMobile = true;
-      }
-    });
+  ngOnInit() {
 
     this.otp = this._activeRouter.snapshot.params.otp;
+
+    this._initForm();
   }
 
   ionViewWillLeave() {
@@ -76,8 +85,10 @@ export class RegisterPage implements OnDestroy {
     }
   }
 
-  async ionViewWillEnter() {
+  /*async ionViewWillEnter() {
     this.content.scrollToPoint(0, this.scrollPosition);
+
+    console.log(this.authService.isLogged);
 
     if (this.authService.isLogged) {
       this._router.navigate(['/']);
@@ -88,13 +99,11 @@ export class RegisterPage implements OnDestroy {
       this.otp = null;
     }
 
-    this._initForm();
-
     if (this.otp) {
       this.loadInvitation();
     }
   }
-
+*/
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 25);
   }
@@ -102,8 +111,12 @@ export class RegisterPage implements OnDestroy {
   async _initForm() {
     this.registerForm = this._formService.group({
       name: ['', Validators.required],
+      company_name: ['', Validators.required],
+      contact_position: [''],
+      phone_number: ['', Validators.required],
       email: ['', [Validators.required, CustomValidator.emailValidator]],
-      password: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(30)]]
+      password: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(30)]],
+      receive_email: ['']
     });
 
     setTimeout(() => {
@@ -149,7 +162,7 @@ export class RegisterPage implements OnDestroy {
    * Dismiss page
    */
   dismiss() {
-      this._router.navigate(['landing']);
+    this._router.navigate(['login']);
   }
 
   /**
@@ -160,6 +173,18 @@ export class RegisterPage implements OnDestroy {
     this.model.contact_name = this.registerForm.value.name;
     this.model.contact_email = this.registerForm.value.email;
     this.model.contact_password_hash = this.registerForm.value.password;
+    this.model.contact_receive_email = this.registerForm.value.receive_email;
+
+    let contactPhone = new ContactPhone;
+    contactPhone.phone_number = this.registerForm.value.phone_number;
+    this.model.contactPhones = [contactPhone];
+
+    let company = new Company;
+    company.company_name = this.registerForm.value.company_name;
+   
+    this.companyContact = new CompanyContact;
+    this.companyContact.contact_position = this.registerForm.value.contact_position;
+    this.companyContact.company = company;
   }
 
   /**
@@ -172,21 +197,30 @@ export class RegisterPage implements OnDestroy {
 
       this.updateModelFormValues();
 
-      this.createAccountSubscription = this.authService.createAccount(this.model, this.otp).subscribe(res => {
+      this.createAccountSubscription = this.authService.createAccount(this.model, this.companyContact, this.otp).subscribe(res => {
 
-          this.isLoading = false;
+        this.isLoading = false;
 
-          if (res.operation === 'success' && res.token) {
-              this.authService.setAccessToken(res, true);
-          } else if (res.operation === 'error') {
-              this._alertCtrl.create({
-                message: res.message,
-                buttons: ['Ok']
-              }).then(alert => {
-                alert.present();
-              });
-          }
-        },
+        if (res.operation === 'success') {
+
+          Storage.set({ 'key': "unVerifiedToken", "value": JSON.stringify(res.unVerifiedToken) }).catch(r => {
+            this.eventService.errorStorage$.next();
+          });
+
+          this._router.navigate([
+            'verify-email',
+            res['unVerifiedToken']['email']
+          ]);      
+
+        } else if (res.operation === 'error') {
+          this._alertCtrl.create({
+            message: res.message,
+            buttons: ['Okay']
+          }).then(alert => {
+            alert.present();
+          });
+        }
+      },
         error => { this.isLoading = false; },
         () => { this.isLoading = false; }
       );

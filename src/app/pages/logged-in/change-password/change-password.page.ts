@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // service
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import {TranslateLabelService} from "../../../providers/translate-label.service";
 
 
 @Component({
@@ -25,11 +26,12 @@ export class ChangePasswordPage implements OnInit {
   public type: string = 'password';
 
   public borderLimit;
-  
+
   constructor(
     private _fb: FormBuilder,
     public accountService: AccountService,
-    private _alertCtrl: AlertController
+    private _alertCtrl: AlertController,
+    private translateService: TranslateLabelService
   ) {
   }
 
@@ -73,9 +75,9 @@ export class ChangePasswordPage implements OnInit {
       if (res.operation == 'success') {
 
         const alert = await this._alertCtrl.create({
-          header: 'Success',
+          header: this.translateService.transform('Success'),
           message: res.message,
-          buttons: ['Ok'],
+          buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
         this.passwordForm.reset();
@@ -83,9 +85,9 @@ export class ChangePasswordPage implements OnInit {
       } else if (res.operation == 'error') {
 
         const alert = await this._alertCtrl.create({
-          header: 'Error',
+          header: this.translateService.transform('Error'),
           message: res.message,
-          buttons: ['Ok'],
+          buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
       }

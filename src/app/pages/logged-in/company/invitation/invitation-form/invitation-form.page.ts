@@ -86,12 +86,20 @@ export class InvitationFormPage implements OnInit {
 
       if (response.operation == 'success') {
         this.eventService.loadInvitation$.next();
-        this.modalCtrl.dismiss({ refresh: true });
+        this.dismiss({ refresh: true });
       } else {
         this._handleError(response);
       }
     }, () => {
       this.loading = false;
+    });
+  }
+
+  dismiss(data = {}) {
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        overlay.dismiss(data);
+      }
     });
   }
 

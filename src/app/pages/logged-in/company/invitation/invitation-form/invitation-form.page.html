@@ -1,10 +1,10 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
-    
+
       <ion-buttons slot="start">
         <ion-back-button></ion-back-button>
       </ion-buttons>
-  
+
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +13,7 @@
   <div class="desktop-view">
 
     <div class="title-txt">
-      Please type in their email address to send the invite
+      {{"Please type in their email address to send the invite" | translate}}
     </div>
 
     <form [formGroup]="form" *ngIf="form" (ngSubmit)="submitForm()">
@@ -33,7 +33,7 @@
       <ion-button *ngIf="form" class="submit-btn" [disabled]="!form || !form.valid || loading"
         (click)="submitForm()">
         <ion-spinner *ngIf="loading"></ion-spinner>
-        <span *ngIf="!loading">Send Invite</span>
+        <span *ngIf="!loading">{{"Send Invite" | translate}}</span>
       </ion-button>
     </div>
   </ion-toolbar>

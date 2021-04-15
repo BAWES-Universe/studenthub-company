@@ -5,11 +5,12 @@
         <ion-back-button defaultHref="/"></ion-back-button>
       </ion-buttons>
 
-      <ion-title>Candidates</ion-title>
+      <ion-title>{{"Candidates" | translate}}</ion-title>
 
       <ion-buttons slot="end" *ngIf="!loading && nbHits > 0 && !showFilter">
         <ion-button (click)="openFilter()" class="btn-filter skip-hover mobile-only"  fill="clear">
-          <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon> Filter
+          <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon>
+          {{"Filter" | translate}}
         </ion-button>
       </ion-buttons>
 
@@ -66,13 +67,13 @@
             <div class="list-header" *ngIf="showSearchBox">
 
               <div class="applied-filters-wrapper">
-                <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'candidates found'"
-                                [labelWithFilter]="'candidates found for '">
+                <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'candidates found' | translate"
+                                [labelWithFilter]="'candidates found for ' | translate">
                 </applied-filters>
               </div>
 
               <div class="searchBox">
-                <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results'  }}"></ion-searchbar>
+                <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results' | translate }}"></ion-searchbar>
                 <!-- <is-search-box [searchAsYouType]="true"
                   placeholder="{{ 'Type to filter from these results'  }}">
                 </is-search-box>-->
@@ -102,7 +103,7 @@
             <!-- No results message -->
 
             <p *ngIf="!loading && !refreshingCandidates && noCandidateList" class="no-candidate-on-filter">
-              {{ "No results found for your search"  }}
+              {{ "No results found for your search" | translate }}
             </p>
 
           </ion-col>
@@ -117,8 +118,8 @@
     <div class="desktop-view">
       <ion-button [disabled]="loading || nbHits == 0" (click)="dismiss()" class="btn-view-candidates">
             <span *ngIf="!loading && instantSearchConfig">
-                <span *ngIf="nbHits == 0">{{ "No Candidate Found"  }}</span>
-                <span *ngIf="nbHits > 0">View {{ nbHits }} Candidates</span>
+                <span *ngIf="nbHits == 0">{{ "No Candidate Found" | translate }}</span>
+              <span *ngIf="nbHits > 0">{{ "view_count_candidate" | translate : {value : nbHits} }}</span>
             </span>
         <ion-spinner *ngIf="loading || !instantSearchConfig"></ion-spinner>
       </ion-button>

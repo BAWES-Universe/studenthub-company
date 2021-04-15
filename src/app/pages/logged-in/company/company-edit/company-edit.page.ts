@@ -6,6 +6,7 @@ import { Company } from 'src/app/models/company';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
+import {TranslateLabelService} from "../../../../providers/translate-label.service";
 
 @Component({
   selector: 'app-company-edit',
@@ -35,14 +36,15 @@ export class CompanyEditPage implements OnInit {
     private _toastCtrl: ToastController,
     public eventService: EventService,
     public companyService: CompanyService,
-    public authService: AuthService
+    public authService: AuthService,
+    public translateService: TranslateLabelService
   ) { }
 
   ngOnInit() {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 25) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 25);
   }
 
   ionViewWillEnter() {
@@ -77,7 +79,7 @@ export class CompanyEditPage implements OnInit {
    * initialize form
    */
   async _initForm() {
-   
+
     this.form = this._fb.group({
       name: [this.model.company_name, [Validators.required]],
       common_name_en: [this.model.company_common_name_en, [Validators.required]],
@@ -86,14 +88,14 @@ export class CompanyEditPage implements OnInit {
       description_ar: [this.model.company_description_en],
       website: [this.model.company_website],
       email: [this.model.company_email],
-    }); 
-  } 
+    });
+  }
 
   /**
    * Attempts to save company details
    */
   async save() {
-     
+
     if (!this.form || !this.form.valid) {
       return false;
     }
@@ -128,7 +130,7 @@ export class CompanyEditPage implements OnInit {
       if (jsonResponse.operation == 'error') {
         this.alertCtrl.create({
           message: this.authService.errorMessage(jsonResponse.message),
-          buttons: ['Okay']
+          buttons: [this.translateService.transform('Okay')]
         }).then(alert => {
           alert.present();
         });

@@ -9,7 +9,7 @@
   </p>
 
   <p class="txt-time">
-    {{ activity.note_updated_datetime | timeAgo }} on
+    {{ activity.note_updated_datetime | timeAgo }} {{"on" | translate}}
     {{ toDate(activity.note_created_datetime) | date: 'MMM d, y' }}
   </p>
 </ion-card>

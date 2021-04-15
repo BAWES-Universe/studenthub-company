@@ -8,6 +8,7 @@ import { CompanyListPageRoutingModule } from './company-list-routing.module';
 
 import { CompanyListPage } from './company-list.page';
 import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {LoadingModalModule} from "../../../../components/loading-modal/loading-m
         FormsModule,
         IonicModule,
         CompanyListPageRoutingModule,
-        LoadingModalModule
+        LoadingModalModule,
+        TranslateModule
     ],
   declarations: [CompanyListPage]
 })

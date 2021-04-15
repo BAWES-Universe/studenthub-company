@@ -1,49 +1,77 @@
-<ion-header [class.add-border]="borderLimit" class="clear-header">
+<ion-header [attr.dir]="translateService.direction()" [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar [class.hide-back-button]="otp">
-   
+
       <ion-buttons slot="start">
           <ion-back-button defaultHref="/"></ion-back-button>
       </ion-buttons>
-      <div class='brand'>
-        <img src="assets/logo.png" />
-      </div>
-    
+
   </ion-toolbar>
 </ion-header>
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" class='contentArea ion-padding'>
+<ion-content [attr.dir]="translateService.direction()" [scrollEvents]="true" (ionScroll)="logScrolling($event)" class='contentArea ion-padding'>
 
-  <div class='registerCard'>
 
-    <div class='authArea'>
+  <div class='brand'>
+    <ion-img src="assets/icon.png"></ion-img>
+    <h3>Studenthub Payroll</h3>
+  </div>
+
+  <ion-card class='registerCard'>
+    <ion-card-content class='authArea'>
+ 
       <form [formGroup]="registerForm" *ngIf="registerForm" (ngSubmit)="registerSubmit()" (keyup.enter)="registerSubmit()"  novalidate>
 
         <ion-item>
-          <ion-label position="floating">Name</ion-label>
+          <ion-label position="floating">{{ "Your Name" | translate}}*</ion-label>
           <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="name" maxlength="30"></ion-input>
         </ion-item>
 
         <div class="error-message"
           *ngIf="!registerForm.controls.name.valid && (registerForm.controls.name.touched ||  isLoading)">
-          <p>Please enter name</p>
+          <p>{{ "Please enter name" | translate}}</p>
         </div>
 
         <ion-item>
-          <ion-label position="floating">Email Address</ion-label>
+          <ion-label position="floating">{{ "Your Company Name" | translate}}*</ion-label>
+          <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="company_name" maxlength="30"></ion-input>
+        </ion-item>
+
+        <div class="error-message"
+          *ngIf="!registerForm.controls.company_name.valid && (registerForm.controls.company_name.touched ||  isLoading)">
+          <p>{{ "Please enter company name" | translate}}</p>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">{{ "Your Job Title" | translate}}</ion-label>
+          <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="contact_position" maxlength="30"></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="floating">{{ "Your Phone Number" | translate}}*</ion-label>
+          <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="phone_number" maxlength="30"></ion-input>
+        </ion-item>
+
+        <div class="error-message"
+          *ngIf="!registerForm.controls.phone_number.valid && (registerForm.controls.phone_number.touched ||  isLoading)">
+          <p>{{ "Please enter phone number" | translate}}</p>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">{{ "Email Address" | translate}}</ion-label>
           <ion-input inputmode="email" enterkeyhint="Next" type="email" [readonly]="this.otp" formControlName="email"></ion-input>
         </ion-item>
 
         <div class="error-message"
           *ngIf="!registerForm.controls.email.valid && (registerForm.controls.email.touched || isLoading) ">
           <p *ngIf="registerForm.controls.email.errors && registerForm.controls.email.errors.required">
-            Please enter email address</p>
+            {{"Please enter email address" | translate}}</p>
           <p
             *ngIf="registerForm.controls.email.errors && !registerForm.controls.email.errors.required && registerForm.controls.email.errors.invalidEmail">
-            Please enter valid email address
+            {{"Please enter valid email address" | translate}}
           </p>
         </div>
 
         <ion-item class="password_field">
-          <ion-label position="floating">Password</ion-label>
+          <ion-label position="floating">{{"Password" | translate}}</ion-label>
           <ion-input inputmode="text" enterkeyhint="Next" type="{{ type }}" formControlName="password"></ion-input>
 
           <ion-button class="password_change_icon" fill="clear" type="button" slot="end" (click)="showPassword()">
@@ -56,24 +84,32 @@
           *ngIf="!registerForm.controls.password.valid && (registerForm.controls.password.touched ||  isLoading)">
 
           <p *ngIf="registerForm.controls.password.errors && registerForm.controls.password.errors.required">
-            Please enter password
+            {{"Please enter password" | translate}}
           </p>
 
           <p *ngIf="registerForm.controls.password.errors && registerForm.controls.password.errors.maxlength">
-            Password can not be greater than {{ registerForm.controls.password.errors.maxlength.requiredLength }} character
+            {{'password_max_length' | translate:{ value: registerForm.controls.password.errors.maxlength.requiredLength } }}
           </p>
 
           <p *ngIf="registerForm.controls.password.errors && registerForm.controls.password.errors.minlength">
-            Password can not be less than {{ registerForm.controls.password.errors.minlength.requiredLength }} character
+            {{'password_min_length' | translate:{ value: registerForm.controls.password.errors.minlength.requiredLength } }}
           </p>
 
         </div>
 
+        <ion-item lines="none">
+          <ion-label>
+            {{ "I would like to receives email notifications" | translate }}
+          </ion-label>
+          <ion-checkbox slot="start" formControlName="receive_email"></ion-checkbox>
+        </ion-item>
+ 
         <ion-button type="submit" class="btn-register" [disabled]="!registerForm.valid || isLoading">
           <ion-spinner *ngIf="isLoading"></ion-spinner>
-          <span *ngIf="!isLoading">Create an account</span>
+          <span *ngIf="!isLoading">{{ "Create an account" | translate}}</span>
         </ion-button>
       </form>
-    </div>
-  </div>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ModalController, AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // services
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
-import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
+import { TranslateLabelService } from "../../../../providers/translate-label.service";
 // models
 import { Request } from 'src/app/models/request';
 
@@ -34,12 +34,11 @@ export class RequestFormPage implements OnInit {
   constructor(
     public requestService: CompanyRequestService,
     private fb: FormBuilder,
-    private modalCtrl: ModalController,
     private alertCtrl: AlertController,
-    private authService: AuthService,
     private location: Location,
     private eventService: EventService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private translateService: TranslateLabelService
   ) {
   }
 
@@ -72,7 +71,7 @@ export class RequestFormPage implements OnInit {
       compensation: [this.model.request_compensation, Validators.required]
     });
 
-    this.operation = (this.requestID) ? 'Update' : 'Create';
+    this.operation = (this.requestID) ? this.translateService.transform('Update') : this.translateService.transform('Create');
   }
 
   /**
@@ -86,14 +85,6 @@ export class RequestFormPage implements OnInit {
     this.model.request_job_description = this.form.value.job_description;
     this.model.request_compensation = this.form.value.compensation;
     this.model.request_location = this.form.value.location;
-  }
-
-  /**
-   * Close the page
-   */
-  close() {
-    const data = { refresh: false };
-    this.modalCtrl.dismiss(data);
   }
 
   /**
@@ -129,8 +120,8 @@ export class RequestFormPage implements OnInit {
       // On Failure
       if (jsonResponse.operation == 'error') {
         const prompt = await this.alertCtrl.create({
-          message: this.authService.errorMessage(jsonResponse),
-          buttons: ['Ok']
+          message: this.translateService.errorMessage(jsonResponse),
+          buttons: [this.translateService.transform('Okay')]
         });
         prompt.present();
       }
@@ -157,7 +148,7 @@ export class RequestFormPage implements OnInit {
   }
 
   /**
-   * reser form controls 
+   * reser form controls
    */
   resetForm() {
     this.company = null;

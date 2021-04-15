@@ -4,6 +4,7 @@ import { NavController, AlertController, IonInput, ModalController } from '@ioni
 import { ActivatedRoute } from '@angular/router';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class UpdatePasswordPage {
     public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
     private _fb: FormBuilder,
+    public translateService: TranslateLabelService,
     public authService: AuthService,
     private _alertCtrl: AlertController
   ) {
@@ -57,8 +59,7 @@ export class UpdatePasswordPage {
    * close page
    */
   dismiss() {
-    // this.modalCtrl.dismiss();
-    this.navCtrl.navigateRoot('/landing');
+    this.navCtrl.navigateRoot('/login');
   }
 
   /**
@@ -79,9 +80,9 @@ export class UpdatePasswordPage {
       if (res.operation == 'success') {
 
         const alert = await this._alertCtrl.create({
-          header: 'Success',
+          header: this.translateService.transform('Success'),
           message: res.message,
-          buttons: ['Okay'],
+          buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
 
@@ -94,9 +95,9 @@ export class UpdatePasswordPage {
       } else if (res.operation == 'error') {
 
         const alert = await this._alertCtrl.create({
-          header: 'Error',
+          header: this.translateService.transform('Error'),
           message: res.message,
-          buttons: ['Okay'],
+          buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
       }

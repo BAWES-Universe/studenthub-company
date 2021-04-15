@@ -19,15 +19,21 @@
     <ion-item [routerLink]="'/company-edit'" routerLinkActive="active">
       <div tabindex="0"></div>
       <ion-label>
-        Company Profile
+        {{"Company Profile" | translate}}
       </ion-label>
     </ion-item>
 
     <ion-item [routerLink]="'/company-contacts'" routerLinkActive="active">
       <div tabindex="0"></div>
       <ion-label>
-        Team
+        {{"Team" | translate}}
       </ion-label>
+    </ion-item>
+
+    <ion-item tappable (click)="changeLanguage($event)">
+      <div tabindex="0"></div>
+      <ion-label *ngIf="translateService.currentLang == 'ar'">English</ion-label>
+      <ion-label *ngIf="translateService.currentLang == 'en'">عربى</ion-label>
     </ion-item>
 
 <!--    <ion-item class="ion-activatable ion-focusable" (click)="auth.logout()" lines="none" tappable detail="false">-->

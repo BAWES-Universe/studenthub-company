@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { CustomValidator } from '../../../validators/custom.validator';
 // services
 import { AuthService } from '../../../providers/auth.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+
 
 @Component({
   selector: 'app-forgot-password',
@@ -31,6 +33,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
     public _fb: FormBuilder,
     public router: Router,
     public _authService: AuthService,
+    public translateService: TranslateLabelService,
     public _alertCtrl: AlertController,
   ) {
   }
@@ -67,8 +70,8 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
     if (!this.resetForm.valid) {
 
       const alert = await this._alertCtrl.create({
-        message: 'Please enter valid email address',
-        buttons: ['Okay']
+        message: this.translateService.transform('Please enter valid email address'),
+        buttons: [this.translateService.transform('Okay')]
       });
       await alert.present();
 
@@ -83,14 +86,14 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
         if(data.operation == 'success') {
           const alert = await this._alertCtrl.create({
             message: data.message,
-            buttons: ['Okay']
+            buttons: [this.translateService.transform('Okay')]
           });
           await alert.present();
           this.loginPage();
         } else {
           const alert = await this._alertCtrl.create({
             message: this._authService.errorMessage(data.message),
-            buttons: ['Okay']
+            buttons: [this.translateService.transform('Okay')]
           });
           await alert.present();
         }

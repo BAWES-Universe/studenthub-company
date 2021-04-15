@@ -4,10 +4,10 @@
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/transfer-list"></ion-back-button>
       </ion-buttons>
-      <ion-title>{{ pageTitle }}</ion-title>
+      <ion-title>{{ pageTitle | translate}}</ion-title>
       <ion-buttons slot="end">
         <ion-button color="primary" [disabled]="!form.valid || (total <= 0)" (click)="validate()">
-          Save
+          {{"Save" | translate}}
         </ion-button>
       </ion-buttons>
 
@@ -22,13 +22,13 @@
 
       <ion-card class="ion-padding card-date-range">
 
-        <h4>I am transferring for work done in the following time period:</h4>
+        <h4>{{"I am transferring for work done in the following time period:" | translate}}</h4>
 
-        <ion-button *ngIf="!transfer.start_date || !transfer.end_date" (click)="openCalendar()">Please select the date Range</ion-button>
+        <ion-button *ngIf="!transfer.start_date || !transfer.end_date" (click)="openCalendar()">{{"Please select the date Range" | translate}}</ion-button>
 
         <p *ngIf="this.transfer.start_date && this.transfer.end_date">
-          From <span *ngIf="this.transfer.start_date">{{this.transfer.start_date | date}}</span> - To
-          <span *ngIf="this.transfer.end_date">{{this.transfer.end_date | date}}</span>
+          From <span *ngIf="this.transfer.start_date">{{ toDate(this.transfer.start_date) | date}}</span> - To
+          <span *ngIf="this.transfer.end_date">{{ toDate(this.transfer.end_date) | date}}</span>
 
           <ion-button class="btn-clear-date-range" fill="clear" (click)="clearSelection()">
             <ion-icon slot="icon-only" name="close-outline"></ion-icon>
@@ -67,8 +67,8 @@
                 <ion-item>
 
                   <ion-label position="floating">
-                    Hours Worked
-                    <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>
+                    {{"Hours Worked" | translate}}
+                    <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">{{"Invalid value" | translate}}</span>
                   </ion-label>
                   <ion-input type="number" inputmode="decimal" min="0" (ionChange)="calculateTotal()"
                     [(ngModel)]="transferCandidateRecord.hours"
@@ -81,8 +81,8 @@
               <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
                 <ion-item>
                   <ion-label position="floating">
-                    Bonus (KWD)
-                    <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
+                    {{"Bonus(KWD)" | translate}}
+                    <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">{{"Invalid value" | translate}}</span>
                   </ion-label>
                   <ion-input type="number" min="0" inputmode="decimal" (ionChange)="calculateTotal()"
                     [(ngModel)]="transferCandidateRecord.bonus"
@@ -96,7 +96,7 @@
                 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
                 <ion-item>
                   <div tabindex="0"></div>
-                  Subtotal: KWD
+                  {{"Subtotal: KWD" | translate}}
                   {{ (parseNumber(transferCandidateRecord.hours) * transferCandidateRecord.candidate.company.company_hourly_rate) + parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
                 </ion-item>
               </ion-col>
@@ -113,7 +113,7 @@
   <ion-toolbar class="ion-text-center">
     <div class="desktop-view">
       <ion-title>
-        Total KWD {{ total | number:'1.0-3' }}
+        {{"Total KWD" | translate}} {{ total | number:'1.0-3' }}
       </ion-title>
     </div>
   </ion-toolbar>

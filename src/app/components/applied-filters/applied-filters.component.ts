@@ -7,6 +7,7 @@ import { CurrencyPipe } from '@angular/common';
 //services
 import { AuthService } from '../../providers/auth.service';
 import { AgePipe } from 'src/app/pipes/age.pipe';
+import {TranslateLabelService} from "../../providers/translate-label.service";
 
 
 /**
@@ -37,7 +38,8 @@ export class AppliedFiltersComponent extends BaseWidget {
         public instantSearchParent,
         public authService: AuthService,
         public platform: Platform,
-        public currencyPipe: CurrencyPipe
+        public currencyPipe: CurrencyPipe,
+        public translationService: TranslateLabelService
     ) {
         super('AppliedFiltersComponent');
 
@@ -106,9 +108,9 @@ export class AppliedFiltersComponent extends BaseWidget {
 
         //return items.map(item => {
             if (item.name == "Yes" || item.computedLabel == "Yes")
-                item.appliedLabel = 'Committed';
+                item.appliedLabel = this.translationService.transform('Committed');
             else if (item.name == "No" || item.computedLabel == "No")
-                item.appliedLabel = 'Not committed';
+                item.appliedLabel = this.translationService.transform('Not committed');
 
             return item;
         //});
@@ -121,9 +123,9 @@ export class AppliedFiltersComponent extends BaseWidget {
 
         //return items.map(item => {
             if (item.name == "Yes" || item.computedLabel == "Yes")
-                item.appliedLabel = 'Have video';
+                item.appliedLabel = this.translationService.transform('Have video');
             else if (item.name == "No" || item.computedLabel == "No")
-                item.appliedLabel = 'Not have video';
+                item.appliedLabel = this.translationService.transform('Not have video');
 
             return item;
         //});
@@ -136,9 +138,9 @@ export class AppliedFiltersComponent extends BaseWidget {
 
         //return items.map(item => {
             if (item.name == "Yes" || item.computedLabel == "Yes")
-                item.appliedLabel = 'Have resume';
+                item.appliedLabel = this.translationService.transform('Have resume');
             else if (item.name == "No" || item.computedLabel == "No")
-                item.appliedLabel = 'Not have resume';
+                item.appliedLabel = this.translationService.transform('Not have resume');
 
             return item;
         //});
@@ -151,11 +153,11 @@ export class AppliedFiltersComponent extends BaseWidget {
 
         //return items.map(item => {
             if (item.name == "1" || item.computedLabel == "1")
-                item.appliedLabel = 'Have license';
+                item.appliedLabel = this.translationService.transform('Have license');
             else if (item.name == "2" || item.computedLabel == "2")
-                item.appliedLabel = 'Not have license';
+                item.appliedLabel = this.translationService.transform('Not have license');
             else if (item.name == "0" || item.computedLabel == "0")
-                item.appliedLabel = 'No data';
+                item.appliedLabel = this.translationService.transform('No data');
 
             return item;
         //});
@@ -168,10 +170,10 @@ export class AppliedFiltersComponent extends BaseWidget {
 
       //return items.map(item => {
         if (item.name == '0' || item.computedLabel == '0') {
-          item.appliedLabel = 'Not Assigned';
+          item.appliedLabel = this.translationService.transform('Not Assigned');
         }
         else if (item.name == '1' || item.computedLabel == '1') {
-          item.appliedLabel = 'Assigned';
+          item.appliedLabel = this.translationService.transform('Assigned');
         }
 
         return item;
@@ -185,10 +187,10 @@ export class AppliedFiltersComponent extends BaseWidget {
 
       //return items.map(item => {
         if (item.name == '1' || item.computedLabel == '1') {
-          item.appliedLabel = 'Mom Kuwaiti';
+          item.appliedLabel = this.translationService.transform('Mom Kuwaiti');
         }
         else if (item.name == '2' || item.computedLabel == '2') {
-          item.appliedLabel = 'Mom Not Kuwaiti';
+          item.appliedLabel = this.translationService.transform('Mom Not Kuwaiti');
         }
 
         return item;
@@ -201,13 +203,13 @@ export class AppliedFiltersComponent extends BaseWidget {
             return [];
 
         if (item.name == '1' || item.label == '1') {
-            item.appliedLabel = 'Male';
+            item.appliedLabel = this.translationService.transform('Male');
         }
         else if (item.name == '2' || item.label == '2') {
-            item.appliedLabel = 'Female';
+            item.appliedLabel = this.translationService.transform('Female');
         }
         else if (item.name == '3' || item.label == '3') {
-            item.appliedLabel = 'Other';
+            item.appliedLabel = this.translationService.transform('Other');
         }
 
         return item;

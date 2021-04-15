@@ -3,6 +3,7 @@ import {IonTabs, Platform, MenuController, AlertController} from '@ionic/angular
 import { Router } from '@angular/router';
 import {EventService} from 'src/app/providers/event.service';
 import {AuthService} from 'src/app/providers/auth.service';
+import {TranslateLabelService} from "../../../../providers/translate-label.service";
 
 @Component({
   selector: 'student-view',
@@ -18,6 +19,7 @@ export class ViewPage implements OnInit {
   @ViewChild(IonTabs, { static: true }) tabRef: IonTabs;
 
   @ViewChild('menuLTR', { static: false }) menuLTR;
+  @ViewChild('menuRTL', { static: false }) menuRTL;
 
   constructor(
       public platform: Platform,
@@ -25,7 +27,8 @@ export class ViewPage implements OnInit {
       public router: Router,
       public eventService: EventService,
       public auth: AuthService,
-      public alertCtrl: AlertController
+      public alertCtrl: AlertController,
+      public translationService: TranslateLabelService
   ) {
     this.eventSubscriptions();
   }

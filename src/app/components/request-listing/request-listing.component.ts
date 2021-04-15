@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/providers/auth.service';
 //models
 import { Request } from '../../models/request';
+import {TranslateLabelService} from "../../providers/translate-label.service";
 
 
 @Component({
@@ -17,7 +18,10 @@ export class RequestListingComponent implements OnInit {
 
   public active = false;
 
-  constructor(public authService: AuthService) {
+  constructor(
+    public authService: AuthService,
+    public translateService: TranslateLabelService
+  ) {
   }
 
   ngOnInit() {

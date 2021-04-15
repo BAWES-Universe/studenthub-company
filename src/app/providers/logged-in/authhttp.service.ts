@@ -9,6 +9,7 @@ import { genericRetryStrategy } from '../../util/genericRetryStrategy';
 import { AuthService } from '../auth.service';
 import { EventService } from '../event.service';
 import { saveAs } from 'file-saver';
+import {TranslateLabelService} from "../translate-label.service";
 
 
 @Injectable({
@@ -19,7 +20,8 @@ export class AuthHttpService {
   constructor(
       private _http: HttpClient,
       public _auth: AuthService,
-      public eventService: EventService
+      public eventService: EventService,
+      public translate: TranslateLabelService,
   ) { }
 
   /**
@@ -70,7 +72,8 @@ export class AuthHttpService {
       responseType: 'blob', // ResponseContentType.Blob,  https://github.com/angular/angular/issues/18654#issuecomment-321947661
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Bearer ' + bearerToken
+        Authorization: 'Bearer ' + bearerToken,
+        Language: this.translate.currentLang
       })
     }).pipe(
       map((response) => { // download file
@@ -95,7 +98,8 @@ export class AuthHttpService {
       responseType: 'blob', // ResponseContentType.Blob,  https://github.com/angular/angular/issues/18654#issuecomment-321947661
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Bearer ' + bearerToken
+        Authorization: 'Bearer ' + bearerToken,
+        Language: this.translate.currentLang
       })
     }).pipe(
         // retryWhen(genericRetryStrategy()),
@@ -178,7 +182,8 @@ export class AuthHttpService {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + bearerToken,
       Accept: 'application/json',
-      enctype: 'multipart/form-data'
+      enctype: 'multipart/form-data',
+      Language: this.translate.currentLang
     });
 
     return this._http.post(url, formData, { headers })
@@ -218,7 +223,7 @@ export class AuthHttpService {
       Authorization: 'Bearer ' + bearerToken,
       'Content-Type': 'application/json',
       'Company-ID': String(this._auth.company_id),
-      Language: 'en'
+      Language: this.translate.currentLang
     });
   }
 

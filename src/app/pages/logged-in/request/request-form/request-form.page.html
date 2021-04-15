@@ -6,15 +6,15 @@
       </ion-buttons>
 
       <ion-title>
-        {{ operation }} Request
+        {{ operation }} {{"Request" | translate}}
         <small size="small" *ngIf="company">
-          for <br/>{{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
+          {{"for" | translate}} <br/>{{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
         </small>
       </ion-title>
 
       <ion-buttons slot="end">
         <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
-          <span *ngIf="!saving">Save</span>
+          <span *ngIf="!saving">{{"Save" | translate}}</span>
           <ion-spinner *ngIf="saving"></ion-spinner>
         </ion-button>
       </ion-buttons>
@@ -35,7 +35,7 @@
               <ion-item>
                 <div tabindex="0"></div>
                 <ion-radio slot="start" value="1"></ion-radio>
-                <ion-label>Full time</ion-label>
+                <ion-label>{{"Full time" | translate}}</ion-label>
               </ion-item>
             </ion-col>
 
@@ -43,7 +43,7 @@
               <ion-item>
                 <div tabindex="0"></div>
                 <ion-radio slot="start" value="2"></ion-radio>
-                <ion-label>Part time</ion-label>
+                <ion-label>{{"Part time" | translate}}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -52,40 +52,40 @@
 
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Position title</ion-label>
+          <ion-label position="floating">{{"Position title" | translate}}</ion-label>
           <ion-input type="text" formControlName="position_title"></ion-input>
         </ion-item>
       </ion-list>
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Job Description</ion-label>
+          <ion-label position="floating">{{"Job Description" | translate}}</ion-label>
           <ion-input type="text" formControlName="job_description"></ion-input>
         </ion-item>
       </ion-list>
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Number of employees</ion-label>
+          <ion-label position="floating">{{"Number of employees" | translate}}</ion-label>
           <ion-input type="text" formControlName="number_of_employees"></ion-input>
         </ion-item>
       </ion-list>
 
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Location</ion-label>
+          <ion-label position="floating">{{"Location" | translate}}</ion-label>
           <ion-input type="text" formControlName="location"></ion-input>
         </ion-item>
       </ion-list>
 
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Compensation</ion-label>
-          <ion-textarea formControlName="compensation" placeholder="Please provide compensation detail"></ion-textarea>
+          <ion-label position="floating">{{"Compensation" | translate}}</ion-label>
+          <ion-textarea formControlName="compensation" placeholder="{{'Please provide compensation detail' | translate}}"></ion-textarea>
         </ion-item>
       </ion-list>
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Additional notes to the recruiter</ion-label>
-          <ion-textarea formControlName="additional_info" placeholder="Anything you type here will be shared to the recruiter and be kept private from the employees you're looking to hire"></ion-textarea>
+          <ion-label position="floating">{{"Additional notes to the recruiter" | translate}}</ion-label>
+          <ion-textarea formControlName="additional_info" placeholder="{{'Anything you type here will be shared to the recruiter and be kept private from the employees you are looking to hire' | translate}}"></ion-textarea>
         </ion-item>
       </ion-list>
     </form>

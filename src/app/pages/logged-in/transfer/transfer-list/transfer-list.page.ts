@@ -6,6 +6,8 @@ import { Transfer } from 'src/app/models/transfer';
 import { TransferService } from 'src/app/providers/logged-in/transfer.service';
 import {CandidateService} from '../../../../providers/logged-in/candidate.service';
 import {EventService} from '../../../../providers/event.service';
+import {TranslateService} from "@ngx-translate/core";
+import {TranslateLabelService} from "../../../../providers/translate-label.service";
 
 
 @Component({
@@ -36,13 +38,14 @@ export class TransferListPage implements OnInit {
   public loading = false;
 
   public borderLimit;
-  
+
   constructor(
     public navCtrl: NavController,
     public transferService: TransferService,
     private actionSheetCtrl: ActionSheetController,
     private candidateService: CandidateService,
-    private eventService: EventService
+    private eventService: EventService,
+    private translateService: TranslateLabelService
   ) {
     this.eventService.companyChanged$.subscribe(() => {
       this.loadTotalEmployee();
@@ -171,16 +174,16 @@ export class TransferListPage implements OnInit {
    */
   async presentActionSheetForNewTransfer() {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'How do you wish to create your transfer?',
+      header: this.translateService.transform('How do you wish to create your transfer?'),
       buttons: [
         {
-          text: 'Manual input of hours',
+          text: this.translateService.transform('Manual input of hours'),
           handler: () => {
             this.createNewTransfer();
           }
         },
         {
-          text: 'Excel sheet upload',
+          text: this.translateService.transform('Excel sheet upload'),
           handler: () => {
             this.importTransfer();
           }
