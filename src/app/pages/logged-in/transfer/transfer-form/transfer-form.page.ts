@@ -340,8 +340,11 @@ export class TransferFormPage implements OnInit {
    * Close the Page
    */
   close() {
-    const data = { refresh: false };
-    // this._viewCtrl.dismiss(data);
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        overlay.dismiss();
+      }
+    });
   }
 
   /**

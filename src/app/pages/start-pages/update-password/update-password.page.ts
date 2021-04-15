@@ -59,7 +59,6 @@ export class UpdatePasswordPage {
    * close page
    */
   dismiss() {
-    // this.modalCtrl.dismiss();
     this.navCtrl.navigateRoot('/login');
   }
 

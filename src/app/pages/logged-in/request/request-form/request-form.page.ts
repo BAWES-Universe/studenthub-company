@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ModalController, AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // services
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
-import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
+import { TranslateLabelService } from "../../../../providers/translate-label.service";
 // models
 import { Request } from 'src/app/models/request';
-import {TranslateService} from "@ngx-translate/core";
-import {TranslateLabelService} from "../../../../providers/translate-label.service";
 
 
 @Component({
@@ -36,9 +34,7 @@ export class RequestFormPage implements OnInit {
   constructor(
     public requestService: CompanyRequestService,
     private fb: FormBuilder,
-    private modalCtrl: ModalController,
     private alertCtrl: AlertController,
-    private authService: AuthService,
     private location: Location,
     private eventService: EventService,
     private route: ActivatedRoute,
@@ -89,14 +85,6 @@ export class RequestFormPage implements OnInit {
     this.model.request_job_description = this.form.value.job_description;
     this.model.request_compensation = this.form.value.compensation;
     this.model.request_location = this.form.value.location;
-  }
-
-  /**
-   * Close the page
-   */
-  close() {
-    const data = { refresh: false };
-    this.modalCtrl.dismiss(data);
   }
 
   /**

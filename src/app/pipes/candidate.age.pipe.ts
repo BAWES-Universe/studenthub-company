@@ -11,6 +11,7 @@ export class CandidateAgePipe implements PipeTransform {
     constructor() {}
 
     transform(value: string) {
+      
       const d = (value) ? new Date(value.replace(/-/g, '/') + ' GMT+03:00') : new Date();
       
       const now = new Date();
