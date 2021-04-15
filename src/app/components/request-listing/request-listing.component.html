@@ -2,7 +2,7 @@
   <ion-card-content>
     <h1>{{ request.request_position_title }}</h1>
     <div class="requested-by" *ngIf="request.requestCreatedBy" [innerHTML]="'requested_by_value' | translate:{value: request.requestCreatedBy.staff_name}"></div>
-    <div class="created-at">on {{request.request_updated_datetime | date}}</div>
+    <div class="created-at">{{ "on" | translate }} {{ toDate(request.request_updated_datetime) | date}}</div>
 
     <ion-list lines="none">
       <ion-item *ngIf="request.request_location">
