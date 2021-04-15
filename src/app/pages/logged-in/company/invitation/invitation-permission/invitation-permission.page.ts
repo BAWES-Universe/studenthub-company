@@ -40,8 +40,12 @@ export class InvitationPermissionPage {
     this.borderLimit = (e.detail.scrollTop > 25);
   }
 
-  dismiss() {
-    this.modalCtrl.dismiss();
+  dismiss(data = {}) {
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        overlay.dismiss(data);
+      }
+    });
   }
 
   setRole(role) {

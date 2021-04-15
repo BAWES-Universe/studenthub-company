@@ -120,11 +120,17 @@ export class CompanyContactListPage implements OnInit {
   dismiss(companyContact = null) {
 
     this.popupCtrl.getTop().then(overlay => {
+      
       if (overlay) {
-        this.popupCtrl.dismiss({ companyContact });
-      } else {
-        this.modalCtrl.dismiss({ companyContact });
-      }
+        return this.popupCtrl.dismiss({ companyContact });
+      } 
+
+      this.modalCtrl.getTop().then(overlay => {
+        if (overlay) {
+          overlay.dismiss({ companyContact });
+        }
+      });
+
     });
   }
 

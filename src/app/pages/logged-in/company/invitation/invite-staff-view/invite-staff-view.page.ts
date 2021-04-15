@@ -103,7 +103,11 @@ export class InviteStaffViewPage {
    * @param data
    */
   dismiss(data = {}) {
-    this.modalCtrl.dismiss(data);
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        overlay.dismiss(data);
+      }
+    });
   }
 }
 

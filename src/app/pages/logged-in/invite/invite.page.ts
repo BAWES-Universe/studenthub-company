@@ -151,9 +151,13 @@ export class InvitePage implements OnInit {
    * @param invitedCount
    */
   close(refresh = false, invitedCount = null) {
-    this.modalCtrl.dismiss({
-      refresh,
-      invitedCount
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        overlay.dismiss({
+          refresh,
+          invitedCount
+        });
+      }
     });
   }
 

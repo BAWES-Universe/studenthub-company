@@ -22,7 +22,7 @@
       </ion-item>
     </ion-list>
 
-    <ion-grid *ngIf="showStatus">
+    <ion-grid *ngIf="showStatus && request.stats">
       <ion-row>
         <ion-col>{{request.stats.invited}} <br/><span>{{"Invited" | translate}}</span></ion-col>
         <ion-col>{{request.stats.suggested}} <br/><span>{{"Suggested" | translate}}</span></ion-col>
