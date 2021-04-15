@@ -1,14 +1,14 @@
-<ion-header [attr.dir]="translateService.direction()" [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar [class.hide-back-button]="otp">
+<!--<ion-header [attr.dir]="translateService.direction()" [class.add-border]="borderLimit" class="clear-header">-->
+<!--  <ion-toolbar [class.hide-back-button]="otp">-->
 
-      <ion-buttons slot="start">
-          <ion-back-button defaultHref="/"></ion-back-button>
-      </ion-buttons>
+<!--      <ion-buttons slot="start">-->
+<!--          <ion-back-button defaultHref="/"></ion-back-button>-->
+<!--      </ion-buttons>-->
 
-  </ion-toolbar>
-</ion-header>
-<ion-content [attr.dir]="translateService.direction()" [scrollEvents]="true" (ionScroll)="logScrolling($event)" class='contentArea ion-padding'>
-
+<!--  </ion-toolbar>-->
+<!--</ion-header>-->
+<ion-content [attr.dir]="translateService.direction()" [scrollEvents]="true" (ionScroll)="logScrolling($event)" class='contentArea ion-padding' fullscreen="true">
+  <ion-back-button [class.hide-back-button]="otp" defaultHref="/login"></ion-back-button>
 
   <div class='brand'>
     <ion-img src="assets/icon.png"></ion-img>
@@ -17,7 +17,7 @@
 
   <ion-card class='registerCard'>
     <ion-card-content class='authArea'>
- 
+
       <form [formGroup]="registerForm" *ngIf="registerForm" (ngSubmit)="registerSubmit()" (keyup.enter)="registerSubmit()"  novalidate>
 
         <ion-item>
@@ -44,7 +44,7 @@
           <ion-label position="floating">{{ "Your Job Title" | translate}}</ion-label>
           <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="contact_position" maxlength="30"></ion-input>
         </ion-item>
-        
+
         <ion-item>
           <ion-label position="floating">{{ "Your Phone Number" | translate}}*</ion-label>
           <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="phone_number" maxlength="30"></ion-input>
@@ -103,7 +103,7 @@
           </ion-label>
           <ion-checkbox slot="start" formControlName="receive_email"></ion-checkbox>
         </ion-item>
- 
+
         <ion-button type="submit" class="btn-register" [disabled]="!registerForm.valid || isLoading">
           <ion-spinner *ngIf="isLoading"></ion-spinner>
           <span *ngIf="!isLoading">{{ "Create an account" | translate}}</span>
