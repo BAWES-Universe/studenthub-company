@@ -400,6 +400,16 @@ export class TransferFormPage implements OnInit {
     this.transfer.start_date = this.transfer.end_date = null;
   }
 
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+   toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+  
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 0);
   }

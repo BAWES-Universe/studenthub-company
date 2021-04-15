@@ -290,6 +290,16 @@ export class TransferViewPage implements OnInit {
     candidate.candidate_personal_photo = null;
   }
 
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+   toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+  
   _translate(key) {
     return this.translateLabelService.transform(key);
   }
