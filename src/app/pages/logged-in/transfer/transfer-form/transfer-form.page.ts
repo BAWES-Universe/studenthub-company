@@ -10,6 +10,12 @@ import {
 } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import {
+  CalendarModal,
+  CalendarModalOptions,
+  CalendarResult,
+  CalendarComponentOptions
+} from 'ion2-calendar';
 import { CustomValidator } from 'src/app/validators/custom.validator';
 // models
 import { Transfer } from 'src/app/models/transfer';
@@ -19,16 +25,9 @@ import { TransferCandidate } from 'src/app/models/transfer-candidate';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { TransferService } from 'src/app/providers/logged-in/transfer.service';
 import { AwsService } from 'src/app/providers/aws.service';
-import {AuthService} from '../../../../providers/auth.service';
-import {
-  CalendarModal,
-  CalendarModalOptions,
-  DayConfig,
-  CalendarResult,
-  CalendarComponentOptions
-} from 'ion2-calendar';
-import {DefaultDate} from "ion2-calendar/dist/calendar.model";
-import {TranslateLabelService} from "../../../../providers/translate-label.service";
+import { AuthService } from '../../../../providers/auth.service';
+import { TranslateLabelService } from "../../../../providers/translate-label.service";
+
 
 @Component({
   selector: 'app-transfer-form',
@@ -366,7 +365,7 @@ export class TransferFormPage implements OnInit {
       canBackwardsSelected: true,
       pickMode: 'range',
       title: 'RANGE',
-      defaultScrollTo : new Date(this.transfer.end_date ? this.transfer.end_date : new Date()),
+      defaultScrollTo: new Date(this.transfer.end_date ? this.transfer.end_date : new Date()),
       defaultDateRange: {
         from: new Date(this.transfer.start_date ? this.transfer.start_date : ''),
         to: new Date(this.transfer.end_date ? this.transfer.end_date : '')
@@ -404,12 +403,12 @@ export class TransferFormPage implements OnInit {
    * Make date readable by Safari
    * @param date
    */
-   toDate(date) {
+  toDate(date) {
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 0);
   }
