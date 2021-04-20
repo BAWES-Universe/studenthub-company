@@ -4,7 +4,7 @@
   </ion-badge>
 
   <p class="activity">
-    <b *ngIf="activity.updatedBy">{{ activity.updatedBy.staff_name }}:&nbsp;</b>
+    <b *ngIf="activity.updatedBy">{{ activity.updatedBy.staff_name?activity.updatedBy.staff_name: activity.updatedBy.candidate_name }}:&nbsp;</b>
     <ng-container><span [innerHTML]="activity.note_text"></span></ng-container>
   </p>
 

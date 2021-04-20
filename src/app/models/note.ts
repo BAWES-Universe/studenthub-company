@@ -23,5 +23,7 @@ export class Note {
     candidate: Candidate;
     company: Company;
     request: Request;
+    
+    createdBy: any;
     updatedBy: any;
 }
