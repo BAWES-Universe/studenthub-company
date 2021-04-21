@@ -225,5 +225,13 @@ export class CompanyRequestListPage implements OnInit {
         this.requestStats.cancelled.push(request);
       }
     });
+
+    if (this.requestStats.open.length > 0) {
+      this.segment = 'open';
+    } else if (this.requestStats.completed.length > 0) {
+      this.segment = 'completed';
+    } else if (this.requestStats.cancelled.length > 0) {
+      this.segment = 'cancelled';
+    }
   }
 }

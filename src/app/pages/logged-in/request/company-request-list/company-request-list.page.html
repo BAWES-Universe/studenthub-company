@@ -11,14 +11,14 @@
 
     <div class="segment-div">
       <ion-segment [value]="segment" (ionChange)="segmentChange($event)">
-        <ion-segment-button value="open">
+        <ion-segment-button value="open" *ngIf="requestStats.open.length">
           <ion-label>{{"open_value" | translate: {value:requestStats.open.length} }}</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="completed">
+        <ion-segment-button value="completed" *ngIf="requestStats.completed.length">
           <ion-label>{{"completed_value" |  translate: {value: requestStats.completed.length} }}</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="cancelled">
-          <ion-label>{{"cancelled_value" |  translate: {value: requestStats.completed.length} }}</ion-label>
+        <ion-segment-button value="cancelled" *ngIf="requestStats.cancelled.length">
+          <ion-label>{{"cancelled_value" |  translate: {value: requestStats.cancelled.length} }}</ion-label>
         </ion-segment-button>
       </ion-segment>
     </div>
