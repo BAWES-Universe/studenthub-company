@@ -48,7 +48,7 @@ export class CandidateService {
    * @param candidate_id
    */
   view(candidate_id): Observable<any> {
-    const url = this._candidateEndpoint + '/' + candidate_id + '?expand=invitedCount,store,university,nationality,country,area,company,candidateSkills,candidateExperiences';
+    const url = this._candidateEndpoint + '/' + candidate_id + '?expand=isInvitedForCompany,invitedCount,store,university,nationality,country,area,company,candidateSkills,candidateExperiences';
     return this._authhttp.get(url);
   }
 }
