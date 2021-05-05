@@ -263,9 +263,9 @@
 </ion-content>
 <ion-footer *ngIf="candidate && !loading ">
   <div class="desktop-view">
-    <ion-button color="dark" [disabled]="candidate.invitedCount" (click)="invite()">
-      <span *ngIf="!candidate.invitedCount">{{"Invite for request" | translate}}</span>
-      <span *ngIf="candidate.invitedCount">{{"Invited" | translate}}</span>
+    <ion-button color="dark" [disabled]="candidate.isInvitedForCompany" (click)="invite()">
+      <span *ngIf="!candidate.isInvitedForCompany">{{"Invite for request" | translate}}</span>
+      <span *ngIf="candidate.isInvitedForCompany">{{"Invited" | translate}}</span>
     </ion-button>
   </div>
 </ion-footer>
