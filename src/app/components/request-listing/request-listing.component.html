@@ -6,10 +6,12 @@
 
     <ion-list lines="none">
       <ion-item *ngIf="request.request_location">
+        <div tabindex="0"></div>
         <ion-icon class="icon" src="assets/images/ic_location.svg"></ion-icon>
         <label>{{request.request_location}}</label>
       </ion-item>
       <ion-item>
+        <div tabindex="0"></div>
         <ion-icon class="icon" src="assets/images/ic_suitcase-light.svg"></ion-icon>
         <label>{{"ppl_count" | translate: {value: request.request_number_of_employees} }}<span *ngIf="request.request_position_type == 1">,
           {{"Full-time" | translate}}</span>
@@ -17,6 +19,7 @@
         </label>
       </ion-item>
       <ion-item *ngIf="request.request_compensation">
+        <div tabindex="0"></div>
         <ion-icon class="icon" src="assets/images/componsation.svg"></ion-icon>
         <label>{{request.request_compensation}}</label>
       </ion-item>
