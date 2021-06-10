@@ -4,7 +4,6 @@ import { Note } from './note';
 import { Contact } from './contact';
 import {Invitation} from './invitation';
 
-
 export class Request {
     request_uuid: string;
     company_id: number;

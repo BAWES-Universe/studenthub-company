@@ -1,6 +1,6 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding"  [attr.dir]="translateService.direction()">
   <div class="desktop-view">
-   <ion-list *ngIf="stores && !loading" class="store-list">
+   <ion-list *ngIf="stores && stores.length > 0 && !loading" class="store-list">
       <ion-card *ngFor="let store of stores">
         <ion-badge color="light" *ngIf="store.store_total_candidates > 0">
           {{"staff_count" | translate: {value:store.store_total_candidates} }}
@@ -32,7 +32,7 @@
       </ion-card>
     </ion-list>
 
-    <no-items message="~ No store found ~" *ngIf="!loading && stores.length == 0 && companies.length == 0"></no-items>
+    <no-items message="~ No store found ~" *ngIf="!loading && !stores || (stores && stores.length == 0 && companies.length == 0)"></no-items>
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
