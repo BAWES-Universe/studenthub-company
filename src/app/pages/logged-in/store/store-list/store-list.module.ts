@@ -7,9 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { StoreListPageRoutingModule } from './store-list-routing.module';
 
 import { StoreListPage } from './store-list.page';
-import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
-import {NoItemsModule} from "../../../../components/no-items/no-items.module";
-import {TranslateModule} from "@ngx-translate/core";
+import {LoadingModalModule} from 'src/app/components/loading-modal/loading-modal.module';
+import {NoItemsModule} from 'src/app/components/no-items/no-items.module';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
     imports: [
