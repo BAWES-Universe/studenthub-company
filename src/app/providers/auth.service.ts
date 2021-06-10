@@ -108,8 +108,6 @@ export class AuthService {
       }
 
       Storage.get({ key: 'loggedInCompany' }).then(ret => {
-
-        console.log(ret);
         
         const data = JSON.parse(ret.value);
 
