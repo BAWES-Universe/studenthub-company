@@ -120,7 +120,7 @@ export class RequestFormPage implements OnInit {
       // On Failure
       if (jsonResponse.operation == 'error') {
         const prompt = await this.alertCtrl.create({
-          message: this.translateService.errorMessage(jsonResponse),
+          message: this.translateService.errorMessage(jsonResponse.message),
           buttons: [this.translateService.transform('Okay')]
         });
         prompt.present();
