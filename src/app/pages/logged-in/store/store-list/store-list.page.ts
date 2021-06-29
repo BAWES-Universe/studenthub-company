@@ -48,8 +48,8 @@ export class StoreListPage implements OnInit {
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.stores = response.body;
     },
-      error => { },
-      () => { this.loading = false; }
+      error => this.loading = false,
+      () => this.loading = false
     );
   }
 

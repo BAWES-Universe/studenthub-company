@@ -32,7 +32,7 @@
       </ion-card>
     </ion-list>
 
-    <no-items message="~ No store found ~" *ngIf="!loading && !stores || (stores && stores.length == 0 && companies.length == 0)"></no-items>
+    <no-items message="~ No store found ~" *ngIf="!loading && !stores"></no-items>
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
