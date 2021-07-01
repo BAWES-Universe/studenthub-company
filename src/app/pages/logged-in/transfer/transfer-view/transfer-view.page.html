@@ -22,7 +22,7 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-
+ 
   <div class="desktop-view">
 
     <ng-container *ngIf="!loading">
@@ -142,12 +142,12 @@
               <p *ngIf="resource.bonus">{{"Bonus" | translate}} KD {{resource.bonus | number}}</p>
               <p><b>KD {{ total(resource) }}</b></p>
 
-              <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.total_paid > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
+              <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.company_total > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
                 {{"Transfer in progress" | translate}}
               </ion-badge>
             </ion-label>
 
-            <ion-badge slot="end" color="secondary" *ngIf="resource.paid == '1' && resource.total_paid > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
+            <ion-badge slot="end" color="secondary" *ngIf="resource.paid == '1' && resource.company_total > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
               <ion-icon name="checkmark-circle-outline"></ion-icon>
             </ion-badge>
           </ion-item>
