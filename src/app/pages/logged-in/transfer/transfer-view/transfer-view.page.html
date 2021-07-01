@@ -11,8 +11,9 @@
           - KWD {{ transferDetails.company_total | number:'1.0-3' }}
         </span>
       </ion-title>
+
       <ion-buttons slot="end" *ngIf="transferDetails && transferDetails.transfer_status==10">
-        <ion-button color="danger" *ngIf="transferDetails && (transferDetails.transfer_status==10)"
+        <ion-button color="danger" 
           (click)="delete(transferDetails)">
           {{"Delete" | translate}}
         </ion-button>
@@ -26,6 +27,7 @@
   <div class="desktop-view">
 
     <ng-container *ngIf="!loading">
+      
       <div class="ion-text-center ion-padding" *ngIf="transferDetails">
         <h2 class="ion-text-center">
           {{transferStatus}}
@@ -46,11 +48,13 @@
             <ion-icon name="create" slot="start"></ion-icon>
             {{"Edit Transfer" | translate}}
           </ion-button>
+
           <ion-button fill="outline" (click)="importTransfer(transferDetails)"
             *ngIf="transferDetails && (transferDetails.transfer_status==10)">
             <ion-icon name="create" slot="start"></ion-icon>
             {{"Edit via Excel" | translate}}
           </ion-button>
+
           <ion-button fill="outline" (click)="transferLock(transferDetails)"
             *ngIf="transferDetails && (transferDetails.transfer_status==10)">
             <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
@@ -142,12 +146,12 @@
               <p *ngIf="resource.bonus">{{"Bonus" | translate}} KD {{resource.bonus | number}}</p>
               <p><b>KD {{ total(resource) }}</b></p>
 
-              <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.total_paid > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
+              <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.company_total > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
                 {{"Transfer in progress" | translate}}
               </ion-badge>
             </ion-label>
 
-            <ion-badge slot="end" color="secondary" *ngIf="resource.paid == '1' && resource.total_paid > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
+            <ion-badge slot="end" color="secondary" *ngIf="resource.paid == '1' && resource.company_total > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
               <ion-icon name="checkmark-circle-outline"></ion-icon>
             </ion-badge>
           </ion-item>
