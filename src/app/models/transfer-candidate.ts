@@ -13,7 +13,10 @@ export class TransferCandidate {
     hours: number;
     bonus: number;
     paid: number;
-    total_paid: number;
+
+    company_total: number;
+
+    total_paid: number;//company_total - dynamically calculated
 
     // Related
     candidate: Candidate;
