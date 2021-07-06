@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-//services
+// services
 import { AuthService } from 'src/app/providers/auth.service';
-//models
+// models
 import { Request } from '../../models/request';
-import {TranslateLabelService} from "../../providers/translate-label.service";
-
+import {TranslateLabelService} from '../../providers/translate-label.service';
 
 @Component({
   selector: 'request-listing',
