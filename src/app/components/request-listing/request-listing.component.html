@@ -1,7 +1,7 @@
 <ion-card [class.pending]="request.request_status == 'pending'" tappable [attr.dir]="translateService.direction()">
   <ion-card-content>
     <h1>{{ request.request_position_title }}</h1>
-    <div class="requested-by" *ngIf="request.requestCreatedBy" [innerHTML]="'requested_by_value' | translate:{value: request.requestCreatedBy.staff_name}"></div>
+    <div class="requested-by" *ngIf="request.contact" [innerHTML]="'requested_by_value' | translate:{value: request.contact.contact_name}"></div>
     <div class="created-at">{{ "on" | translate }} {{ toDate(request.request_updated_datetime) | date}}</div>
 
     <ion-list lines="none">
