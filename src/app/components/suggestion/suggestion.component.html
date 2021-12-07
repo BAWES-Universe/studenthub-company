@@ -1,5 +1,5 @@
 <!--<ion-card (click)="openCandidatePage()" tappable>-->
-<ion-card tappable>
+<ion-card tappable (click)="openCandidatePage()">
   <ion-badge *ngIf="model.suggestion_status == 1">
     {{"Suggested a candidate" | translate}}
   </ion-badge>
