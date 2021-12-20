@@ -53,7 +53,7 @@ export class VerifyEmailPage implements OnInit {
 
   public timeElapsedToVerify = 0;
 
-  public timeoutToVerify = 5 * 60 * 1000;//5 min in milliseconds 
+  public timeoutToVerify = 5 * 60 * 1000;//5 min in milliseconds
 
   public isVerified = false;
 
@@ -71,7 +71,7 @@ export class VerifyEmailPage implements OnInit {
     public translateService: TranslateLabelService,
     public authService: AuthService,
     public accountService: AccountService,
-    public eventService: EventService, 
+    public eventService: EventService,
     public _loadingCtrl: LoadingController,
     public _toastCtrl: ToastController,
     public _alertCtrl: AlertController,
@@ -198,16 +198,16 @@ export class VerifyEmailPage implements OnInit {
       nextInp.setFocus();
     }
 
-    //if got all values submit 
+    //if got all values submit
 
     this.code = this.ic1.value + this.ic2.value + this.ic3.value + this.ic4.value;
 
-    //if not comming from email link with verification code 
+    //if not comming from email link with verification code
 
     if (
       !this.route.snapshot.paramMap.get('code') &&
       this.code &&
-      this.code.length == 4
+      this.code.length == 4 && !nextInp
     ) {
       this.verify();
     }
@@ -451,8 +451,8 @@ export class VerifyEmailPage implements OnInit {
       if (
         res.operation != 'success' &&
         (
-          res.errorCode == 1 || //if email already verified 
-          res.errorCode == 3 // account not founnd 
+          res.errorCode == 1 || //if email already verified
+          res.errorCode == 3 // account not founnd
         )
       ) {
         this.router.navigate(['view/home']);
