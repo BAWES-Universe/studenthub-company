@@ -38,7 +38,8 @@
         {{ request.request_location }}
       </p>
 
-      <p class="txt-additional-info">{{ request.request_job_description }}</p>
+      <p class="txt-additional-info" [innerHTML]="request.request_job_description"></p>
+      
       <p class="txt-additional-info">{{ request.request_compensation }}</p>
 
       <div class="requested-by">
