@@ -37,12 +37,18 @@
 
         <ion-item>
           <ion-label position="floating">{{"Description - English" | translate}}</ion-label>
-          <ion-textarea formControlName="description_en"></ion-textarea>
+          <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" 
+            (ready)="onEditorReady()" (change)="onChange($event)">
+          </ckeditor>
+          <!--<ion-textarea formControlName="description_en"></ion-textarea>-->
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">{{"Description - Arabic" | translate}}</ion-label>
-          <ion-textarea formControlName="description_ar"></ion-textarea>
+          <ckeditor [config]="editorConfig" #ckeditor_ar [editor]="Editor" 
+            (ready)="onArabicEditorReady()" (change)="onArabicEditorChange($event)">
+          </ckeditor>
+          <!--<ion-textarea formControlName="description_ar"></ion-textarea>-->
         </ion-item>
 
         <ion-item>

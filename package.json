@@ -24,6 +24,8 @@
     "@angular/router": "^9.1.12",
     "@angular/service-worker": "^9.1.12",
     "@capacitor/core": "^2.4.3",
+    "@ckeditor/ckeditor5-angular": "^2.0.2",
+    "@ckeditor/ckeditor5-build-classic": "^31.1.0",
     "@ionic-native/core": "^5.30.0",
     "@ionic-native/file": "^5.30.0",
     "@ionic-native/splash-screen": "^5.30.0",
