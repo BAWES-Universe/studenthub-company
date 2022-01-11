@@ -131,4 +131,13 @@ export class CompanyRequestService {
   requestCount(): Observable<any> {
     return this.authhttp.get(this.companyRequestEndpoint + '/count');
   }
+  
+  /**
+   * check if request updated
+   * @param request_uuid
+   */
+   isRequestUpdated(request_uuid) : Observable<any> {
+    let url = this.companyRequestEndpoint + '/is-request-updated/' + request_uuid;
+    return this.authhttp.get(url);
+  }
 }

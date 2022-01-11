@@ -53,6 +53,10 @@ export class CompanyRequestViewPage implements OnInit {
 
   public activityExpanded: boolean = false;
 
+  public internvalSubscribe;
+
+  public alertConfirmReload;
+
   constructor(
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
@@ -81,6 +85,10 @@ export class CompanyRequestViewPage implements OnInit {
     const model = window.history.state.model;
 
     this.loadDetail();
+
+    this.internvalSubscribe = setInterval(_ => {
+      this.isRequestUpdated();
+    }, 6 * 1000);//every 6 seconds
 
     this.eventService.companyRequestUpdate$.subscribe((data: any) => {
       if(data && data.request_uuid == this.request_uuid) {
@@ -330,5 +338,56 @@ export class CompanyRequestViewPage implements OnInit {
         }
       ]
     }).then(alert => { alert.present(); });
+  }
+
+  /**
+   * check if request updated, confirm reload 
+   */
+  isRequestUpdated() {
+
+    if (!this.request || this.alertConfirmReload) {
+      return null;
+    }
+
+    this.requestService.isRequestUpdated(this.request_uuid).subscribe(data => {
+      if (data.request_updated_datetime != this.request.request_updated_datetime) {
+        this.confirmReload(data.request_updated_datetime);
+      }
+    }, () => {
+    }, () => {
+      this.loading = false;
+    });
+  }
+
+  /**
+   * confirm data reload when request get updated
+   */
+  async confirmReload(request_updated_datetime) {
+
+    //this.loadDetail(false);//refresh without showing loader
+
+    this.alertConfirmReload = await this.alertCtrl.create({
+      header: 'Request updated',
+      subHeader: 'Refresh to view latest update',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            //to ignore current update
+            this.request.request_updated_datetime = request_updated_datetime;
+            this.alertConfirmReload = null;
+          }
+        }, {
+          text: 'Refresh',
+          handler: (data) => {
+            this.loadDetail();
+            this.alertConfirmReload = null;
+          }
+        }
+      ]
+    }); 
+    this.alertConfirmReload.present();
   }
 }

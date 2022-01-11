@@ -170,9 +170,17 @@ export class AccountPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == "success") {
+        
+        if(this.authService.email != this.model.contact_email) {
+          let prompt = await this.alertCtrl.create({
+            message: this.translateLabelService.errorMessage(jsonResponse.message),
+            buttons: [this._translate('Okay')]
+          });
+          prompt.present();
+        }
 
         this.authService.profile_name = this.model.contact_name;
-        this.authService.email = this.model.contact_email;
+        //only after verification: this.authService.email = this.model.contact_email;
         this.authService.saveInStorage();
 
         this.navCtrl.navigateRoot(['/']);
@@ -181,7 +189,7 @@ export class AccountPage implements OnInit {
       // On Failure
       if (jsonResponse.operation == "error") {
         let prompt = await this.alertCtrl.create({
-          message: JSON.stringify(jsonResponse.message),
+          message: this.translateLabelService.errorMessage(jsonResponse.message),
           buttons: [this._translate('Okay')]
         });
         prompt.present();
