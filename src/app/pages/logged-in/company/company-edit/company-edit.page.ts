@@ -139,7 +139,7 @@ export class CompanyEditPage implements OnInit {
     error => {
       this.saving = false;
     }, () => {
-      this.saveSubscription.unsubscribe();
+     // this.saveSubscription.unsubscribe();
     });
   }
 
