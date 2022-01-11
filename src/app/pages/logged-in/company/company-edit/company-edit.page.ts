@@ -152,11 +152,11 @@ export class CompanyEditPage implements OnInit {
         });
       }
     },
-      error => {
-        this.saving = false;
-      }, () => {
-        this.saveSubscription.unsubscribe();
-      });
+    error => {
+      this.saving = false;
+    }, () => {
+     // this.saveSubscription.unsubscribe();
+    });
   }
 
   /**
