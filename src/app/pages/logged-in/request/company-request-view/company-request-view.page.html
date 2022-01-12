@@ -39,7 +39,7 @@
       </p>
 
       <p class="txt-additional-info" [innerHTML]="request.request_job_description"></p>
-      
+
       <p class="txt-additional-info">{{ request.request_compensation }}</p>
 
       <div class="requested-by">
@@ -63,6 +63,7 @@
 
       <div *ngIf="suggestedSuggestions.length > 0">
         <h4 class="txt-suggested-candidates">{{"suggested_candidates_count" | translate : { value: suggestedSuggestions.length} }}</h4>
+
 
         <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions"
           [model]="suggestion"></suggestion>
