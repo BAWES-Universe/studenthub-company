@@ -12,7 +12,8 @@
     "e2e": "ng e2e",
     "build:devserver": "ng build --configuration=dev",
     "build:production": "ng build --configuration=production --prod",
-    "ionic:serve:khalid": "ionic serve --configuration=khalid"
+    "ionic:serve:khalid": "ionic serve --configuration=khalid",
+    "serve-kk": "ionic serve --configuration=krushn"
   },
   "private": true,
   "dependencies": {
