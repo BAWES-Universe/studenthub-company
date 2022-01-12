@@ -44,10 +44,12 @@ export class CompanyRequestListPage implements OnInit {
     };
 
   public requestStats: {
+    pending: Request[],
     open: Request[],
     completed: Request[],
     cancelled: Request[]
   } = {
+    pending: [],
     open: [],
     completed: [],
     cancelled: []
@@ -215,6 +217,9 @@ export class CompanyRequestListPage implements OnInit {
 
   calculateStats() {
     this.requests.map(request => {
+      if (request.request_status == 'pending'){
+        this.requestStats.pending.push(request);
+      }
       if (request.request_status == 'started'){
         this.requestStats.open.push(request);
       }

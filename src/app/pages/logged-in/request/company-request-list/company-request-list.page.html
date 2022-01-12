@@ -11,6 +11,9 @@
 
     <div class="segment-div">
       <ion-segment [value]="segment" (ionChange)="segmentChange($event)">
+        <ion-segment-button value="pending" *ngIf="requestStats.pending.length">
+          <ion-label>{{"pending_value" | translate: {value:requestStats.pending.length} }}</ion-label>
+        </ion-segment-button>
         <ion-segment-button value="open" *ngIf="requestStats.open.length">
           <ion-label>{{"open_value" | translate: {value:requestStats.open.length} }}</ion-label>
         </ion-segment-button>
@@ -21,6 +24,11 @@
           <ion-label>{{"cancelled_value" |  translate: {value: requestStats.cancelled.length} }}</ion-label>
         </ion-segment-button>
       </ion-segment>
+    </div>
+
+    <div *ngIf="segment == 'pending'">
+      <request-listing *ngFor="let request of requestStats.pending" tappable (click)="requestDetail(request)" [request]="request"
+                       [showStatus]="true"></request-listing>
     </div>
 
     <div *ngIf="segment == 'open'">
