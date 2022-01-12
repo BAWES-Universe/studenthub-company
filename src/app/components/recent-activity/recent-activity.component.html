@@ -3,10 +3,34 @@
     {{ activity.note_type }}
   </ion-badge>
 
-  <p class="activity">
-    <b *ngIf="activity.updatedBy">{{ activity.updatedBy.staff_name?activity.updatedBy.staff_name: activity.updatedBy.candidate_name }}:&nbsp;</b>
-    <ng-container><span [innerHTML]="activity.note_text"></span></ng-container>
-  </p>
+  <div class="activity">
+    
+    <b *ngIf="activity.updatedBy">
+      <ng-container *ngIf="activity.updatedBy.staff_name">By {{activity.createdBy.staff_name }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.updatedBy.candidate_name">By {{activity.createdBy.candidate_name }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.updatedBy.contact_name">By {{activity.createdBy.contact_name }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.updatedBy.admin_name">By {{activity.createdBy.admin_name }}:&nbsp;</ng-container>
+    </b>
+
+    <b *ngIf="!activity.updatedBy && activity.createdBy">
+      <ng-container *ngIf="activity.createdBy.staff_name">By {{activity.createdBy.staff_name }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.createdBy.candidate_name">By {{activity.createdBy.candidate_name }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.createdBy.contact_name">By {{activity.createdBy.contact_name }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.createdBy.admin_name">By {{activity.createdBy.admin_name }}:&nbsp;</ng-container>
+    </b>
+    
+    <!--  [routerLink]="'/candidate-view/' + activity.candidate_id" -->
+    <h5 *ngIf="activity.candidate">
+      {{ activity.candidate.candidate_name }}
+    </h5>
+
+    <!--  [routerLink]="'/candidate-view/' + activity.candidate_id" -->
+    <h5 *ngIf="activity.fulltimer">
+      {{ activity.fulltimer.fulltimer_name }}
+    </h5>
+
+    <p [innerHTML]="activity.note_text"></p>
+  </div>
 
   <p class="txt-time">
     {{ activity.note_updated_datetime | timeAgo }} {{"on" | translate}}

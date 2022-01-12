@@ -21,7 +21,7 @@ export class RequestActivityService {
    * @returns {Observable<any>}
    */
   list(request_uuid = null): Observable<any> {
-    const url = this.requestEndpoint + 'request-activities/' + request_uuid + '?expand=staff,updatedBy';
+    const url = this.requestEndpoint + 'request-activities/' + request_uuid + '?expand=candidate,fulltimer,staff,createdBy,updatedBy';
     return this.authhttp.get(url);
   }
 }
