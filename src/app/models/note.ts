@@ -5,6 +5,20 @@ import { Candidate } from './candidate';
 import { Contact } from './contact';
 import { RequestChecklist } from './request-checklist';
 
+enum NoteType {
+    TYPE_INTERNAL_NOTE = "Internal Note",
+    TYPE_PHONE_CALL = "Phone Call",
+    TYPE_EMAIL = "Email",
+    TYPE_MEETING = "Meeting",
+    TYPE_INTERVIEW = "Interview",
+    TYPE_TASK = "Task",
+    TYPE_SUGGESTED = "Suggested",
+    TYPE_ACCEPTED = "Accepted",
+    TYPE_REJECTED = "Rejected",
+    TYPE_INVITATION_ACCEPTED = "Invitation Accepted",
+    TYPE_INVITATION_REJECTED = "Invitation Rejected"
+}
+
 export class Note {
     note_uuid: string;
     company_id: number;
@@ -14,7 +28,7 @@ export class Note {
     request_uuid: string;
     request_checklist_uuid: string;
     staff_id: number;
-    note_type: any;
+    note_type: NoteType;
     note_text: string;
     created_by: string;
     updated_by: string;
