@@ -82,6 +82,22 @@ export class SentryErrorhandlerService extends ErrorHandler {
 		  return window.location.reload();
     }
     
+		//don't log for storage error 
+	
+		const storageError = 'Failed to access storage';
+	
+		if (error.message.includes(storageError)) {
+		  return super.handleError(error);
+		}
+		
+		//don't log for service worker error
+		
+		const serviceWorkerError = 'ServiceWorker';
+	
+		if (error.message.includes(serviceWorkerError)) {
+		  return super.handleError(error);
+		}
+
 		// Exit function if sentry logging is not enabled
 		if(!this.sentryLoggingEnabled) {
       return super.handleError(error);
