@@ -31,6 +31,7 @@ export class StoreViewPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Store View Page');
 
     this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
 

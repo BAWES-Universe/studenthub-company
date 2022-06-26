@@ -84,6 +84,8 @@ export class VerifyEmailPage implements OnInit {
     //  this.router.navigate(['view']);
     // }
 
+    window.analytics.page('Verify Email Page');
+
     // Keyboard Plugin Events
 
     if (this.platform.is('capacitor')) {

@@ -28,6 +28,8 @@ export class CompanyListPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Company List Page');
+
     this.loadData(this.currentPage);
   }
 

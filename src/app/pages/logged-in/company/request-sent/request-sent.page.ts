@@ -24,6 +24,7 @@ export class RequestSentPage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    window.analytics.page('Request Sent Page');
 
     this._activatedRoute.params.subscribe(routeParams => {
       this.company_name = routeParams.company_name;

@@ -75,6 +75,8 @@ export class CompanyRequestListPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Request List Page');
+
     this.min = '1930/01/01';
 
     const d = new Date();

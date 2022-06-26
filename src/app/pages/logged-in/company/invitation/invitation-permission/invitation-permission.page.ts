@@ -10,7 +10,7 @@ import { InvitationFormPage } from '../invitation-form/invitation-form.page';
   templateUrl: './invitation-permission.page.html',
   styleUrls: ['./invitation-permission.page.scss'],
 })
-export class InvitationPermissionPage {
+export class InvitationPermissionPage implements OnInit {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
@@ -25,6 +25,10 @@ export class InvitationPermissionPage {
     public nav: IonNav,
     public modalCtrl: ModalController
   ) { }
+
+  ngOnInit(): void {
+    window.analytics.page('Invitation Permission Page');
+  }
 
   ionViewWillLeave() {
     // this.content.getScrollElement().then(ele => {

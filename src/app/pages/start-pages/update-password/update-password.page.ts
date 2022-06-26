@@ -41,6 +41,7 @@ export class UpdatePasswordPage {
   }
 
   ngOnInit() {
+    window.analytics.page('Update Password Page');
 
     this.token = this.activatedRoute.snapshot.paramMap.get('token');
 

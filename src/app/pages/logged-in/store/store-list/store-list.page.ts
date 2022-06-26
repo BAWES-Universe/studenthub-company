@@ -34,6 +34,8 @@ export class StoreListPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Store List Page');
+
     this.loadData();
   }
 

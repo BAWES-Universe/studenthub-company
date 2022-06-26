@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, ModalController, IonContent } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import {InvitationService} from 'src/app/providers/logged-in/invitation.service'
   templateUrl: './invite-staff-view.page.html',
   styleUrls: ['./invite-staff-view.page.scss'],
 })
-export class InviteStaffViewPage {
+export class InviteStaffViewPage implements OnInit {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
@@ -35,6 +35,10 @@ export class InviteStaffViewPage {
     public navParams: ActivatedRoute
   ) {
     this.invitation = this.navParams.snapshot.params.invitation;
+  }
+
+  ngOnInit(): void {
+    window.analytics.page('Invite Staff Page');
   }
 
   ionViewWillLeave() {
