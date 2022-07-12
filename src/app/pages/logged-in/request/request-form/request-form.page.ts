@@ -54,7 +54,9 @@ export class RequestFormPage implements OnInit {
   ) {
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    window.analytics.page('Request Form Page');
+  }
 
   ionViewWillEnter() {
 

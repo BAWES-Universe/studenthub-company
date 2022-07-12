@@ -22,6 +22,7 @@ export class AppErrorPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('App Error Page');
   }
 
   ionViewWillEnter() {

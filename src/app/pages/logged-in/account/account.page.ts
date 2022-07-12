@@ -37,6 +37,8 @@ export class AccountPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Account Page');
+
     this.loadData();
   }
 

@@ -79,6 +79,8 @@ export class ImportTransferFormPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Import Transfer Page');
+
     const state = window.history.state;
     // Load the passed model (required)
     if (state['transfer']) {

@@ -101,6 +101,8 @@ export class TransferFormPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Transfer Form Page');
+
     if (!this.transfer_id) {
       this.transfer = new Transfer();
     } else if (!this.transfer) {

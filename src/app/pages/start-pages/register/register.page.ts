@@ -63,6 +63,7 @@ export class RegisterPage implements OnDestroy {
   }
 
   ngOnInit() {
+    window.analytics.page('Register Page');
 
     this.otp = this._activeRouter.snapshot.params.otp;
 

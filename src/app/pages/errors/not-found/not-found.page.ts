@@ -17,6 +17,7 @@ export class NotFoundPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Not Found Page');
   }
 
   ionViewWillEnter() {
