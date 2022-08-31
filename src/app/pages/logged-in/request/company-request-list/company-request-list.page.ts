@@ -238,6 +238,8 @@ export class CompanyRequestListPage implements OnInit {
       this.segment = 'completed';
     } else if (this.requestStats.cancelled.length > 0) {
       this.segment = 'cancelled';
+    } else {
+      this.segment = 'pending';
     }
   }
 
