@@ -33,7 +33,7 @@ export class CompanyRequestViewPage implements OnInit {
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public request: Request;
-  
+
   public requestActivities: Note[] = [];
 
   public suggestedSuggestions = [];
@@ -41,7 +41,7 @@ export class CompanyRequestViewPage implements OnInit {
   public acceptedSuggestions = [];
 
   public rejectedSuggestions = [];
-
+  public segment: string = 'details';
   public request_uuid;
   public loading = false;
   public loadingInvoice = false;
@@ -341,7 +341,7 @@ export class CompanyRequestViewPage implements OnInit {
   }
 
   /**
-   * check if request updated, confirm reload 
+   * check if request updated, confirm reload
    */
   isRequestUpdated() {
 
@@ -387,7 +387,7 @@ export class CompanyRequestViewPage implements OnInit {
           }
         }
       ]
-    }); 
+    });
     this.alertConfirmReload.present();
   }
 }
