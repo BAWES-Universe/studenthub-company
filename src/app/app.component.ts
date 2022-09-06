@@ -352,12 +352,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.auth.setLanguagePref(language.code);
 
+    const companyHeader = document.getElementsByClassName('company-header');
+
     if (language.code == 'ar') {
       document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
-      document.getElementsByClassName('company-header')[0].setAttribute('dir', 'rtl');
+      
+      if(companyHeader.length > 0)
+        companyHeader[0].setAttribute('dir', 'rtl');
     } else {
       document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-      document.getElementsByClassName('company-header')[0].setAttribute('dir', 'ltr');
+
+      if(companyHeader.length > 0)
+        document.getElementsByClassName('company-header')[0].setAttribute('dir', 'ltr');
     }
   }
 }

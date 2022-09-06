@@ -1,7 +1,7 @@
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
@@ -43,6 +43,7 @@ declare global {
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
+    CKEditorModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,

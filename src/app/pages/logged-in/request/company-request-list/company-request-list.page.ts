@@ -44,10 +44,12 @@ export class CompanyRequestListPage implements OnInit {
     };
 
   public requestStats: {
+    pending: Request[],
     open: Request[],
     completed: Request[],
     cancelled: Request[]
   } = {
+    pending: [],
     open: [],
     completed: [],
     cancelled: []
@@ -216,7 +218,11 @@ export class CompanyRequestListPage implements OnInit {
   }
 
   calculateStats() {
+    this.reset();
     this.requests.map(request => {
+      if (request.request_status == 'pending'){
+        this.requestStats.pending.push(request);
+      }
       if (request.request_status == 'started'){
         this.requestStats.open.push(request);
       }
@@ -234,6 +240,17 @@ export class CompanyRequestListPage implements OnInit {
       this.segment = 'completed';
     } else if (this.requestStats.cancelled.length > 0) {
       this.segment = 'cancelled';
+    } else {
+      this.segment = 'pending';
     }
   }
-}
+
+  reset() {
+    this.requestStats = {
+        pending: [],
+        open: [],
+        completed: [],
+        cancelled: []
+      };
+    }
+  }

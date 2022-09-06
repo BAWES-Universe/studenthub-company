@@ -6,6 +6,7 @@ import { Suggestion } from 'src/app/models/suggestion';
 //services
 import { AwsService } from 'src/app/providers/aws.service';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
+import {TranslateLabelService} from '../../providers/translate-label.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class SuggestionComponent implements OnInit {
     public alertCtrl: AlertController,
     public router: Router,
     public aws: AwsService,
-    public suggestionService: SuggestionService
+    public suggestionService: SuggestionService,
+    public translateService: TranslateLabelService
   ) { }
 
   ngOnInit() {
@@ -87,7 +89,7 @@ export class SuggestionComponent implements OnInit {
                 this.onUpdate.emit();
               } else {
                 this.toastCtrl.create({
-                  message: response.message,
+                  message: this.translateService.errorMessage(response.message),
                   buttons: ['Okay']
                 }).then(prompt => {
                   prompt.present();

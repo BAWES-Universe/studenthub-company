@@ -273,7 +273,9 @@ export class VerifyEmailPage implements OnInit {
 
       this.eventService.profileUpdated$.next();//email updated
 
-      this.router.navigate(['account']);
+      this.navCtrl.navigateRoot(['/']).then(() => {
+        this.router.navigate(['account']);
+      });      
 
     // on sign up
 
