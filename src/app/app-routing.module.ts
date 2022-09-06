@@ -215,25 +215,13 @@ const routes: Routes = [
       name: 'VerifyEmailPage',
     }
   },
-
   // updating email from sidebar + registration
-
   {
     path: 'verify-email/:email',
     loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then(m => m.VerifyEmailPageModule),
     data: {
       name: 'VerifyEmailPage',
     }
-  }, 
-
-  {
-    path: 'cv-search',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then(m => m.CandidateSearchPageModule),
-    data: {
-      name: 'CandidateSearchPage',
-      navDisable: true,
-    },
-    canActivate: [AuthService]
   },
   {
     path: 'company-edit',
