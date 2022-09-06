@@ -217,6 +217,12 @@ export class AuthService {
     this.email = response.email;
     this.active_request_count = response.active_request_count;
 
+    window.analytics.identify(this.id, {
+      name: this.profile_name,
+      email: this.email,
+      company_id: response.company_id
+    });
+
     // Save to Storage
     this.saveInStorage();
 

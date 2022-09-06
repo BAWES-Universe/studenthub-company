@@ -42,6 +42,8 @@ export class TransferViewPage implements OnInit {
 
   ngOnInit() {
 
+    window.analytics.page('Transfer View Page');
+
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
     
     this.loadData();

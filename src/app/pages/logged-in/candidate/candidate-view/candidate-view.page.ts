@@ -47,6 +47,7 @@ export class CandidateViewPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Candidate View Page');
 
     this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
 

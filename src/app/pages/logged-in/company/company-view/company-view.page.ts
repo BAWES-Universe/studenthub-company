@@ -37,6 +37,7 @@ export class CompanyViewPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Company View Page');
 
     const state = window.history.state;
     this.company_id = this.activatedRoute.snapshot.paramMap.get('id');

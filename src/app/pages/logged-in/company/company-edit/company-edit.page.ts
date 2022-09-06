@@ -57,6 +57,7 @@ export class CompanyEditPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Company Edit Page');
   }
 
   logScrolling(e) {

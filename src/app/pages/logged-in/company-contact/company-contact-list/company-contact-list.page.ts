@@ -60,6 +60,8 @@ export class CompanyContactListPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Company Contact List Page');
+
     this.loadData();
   }
 

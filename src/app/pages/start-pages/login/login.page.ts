@@ -46,6 +46,8 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Login Page');
+
     // Initialize the Login Form
     this.loginForm = this._fb.group({
       email: ['', [Validators.required, CustomValidator.emailValidator]],
