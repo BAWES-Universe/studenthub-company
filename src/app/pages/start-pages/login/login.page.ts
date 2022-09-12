@@ -3,14 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 import { CustomValidator } from '../../../validators/custom.validator';
 import { Router } from '@angular/router';
-import { Plugins } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
 // Service
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { TranslateLabelService } from "../../../providers/translate-label.service";
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
-
-const { Storage } = Plugins;
 
 @Component({
   selector: 'app-login',
@@ -39,6 +38,7 @@ export class LoginPage implements OnInit {
     private _fb: FormBuilder,
     private _auth: AuthService,
     private _alertCtrl: AlertController,
+    public auth: Auth0Service,
     private eventService: EventService,
     private router: Router,
     public translateService: TranslateLabelService
@@ -74,7 +74,7 @@ export class LoginPage implements OnInit {
 
       } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
 
-        Storage.set({ 'key': "unVerifiedToken", "value": JSON.stringify(res.unVerifiedToken) }).catch(r => {
+        Preferences.set({ 'key': "unVerifiedToken", "value": JSON.stringify(res.unVerifiedToken) }).catch(r => {
           this.eventService.errorStorage$.next();
         });
 

@@ -34,7 +34,7 @@ export class CompanyContactListPage implements OnInit {
 
   public contacts;
 
-  public contactList: CompanyContact[] = [];
+  public contactList = [];//CompanyContact[]
 
   public currentPage: number;
 

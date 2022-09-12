@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoadingController, ToastController, AlertController, Platform, IonContent, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { Capacitor, Plugins } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
+import { Keyboard } from '@capacitor/keyboard';
 // services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { EventService } from 'src/app/providers/event.service';
@@ -11,9 +12,6 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 // models
 import { Contact } from 'src/app/models/contact';
 
-
-const { Keyboard, KeyboardInfo } = Plugins;
-const { Storage } = Plugins;
 
 @Component({
   selector: 'app-verify-email',
@@ -160,7 +158,7 @@ export class VerifyEmailPage implements OnInit {
     }, 50);
 
 
-    Storage.get({ key: 'unVerifiedToken' }).then(ret => {
+    Preferences.get({ key: 'unVerifiedToken' }).then(ret => {
       const data = JSON.parse(ret.value);
 
       if (!data) {
@@ -251,8 +249,8 @@ export class VerifyEmailPage implements OnInit {
    */
   async onSuccess(res) {
 
-    if (Capacitor.platform !== 'web') {
-      Plugins.Keyboard.hide();
+    if (this.platform.is('hybrid')) {
+      Keyboard.hide();
     }
 
     // don't call twise
@@ -265,7 +263,7 @@ export class VerifyEmailPage implements OnInit {
 
     clearInterval(this.emailVerifiedSubscription);
 
-    Storage.remove({ key: 'unVerifiedToken' }).catch(r => {
+    Preferences.remove({ key: 'unVerifiedToken' }).catch(r => {
       this.eventService.errorStorage$.next();
     });
 

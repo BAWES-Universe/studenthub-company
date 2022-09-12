@@ -2,12 +2,10 @@ import { Injectable } from "@angular/core";
 import { File as NativeFile, Entry, FileEntry }  from '@ionic-native/file/ngx';
 import { Observable, Observer } from "rxjs";
 import * as AWS from 'aws-sdk';
-import { Plugins } from '@capacitor/core';
 import { Platform, AlertController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
-
-const { Filesystem, FilesystemEncoding } = Plugins;
 
 @Injectable({
     providedIn: 'root'

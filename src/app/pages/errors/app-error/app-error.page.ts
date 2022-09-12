@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController, NavController, LoadingController, ModalController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
 import {TranslateLabelService} from "../../../providers/translate-label.service";
 
-
-const { Storage } = Plugins;
 
 @Component({
   selector: 'pogi-app-error',
@@ -44,7 +42,7 @@ export class AppErrorPage implements OnInit {
    */
   async home() {
 
-    Storage.get({ key: 'loggedInUser' }).then(ret => {
+    Preferences.get({ key: 'loggedInUser' }).then(ret => {
 
       this.navCtrl.navigateRoot('/');
     }).catch(r => {
