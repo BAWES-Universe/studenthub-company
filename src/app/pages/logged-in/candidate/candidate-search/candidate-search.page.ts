@@ -1,6 +1,6 @@
 import {Component, ViewChild, OnInit, ChangeDetectorRef, ViewRef} from '@angular/core';
 import { NavController, Platform, MenuController, PopoverController, IonContent, AlertController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
 // import { Storage } from '@ionic/storage';
 import { environment } from '../../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -15,7 +15,6 @@ import { EventService } from '../../../../providers/event.service';
 import { AlgoliaService } from 'src/app/providers/logged-in/algolia.service';
 
 
-const { Storage } = Plugins;
 const algoliasearch = algoliasearchProxy.default || algoliasearchProxy;
 const encode = encodeProxy.default || encodeProxy;
 

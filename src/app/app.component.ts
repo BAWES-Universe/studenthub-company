@@ -1,6 +1,6 @@
 import { Component, OnInit, ApplicationRef, OnDestroy, Inject } from '@angular/core';
 import { AlertController, MenuController, NavController, Platform } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 import { first } from 'rxjs/operators';
@@ -18,7 +18,6 @@ import {LanguageService} from "./providers/language.service";
 import { DOCUMENT } from '@angular/common';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
-const { SplashScreen } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -180,11 +179,14 @@ export class AppComponent implements OnInit, OnDestroy {
       // Set root to Login Page
       this.navCtrl.navigateRoot(['/login']);
 
+      console.log('logout');
+      
+      /*
       this.auth0.isAuthenticated$.subscribe(isAuthenticated => {
         if(isAuthenticated) {
           this.auth0.logout({ returnTo: document.location.origin });
         }
-      })
+      });*/
 
       // Show Message explaining logout reason if there's one set
       if (logoutReason) {

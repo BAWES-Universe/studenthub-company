@@ -4,7 +4,7 @@ import { catchError, first, map, retryWhen, take } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
-import { Plugins } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
 import { AlertController, LoadingController } from "@ionic/angular";
 import { environment } from '../../environments/environment';
 //models
@@ -18,7 +18,6 @@ import { TranslateLabelService } from './translate-label.service';
 
 declare var navigator;
 
-const { Storage } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -109,7 +108,7 @@ export class AuthService {
         resolve(true);
       }
 
-      Storage.get({ key: 'loggedInCompany' }).then(ret => {
+      Preferences.get({ key: 'loggedInCompany' }).then(ret => {
         
         const data = JSON.parse(ret.value);
 
@@ -140,7 +139,7 @@ export class AuthService {
    * Save user data in storage
    */
   saveInStorage() {
-    return Storage.set({
+    return Preferences.set({
       key: 'loggedInCompany',
       value: JSON.stringify({
         token: this.accessToken,
@@ -250,7 +249,7 @@ export class AuthService {
     this.email = null;
     this.active_request_count = null;
 
-    Storage.clear().catch(r => {
+    Preferences.clear().catch(r => {
       this.eventService.errorStorage$.next();
     });
 
@@ -258,7 +257,7 @@ export class AuthService {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
 
-    Storage.set({
+    Preferences.set({
       key: 'cookieMessageWasApproved',
       value: (this.displayCookieMessage == '0') ? '1' : '0'
     }).catch(r => {
@@ -295,13 +294,13 @@ export class AuthService {
   // This is the method you want to call at bootstrap
   async load(): Promise<any> {
 
-    Storage.get({ key: 'loggedInCompany' }).then(async ret => {
+    Preferences.get({ key: 'loggedInCompany' }).then(async ret => {
 
       let company = JSON.parse(ret.value);
 
       // guest user who visited previously and saved preference
 
-      const { value } = await Storage.get({ key: 'language_pref' });
+      const { value } = await Preferences.get({ key: 'language_pref' });
 
       if (value) {
         this.language_pref = value;
@@ -376,7 +375,7 @@ export class AuthService {
       return this.accessToken;
     }
 
-    Storage.get({ key: 'loggedInCompany' }).then(ret => {
+    Preferences.get({ key: 'loggedInCompany' }).then(ret => {
       const user = JSON.parse(ret.value);
 
       if (user) {
@@ -654,7 +653,7 @@ export class AuthService {
    */
   setLanguagePref(language_pref) {
 
-    Storage.set({ 'key': 'language_pref', value: language_pref }).catch(r => {
+    Preferences.set({ 'key': 'language_pref', value: language_pref }).catch(r => {
       this.eventService.errorStorage$.next();
     });
 

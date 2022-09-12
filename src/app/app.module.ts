@@ -26,6 +26,7 @@ import { AuthModule } from '@auth0/auth0-angular';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { InvitationPermissionPageModule } from './pages/logged-in/company/invitation/invitation-permission/invitation-permission.module';
 
 
 export function startupServiceFactory(authService) {
@@ -67,6 +68,7 @@ declare global {
     // }),
     CompanyContactListPageModule,
     UpdateAlertModule,
+    InvitationPermissionPageModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
     TranslateModule.forRoot({
       loader: {

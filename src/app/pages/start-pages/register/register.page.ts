@@ -3,7 +3,7 @@ import { Platform, AlertController, ModalController, IonContent } from '@ionic/a
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Plugins } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
 // models
 import { Contact, ContactPhone } from 'src/app/models/contact';
 import { Company } from 'src/app/models/company';
@@ -16,7 +16,6 @@ import { EventService } from 'src/app/providers/event.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
-const { Storage } = Plugins;
 
 @Component({
   selector: 'app-register',
@@ -205,7 +204,7 @@ export class RegisterPage implements OnDestroy {
 
         if (res.operation === 'success') {
 
-          Storage.set({ 'key': "unVerifiedToken", "value": JSON.stringify(res.unVerifiedToken) }).catch(r => {
+          Preferences.set({ 'key': "unVerifiedToken", "value": JSON.stringify(res.unVerifiedToken) }).catch(r => {
             this.eventService.errorStorage$.next();
           });
 
