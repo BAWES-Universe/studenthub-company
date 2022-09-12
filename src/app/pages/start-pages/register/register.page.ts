@@ -14,7 +14,7 @@ import { CustomValidator } from 'src/app/validators/custom.validator';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
 const { Storage } = Plugins;
 
@@ -54,6 +54,7 @@ export class RegisterPage implements OnDestroy {
     // private _storage: Storage,
     private _formService: FormBuilder,
     public authService: AuthService,
+    public auth: Auth0Service,
     public eventService: EventService,
     public translateService: TranslateLabelService,
     private _alertCtrl: AlertController,

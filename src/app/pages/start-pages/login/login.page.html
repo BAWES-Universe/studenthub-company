@@ -62,5 +62,9 @@
     <span>{{ "Don't have an account?" | translate }} </span> <br />
     <b>{{ "Sign up" | translate }}</b>
   </ion-button>
+     
+  <ion-button class="btn-login-bawes" (click)="auth.loginWithRedirect()">
+    {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/images/icon-bawes.svg"></ion-icon>
+  </ion-button>
 
 </ion-content>

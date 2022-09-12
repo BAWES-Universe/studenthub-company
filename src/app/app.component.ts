@@ -1,4 +1,4 @@
-import { Component, OnInit, ApplicationRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ApplicationRef, OnDestroy, Inject } from '@angular/core';
 import { AlertController, MenuController, NavController, Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { SwUpdate } from '@angular/service-worker';
@@ -15,7 +15,8 @@ import {Router} from "@angular/router";
 import {CompanyRequestService} from "./providers/logged-in/company-request.service";
 import {TranslateLabelService} from "./providers/translate-label.service";
 import {LanguageService} from "./providers/language.service";
-
+import { DOCUMENT } from '@angular/common';
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
 const { SplashScreen } = Plugins;
 
@@ -47,7 +48,9 @@ export class AppComponent implements OnInit, OnDestroy {
     public requestService: CompanyRequestService,
     public router: Router,
     public translateService: TranslateLabelService,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    public auth0: Auth0Service,
+    @Inject(DOCUMENT) public document: Document,
   ) {
     this.initializeApp();
     // this.loadTotalEmployee();
@@ -61,6 +64,19 @@ export class AppComponent implements OnInit, OnDestroy {
       }
 
       this.setServiceWorker();
+      
+      /**
+       * when user comming back from auth0
+       */
+       this.auth0.isAuthenticated$.subscribe(isAuthenticated => {
+        
+        if(!isAuthenticated || this.auth.isLogged) return null;
+      
+        //this.auth.idTokenClaims$.subscribe(r => {
+        this.auth0.getAccessTokenSilently().subscribe(r => {  
+          this.auth.useTokenForAuth(r).then();
+        });
+      });
     });
   }
 
@@ -163,6 +179,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Set root to Login Page
       this.navCtrl.navigateRoot(['/login']);
+
+      this.auth0.isAuthenticated$.subscribe(isAuthenticated => {
+        if(isAuthenticated) {
+          this.auth0.logout({ returnTo: document.location.origin });
+        }
+      })
 
       // Show Message explaining logout reason if there's one set
       if (logoutReason) {

@@ -8,7 +8,7 @@ import { Plugins } from '@capacitor/core';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { TranslateLabelService } from "../../../providers/translate-label.service";
-
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
 const { Storage } = Plugins;
 
@@ -39,6 +39,7 @@ export class LoginPage implements OnInit {
     private _fb: FormBuilder,
     private _auth: AuthService,
     private _alertCtrl: AlertController,
+    public auth: Auth0Service,
     private eventService: EventService,
     private router: Router,
     public translateService: TranslateLabelService
