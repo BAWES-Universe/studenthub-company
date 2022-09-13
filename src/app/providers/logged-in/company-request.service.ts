@@ -111,7 +111,7 @@ export class CompanyRequestService {
    */
   view(id): Observable<any> {
     const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,invitations.candidate,invitations.suggestion';
+      '?expand=requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,invitations.candidate,invitations.suggestion,stories';
     return this.authhttp.get(url);
   }
 
@@ -131,7 +131,7 @@ export class CompanyRequestService {
   requestCount(): Observable<any> {
     return this.authhttp.get(this.companyRequestEndpoint + '/count');
   }
-  
+
   /**
    * check if request updated
    * @param request_uuid

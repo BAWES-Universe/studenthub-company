@@ -22,9 +22,11 @@ import {InvitationFormPageModule} from './pages/logged-in/company/invitation/inv
 import {CompanyHeaderModule} from './components/company-header/company-header.module';
 import { MenuModule } from './components/menu/menu.module';
 import {InvitePageModule} from './pages/logged-in/invite/invite.module';
+import { AuthModule } from '@auth0/auth0-angular';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { InvitationPermissionPageModule } from './pages/logged-in/company/invitation/invitation-permission/invitation-permission.module';
 
 
 export function startupServiceFactory(authService) {
@@ -43,6 +45,10 @@ declare global {
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
+    AuthModule.forRoot({
+      domain: 'bawes.us.auth0.com',
+      clientId: 'sDIOpy1be7Y59ocKoXxHVL5euFNdJN3e'
+    }),
     CKEditorModule,
     BrowserModule,
     IonicModule.forRoot(),
@@ -62,6 +68,7 @@ declare global {
     // }),
     CompanyContactListPageModule,
     UpdateAlertModule,
+    InvitationPermissionPageModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
     TranslateModule.forRoot({
       loader: {

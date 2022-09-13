@@ -109,6 +109,11 @@
           <span *ngIf="!isLoading">{{ "Create an account" | translate}}</span>
         </ion-button>
       </form>
+         
+      <ion-button class="btn-login-bawes" (click)="auth.loginWithRedirect()">
+        {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/images/icon-bawes.svg"></ion-icon>
+      </ion-button>
+
     </ion-card-content>
   </ion-card>
 

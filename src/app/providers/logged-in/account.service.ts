@@ -19,7 +19,7 @@ export class AccountService {
    * return account detail
    */
   view(): Observable<any> {
-    const url = `${this._accountEndpoint}` + '/view';
+    const url = `${this._accountEndpoint}` + '/view?expand=contactEmails,contactPhones';
     return this._authhttp.get(url);
   }
 

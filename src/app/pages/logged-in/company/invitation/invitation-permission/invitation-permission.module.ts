@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { InvitationPermissionPage } from './invitation-permission.page';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule } from "@ngx-translate/core";
 
 // import { SharedModule } from '../../../../../shared.module';
 

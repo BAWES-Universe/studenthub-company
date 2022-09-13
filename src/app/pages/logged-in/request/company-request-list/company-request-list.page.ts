@@ -218,6 +218,7 @@ export class CompanyRequestListPage implements OnInit {
   }
 
   calculateStats() {
+    this.reset();
     this.requests.map(request => {
       if (request.request_status == 'pending'){
         this.requestStats.pending.push(request);
@@ -239,6 +240,17 @@ export class CompanyRequestListPage implements OnInit {
       this.segment = 'completed';
     } else if (this.requestStats.cancelled.length > 0) {
       this.segment = 'cancelled';
+    } else {
+      this.segment = 'pending';
     }
   }
-}
+
+  reset() {
+    this.requestStats = {
+        pending: [],
+        open: [],
+        completed: [],
+        cancelled: []
+      };
+    }
+  }
