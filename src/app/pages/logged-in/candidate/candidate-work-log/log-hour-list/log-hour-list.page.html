@@ -1,11 +1,7 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="desktop-view">
     <ion-buttons slot="start">
-      <ion-menu-toggle>
-        <ion-button>
-          <ion-icon slot="icon-only" name="menu"></ion-icon>
-        </ion-button>
-      </ion-menu-toggle>
+        <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>{{"Time Log"}}  | {{totalHours | timeSpent}}</ion-title>
   </ion-toolbar>
@@ -14,7 +10,7 @@
 
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
 
-  <div class="max-width">
+  <div class="max-width desktop-view">
     <ion-list *ngIf="candidateWorkingHourData">
       <ion-item *ngFor="let hours of candidateWorkingHourData">
           <ion-label>
