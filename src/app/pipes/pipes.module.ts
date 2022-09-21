@@ -5,6 +5,7 @@ import { StoreIdPipe } from './store-id-pipe';
 import { TimeAgoPipe } from './timeago.pipe';
 import { AgePipe } from './age.pipe';
 import {CandidateAgePipe} from './candidate.age.pipe';
+import {TimeSpentPipe} from "./timespent.pipe";
 
 
 // import custom pipes here
@@ -15,6 +16,7 @@ import {CandidateAgePipe} from './candidate.age.pipe';
         SortPipe,
         TimeAgoPipe,
         AgePipe,
+        TimeSpentPipe,
         CandidateAgePipe
     ],
     imports: [],
@@ -24,6 +26,7 @@ import {CandidateAgePipe} from './candidate.age.pipe';
         SortPipe,
         TimeAgoPipe,
         AgePipe,
+        TimeSpentPipe,
         CandidateAgePipe
     ]
 })
