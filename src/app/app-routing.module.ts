@@ -228,6 +228,22 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/company/company-edit/company-edit.module').then( m => m.CompanyEditPageModule),
     canActivate: [AuthService]
   },
+  {
+    path: 'log-date-list/:candidate_id',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/log-date-list/log-date-list.module').then( m => m.LogDateListPageModule),
+    data: {
+      name: 'LogDateListPage'
+    }
+  },
+  {
+    path: 'log-hour-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/log-hour-list/log-hour-list.module').then( m => m.LogHourListPageModule),
+    data: {
+      name: 'LogHourListPage'
+    }
+  },
 
   {
     path: 'app-error',
