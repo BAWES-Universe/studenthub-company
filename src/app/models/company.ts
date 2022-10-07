@@ -9,7 +9,7 @@ export class Company {
     company_common_name_ar: string;
     company_description_en: string;
     company_description_ar: string;
-    company_website: string
+    company_website: string;
     company_email: string;
     company_logo: string;
     company_hourly_rate: number;

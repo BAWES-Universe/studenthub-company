@@ -108,7 +108,7 @@ export class AuthService {
       }
 
       Storage.get({ key: 'loggedInCompany' }).then(ret => {
-        
+
         const data = JSON.parse(ret.value);
 
         if (data && data.token) {
