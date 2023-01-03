@@ -25,6 +25,7 @@
     "@angular/router": "^14.0.0",
     "@angular/service-worker": "^14.2.1",
     "@auth0/auth0-angular": "^1.10.1",
+    "@capacitor/android": "4.2",
     "@capacitor/app": "4.0.1",
     "@capacitor/core": "4.2.0",
     "@capacitor/filesystem": "^4.1.0",
