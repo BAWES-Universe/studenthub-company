@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
+import { Browser } from '@capacitor/browser';
+import { mergeMap } from 'rxjs/operators';
 // models
 import { Contact, ContactPhone } from 'src/app/models/contact';
 import { Company } from 'src/app/models/company';
@@ -51,6 +53,7 @@ export class RegisterPage implements OnDestroy {
 
   constructor(
     // private _storage: Storage,
+    public platform: Platform,
     private _formService: FormBuilder,
     public authService: AuthService,
     public auth: Auth0Service,
@@ -227,6 +230,34 @@ export class RegisterPage implements OnDestroy {
       );
     }
   }
+  
+  /**
+   * login by Apple API
+   */
+  loginByApple() {
+    if (this.platform.is('ios') && this.platform.is('capacitor')) {
+      this.authService.loginByApple();
+    } else {
+      this.authService.loginByAppleJs();
+    }
+  }
+
+  /**
+   * redirec to auth0
+   */
+  loginWithRedirect() {
+    const url = null;
+    this.auth.loginWithRedirect({ redirect_uri: url })
+  }
+
+  loginWithAuth0() {
+    if (this.platform.is('ios') && this.platform.is('capacitor')) {
+      this.loginWithRedirect();
+    } else {
+      this.auth.loginWithRedirect();
+    }
+  }
+
   /**
    * Open login page
    */

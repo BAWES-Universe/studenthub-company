@@ -1,10 +1,13 @@
-import { Component, OnInit, ApplicationRef, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, ApplicationRef, OnDestroy, Inject, NgZone } from '@angular/core';
 import { AlertController, MenuController, NavController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 import { first } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
+import { Browser } from '@capacitor/browser';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
+
 // services
 import { AuthService } from './providers/auth.service';
 import { EventService } from './providers/event.service';
@@ -33,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public subscribeForRequest;
 
   constructor(
+    public zone: NgZone,
     public updates: SwUpdate,
     public appRef: ApplicationRef,
     private platform: Platform,
@@ -56,6 +60,35 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApp() {
+     // Use Capacitor's App plugin to subscribe to the `appUrlOpen` event
+     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      // Must run inside an NgZone for Angular to pick up the changes
+      // https://capacitorjs.com/docs/guides/angular
+      this.zone.run(() => {
+        //if (url?.startsWith(this.callbackUri)) {
+          // If the URL is an authentication callback URL..
+          if (
+            event.url.includes('state=') &&
+            (event.url.includes('error=') || event.url.includes('code='))
+          ) {
+            // Call handleRedirectCallback and close the browser
+            this.auth0
+              .handleRedirectCallback(event.url)
+              //.pipe(mergeMap(() => Browser.close()))
+              .subscribe();
+          } else {
+            const slug = event.url.split(".co").pop();
+
+            if (slug) {
+              this.router.navigateByUrl(slug);
+            }
+            
+            //Browser.close();
+          }
+        //}
+      });
+    });
+
     this.platform.ready().then(() => {
 
       if (this.platform.is('hybrid')) {

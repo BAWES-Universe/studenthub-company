@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "payroll-company-v1",
+  "appId": "co.studenthub.employer",
+  "appName": "SH Employer",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

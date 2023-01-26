@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package co.studenthub.employer;
 
 import com.getcapacitor.BridgeActivity;
 

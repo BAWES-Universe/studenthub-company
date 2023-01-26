@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, Platform } from '@ionic/angular';
 import { CustomValidator } from '../../../validators/custom.validator';
 import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
+import { Browser } from '@capacitor/browser';
+import { mergeMap } from 'rxjs/operators';
 // Service
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
@@ -35,8 +37,9 @@ export class LoginPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
+    public platform: Platform,
     private _fb: FormBuilder,
-    private _auth: AuthService,
+    public authService: AuthService,
     private _alertCtrl: AlertController,
     public auth: Auth0Service,
     private eventService: EventService,
@@ -64,13 +67,13 @@ export class LoginPage implements OnInit {
     const email = this.oldEmailInput = this.loginForm.value.email;
     const password = this.oldPasswordInput = this.loginForm.value.password;
 
-    this._auth.basicAuth(email, password).subscribe(res => {
+    this.authService.basicAuth(email, password).subscribe(res => {
 
       this.isLoading = false;
 
       if (res.operation == 'success') {
         // Successfully logged in, set the access token within AuthService
-        this._auth.setAccessToken(res);
+        this.authService.setAccessToken(res);
 
       } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
 
@@ -160,6 +163,37 @@ export class LoginPage implements OnInit {
       this.type = 'text';
     } else {
       this.type = 'password';
+    }
+  }
+
+  /**
+   * login by Apple API
+   */
+  loginByApple() {
+    if (this.platform.is('ios') && this.platform.is('capacitor')) {
+      this.authService.loginByApple();
+    } else {
+      this.authService.loginByAppleJs();
+    }
+  }
+
+  /**
+   * redirec to auth0
+   */
+  loginWithRedirect() {
+    const url = null;
+    this.auth.loginWithRedirect({ redirect_uri: url })
+  }
+
+  loginWithAuth0() {
+    if (this.platform.is('ios') && this.platform.is('capacitor')) {
+      this.loginWithRedirect();
+    } else {
+      this.auth.loginWithRedirect();
+      /*
+          .buildAuthorizeUrl()
+          .pipe(mergeMap((url) => Browser.open({url, windowName: '_self'})))
+          .subscribe();*/
     }
   }
 
