@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
 import { Preferences } from '@capacitor/preferences';
-import { AlertController, LoadingController } from "@ionic/angular";
+import { AlertController, LoadingController, NavController } from "@ionic/angular";
 import { environment } from '../../environments/environment';
 import {
   SignInWithApple,
@@ -23,6 +23,7 @@ import { TranslateLabelService } from './translate-label.service';
 
 declare var navigator;
 
+declare var AppleID;
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,7 @@ export class AuthService {
   constructor(
     public http: HttpClient,
     public router: Router,
+    public navCtrl: NavController,
     public loadingCtrl: LoadingController,
     public eventService: EventService,
     public translate: TranslateLabelService,
@@ -133,7 +135,7 @@ export class AuthService {
           resolve(true);
         } else {
           resolve(false);
-          this.logout('invalid access');
+          this.navCtrl.navigateRoot(['login']);
         }
       }).catch(r => {
         resolve(false);
@@ -417,6 +419,8 @@ export class AuthService {
    * @param silent
    */
   logout(reason?: string, silent = false) {
+
+    console.log('auth logout');
 
     this.isLogged = false;
 

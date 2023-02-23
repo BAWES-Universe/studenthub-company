@@ -6,7 +6,9 @@
     <ion-title *ngIf="candidate" class="candidate_name">
       {{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}</ion-title>
     <ion-buttons slot="end" *ngIf="candidate">
-      <ion-button [routerLink]="['/log-date-list',candidate.candidate_id]">View Log</ion-button>
+      <ion-button [routerLink]="['/log-date-list',candidate.candidate_id]">
+        {{ "View Log" | translate }}
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
