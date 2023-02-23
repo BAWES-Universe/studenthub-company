@@ -7,18 +7,17 @@ import { first } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
 import { Browser } from '@capacitor/browser';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
-
+import { DOCUMENT } from '@angular/common';
+import {Router} from "@angular/router";
 // services
 import { AuthService } from './providers/auth.service';
 import { EventService } from './providers/event.service';
 import { CandidateService } from './providers/logged-in/candidate.service';
 import { AwsService } from './providers/aws.service';
 import { CompanyService } from './providers/logged-in/company.service';
-import {Router} from "@angular/router";
 import {CompanyRequestService} from "./providers/logged-in/company-request.service";
 import {TranslateLabelService} from "./providers/translate-label.service";
 import {LanguageService} from "./providers/language.service";
-import { DOCUMENT } from '@angular/common';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
 
@@ -204,6 +203,8 @@ export class AppComponent implements OnInit, OnDestroy {
     // On Logout Event, set root to Login Page
     this.eventService.userLoggedOut$.subscribe((logoutReason) => {
 
+      console.log('logout');
+
       if (this.subscribeForRequest) {
         clearInterval(this.subscribeForRequest);
         this.subscribeForRequest = null;
@@ -211,15 +212,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Set root to Login Page
       this.navCtrl.navigateRoot(['/login']);
-
-      console.log('logout');
-      
-      /*
+ 
       this.auth0.isAuthenticated$.subscribe(isAuthenticated => {
         if(isAuthenticated) {
           this.auth0.logout({ returnTo: document.location.origin });
         }
-      });*/
+      });
 
       // Show Message explaining logout reason if there's one set
       if (logoutReason) {

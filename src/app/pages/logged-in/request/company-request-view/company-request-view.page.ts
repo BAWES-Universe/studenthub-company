@@ -91,6 +91,11 @@ export class CompanyRequestViewPage implements OnInit {
       this.isRequestUpdated();
     }, 6 * 1000);//every 6 seconds
 
+    this.eventService.userLoggedOut$.subscribe(() => {
+      clearInterval(this.internvalSubscribe);
+      this.internvalSubscribe = null;
+    });
+
     this.eventService.companyRequestUpdate$.subscribe((data: any) => {
       if(data && data.request_uuid == this.request_uuid) {
         this.request.request_updated_datetime = data.request_updated_datetime;

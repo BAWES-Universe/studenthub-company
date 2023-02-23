@@ -246,12 +246,14 @@ export class RegisterPage implements OnDestroy {
    * redirec to auth0
    */
   loginWithRedirect() {
-    const url = null;
-    this.auth.loginWithRedirect({ redirect_uri: url })
+    this.auth
+      .buildAuthorizeUrl({ redirect_uri: "co.studenthub.employer://login" })
+      .pipe(mergeMap((url) => Browser.open({url, windowName: '_self'})))
+      .subscribe();
   }
 
   loginWithAuth0() {
-    if (this.platform.is('ios') && this.platform.is('capacitor')) {
+    if (this.platform.is('capacitor')) {
       this.loginWithRedirect();
     } else {
       this.auth.loginWithRedirect();

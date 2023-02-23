@@ -75,7 +75,7 @@
     font-size: 20px;
     font-weight: normal;
     text-transform: none;
-    height: 50px !important;
+    height: 40px !important;
     margin-top: 10px !important;
     width: 100%;
 }
@@ -88,6 +88,12 @@
     --background-focused: #bdbdbd;
     //--box-shadow: none;
     --background-hover: #bdbdbd;
+}
+
+.btn-login-bawes {
+    width: 100%;
+    margin-top: 15px;
+    height: 40px;
 }
 
 .sign-in {
