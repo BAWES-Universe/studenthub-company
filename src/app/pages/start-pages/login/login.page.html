@@ -49,12 +49,24 @@
       </div>
 
       <br/>
+      
+      <ion-button *ngIf="(this.platform.is('ios') && this.platform.is('capacitor'))" fill="clear" class="div-space btn-apple"
+            [class.apple-logo]="!authService.appleAuthLoading" (click)="loginByApple()">
+        <span *ngIf="!authService.appleAuthLoading">{{ "Sign in with Apple" | translate }}</span>
+        <ion-spinner *ngIf="authService.appleAuthLoading"></ion-spinner>
+      </ion-button>
 
+      <ion-button class="btn-login-bawes" (click)="loginWithAuth0()" fill="outline">
+        {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/images/icon-bawes.svg"></ion-icon>
+      </ion-button>
+      
+      <br />
+      
       <div class="ion-text-center" *ngIf="!isLoading" tappable>
         <a *ngIf="translateService.currentLang == 'ar'" (click)="changeLanguage($event)">English</a>
         <a *ngIf="translateService.currentLang == 'en'" (click)="changeLanguage($event)">عربى</a>
       </div>
-
+      
     </ion-card-content>
   </ion-card>
 
@@ -62,5 +74,6 @@
     <span>{{ "Don't have an account?" | translate }} </span> <br />
     <b>{{ "Sign up" | translate }}</b>
   </ion-button>
+     
 
 </ion-content>

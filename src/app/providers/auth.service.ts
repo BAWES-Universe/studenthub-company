@@ -4,9 +4,14 @@ import { catchError, first, map, retryWhen, take } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
-import { Plugins } from '@capacitor/core';
-import { AlertController } from "@ionic/angular";
+import { Preferences } from '@capacitor/preferences';
+import { AlertController, LoadingController } from "@ionic/angular";
 import { environment } from '../../environments/environment';
+import {
+  SignInWithApple,
+  SignInWithAppleResponse,
+  SignInWithAppleOptions,
+} from '@capacitor-community/apple-sign-in';
 //models
 import { Company } from '../models/company';
 import { Contact } from "../models/contact";
@@ -18,7 +23,6 @@ import { TranslateLabelService } from './translate-label.service';
 
 declare var navigator;
 
-const { Storage } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +42,8 @@ export class AuthService {
 
   public isLogged = false;
 
+  public appleAuthLoading = false; 
+
   public displayCookieMessage = '0';
 
   public showOneSignalPrompt = false;
@@ -55,6 +61,7 @@ export class AuthService {
     name: 'English'
   };
 
+  public _urlLoginAuth0 = '/auth/login-auth0';
   private _urlBasicAuth = '/auth/login';
   private _urlUpdatePass = '/auth/update-password';
   private _urlResetPassRequest = '/auth/request-reset-password';
@@ -64,10 +71,12 @@ export class AuthService {
   private _urlUpdateCandidateEmail = '/auth/update-email';
   private _urlIsEmailVerified = '/auth/is-email-verified';
   private _urlVerifyEmail = '/auth/verify-email';
+  public urlLoginByApple = '/auth/login-by-apple';
 
   constructor(
     public http: HttpClient,
     public router: Router,
+    public loadingCtrl: LoadingController,
     public eventService: EventService,
     public translate: TranslateLabelService,
     public alertCtrl: AlertController
@@ -107,8 +116,8 @@ export class AuthService {
         resolve(true);
       }
 
-      Storage.get({ key: 'loggedInCompany' }).then(ret => {
-
+      Preferences.get({ key: 'loggedInCompany' }).then(ret => {
+        
         const data = JSON.parse(ret.value);
 
         if (data && data.token) {
@@ -138,7 +147,7 @@ export class AuthService {
    * Save user data in storage
    */
   saveInStorage() {
-    return Storage.set({
+    return Preferences.set({
       key: 'loggedInCompany',
       value: JSON.stringify({
         token: this.accessToken,
@@ -151,6 +160,235 @@ export class AuthService {
     }).catch(r => {
       this.eventService.errorStorage$.next();
     });
+  }
+
+  /**
+   * login with AppleJS for PWA
+   */
+  async loginByAppleJs() {
+    
+    this.appleAuthLoading = true;
+
+    try {
+
+      const data = await AppleID.auth.signIn();
+
+      let params;
+
+      if (data.user && data.user.familyName) {
+
+        Preferences.set({
+          key: 'appleUserDetail',
+          value: JSON.stringify({
+            email: data.user.email,
+            familyName: data.user.name.familyName,
+            givenName: data.user.name.givenName
+          })
+        }).catch(r => {
+          this.eventService.errorStorage$.next(r);
+        });
+
+        params = {
+          identityToken: data.authorization.id_token,
+          email: data.user.email,
+          familyName: data.user.name.familyName,
+          givenName: data.user.name.givenName
+        };
+      }
+      else
+      {
+        let oldData = await Preferences.get({ key: 'appleUserDetail'});
+
+        params = Object.assign((oldData) ? oldData : {}, {
+          identityToken: data.authorization.id_token
+        });
+      }
+
+      this.handleAppleLoginResponse(params);
+
+    } catch (error) {
+      console.error(error);
+      // popup_closed_by_user
+      this.appleAuthLoading = false;
+    }
+  }
+
+  /**
+   * login by Apple sign in
+   */
+  async loginByApple() {
+
+    this.appleAuthLoading = true;
+    
+    let options: SignInWithAppleOptions = {
+      clientId: 'co.studenthub.candidate',
+      redirectURI: 'http://localhost:8100/landing',
+      scopes: 'email name',
+      state: '12345',
+      nonce: 'nonce',
+    };
+
+    SignInWithApple.authorize(options)
+      .then((result: SignInWithAppleResponse) => {
+        this.appleAuthLoading = false;
+        this.handleAppleLoginResponse(result);
+      })
+      .catch(error => {
+        this.appleAuthLoading = false;
+        this.handleAppleLoginResponse(error);
+      });
+  }
+
+  /**
+   * handle response from apple login popup
+   * @param data
+   */
+  async handleAppleLoginResponse(data) {
+    
+    if (!data || !data.response || !data.response.identityToken) {
+      this.appleAuthLoading = false;
+
+      if(data.message && data.message.indexOf("AuthorizationError") == -1) {
+        this.showLoginError(this.translate.transform(data.message));
+      }
+
+      return null;
+    }
+    console.log('response', data);
+
+    let params;
+
+    // save user data in first request
+    console.log(data);
+    if (data.response.givenName) {
+
+      Preferences.set({
+        key: 'appleUserDetail',
+        value: JSON.stringify({
+          email : data.response.email,
+          familyName : data.response.familyName,
+          user : data.response.user,
+          givenName : data.response.givenName
+        })
+      }).catch(r => {
+        this.eventService.errorStorage$.next(r);
+      });
+
+      params = data.response;
+    }
+    else {
+      let oldData = await Preferences.get({ key : 'appleUserDetail'});
+
+      params = Object.assign((oldData) ? oldData : {}, data.response);
+    }
+
+    this.useAppleIdTokenForAuth(params);
+  }
+
+  /**
+   * login/sign up by apple auth code
+   * @param params
+   */
+  useAppleIdTokenForAuth(params) {
+
+    const url = environment.apiEndpoint + this.urlLoginByApple;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Language: this.translate.currentLang
+    });
+
+    this.http.post(url, params, {
+      headers
+    })
+        .pipe(
+            retryWhen(genericRetryStrategy()),
+            catchError(err => this._handleError(err)),
+            first(),
+            map((res: HttpResponse<any>) => res)
+        )
+        .subscribe(response => {
+          this.handleLogin(response, 'apple');
+
+          this.appleAuthLoading = false;
+
+        }, () => {
+          this.appleAuthLoading = false;
+        });
+  }
+
+  /**
+   * Login by Auth0 accessToken
+   */
+   async useTokenForAuth(accessToken, showLoader = true) {
+
+    let loading;
+
+    if (showLoader) {
+      loading = await this.loadingCtrl.create({
+        spinner: 'crescent',
+        message: this.translate.transform('Logging in...')
+      });
+      loading.present();
+    }
+
+    const url = environment.apiEndpoint + this._urlLoginAuth0;
+
+    const headers = this._buildAuthHeaders();
+
+    return this.http.post(url, {
+      accessToken: accessToken,
+    }, {
+      headers: headers
+    })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        first(),
+        map((res) => res)
+      )
+      .subscribe(async response => {
+
+        this.handleLogin(response);
+        //this.eventService.googleLoginFinished$.next();
+
+      }, err => {
+
+        //this.eventService.googleLoginFinished$.next(err);
+      },
+      () => {
+        if (loading) {
+          loading.dismiss();
+        }
+      });
+  }
+
+  async handleLogin(response, channel = null) {
+    
+    if (response.operation == 'success') {
+
+      this.setAccessToken(response);
+
+    } else if (response.operation == 'error') {
+      const alert = await this.alertCtrl.create({
+        message: this.translate.transform('Error getting login by Auth0 API'), // JSON.stringify(err)
+        buttons: [this.translate.transform('Ok')]
+      });
+      await alert.present();
+
+    }
+  }
+
+  /**
+   * show login error message
+   * @param message
+   */
+  async showLoginError(message = null) {
+    const alert = await this.alertCtrl.create({
+      message: message? message: this.translate.transform('Error getting login'),
+      buttons: [this.translate.transform('Okay')]
+    });
+    await alert.present();
   }
 
   /**
@@ -190,7 +428,7 @@ export class AuthService {
     this.email = null;
     this.active_request_count = null;
 
-    Storage.clear().catch(r => {
+    Preferences.clear().catch(r => {
       this.eventService.errorStorage$.next();
     });
 
@@ -198,7 +436,7 @@ export class AuthService {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
 
-    Storage.set({
+    Preferences.set({
       key: 'cookieMessageWasApproved',
       value: (this.displayCookieMessage == '0') ? '1' : '0'
     }).catch(r => {
@@ -235,13 +473,13 @@ export class AuthService {
   // This is the method you want to call at bootstrap
   async load(): Promise<any> {
 
-    Storage.get({ key: 'loggedInCompany' }).then(async ret => {
+    Preferences.get({ key: 'loggedInCompany' }).then(async ret => {
 
       let company = JSON.parse(ret.value);
 
       // guest user who visited previously and saved preference
 
-      const { value } = await Storage.get({ key: 'language_pref' });
+      const { value } = await Preferences.get({ key: 'language_pref' });
 
       if (value) {
         this.language_pref = value;
@@ -316,7 +554,7 @@ export class AuthService {
       return this.accessToken;
     }
 
-    Storage.get({ key: 'loggedInCompany' }).then(ret => {
+    Preferences.get({ key: 'loggedInCompany' }).then(ret => {
       const user = JSON.parse(ret.value);
 
       if (user) {
@@ -594,7 +832,7 @@ export class AuthService {
    */
   setLanguagePref(language_pref) {
 
-    Storage.set({ 'key': 'language_pref', value: language_pref }).catch(r => {
+    Preferences.set({ 'key': 'language_pref', value: language_pref }).catch(r => {
       this.eventService.errorStorage$.next();
     });
 

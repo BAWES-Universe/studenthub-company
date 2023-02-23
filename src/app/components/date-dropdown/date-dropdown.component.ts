@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, OnChanges, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as dateFns from 'date-fns';
 import { Platform } from '@ionic/angular';
-
+import { format, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-date-dropdown',
@@ -235,7 +235,7 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    * @param event
    */
   onDateChange(event) {
-    this.value = event.target.value;
+    this.value = format(parseISO(event.target.value), 'yyyy-MM-dd');
   }
 
   /**

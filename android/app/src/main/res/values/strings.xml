@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SH Employer</string>
+    <string name="title_activity_main">SH Employer</string>
+    <string name="package_name">co.studenthub.employer</string>
+    <string name="custom_url_scheme">co.studenthub.employer</string>
+</resources>

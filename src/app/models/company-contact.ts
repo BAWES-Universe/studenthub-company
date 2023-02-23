@@ -12,6 +12,6 @@ export class CompanyContact {
     updated_by: string;
     contact: Contact;
     company: Company;
-    contactEmails: [];
-    contactPhones: [];
+    contactEmails: any[];
+    contactPhones: any[];
 }

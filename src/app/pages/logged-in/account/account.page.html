@@ -5,6 +5,7 @@
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>{{"Account" | translate}}</ion-title>
+     
     <ion-buttons slot="end">
           <ion-button fill="clear" (click)="authService.logout()">
             {{"Logout" | translate}}
@@ -45,10 +46,10 @@
           <ion-card-header>
             <ion-card-title>{{"Other Emails" | translate}} </ion-card-title>
           </ion-card-header>
-          <ion-card-content>
+          <ion-card-content formArrayName="emails">
 
             <div *ngFor="let email of emails.controls; let i = index">
-              <ion-item [formGroup]="email">
+              <ion-item [formGroupName]="i">
 
                 <ion-input type="email" autocomplete="off1" (ionChange)="onEmailChange($event, i)" formControlName="email_address" inputmode="email"
                   enterkeyhint="Next"></ion-input>
@@ -66,10 +67,10 @@
           <ion-card-header>
             <ion-card-title>{{"Phones" | translate}} </ion-card-title>
           </ion-card-header>
-          <ion-card-content>
+          <ion-card-content  formArrayName="phones">
 
             <div *ngFor="let phone of phones.controls; let i = index">
-              <ion-item [formGroup]="phone">
+              <ion-item [formGroupName]="i">
 
                 <ion-input type="telephone" autocomplete="off1" (ionChange)="onPhoneChange($event, i)" formControlName="phone_number" inputmode="telephone"
                       enterkeyhint="Next"></ion-input>

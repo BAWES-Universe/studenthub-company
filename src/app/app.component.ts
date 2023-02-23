@@ -1,10 +1,13 @@
-import { Component, OnInit, ApplicationRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ApplicationRef, OnDestroy, Inject, NgZone } from '@angular/core';
 import { AlertController, MenuController, NavController, Platform } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 import { first } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
+import { Browser } from '@capacitor/browser';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
+
 // services
 import { AuthService } from './providers/auth.service';
 import { EventService } from './providers/event.service';
@@ -15,9 +18,9 @@ import {Router} from "@angular/router";
 import {CompanyRequestService} from "./providers/logged-in/company-request.service";
 import {TranslateLabelService} from "./providers/translate-label.service";
 import {LanguageService} from "./providers/language.service";
+import { DOCUMENT } from '@angular/common';
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
-
-const { SplashScreen } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -33,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public subscribeForRequest;
 
   constructor(
+    public zone: NgZone,
     public updates: SwUpdate,
     public appRef: ApplicationRef,
     private platform: Platform,
@@ -47,13 +51,44 @@ export class AppComponent implements OnInit, OnDestroy {
     public requestService: CompanyRequestService,
     public router: Router,
     public translateService: TranslateLabelService,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    public auth0: Auth0Service,
+    @Inject(DOCUMENT) public document: Document,
   ) {
     this.initializeApp();
     // this.loadTotalEmployee();
   }
 
   initializeApp() {
+     // Use Capacitor's App plugin to subscribe to the `appUrlOpen` event
+     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      // Must run inside an NgZone for Angular to pick up the changes
+      // https://capacitorjs.com/docs/guides/angular
+      this.zone.run(() => {
+        //if (url?.startsWith(this.callbackUri)) {
+          // If the URL is an authentication callback URL..
+          if (
+            event.url.includes('state=') &&
+            (event.url.includes('error=') || event.url.includes('code='))
+          ) {
+            // Call handleRedirectCallback and close the browser
+            this.auth0
+              .handleRedirectCallback(event.url)
+              //.pipe(mergeMap(() => Browser.close()))
+              .subscribe();
+          } else {
+            const slug = event.url.split(".co").pop();
+
+            if (slug) {
+              this.router.navigateByUrl(slug);
+            }
+            
+            //Browser.close();
+          }
+        //}
+      });
+    });
+
     this.platform.ready().then(() => {
 
       if (this.platform.is('hybrid')) {
@@ -61,6 +96,19 @@ export class AppComponent implements OnInit, OnDestroy {
       }
 
       this.setServiceWorker();
+      
+      /**
+       * when user comming back from auth0
+       */
+       this.auth0.isAuthenticated$.subscribe(isAuthenticated => {
+        
+        if(!isAuthenticated || this.auth.isLogged) return null;
+      
+        //this.auth.idTokenClaims$.subscribe(r => {
+        this.auth0.getAccessTokenSilently().subscribe(r => {  
+          this.auth.useTokenForAuth(r).then();
+        });
+      });
     });
   }
 
@@ -163,6 +211,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Set root to Login Page
       this.navCtrl.navigateRoot(['/login']);
+
+      console.log('logout');
+      
+      /*
+      this.auth0.isAuthenticated$.subscribe(isAuthenticated => {
+        if(isAuthenticated) {
+          this.auth0.logout({ returnTo: document.location.origin });
+        }
+      });*/
 
       // Show Message explaining logout reason if there's one set
       if (logoutReason) {
@@ -355,15 +412,18 @@ export class AppComponent implements OnInit, OnDestroy {
     const companyHeader = document.getElementsByClassName('company-header');
 
     if (language.code == 'ar') {
+
       document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
       
-      if(companyHeader.length > 0)
+      if(companyHeader.length > 0 && companyHeader[0])
         companyHeader[0].setAttribute('dir', 'rtl');
+
     } else {
+
       document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
 
-      if(companyHeader.length > 0)
-        document.getElementsByClassName('company-header')[0].setAttribute('dir', 'ltr');
+      if(companyHeader.length > 0 && companyHeader[0])
+        companyHeader[0].setAttribute('dir', 'ltr');
     }
   }
 }
