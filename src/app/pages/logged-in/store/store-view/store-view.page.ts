@@ -6,6 +6,7 @@ import { Store } from '../../../../models/store';
 // services
 import { StoreService } from '../../../../providers/logged-in/store.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -26,12 +27,13 @@ export class StoreViewPage implements OnInit {
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
     public awsService: AwsService,
-    public storeService: StoreService
+    public storeService: StoreService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Store View Page');
+    this.analyticService.page('Store View Page');
 
     this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
 

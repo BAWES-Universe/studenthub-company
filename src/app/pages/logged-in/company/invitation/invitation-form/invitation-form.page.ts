@@ -10,6 +10,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/providers/auth.service';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -40,11 +41,12 @@ export class InvitationFormPage implements OnInit {
     public modalCtrl: ModalController,
     public invitationService: InvitationService,
     public authService: AuthService,
-    public eventService: EventService
+    public eventService: EventService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Invitation Form Page');
+    this.analyticService.page('Invitation Form Page');
 
     this.initForm();
   }

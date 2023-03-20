@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from "@ionic/angular";
 //model
 import { Company } from "src/app/models/company";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //service
 import { CompanyService } from "src/app/providers/logged-in/company.service";
 
@@ -23,12 +24,13 @@ export class CompanyListPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
-    public companyService: CompanyService
+    public companyService: CompanyService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Company List Page');
+    this.analyticService.page('Company List Page');
 
     this.loadData(this.currentPage);
   }

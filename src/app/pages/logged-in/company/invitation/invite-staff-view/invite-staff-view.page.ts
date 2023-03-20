@@ -3,6 +3,7 @@ import { AlertController, ModalController, IonContent } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {InvitationService} from 'src/app/providers/logged-in/invitation.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 // service
 
 // models
@@ -30,6 +31,7 @@ export class InviteStaffViewPage implements OnInit {
 
   constructor(
     public invitationService: InvitationService,
+    public analyticService: AnalyticsService,
     private _alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public navParams: ActivatedRoute
@@ -38,7 +40,7 @@ export class InviteStaffViewPage implements OnInit {
   }
 
   ngOnInit(): void {
-    window.analytics.page('Invite Staff Page');
+    this.analyticService.page('Invite Staff Page');
   }
 
   ionViewWillLeave() {

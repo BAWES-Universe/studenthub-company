@@ -10,4 +10,5 @@ export const environment = {
     environmentName: 'Krushn Local Machine',
     serviceWorker: false,
     s3Domain: 'studenthub-uploads-dev-server',
+    mixpanelKey: 'ac62dbe81767f8871f754c7bdf6669d6',
 };

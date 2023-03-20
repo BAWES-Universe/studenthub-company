@@ -7,5 +7,6 @@ export const environment = {
   permanentBucketUrl: "https://studenthub-uploads.s3.amazonaws.com/",
   cloudinaryUrl: 'https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face,q_auto/v1596525812/',
   environmentName: 'Production Server',
-  serviceWorker: false
+  serviceWorker: false,
+  mixpanelKey: '14dd0e7bd65ea16179bb7b8424a6297c',
 };

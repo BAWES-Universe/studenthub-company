@@ -4,6 +4,7 @@ import { AlertController, LoadingController, ModalController, ToastController } 
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { Request } from 'src/app/models/request';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 // services
@@ -44,11 +45,12 @@ export class InvitePage implements OnInit {
     public requestService: CompanyRequestService,
     public toastCtrl: ToastController,
     public loadCtrl: LoadingController,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Invite Page');
+    this.analyticService.page('Invite Page');
 
     this.initForm();
     this.loadRequests();

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -35,13 +36,14 @@ export class UpdatePasswordPage {
     public activatedRoute: ActivatedRoute,
     private _fb: FormBuilder,
     public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService,
     public authService: AuthService,
     private _alertCtrl: AlertController
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Update Password Page');
+    this.analyticService.page('Update Password Page');
 
     this.token = this.activatedRoute.snapshot.paramMap.get('token');
 

@@ -9,6 +9,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import {InvitePage} from "../../invite/invite.page";
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 
@@ -34,7 +35,8 @@ export class CandidateViewPage implements OnInit {
     public navCtrl: NavController,
     public translateService: TranslateLabelService,
     public authService: AuthService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public analyticService: AnalyticsService
   ) { }
 
   /**
@@ -47,7 +49,7 @@ export class CandidateViewPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate View Page');
+    this.analyticService.page('Candidate View Page');
 
     this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
 
