@@ -7,6 +7,7 @@ import { Company } from 'src/app/models/company';
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import {TranslateLabelService} from "../../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -31,10 +32,11 @@ export class StoreListPage implements OnInit {
     public storeService: StoreService,
     public aws: AwsService,
     public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Store List Page');
+    this.analyticService.page('Store List Page');
 
     this.loadData();
   }

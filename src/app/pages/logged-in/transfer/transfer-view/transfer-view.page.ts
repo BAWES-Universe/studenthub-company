@@ -8,6 +8,7 @@ import { Invoice } from "src/app/models/invoice";
 import { TransferService } from "src/app/providers/logged-in/transfer.service";
 import { AwsService } from 'src/app/providers/aws.service';
 import { TranslateLabelService } from "../../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -36,13 +37,14 @@ export class TransferViewPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public alertCtrl: AlertController,
     public _toastCtrl: ToastController,
-    public translateLabelService: TranslateLabelService
+    public translateLabelService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
 
-    window.analytics.page('Transfer View Page');
+    this.analyticService.page('Transfer View Page');
 
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
     

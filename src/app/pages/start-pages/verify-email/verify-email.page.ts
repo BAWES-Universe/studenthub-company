@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 // models
 import { Contact } from 'src/app/models/contact';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -73,7 +74,8 @@ export class VerifyEmailPage implements OnInit {
     public _loadingCtrl: LoadingController,
     public _toastCtrl: ToastController,
     public _alertCtrl: AlertController,
-    public platform: Platform
+    public platform: Platform,
+    public analyticService: AnalyticsService
   ) {
   }
 
@@ -82,7 +84,7 @@ export class VerifyEmailPage implements OnInit {
     //  this.router.navigate(['view']);
     // }
 
-    window.analytics.page('Verify Email Page');
+    this.analyticService.page('Verify Email Page');
 
     // Keyboard Plugin Events
 

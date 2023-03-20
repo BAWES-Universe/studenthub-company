@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController, NavController, LoadingController, ModalController } from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
 import {TranslateLabelService} from "../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -16,11 +17,12 @@ export class AppErrorPage implements OnInit {
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    public translateLabelService: TranslateLabelService
+    public translateLabelService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('App Error Page');
+    this.analyticService.page('App Error Page');
   }
 
   ionViewWillEnter() {

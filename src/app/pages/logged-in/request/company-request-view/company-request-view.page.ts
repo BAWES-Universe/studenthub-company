@@ -21,6 +21,7 @@ import { EventService } from 'src/app/providers/event.service';
 // models
 import { Request } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -72,12 +73,13 @@ export class CompanyRequestViewPage implements OnInit {
     public suggestionService: SuggestionService,
     public eventService: EventService,
     public translateLabelService: TranslateLabelService,
-    public platform: Platform
+    public platform: Platform,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Request View Page');
+    this.analyticService.page('Request View Page');
 
     if(!this.request_uuid)
       this.request_uuid = this.route.snapshot.params.request_uuid;

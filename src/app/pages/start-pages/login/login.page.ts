@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { TranslateLabelService } from "../../../providers/translate-label.service";
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -44,12 +45,13 @@ export class LoginPage implements OnInit {
     public auth: Auth0Service,
     private eventService: EventService,
     private router: Router,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Login Page');
+    this.analyticService.page('Login Page');
 
     // Initialize the Login Form
     this.loginForm = this._fb.group({

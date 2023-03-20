@@ -8,6 +8,7 @@ import {CandidateService} from '../../../../providers/logged-in/candidate.servic
 import {EventService} from '../../../../providers/event.service';
 import {TranslateService} from "@ngx-translate/core";
 import {TranslateLabelService} from "../../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -45,7 +46,8 @@ export class TransferListPage implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private candidateService: CandidateService,
     private eventService: EventService,
-    private translateService: TranslateLabelService
+    private translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) {
     this.eventService.companyChanged$.subscribe(() => {
       this.loadTotalEmployee();
@@ -54,7 +56,7 @@ export class TransferListPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Transfer List Page');
+    this.analyticService.page('Transfer List Page');
 
     // this.loadData(this.currentPage);
     this.loadTotalEmployee();

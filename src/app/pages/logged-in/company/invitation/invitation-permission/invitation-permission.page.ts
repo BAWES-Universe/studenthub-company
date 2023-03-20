@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController, NavController, IonNav, IonContent } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 // services
 import { InvitationFormPage } from '../invitation-form/invitation-form.page';
 
@@ -23,11 +24,12 @@ export class InvitationPermissionPage implements OnInit {
   constructor(
     public router: Router,
     public nav: IonNav,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit(): void {
-    window.analytics.page('Invitation Permission Page');
+    this.analyticService.page('Invitation Permission Page');
   }
 
   ionViewWillLeave() {

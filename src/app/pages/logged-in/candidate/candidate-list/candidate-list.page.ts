@@ -8,6 +8,7 @@ import { Store } from "src/app/models/store";
 import { CandidateService } from "src/app/providers/logged-in/candidate.service";
 import { AwsService } from 'src/app/providers/aws.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -29,13 +30,14 @@ export class CandidateListPage implements OnInit {
     public aws: AwsService,
     public eventService: EventService,
     public candidateService: CandidateService,
+    public analyticService: AnalyticsService,
     public params: ActivatedRoute,
   ) {
     // this.stateTransferName = params.get('model');
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate List Page');
+    this.analyticService.page('Candidate List Page');
 
     this.eventService.companyChanged$.subscribe(() => {
       this.loadCandidateList();

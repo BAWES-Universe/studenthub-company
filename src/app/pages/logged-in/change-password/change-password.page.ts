@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // service
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import {TranslateLabelService} from "../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -31,12 +32,13 @@ export class ChangePasswordPage implements OnInit {
     private _fb: FormBuilder,
     public accountService: AccountService,
     private _alertCtrl: AlertController,
-    private translateService: TranslateLabelService
+    private translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Change Password Page');
+    this.analyticService.page('Change Password Page');
 
     // Initialize the Login Form
     this.passwordForm = this._fb.group({

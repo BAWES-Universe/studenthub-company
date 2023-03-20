@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { TranslateLabelService } from "../../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -53,11 +54,12 @@ export class CompanyEditPage implements OnInit {
     public eventService: EventService,
     public companyService: CompanyService,
     public authService: AuthService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Edit Page');
+    this.analyticService.page('Company Edit Page');
   }
 
   logScrolling(e) {

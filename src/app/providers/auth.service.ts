@@ -19,6 +19,7 @@ import { CompanyContact } from '../models/company-contact';
 // service
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
+import { AnalyticsService } from './analytics.service';
 
 
 declare var navigator;
@@ -81,6 +82,7 @@ export class AuthService {
     public loadingCtrl: LoadingController,
     public eventService: EventService,
     public translate: TranslateLabelService,
+    public analyticService: AnalyticsService,
     public alertCtrl: AlertController
   ) { }
 
@@ -459,7 +461,7 @@ export class AuthService {
     this.email = response.email;
     this.active_request_count = response.active_request_count;
 
-    window.analytics.identify(this.id, {
+    this.analyticService.user(this.id, {
       name: this.profile_name,
       email: this.email,
       company_id: response.company_id

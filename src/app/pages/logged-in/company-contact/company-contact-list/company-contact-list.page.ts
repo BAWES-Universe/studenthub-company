@@ -14,6 +14,7 @@ import { InvitationPermissionPage } from 'src/app/pages/logged-in/company/invita
 import {CompanyContact} from "../../../../models/company-contact";
 import {TranslateService} from "@ngx-translate/core";
 import {TranslateLabelService} from "../../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -55,12 +56,13 @@ export class CompanyContactListPage implements OnInit {
     public alertCtrl: AlertController,
     public eventService: EventService,
     public authService: AuthService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Company Contact List Page');
+    this.analyticService.page('Company Contact List Page');
 
     this.loadData();
   }
