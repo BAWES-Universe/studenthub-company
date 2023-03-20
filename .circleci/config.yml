@@ -61,7 +61,7 @@ jobs:
     build_for_prod_server:
         docker:
           # specify the version you desire here
-          - image: circleci/node:12.9.0-buster-browsers
+          - image: cimg/node:19.0.1
             environment:
               CHROME_BIN: /usr/bin/google-chrome
               NODE_OPTIONS: --max_old_space_size=16000
