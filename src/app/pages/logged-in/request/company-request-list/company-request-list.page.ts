@@ -10,6 +10,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { EventService } from 'src/app/providers/event.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -73,11 +74,12 @@ export class CompanyRequestListPage implements OnInit {
     public toastCtrl: ToastController,
     public modalCtrl: ModalController,
     public router: Router,
-    public auth: AuthService
+    public auth: AuthService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Request List Page');
+    this.analyticService.page('Request List Page');
 
     this.min = '1930/01/01';
 

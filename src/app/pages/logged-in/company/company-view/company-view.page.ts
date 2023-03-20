@@ -7,6 +7,7 @@ import { Store } from 'src/app/models/store';
 // services
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -32,12 +33,13 @@ export class CompanyViewPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public storeService: StoreService,
     public companyService: CompanyService,
+    public analyticService: AnalyticsService,
     public router: Router,
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Company View Page');
+    this.analyticService.page('Company View Page');
 
     const state = window.history.state;
     this.company_id = this.activatedRoute.snapshot.paramMap.get('id');

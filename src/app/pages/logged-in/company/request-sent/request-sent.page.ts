@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import {AuthService} from 'src/app/providers/auth.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 // services
 
 @Component({
@@ -19,12 +20,13 @@ export class RequestSentPage implements OnInit {
 
   constructor(
     public _auth: AuthService,
+    public analyticService: AnalyticsService,
     public _router: Router,
     public _activatedRoute: ActivatedRoute
   ) { }
 
   async ngOnInit() {
-    window.analytics.page('Request Sent Page');
+    this.analyticService.page('Request Sent Page');
 
     this._activatedRoute.params.subscribe(routeParams => {
       this.company_name = routeParams.company_name;

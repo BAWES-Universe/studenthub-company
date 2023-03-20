@@ -17,6 +17,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -59,6 +60,7 @@ export class RegisterPage implements OnDestroy {
     public auth: Auth0Service,
     public eventService: EventService,
     public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService,
     private _alertCtrl: AlertController,
     private _router: Router,
     private _activeRouter: ActivatedRoute
@@ -66,7 +68,7 @@ export class RegisterPage implements OnDestroy {
   }
 
   ngOnInit() {
-    window.analytics.page('Register Page');
+    this.analyticService.page('Register Page');
 
     this.otp = this._activeRouter.snapshot.params.otp;
 

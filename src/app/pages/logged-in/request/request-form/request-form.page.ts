@@ -10,6 +10,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { TranslateLabelService } from "../../../../providers/translate-label.service";
 // models
 import { Request } from 'src/app/models/request';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -50,12 +51,13 @@ export class RequestFormPage implements OnInit {
     private location: Location,
     private eventService: EventService,
     private route: ActivatedRoute,
-    private translateService: TranslateLabelService
+    private translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() { 
-    window.analytics.page('Request Form Page');
+    this.analyticService.page('Request Form Page');
   }
 
   ionViewWillEnter() {

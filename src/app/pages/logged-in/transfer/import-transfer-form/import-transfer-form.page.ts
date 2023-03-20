@@ -24,6 +24,7 @@ import {
   CalendarResult,
   CalendarComponentOptions
 } from 'ion2-calendar';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -64,6 +65,7 @@ export class ImportTransferFormPage implements OnInit {
     public transferService: TransferService,
     public awsService: AwsService,
     public sentryService: SentryErrorhandlerService,
+    public analyticService: AnalyticsService,
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
     public _toastCtrl: ToastController,
@@ -79,7 +81,7 @@ export class ImportTransferFormPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Import Transfer Page');
+    this.analyticService.page('Import Transfer Page');
 
     const state = window.history.state;
     // Load the passed model (required)

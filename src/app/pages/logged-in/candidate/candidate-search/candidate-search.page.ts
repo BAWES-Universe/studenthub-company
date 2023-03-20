@@ -13,6 +13,7 @@ import { AuthService } from '../../../../providers/auth.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 import { EventService } from '../../../../providers/event.service';
 import { AlgoliaService } from 'src/app/providers/logged-in/algolia.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 const algoliasearch = algoliasearchProxy.default || algoliasearchProxy;
@@ -71,12 +72,13 @@ export class CandidateSearchPage implements OnInit {
     public changeDetector: ChangeDetectorRef,
     public eventService: EventService,
     public popoverCtrl: PopoverController,
-    public _menuCtrl: MenuController
+    public _menuCtrl: MenuController,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate Search Page');
+    this.analyticService.page('Candidate Search Page');
 
     this.platform.ready().then(() => {
       if (this.platform.is('mobile')) {

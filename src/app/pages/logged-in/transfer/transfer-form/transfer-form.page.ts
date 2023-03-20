@@ -27,6 +27,7 @@ import { TransferService } from 'src/app/providers/logged-in/transfer.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { AuthService } from '../../../../providers/auth.service';
 import { TranslateLabelService } from "../../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -82,7 +83,8 @@ export class TransferFormPage implements OnInit {
     private _fb: FormBuilder,
     private _authService: AuthService,
     private modalCtrl: ModalController,
-    private translateService: TranslateLabelService
+    private translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) {
 
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -101,7 +103,7 @@ export class TransferFormPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Transfer Form Page');
+    this.analyticService.page('Transfer Form Page');
 
     if (!this.transfer_id) {
       this.transfer = new Transfer();

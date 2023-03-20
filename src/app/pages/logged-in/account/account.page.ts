@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 //validator
 import { CustomValidator } from 'src/app/validators/custom.validator';
 import {TranslateLabelService} from "../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -33,11 +34,12 @@ export class AccountPage implements OnInit {
     public authService: AuthService,
     public accountService: AccountService,
     private _fb: FormBuilder,
-    private translateLabelService: TranslateLabelService
+    private translateLabelService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Account Page');
+    this.analyticService.page('Account Page');
 
     this.loadData();
   }
