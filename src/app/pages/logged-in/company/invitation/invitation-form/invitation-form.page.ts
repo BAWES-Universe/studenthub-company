@@ -113,7 +113,7 @@ export class InvitationFormPage implements OnInit {
    */
   _handleError(response) {
     this.alertCtrl.create({
-      message: response.message,
+      message: this.authService.errorMessage(response.message),
       buttons: ['Try Again'],
     }).then(alert => {
       alert.present();

@@ -246,6 +246,11 @@ const routes: Routes = [
   },
 
   {
+    path: 'under-review',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/company/under-review/under-review.module').then( m => m.UnderReviewPageModule)
+  },
+  {
     path: 'app-error',
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },
@@ -253,6 +258,7 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'not-found'
   },
+
 ];
 
 @NgModule({

@@ -186,7 +186,7 @@ export class ImportTransferFormPage implements OnInit {
       if (data.operation == 'success') {
 
         let prompt = await this._alertCtrl.create({
-          message: data.message,
+          message: this.authService.errorMessage(data.message),
           buttons: ["Okay"]
         });
         prompt.present();
@@ -226,7 +226,7 @@ export class ImportTransferFormPage implements OnInit {
         if (data.operation == 'success') {
 
           let prompt = await this._alertCtrl.create({
-            message: data.message,
+            message: this.authService.errorMessage(data.message),
             buttons: ["Okay"]
           });
           prompt.present();

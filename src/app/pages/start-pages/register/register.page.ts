@@ -220,7 +220,7 @@ export class RegisterPage implements OnDestroy {
 
         } else if (res.operation === 'error') {
           this._alertCtrl.create({
-            message: res.message,
+            message: this.translateService.errorMessage(res.message),
             buttons: ['Okay']
           }).then(alert => {
             alert.present();

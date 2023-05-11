@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {InvitationService} from 'src/app/providers/logged-in/invitation.service';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 // service
 
 // models
@@ -32,6 +33,7 @@ export class InviteStaffViewPage implements OnInit {
   constructor(
     public invitationService: InvitationService,
     public analyticService: AnalyticsService,
+    public translateService: TranslateLabelService,
     private _alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public navParams: ActivatedRoute
@@ -71,7 +73,7 @@ export class InviteStaffViewPage implements OnInit {
       } else {
 
         this._alertCtrl.create({
-          message: response.message,
+          message: this.translateService.errorMessage(response.message),
           buttons: ['Okay']
         }).then(prompt => {
           prompt.present();
@@ -93,7 +95,7 @@ export class InviteStaffViewPage implements OnInit {
 
       if (response.operation != 'success') {
         this._alertCtrl.create({
-          message: response.message,
+          message: this.translateService.errorMessage(response.message),
           buttons: ['Okay']
         }).then(prompt => {
           prompt.present();

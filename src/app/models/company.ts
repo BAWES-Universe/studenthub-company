@@ -20,6 +20,7 @@ export class Company {
     is_request_updated_in_30_days: boolean;
     company_followup_interval_weeks: number;
     company_last_followup_datetime: string;
+    company_status_override: number;
     company_created_at: string;
     company_updated_at: string;
     deleted: number;

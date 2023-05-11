@@ -1,6 +1,6 @@
 <ion-toolbar class="company-header" dir="ltr">
   <ion-buttons slot="start">
-      <ion-menu-button>
+      <ion-menu-button *ngIf="auth.company && auth.company.company_status_override != 9">
           <ion-icon src="assets/images/ic_drawer.svg"></ion-icon>
       </ion-menu-button>
   </ion-buttons>

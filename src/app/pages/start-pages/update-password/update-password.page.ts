@@ -84,7 +84,7 @@ export class UpdatePasswordPage {
 
         const alert = await this._alertCtrl.create({
           header: this.translateService.transform('Success'),
-          message: res.message,
+          message: this.translateService.errorMessage(res.message),
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
@@ -99,7 +99,7 @@ export class UpdatePasswordPage {
 
         const alert = await this._alertCtrl.create({
           header: this.translateService.transform('Error'),
-          message: res.message,
+          message: this.translateService.errorMessage(res.message),
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();

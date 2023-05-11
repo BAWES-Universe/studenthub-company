@@ -69,7 +69,7 @@ export class TranslateLabelService  extends TranslateService {
         if (message.length)
         {
             return message + '';
-		}
+		    }
 
         const a = [];
 

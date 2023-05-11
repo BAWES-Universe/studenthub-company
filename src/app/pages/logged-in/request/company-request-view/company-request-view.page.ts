@@ -263,7 +263,7 @@ export class CompanyRequestViewPage implements OnInit {
 
               } else {
                 this.toastCtrl.create({
-                  message: response.message,
+                  message: this.authService.errorMessage(response.message),
                   buttons: ['Okay']
                 }).then(prompt => {
                   prompt.present();
@@ -335,7 +335,7 @@ export class CompanyRequestViewPage implements OnInit {
 
               } else {
                 this.toastCtrl.create({
-                  message: response.message,
+                  message: this.authService.errorMessage(response.message),
                   buttons: ['Okay']
                 }).then(prompt => {
                   prompt.present();
