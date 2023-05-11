@@ -138,7 +138,7 @@ export class CompanyEditPage implements OnInit {
 
         // success toast
         this._toastCtrl.create({
-          message: jsonResponse.message,
+          message: this.translateService.errorMessage(jsonResponse.message),
           duration: 3000
         }).then(toast => toast.present());
 

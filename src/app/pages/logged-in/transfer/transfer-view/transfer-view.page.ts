@@ -128,7 +128,7 @@ export class TransferViewPage implements OnInit {
             this.transferService.makeTransfertoLock(transfer).subscribe(async response => {
 
               const toast = await this._toastCtrl.create({
-                message: response.message,
+                message: this.translateLabelService.errorMessage(response.message),
                 duration: 3000
               });
               toast.present();
@@ -152,7 +152,7 @@ export class TransferViewPage implements OnInit {
     this.transferService.makePaymentSent(transfer).subscribe(async response => {
 
       const toast = await this._toastCtrl.create({
-        message: response.message,
+        message: this.translateLabelService.errorMessage(response.message),
         duration: 3000
       });
       toast.present();
@@ -247,7 +247,7 @@ export class TransferViewPage implements OnInit {
         this.navCtrl.pop();
       } else {
         const alert = await this.alertCtrl.create({
-          message: response.message,
+          message: this.translateLabelService.errorMessage(response.message),
           buttons: ['Okay']
         });
         alert.present();

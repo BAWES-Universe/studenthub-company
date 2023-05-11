@@ -44,6 +44,12 @@ export class ViewPage implements OnInit {
     this.eventService.pageSelected$.next('view');
   }
 
+  ionViewDidEnter() { 
+    if(this.auth.company && this.auth.company.company_status_override == 9) { 
+      this.router.navigate(['under-review']);
+    }
+  }
+
   logout() {
     this.auth.logout();
   }

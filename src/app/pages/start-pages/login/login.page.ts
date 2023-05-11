@@ -92,7 +92,7 @@ export class LoginPage implements OnInit {
 
         this.alertMsg(
           'Unable to Log In',
-          res.message,
+          this.authService.errorMessage(res.message),
           'Okay'
         );
       }

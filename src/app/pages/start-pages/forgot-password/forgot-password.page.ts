@@ -89,7 +89,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
 
         if(data.operation == 'success') {
           const alert = await this._alertCtrl.create({
-            message: data.message,
+            message: this._authService.errorMessage(data.message),
             buttons: [this.translateService.transform('Okay')]
           });
           await alert.present();

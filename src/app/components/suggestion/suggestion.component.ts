@@ -148,7 +148,7 @@ export class SuggestionComponent implements OnInit {
 
               } else {
                 this.toastCtrl.create({
-                  message: response.message,
+                  message: this.translateService.errorMessage(response.message),
                   buttons: ['Okay']
                 }).then(prompt => {
                   prompt.present();

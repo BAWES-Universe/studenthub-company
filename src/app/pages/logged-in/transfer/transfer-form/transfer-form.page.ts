@@ -271,7 +271,7 @@ export class TransferFormPage implements OnInit {
       // On Success. Show Toast with the response message and close the page
       if (jsonResponse.operation == 'success') {
         const toast = await this._toastCtrl.create({
-          message: jsonResponse.message,
+          message: this.translateService.errorMessage(jsonResponse.message),
           duration: 3000
         });
         toast.present();
