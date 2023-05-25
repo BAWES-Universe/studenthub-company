@@ -127,7 +127,9 @@ export class CompanyRequestListPage implements OnInit {
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.requests = response.body;
+
       this.calculateStats();
+
       if(refresher) {
         refresher.target.complete();
       }
@@ -155,7 +157,9 @@ export class CompanyRequestListPage implements OnInit {
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.requests = this.requests.concat(response.body);
+      
       this.calculateStats();
+
     },
       error => { },
       () => {
@@ -169,7 +173,7 @@ export class CompanyRequestListPage implements OnInit {
    * Return url string to filter list
    */
   urlParams() {
-    let urlParams = '';
+    let urlParams = '&per-page=100000';
 
     if (this.filters.companyName) {
       urlParams += '&company_name=' + this.filters.companyName;
@@ -220,9 +224,11 @@ export class CompanyRequestListPage implements OnInit {
   }
 
   calculateStats() {
+
     this.reset();
+
     this.requests.map(request => {
-      if (request.request_status == 'pending'){
+      if (request.request_status == 'pending' || request.request_status == 're_work'){
         this.requestStats.pending.push(request);
       }
       if (request.request_status == 'started'){
