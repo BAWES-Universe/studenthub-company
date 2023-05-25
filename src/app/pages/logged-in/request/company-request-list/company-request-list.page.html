@@ -8,7 +8,7 @@
     <div class="btn-div">
       <ion-button  class="btn-add-request" (click)="addRequest()">{{"Add new request" | translate}}</ion-button>
     </div>
-
+    
     <div class="segment-div">
       <ion-segment [value]="segment" (ionChange)="segmentChange($event)">
         <ion-segment-button value="pending" *ngIf="requestStats.pending.length">
