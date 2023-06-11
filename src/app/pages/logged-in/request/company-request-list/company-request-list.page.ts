@@ -226,18 +226,21 @@ export class CompanyRequestListPage implements OnInit {
   calculateStats() {
 
     this.reset();
-
+    
     this.requests.map(request => {
-      if (request.request_status == 'pending' || request.request_status == 're_work'){
+      if (request.request_status == 'pending' || request.request_status == 're_work')
+      {
         this.requestStats.pending.push(request);
-      }
-      if (request.request_status == 'started'){
+      } 
+      else if (request.request_status == 'started')
+      {
         this.requestStats.open.push(request);
       }
-      if (request.request_status == 'delivered'){
+      else if (["finished_by_recruitment", 'delivered'].indexOf(request.request_status) > -1) 
+      {
         this.requestStats.completed.push(request);
       }
-      if (request.request_status == 'cancelled'){
+      else if (request.request_status == 'cancelled'){
         this.requestStats.cancelled.push(request);
       }
     });
