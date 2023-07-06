@@ -61,7 +61,7 @@ export class RegisterPage implements OnDestroy {
     public eventService: EventService,
     public translateService: TranslateLabelService,
     public analyticService: AnalyticsService,
-    private _alertCtrl: AlertController,
+    private alertCtrl: AlertController,
     private _router: Router,
     private _activeRouter: ActivatedRoute
   ) {
@@ -203,12 +203,35 @@ export class RegisterPage implements OnDestroy {
 
       this.updateModelFormValues();
 
-      this.createAccountSubscription = this.authService.createAccount(this.model, this.companyContact, this.otp).subscribe(res => {
-
+      this.createAccountSubscription = this.authService.createAccount(this.model, this.companyContact, this.otp).subscribe(async res => {
+ 
         this.isLoading = false;
 
         if (res.operation === 'success') {
+ 
+          this.alertCtrl.create({
+            header: this.translateService.transform('Thank you!'),
+            message: this.translateService.errorMessage(res.message),
+            buttons: ['Okay']
+          }).then(alert => {
+            alert.present();
+          });
+ 
+          this.registerForm.setValue({
+            name: '',
+            company_name: '',
+            contact_position: '',
+            phone_number: '',  
+            email: '',  
+            password: '',  
+            receive_email: ''
+          });
 
+          this.registerForm.reset();
+
+          this._router.navigate(['login']);
+
+          /*
           Preferences.set({ 'key': "unVerifiedToken", "value": JSON.stringify(res.unVerifiedToken) }).catch(r => {
             this.eventService.errorStorage$.next();
           });
@@ -216,10 +239,10 @@ export class RegisterPage implements OnDestroy {
           this._router.navigate([
             'verify-email',
             res['unVerifiedToken']['email']
-          ]);      
+          ]);      */
 
         } else if (res.operation === 'error') {
-          this._alertCtrl.create({
+          this.alertCtrl.create({
             message: this.translateService.errorMessage(res.message),
             buttons: ['Okay']
           }).then(alert => {
