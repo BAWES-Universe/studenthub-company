@@ -6,6 +6,7 @@ import { Company } from 'src/app/models/company';
 //services
 import { AuthHttpService } from "./authhttp.service";
 import { AuthService } from '../auth.service';
+import { Contact } from 'src/app/models/contact';
 
 
 @Injectable({
@@ -62,6 +63,26 @@ export class CompanyService {
       description_en: model.company_description_en,
       description_ar: model.company_description_ar,
       website: model.company_website
+    };
+
+    return this._authhttp.patch(url, params);
+  }
+
+  /**
+   * activate company account 
+   * @returns {Observable<any>}
+   */
+  activate(params): Observable<any>{
+    const url = `${this._companyEndpoint}/activate`;
+    const params = {
+      contact_auth_key: params.contact_auth_key,
+      contact_email: params.contact_email,
+      password: params.password,
+      company_id: params.company_id,
+      company_logo: params.company_logo,
+      commercial_licence: params.commercial_licence,
+      description: params.company_description_en,
+      website: params.company_website
     };
 
     return this._authhttp.patch(url, params);

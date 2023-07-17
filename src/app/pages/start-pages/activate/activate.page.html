@@ -1,0 +1,77 @@
+<ion-content class='contentArea ion-padding' [attr.dir]="translateService.direction()">
+
+  <div class='brand'>
+    <ion-img src="assets/icon.png"></ion-img>
+    <h3>Studenthub Payroll</h3>
+  </div>
+
+  <ion-card class='loginCard'>
+    <ion-card-content class='authArea'>
+
+      <!-- Login Form -->
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()"  class="classicInput" novalidate>
+        
+        <app-image-upload
+          label="Change Logo"
+          labelNoImage="Upload Company Logo"
+          icon="person-outline" prefix="logo"
+          iconSrc="assets/icon/icon-add-pic.svg"
+          formControlName="company_logo">
+        </app-image-upload>
+
+        <app-image-upload
+          label="Change Commercial Licence"
+          labelNoImage="Upload Commercial Licence"
+          icon="person-outline" prefix="commercial_licence"
+          iconSrc="assets/icon/icon-add-pic.svg"
+          formControlName="commercial_licence">
+        </app-image-upload>
+
+        <ion-item lines="none">
+          <ion-textarea  
+            formControlName="description"
+            placeholder="{{'Company description' | translate}}">
+          </ion-textarea>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-input type="url" 
+            inputmode="url"
+            formControlName="website"
+            placeholder="{{'Your Website' | translate}}">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="field-password">
+
+          <ion-input type="{{type}}" formControlName="password" placeholder="{{'Set Password' | translate}}">
+          </ion-input>
+
+          <ion-button class="btn-password" fill="clear" (click)="showPassword()">
+            <ion-icon *ngIf="type == 'password'" name="eye"></ion-icon>
+            <ion-icon *ngIf="type != 'password'" name="eye-off"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <div class="ion-text-center submit-btn">
+          <ion-button expand="block" type="submit"
+                  [disabled]="!loginForm.valid || isLoading">
+            <ion-spinner *ngIf="isLoading"></ion-spinner>
+            <span *ngIf="!isLoading">{{"Activate" | translate}}</span>
+          </ion-button>
+        </div>
+
+      </form>
+      <!-- END Login Form -->
+  
+      <br />
+      
+      <div class="ion-text-center" *ngIf="!isLoading" tappable>
+        <a *ngIf="translateService.currentLang == 'ar'" (click)="changeLanguage($event)">English</a>
+        <a *ngIf="translateService.currentLang == 'en'" (click)="changeLanguage($event)">عربى</a>
+      </div>
+      
+    </ion-card-content>
+  </ion-card>
+ 
+</ion-content>

@@ -69,7 +69,19 @@
             {{"Please enter valid email address" | translate}}
           </p>
         </div>
+       
+        <ion-item>
+          <ion-label position="floating">{{ "Requesting for" | translate}}</ion-label>
+          <ion-select formControlName="requesting_for" interface="popover">
+            <ion-select-option>For Hiring Part-timers</ion-select-option>
+            <ion-select-option>For Hiring Full-timers</ion-select-option>
+            <ion-select-option>Recruitment Services</ion-select-option>
+            <ion-select-option>For Event-based Hiring</ion-select-option>
+            <ion-select-option>Book A Meeting</ion-select-option>
+          </ion-select>
+        </ion-item>
 
+        <!--
         <ion-item class="password_field">
           <ion-label position="floating">{{"Password" | translate}}</ion-label>
           <ion-input inputmode="text" enterkeyhint="Next" type="{{ type }}" formControlName="password"></ion-input>
@@ -102,7 +114,7 @@
             {{ "I would like to receives email notifications" | translate }}
           </ion-label>
           <ion-checkbox slot="start" formControlName="receive_email"></ion-checkbox>
-        </ion-item>
+        </ion-item>-->
 
         <ion-button type="submit" class="btn-register" [disabled]="!registerForm.valid || isLoading">
           <ion-spinner *ngIf="isLoading"></ion-spinner>
