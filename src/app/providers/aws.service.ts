@@ -18,6 +18,8 @@ export class AwsService {
     //https://studenthub-uploads.s3.amazonaws.com/
    
     public permanentBucketUrl = environment.permanentBucketUrl;
+    public bucketUrl = 'https://studenthub-public-anyone-can-upload-24hr-expiry.s3.amazonaws.com/';
+    //eu-west-2.
     public cloudinaryUrl = environment.cloudinaryUrl;
 
     private _region = "eu-west-2"; //London

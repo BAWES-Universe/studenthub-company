@@ -15,7 +15,7 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 })
 export class UpdatePasswordPage {
 
-  public type: string = 'password';
+  public type = 'password';
 
   public token;
 

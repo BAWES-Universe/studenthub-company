@@ -7,8 +7,6 @@ import { Preferences } from '@capacitor/preferences';
 import { Browser } from '@capacitor/browser';
 import { mergeMap } from 'rxjs/operators';
 // models
-import { Contact, ContactPhone } from 'src/app/models/contact';
-import { Company } from 'src/app/models/company';
 import { CompanyContact } from 'src/app/models/company-contact';
 // validations
 import { CustomValidator } from 'src/app/validators/custom.validator';
@@ -18,6 +16,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { CompanyRequest } from 'src/app/models/company-request';
 
 
 @Component({
@@ -36,11 +35,10 @@ export class RegisterPage implements OnDestroy {
 
   public registerForm: FormGroup;
 
-  public model: Contact;
-
-  public companyContact: CompanyContact;
-
+  public model: CompanyRequest;
+ 
   public type = 'password';
+
   public showPass = false;
 
   @ViewChild('input', { static: false }) input;
@@ -121,8 +119,9 @@ export class RegisterPage implements OnDestroy {
       contact_position: [''],
       phone_number: ['', Validators.required],
       email: ['', [Validators.required, CustomValidator.emailValidator]],
-      password: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(30)]],
-      receive_email: ['']
+      password: [''],//, [Validators.required, Validators.minLength(7), Validators.maxLength(30)]
+      receive_email: [''],
+      requesting_for: []
     });
 
     setTimeout(() => {
@@ -152,9 +151,9 @@ export class RegisterPage implements OnDestroy {
         this.registerForm.controls.email.setValue(data.invitation.email_to_invite);
         // this.registerForm.controls.email.disable();
         if (!this.model) {
-          this.model = new Contact();
+          this.model = new CompanyRequest();
         }
-        this.model.contact_email = data.invitation.email_to_invite;
+        this.model.company_email = data.invitation.email_to_invite;
       } else {
         this.registerForm.controls.email.enable();
         // this.otp = null;
@@ -175,22 +174,15 @@ export class RegisterPage implements OnDestroy {
    * Update model from form values
    */
   updateModelFormValues() {
-    this.model = new Contact();
+    this.model = new CompanyRequest();
     this.model.contact_name = this.registerForm.value.name;
-    this.model.contact_email = this.registerForm.value.email;
+    this.model.company_email = this.registerForm.value.email;
     this.model.contact_password_hash = this.registerForm.value.password;
     this.model.contact_receive_email = this.registerForm.value.receive_email;
-
-    let contactPhone = new ContactPhone;
-    contactPhone.phone_number = this.registerForm.value.phone_number;
-    this.model.contactPhones = [contactPhone];
-
-    let company = new Company;
-    company.company_name = this.registerForm.value.company_name;
-   
-    this.companyContact = new CompanyContact;
-    this.companyContact.contact_position = this.registerForm.value.contact_position;
-    this.companyContact.company = company;
+    this.model.requesting_for = this.registerForm.value.requesting_for;
+    this.model.phone_number = this.registerForm.value.phone_number;
+    this.model.company_name = this.registerForm.value.company_name;
+    this.model.contact_position = this.registerForm.value.contact_position;
   }
 
   /**
@@ -203,7 +195,7 @@ export class RegisterPage implements OnDestroy {
 
       this.updateModelFormValues();
 
-      this.createAccountSubscription = this.authService.createAccount(this.model, this.companyContact, this.otp).subscribe(async res => {
+      this.createAccountSubscription = this.authService.createAccount(this.model).subscribe(async res => {
  
         this.isLoading = false;
 
@@ -224,7 +216,8 @@ export class RegisterPage implements OnDestroy {
             phone_number: '',  
             email: '',  
             password: '',  
-            receive_email: ''
+            receive_email: '',
+            requesting_for: ''
           });
 
           this.registerForm.reset();
