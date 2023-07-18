@@ -20,6 +20,7 @@ import { CompanyContact } from '../models/company-contact';
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
 import { AnalyticsService } from './analytics.service';
+import { CompanyRequest } from '../models/company-request';
 
 
 declare var navigator;
@@ -800,11 +801,10 @@ export class AuthService {
 
   /**
    * create new account
-   * @param contact
-   * @param companyContact
-   * @param otp
+   * @param CompanyRequest
    */
-  createAccount(contact: Contact, companyContact: CompanyContact, otp: string): Observable<any> {
+  createAccount(contact: CompanyRequest): Observable<any> {
+
     const url = environment.apiEndpoint + this._urlRegistration;
 
     const headers = new HttpHeaders({
@@ -814,14 +814,13 @@ export class AuthService {
 
     const params = {
       name: contact.contact_name,
-      email: contact.contact_email,
+      email: contact.company_email,
       password: contact.contact_password_hash,
-      otp: otp,
+      requesting_for: contact.requesting_for,
       receive_email: contact.contact_receive_email,
-      //contactPhones: contact.contactPhones,
-      company_name: companyContact.company.company_name,
-      contact_position: companyContact.contact_position,
-      phone_number: contact.contactPhones[0]['phone_number'],
+      company_name: contact.company_name,
+      contact_position: contact.contact_position,
+      phone_number: contact.phone_number
     };
 
     return this.http.post(url, JSON.stringify(params), { headers })

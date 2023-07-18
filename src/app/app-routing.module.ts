@@ -255,10 +255,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },
   {
+    path: 'activate',
+    loadChildren: () => import('./pages/start-pages/activate/activate.module').then( m => m.ActivatePageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },
-
 ];
 
 @NgModule({
