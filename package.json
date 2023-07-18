@@ -29,6 +29,7 @@
     "@capacitor/android": "4.2",
     "@capacitor/app": "4.0.1",
     "@capacitor/browser": "^4.1.1",
+    "@capacitor/camera": "^4.1.5",
     "@capacitor/core": "4.2.0",
     "@capacitor/filesystem": "^4.1.0",
     "@capacitor/haptics": "4.0.1",

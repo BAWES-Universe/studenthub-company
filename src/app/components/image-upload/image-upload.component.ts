@@ -195,25 +195,36 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
         this.newUpload.loaded = progress.loaded;
         this.newUpload.total = progress.total;
       }
+
       // If Multipart upload (big file), Key with capital "K"
       if (progress.key || progress.Key){
         this.newUpload.name = progress.key ? progress.key : progress.Key;
         this.newUpload.link = this._bucketUrlTemporary + this.newUpload.name;
       }
-    }, (err) => {
-      console.log('Error', err);
+
+      if(progress.Location) {
+        //setTimeout(() => {
+          this.onUploadComplete();
+        //}, 200);
+      }
+
+    }, (err) => { 
       this.newUpload.status = 'error';
       // Hide File Upload Indicator based on which file is being uploaded
       this.isUploading = false;
     }, () => {
-      this.newUpload.status = 'complete';
-      // Hide File Upload Indicator based on which file is being uploaded
-      this.isUploading = false;
-      // Switch to temporary bucket url
-      this.bucketUrl = this._bucketUrlTemporary;
-      // Set the new value of this file upload
-      this.value = this.newUpload.name;
+      this.onUploadComplete();
     });
+  }
+
+  onUploadComplete() {
+    this.newUpload.status = 'complete';
+    // Hide File Upload Indicator based on which file is being uploaded
+    this.isUploading = false;
+    // Switch to temporary bucket url
+    this.bucketUrl = this._bucketUrlTemporary;
+    // Set the new value of this file upload
+    this.value = this.newUpload.name;
   }
 
   /**

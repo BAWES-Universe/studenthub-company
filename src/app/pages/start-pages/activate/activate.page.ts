@@ -7,6 +7,7 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class ActivatePage implements OnInit {
     public alertCtrl: AlertController, 
     public activatedRoute: ActivatedRoute,
     private _fb: FormBuilder,
+    public eventService: EventService,
     public authService: AuthService,
     public translateService: TranslateLabelService,
     public analyticService: AnalyticsService,
@@ -82,7 +84,7 @@ export class ActivatePage implements OnInit {
 
         this.form.reset();
 
-        this.authService.setAccessToken(res.accessToken);
+        this.authService.setAccessToken(res);
 
         //this.navCtrl.navigateRoot(['/']);
 
@@ -109,5 +111,10 @@ export class ActivatePage implements OnInit {
    */
   showPassword() {
     this.type = this.type === 'password'? 'text': 'password';
+  }
+
+  changeLanguage(event) {
+    const lang = this.translateService.currentLang == 'ar' ? 'en' : 'ar';
+    this.eventService.setLanguagePref$.next(lang);
   }
 }

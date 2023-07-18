@@ -30,7 +30,7 @@
         <ion-item lines="none">
           <ion-textarea  
             formControlName="description"
-            placeholder="{{'Company description' | translate}}">
+            placeholder="{{'Company Description' | translate}}">
           </ion-textarea>
         </ion-item>
 
@@ -38,13 +38,13 @@
           <ion-input type="url" 
             inputmode="url"
             formControlName="website"
-            placeholder="{{'Your Website' | translate}}">
+            placeholder="{{ 'Your Website' | translate}}">
           </ion-input>
         </ion-item>
 
         <ion-item lines="none" class="field-password">
 
-          <ion-input type="{{type}}" formControlName="password" placeholder="{{'Set Password' | translate}}">
+          <ion-input type="{{type}}" formControlName="password" placeholder="{{ 'Set Password' | translate}}">
           </ion-input>
 
           <ion-button class="btn-password" fill="clear" (click)="showPassword()">
@@ -55,9 +55,9 @@
 
         <div class="ion-text-center submit-btn">
           <ion-button expand="block" type="submit"
-                  [disabled]="!loginForm.valid || isLoading">
+                  [disabled]="!form.valid || isLoading">
             <ion-spinner *ngIf="isLoading"></ion-spinner>
-            <span *ngIf="!isLoading">{{"Activate" | translate}}</span>
+            <span *ngIf="!isLoading">{{ "Activate" | translate}}</span>
           </ion-button>
         </div>
 

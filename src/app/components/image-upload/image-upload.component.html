@@ -4,7 +4,7 @@
   
   <div class="progress-wrapper" *ngIf="isUploading">
     <ion-progress-bar value="0.5"></ion-progress-bar>  <br />
-    Uploading... {{ newUpload.loaded /newUpload.total }}% 
+    {{ "Uploading..." | translate }} {{ (newUpload.loaded /newUpload.total)* 100 | number: '1.0-2' }}% 
   </div>
   
   <ion-thumbnail slot="start" *ngIf="!isUploading" [class.icon-wrapper]="!value" 
@@ -16,11 +16,11 @@
 
   </ion-thumbnail>
 
-  <ion-label *ngIf="!isUploading && !value">{{ labelNoImage }}</ion-label>
+  <ion-label *ngIf="!isUploading && !value">{{ labelNoImage | translate }}</ion-label>
   
   <ion-label *ngIf="!isUploading && value">
     <p>{{ getFileName(value) }}</p>
-    <h5>{{ label }}</h5>    
+    <h5>{{ label | translate }}</h5>    
   </ion-label>
 
 </ion-item>

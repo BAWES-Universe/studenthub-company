@@ -74,7 +74,7 @@ export class CompanyService {
    */
   activate(params): Observable<any>{
     const url = `${this._companyEndpoint}/activate`;
-    const params = {
+    /*const params = {
       contact_auth_key: params.contact_auth_key,
       contact_email: params.contact_email,
       password: params.password,
@@ -83,7 +83,7 @@ export class CompanyService {
       commercial_licence: params.commercial_licence,
       description: params.company_description_en,
       website: params.company_website
-    };
+    };*/
 
     return this._authhttp.patch(url, params);
   }
