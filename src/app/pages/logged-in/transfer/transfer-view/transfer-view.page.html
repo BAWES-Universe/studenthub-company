@@ -34,6 +34,13 @@
         <div>{{transferStatusDescription}}</div>
 
         <section class="ion-padding" *ngIf="transferDetails">
+
+          <ion-button fill="outline" (click)="markCancel()"
+          *ngIf="transferDetails.transfer_status == 10">
+          <ion-icon name="cross-outline" slot="start"></ion-icon>
+          {{ "Mark cancelled" | translate }}
+        </ion-button>
+        
           <!-- If Transfer Locked -->
           <ion-button fill="outline" (click)="paymentSent(transferDetails)"
             *ngIf="transferDetails && (transferDetails.transfer_status==5)">
