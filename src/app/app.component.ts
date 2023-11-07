@@ -19,6 +19,8 @@ import {CompanyRequestService} from "./providers/logged-in/company-request.servi
 import {TranslateLabelService} from "./providers/translate-label.service";
 import {LanguageService} from "./providers/language.service";
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
+import { AnalyticsService } from './providers/analytics.service';
+import { Preferences } from '@capacitor/preferences';
 
 
 @Component({
@@ -51,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public router: Router,
     public translateService: TranslateLabelService,
     public languageService: LanguageService,
+    public analyticsService: AnalyticsService,
     public auth0: Auth0Service,
     @Inject(DOCUMENT) public document: Document,
   ) {
@@ -59,6 +62,28 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApp() {
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    
+    if(urlParams.get('utm_id')) {
+      this.auth.utm_uuid = urlParams.get('utm_id');
+      Preferences.set({ key: 'utm_uuid', value: this.auth.utm_uuid });
+      //this.campaignService.click(this.authService.utm_uuid).subscribe();
+
+      //this.cookieService.set('utm_uuid', this.authService.utm_uuid, )
+      window.localStorage.setItem("utm_uuid", this.auth.utm_uuid);
+
+      this.analyticsService.track("From Campaign", {
+        "utm_id": this.auth.utm_uuid,
+        "utm_source": urlParams.get('utm_source'),
+        "utm_medium": urlParams.get('utm_medium'),
+        "utm_campaign": urlParams.get('utm_campaign'),
+        "utm_term": urlParams.get('utm_term'),
+        "utm_content": urlParams.get('utm_content'),
+      });
+    }
+
      // Use Capacitor's App plugin to subscribe to the `appUrlOpen` event
      App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       // Must run inside an NgZone for Angular to pick up the changes

@@ -34,6 +34,8 @@ export class AuthService {
 
   private accessToken;
 
+  public utm_uuid;
+  
   public id: any;
   public company_id: any;
   public profile_name: string;
