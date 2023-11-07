@@ -60,6 +60,12 @@ export class RequestFormPage implements OnInit {
     this.analyticService.page('Request Form Page');
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Request Form Page'
+    });  
+  }
+  
   ionViewWillEnter() {
 
     this.requestID = this.route.snapshot.paramMap.get('id');

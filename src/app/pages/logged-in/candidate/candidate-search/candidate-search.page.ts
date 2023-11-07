@@ -126,6 +126,10 @@ export class CandidateSearchPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Candidate Search Page'
+    });
+
     this.content.getScrollElement().then(ele => {
       this.scrollPosition = ele.scrollTop;
     });

@@ -51,6 +51,12 @@ export class TransferViewPage implements OnInit {
     this.loadData();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Transfer View Page'
+    });  
+  }
+
   ionViewWillEnter() {
     if (history.state && history.state.refresh) {
       this.loadData();

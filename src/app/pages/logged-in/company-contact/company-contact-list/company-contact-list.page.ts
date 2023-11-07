@@ -67,6 +67,12 @@ export class CompanyContactListPage implements OnInit {
     this.loadData();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Company Contact List Page'
+    });  
+  }
+
   /**
    * load all contacts
    */

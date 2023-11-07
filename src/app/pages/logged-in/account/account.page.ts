@@ -44,6 +44,12 @@ export class AccountPage implements OnInit {
     this.loadData();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Account Page'
+    });
+  }
+
   /**
    * load account detail
    */

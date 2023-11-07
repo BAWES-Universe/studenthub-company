@@ -47,6 +47,12 @@ export class ChangePasswordPage implements OnInit {
     });
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Change Password Page'
+    });
+  }
+
   toggleOldPasswordVisibility() {
     this.oldType = this.oldType == 'password' ? 'text' : 'password';
   }

@@ -98,6 +98,7 @@ export class VerifyEmailPage implements OnInit {
       });
     }
   }
+  
 
   clearVerifySubscription() {
 
@@ -127,7 +128,12 @@ export class VerifyEmailPage implements OnInit {
     this.clearVerifySubscription();
   }
 
+
   ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Verify Email Page'
+    });  
+ 
     this.content.getScrollElement().then(ele => {
       this.scrollPosition = ele.scrollTop;
     });

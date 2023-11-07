@@ -78,6 +78,12 @@ export class CompanyRequestViewPage implements OnInit {
   ) {
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Request View Page'
+    });  
+  }
+  
   ngOnInit() {
     this.analyticService.page('Request View Page');
 

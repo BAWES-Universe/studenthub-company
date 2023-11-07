@@ -41,6 +41,12 @@ export class StoreListPage implements OnInit {
     this.loadData();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Store List Page'
+    });  
+  }
+  
   async loadData() {
 
     this.stores = [];

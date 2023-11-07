@@ -46,6 +46,12 @@ export class StoreViewPage implements OnInit {
     this.loadData();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Store View Page'
+    });  
+  }
+
   async loadData() {
     
     this.loading = true;

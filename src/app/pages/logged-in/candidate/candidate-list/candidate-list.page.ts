@@ -46,6 +46,12 @@ export class CandidateListPage implements OnInit {
     this.loadCandidateList();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Candidate List Page'
+    });
+  }
+
   /**
    * Load list of candidates
    */

@@ -102,6 +102,12 @@ export class TransferFormPage implements OnInit {
     this.max = (this.platform.is('mobile')) ? d.getFullYear() + '-12-12' : d;
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Transfer Form Page'
+    });  
+  }
+
   ngOnInit() {
     this.analyticService.page('Transfer Form Page');
 

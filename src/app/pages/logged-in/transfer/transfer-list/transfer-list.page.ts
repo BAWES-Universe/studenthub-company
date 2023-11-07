@@ -62,6 +62,12 @@ export class TransferListPage implements OnInit {
     this.loadTotalEmployee();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Transfer List Page'
+    });  
+  }
+
   ionViewWillEnter() {
    this.loadData(1);
   }
