@@ -64,6 +64,12 @@ export class CandidateViewPage implements OnInit {
     this.loadWorkHistoryData();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Candidate View Page'
+    });
+  }
+
   async loadData() {
     // Load list of ALL stores
     this.loading = true;

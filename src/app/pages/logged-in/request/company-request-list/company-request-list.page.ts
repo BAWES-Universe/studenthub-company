@@ -102,6 +102,10 @@ export class CompanyRequestListPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Request List Page'
+    });  
+
     this.content.getScrollElement().then(ele => {
       this.scrollPosition = ele.scrollTop;
     });

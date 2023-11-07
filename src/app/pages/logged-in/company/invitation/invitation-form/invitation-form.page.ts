@@ -59,6 +59,10 @@ export class InvitationFormPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Invitation Form Page'
+    });
+
     this.content.getScrollElement().then(ele => {
       this.scrollPosition = ele.scrollTop;
     });

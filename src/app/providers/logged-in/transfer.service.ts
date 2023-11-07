@@ -57,6 +57,11 @@ export class TransferService {
     return this._authhttp.patch(url, '');
   }
 
+  markCancel(transfer: Transfer): Observable<any> {
+    let url = `${this._transferEndpoint}/cancel/${transfer.transfer_id}`;
+    return this._authhttp.patch(url, '');
+  }
+  
   /**
    * Generating Invoice copy
    * @param invoice

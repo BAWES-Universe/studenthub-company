@@ -22,6 +22,12 @@ export class NotFoundPage implements OnInit {
     this.analyticService.page('Not Found Page');
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Not Found page'
+    });
+  }
+
   ionViewWillEnter() {
     this.modalCtrl.getTop().then(overlay => {
       if(overlay) {

@@ -46,6 +46,10 @@ export class InviteStaffViewPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Invite Staff Page'
+    }); 
+
     this.content.getScrollElement().then(ele => {
       this.scrollPosition = ele.scrollTop;
     });

@@ -33,6 +33,10 @@ export class InvitationPermissionPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Invitation Permission Page'
+    });
+
     // this.content.getScrollElement().then(ele => {
     //   this.scrollPosition = ele.scrollTop;
     // });

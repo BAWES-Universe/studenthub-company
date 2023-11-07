@@ -51,6 +51,9 @@ export class LogDateListPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Candidate Working Hours'
+    });
   }
 
   /**

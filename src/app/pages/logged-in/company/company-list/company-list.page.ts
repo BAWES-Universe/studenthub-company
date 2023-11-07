@@ -35,6 +35,12 @@ export class CompanyListPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Company List Page'
+    });
+  }
+
   async loadData(page: number) {
 
     this.companies = [];

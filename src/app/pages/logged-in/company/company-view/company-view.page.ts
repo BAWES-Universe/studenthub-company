@@ -55,6 +55,12 @@ export class CompanyViewPage implements OnInit {
     }
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Company View Page'
+    });
+  }
+
   /**
    * Load list of ALL stores
    * @param page 

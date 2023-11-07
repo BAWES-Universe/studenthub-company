@@ -58,6 +58,12 @@ export class UpdatePasswordPage {
     }, 800);
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Update Password Page'
+    });  
+  }
+
   /**
    * close page
    */

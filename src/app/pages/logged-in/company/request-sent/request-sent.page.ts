@@ -32,8 +32,12 @@ export class RequestSentPage implements OnInit {
       this.company_name = routeParams.company_name;
     });
   }
-
+  
   ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Request Sent Page'
+    });  
+
     this.content.getScrollElement().then(ele => {
       this.scrollPosition = ele.scrollTop;
     });

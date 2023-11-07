@@ -50,7 +50,9 @@ export class LogHourListPage implements OnInit {
   }
 
   ionViewWillLeave() {
-
+    this.analyticService.track('page_exit', {
+      'page': 'Candidate Working Hours'
+    });
   }
 
   /**

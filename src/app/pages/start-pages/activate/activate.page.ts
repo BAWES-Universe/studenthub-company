@@ -44,6 +44,12 @@ export class ActivatePage implements OnInit {
     this.initForm();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Company activate Page'
+    });  
+  }
+
   initForm() {
   
     this.form = this._fb.group({

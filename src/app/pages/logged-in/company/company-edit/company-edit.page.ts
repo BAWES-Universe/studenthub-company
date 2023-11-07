@@ -62,6 +62,12 @@ export class CompanyEditPage implements OnInit {
     this.analyticService.page('Company Edit Page');
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Company Edit Page'
+    });
+  }
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 25);
   }

@@ -60,6 +60,12 @@ export class LoginPage implements OnInit {
     });
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Login Page'
+    });  
+  }
+
   /**
    * Attempts to login with the provided email and password
    */

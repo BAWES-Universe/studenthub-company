@@ -96,6 +96,12 @@ export class ImportTransferFormPage implements OnInit {
     }
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Import Transfer Page'
+    });  
+  }
+
   ngOnDestroy() {
     if (!!this.browserUploadSubscription) {
       this.browserUploadSubscription.unsubscribe();

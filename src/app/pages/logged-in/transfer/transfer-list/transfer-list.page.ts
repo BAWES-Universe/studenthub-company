@@ -62,6 +62,12 @@ export class TransferListPage implements OnInit {
     this.loadTotalEmployee();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Transfer List Page'
+    });  
+  }
+
   ionViewWillEnter() {
    this.loadData(1);
   }
@@ -131,6 +137,7 @@ export class TransferListPage implements OnInit {
     // Loop through entire transfer list and update
     for (const transfer of this.transfers) {
       switch (transfer.transfer_status) {
+        
         case this.transferService.STATUS_INITIATED:
           this.draftTransfers.push(transfer);
           break;

@@ -56,6 +56,12 @@ export class InvitePage implements OnInit {
     this.loadRequests();
   }
 
+  ionViewWillLeave() {
+    this.analyticService.track('page_exit', {
+      'page': 'Invite Page'
+    });  
+  }
+
   initForm() {
 
     this.form = this.fb.group({
