@@ -30,6 +30,13 @@
       </ion-label>
     </ion-item>
 
+    <ion-item target="_blank" href="https://dash.plugn.io">
+      <div tabindex="0"></div>
+      <ion-label>
+        {{ "Plugn" | translate}}
+      </ion-label>
+    </ion-item>
+
     <ion-item tappable (click)="changeLanguage($event)">
       <div tabindex="0"></div>
       <ion-label *ngIf="translateService.currentLang == 'ar'">English</ion-label>
