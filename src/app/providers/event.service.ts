@@ -53,4 +53,5 @@ export class EventService {
   public totalEmployee$ = new Subject();
   public loadInvitation$ = new Subject();
   public setLanguagePref$ = new Subject();
+  public locationUpdated$ = new Subject();
 }

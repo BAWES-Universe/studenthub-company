@@ -65,6 +65,8 @@ export class AuthService {
     code: 'en',
     name: 'English'
   };
+  
+  public currentLocation = null; 
 
   public _urlLoginAuth0 = '/auth/login-auth0';
   private _urlBasicAuth = '/auth/login';
@@ -77,6 +79,7 @@ export class AuthService {
   private _urlIsEmailVerified = '/auth/is-email-verified';
   private _urlVerifyEmail = '/auth/verify-email';
   public urlLoginByApple = '/auth/login-by-apple';
+  public _urlLocate = 'auth/locate';
 
   constructor(
     public http: HttpClient,
@@ -482,13 +485,23 @@ export class AuthService {
   // This is the method you want to call at bootstrap
   async load(): Promise<any> {
 
-    Preferences.get({ key: 'loggedInCompany' }).then(async ret => {
+    const promises = [
+      Preferences.get({ key: 'currentLocation' }),
+      Preferences.get({ key: 'loggedInCompany' }),
+      Preferences.get({ key: 'language_pref' })
+    ];
 
-      let company = JSON.parse(ret.value);
+    return Promise.all(promises).then(data => {
+
+      if(data[0] && data[0].value) {
+        this.currentLocation = JSON.parse(data[0].value);
+      }  
+
+      let company = JSON.parse(data[1].value);
 
       // guest user who visited previously and saved preference
 
-      const { value } = await Preferences.get({ key: 'language_pref' });
+      const { value } = data[2];
 
       if (value) {
         this.language_pref = value;
@@ -541,7 +554,7 @@ export class AuthService {
       document.getElementsByTagName('html')[0].setAttribute('dir', (this.language.code == 'ar') ? 'rtl' : 'ltr');
 
       if (company && company.token) {
-        return this.setAccessToken(company);
+        this.setAccessToken(company);
       } else {
         //console.log('redirect to login');
         //this.router.navigate(['/login']);
@@ -831,6 +844,22 @@ export class AuthService {
         catchError(err => this._handleError(err)),
         first(),
         map((res: HttpResponse<any>) => res)
+      );
+  }
+
+  /**
+   * return user location detail by user ip address
+   * @return Observable
+   */
+  locate(): Observable<any> {
+    const url = environment.apiEndpoint + this._urlLocate;
+    const headers = this._buildAuthHeaders();
+    return this.http.get(url, { headers: headers })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        take(1),
+        map((res) => res)
       );
   }
 

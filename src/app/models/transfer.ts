@@ -10,7 +10,8 @@ export class Transfer {
     end_date: string;
     transfer_created_at: string;
     transfer_updated_at: string;
-
+    currency_code: string;
+    
     // Related
     transferCandidates: TransferCandidate[];
     invoices: Invoice[];

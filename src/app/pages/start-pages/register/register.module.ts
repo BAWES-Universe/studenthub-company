@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { RegisterPage } from './register.page';
 import {TranslateModule} from "@ngx-translate/core";
+import { CountryModalModule } from 'src/app/components/country-modal/country-modal.module';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         IonicModule,
+        CountryModalModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
         TranslateModule

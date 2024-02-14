@@ -17,6 +17,8 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { CompanyRequest } from 'src/app/models/company-request';
+import { Currency } from 'src/app/models/currency';
+import { CountryModalComponent } from 'src/app/components/country-modal/country-modal.component';
 
 
 @Component({
@@ -50,6 +52,8 @@ export class RegisterPage implements OnDestroy {
 
   public scrollPosition = 0;
 
+  public currencies: Currency[] = [];
+
   constructor(
     // private _storage: Storage,
     public platform: Platform,
@@ -60,6 +64,7 @@ export class RegisterPage implements OnDestroy {
     public translateService: TranslateLabelService,
     public analyticService: AnalyticsService,
     private alertCtrl: AlertController,
+    public modelCtrl: ModalController,
     private _router: Router,
     private _activeRouter: ActivatedRoute
   ) {
@@ -70,8 +75,30 @@ export class RegisterPage implements OnDestroy {
 
     this.otp = this._activeRouter.snapshot.params.otp;
 
+    this.eventService.locationUpdated$.subscribe(() => { 
+
+      if(this.registerForm) {
+
+       //this.registerForm.controls['owner_phone_country_code'].setValue(this.authService.currentLocation?.location?.calling_code);
+       
+       this.registerForm.controls['country_id'].setValue(this.authService.currentLocation?.country?.country_id);
+       
+       this.registerForm.controls['country'].setValue(this.translateService.langContent(
+        this.authService.currentLocation?.country?.country_name, 
+        this.authService.currentLocation?.country?.country_name_ar
+       ));
+       
+       //this.registerForm.controls['currency'].setValue(this.authService.currentLocation?.currency?.currency_id);
+       this.registerForm.controls['currency_code'].setValue(this.authService.currentLocation?.currency?.code);
+      }
+
+      console.log("location updated", this.registerForm.value);
+    });
+
     this._initForm();
   }
+
+
   ionViewWillLeave() {
     this.analyticService.track('page_exit', {
       'page': 'Register Page'
@@ -116,6 +143,23 @@ export class RegisterPage implements OnDestroy {
   }
 
   async _initForm() {
+
+    let country_id = 84;
+    let country = "Kuwait";
+    let currency_code = "KWD";
+
+    if(this.authService.currentLocation) {
+
+      country_id = this.authService.currentLocation?.country?.country_id;
+       
+      country = this.translateService.langContent(
+        this.authService.currentLocation?.country?.country_name, 
+        this.authService.currentLocation?.country?.country_name_ar
+      );
+
+      currency_code = this.authService.currentLocation?.currency?.code;
+    }
+
     this.registerForm = this._formService.group({
       name: ['', Validators.required],
       company_name: ['', Validators.required],
@@ -124,12 +168,44 @@ export class RegisterPage implements OnDestroy {
       email: ['', [Validators.required, CustomValidator.emailValidator]],
       password: [''],//, [Validators.required, Validators.minLength(7), Validators.maxLength(30)]
       receive_email: [''],
-      requesting_for: []
+      requesting_for: [],
+      country: [country],
+      country_id: [country_id],
+      currency_code: [currency_code]
     });
 
     setTimeout(() => {
       this.input.setFocus();
     }, 1000);
+
+    console.log("location updated", this.registerForm.value);
+  }
+
+  async openCountryList() {
+
+    window.history.pushState({
+      navigationId: window.history.state.navigationId
+    }, null, window.location.pathname);
+
+    const modal = await this.modelCtrl.create({
+      component: CountryModalComponent,
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+ 
+    if (data) {
+
+      this.registerForm.controls.country.setValue(this.translateService.langContent(data.country_name_en, data.country_name_ar));
+      this.registerForm.controls.country_id.setValue(data.country_id);
+    }
   }
 
   /**
@@ -148,6 +224,7 @@ export class RegisterPage implements OnDestroy {
     this.isLoading = true;
 
     this.getInviationSubscription = this.authService.getInvitation(this.otp).subscribe(data => {
+
       this.isLoading = false;
 
       if (data.invitation && data.invitation.email_to_invite) {

@@ -115,6 +115,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.platform.ready().then(() => {
 
+      if (!this.auth.currentLocation) { 
+        this.auth.locate().subscribe(res => {
+          
+          this.auth.currentLocation = res; 
+
+          Preferences.set({ key: 'currentLocation', value: JSON.stringify(res) });
+
+          this.eventService.locationUpdated$.next(res);
+        });
+      }
+
       if (this.platform.is('hybrid')) {
         SplashScreen.hide();
       }
