@@ -55,7 +55,7 @@ export class AuthService {
 
   public navEnable = true;
 
-  public currency_pref = 'USD';
+  public currency_pref = 'KWD';
 
   public companies: Company[] = [];
 
@@ -67,7 +67,7 @@ export class AuthService {
   };
   
   public currencies = [];//available currencies 
-
+    
   public currentLocation = null; 
 
   public _urlLoginAuth0 = '/auth/login-auth0';
@@ -469,6 +469,9 @@ export class AuthService {
     this.email = response.email;
     this.active_request_count = response.active_request_count;
 
+    if(response.currency_pref)
+      this.currency_pref = response.currency_pref;
+
     this.analyticService.user(this.id, {
       name: this.profile_name,
       email: this.email,
@@ -490,10 +493,15 @@ export class AuthService {
     const promises = [
       Preferences.get({ key: 'currentLocation' }),
       Preferences.get({ key: 'loggedInCompany' }),
-      Preferences.get({ key: 'language_pref' })
+      Preferences.get({ key: 'language_pref' }),
+      Preferences.get({ key: 'currency_pref' })
     ];
 
     return Promise.all(promises).then(data => {
+
+      if(data[3].value) {
+        this.currency_pref = data[3].value;
+      }
 
       if(data[0] && data[0].value) {
         this.currentLocation = JSON.parse(data[0].value);
@@ -718,7 +726,8 @@ export class AuthService {
     // Build Headers with Bearer Token
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Language': this.translate.currentLang
+      'Language': this.translate.currentLang,
+      'Currency': this.currency_pref,
     });
   }
 
@@ -865,6 +874,25 @@ export class AuthService {
         take(1),
         map((res) => res)
       );
+  }
+
+  /**
+   * set currency selection 
+   * @param currency 
+   */
+  setCurrencyPrf(currency) {
+
+    Preferences.set({ 'key': 'currency_pref', value: currency.code }).catch(r => {
+      this.eventService.errorStorage$.next();
+    });
+
+    this.currency_pref = currency.code;
+
+    //this.currency = currency;
+
+    if (this.accessToken) {
+      this.saveInStorage();
+    }
   }
 
   /**

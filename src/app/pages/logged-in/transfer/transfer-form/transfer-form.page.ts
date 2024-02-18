@@ -81,7 +81,7 @@ export class TransferFormPage implements OnInit {
     private _alertCtrl: AlertController,
     public _toastCtrl: ToastController,
     private _fb: FormBuilder,
-    private _authService: AuthService,
+    public authService: AuthService,
     private modalCtrl: ModalController,
     private translateService: TranslateLabelService,
     public analyticService: AnalyticsService
@@ -113,6 +113,7 @@ export class TransferFormPage implements OnInit {
 
     if (!this.transfer_id) {
       this.transfer = new Transfer();
+      this.transfer.currency_code = this.authService.currency_pref;
     } else if (!this.transfer) {
       this.loadTransferDetail();
     }
@@ -176,6 +177,7 @@ export class TransferFormPage implements OnInit {
     // Re-index the TransferCandidate list to avoid issues array length and create required FormControls
     const updatedTransferRecords = [];
     const formControls: any = {};
+
     allTransferCandidateRecordsMapped.forEach(record => {
       updatedTransferRecords.push(record);
 
@@ -191,9 +193,15 @@ export class TransferFormPage implements OnInit {
     formControls.start_date = [(this.transfer && this.transfer.start_date) ? this.transfer.start_date : '', [
       Validators.required
     ]];
+
     formControls.end_date = [(this.transfer && this.transfer.end_date) ? this.transfer.end_date : '', [
       Validators.required
     ]];
+
+    formControls.currency_code = [this.transfer ? this.transfer.currency_code : this.authService.currency_pref, [
+      Validators.required
+    ]];
+
     // Replace the transferCandidates within the transfer with our up to date list
     if (this.transfer) {
       this.transfer.transferCandidates = updatedTransferRecords;
@@ -256,6 +264,12 @@ export class TransferFormPage implements OnInit {
     }
   }
 
+  onCurrencyUpdate(event) {
+    this.transfer.currency_code = event.target.value;
+    this.form.controls.currency_code.setValue(event.target.value);
+    this.form.controls.currency_code.updateValueAndValidity();
+  }
+
   /**
    * Save the model
    */
@@ -268,8 +282,8 @@ export class TransferFormPage implements OnInit {
      * Otherwise create a new transfer
      */
     const action = this.transfer.transfer_id ?
-      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date) :
-      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date);
+      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code) :
+      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code);
 
     action.subscribe(async jsonResponse => {
       loader.dismiss();
@@ -301,7 +315,7 @@ export class TransferFormPage implements OnInit {
       // On Failure, show an alert with the error message
       if (jsonResponse.operation == 'error') {
         const prompt = await this._alertCtrl.create({
-          message: this._authService.errorMessage(jsonResponse.message),
+          message: this.authService.errorMessage(jsonResponse.message),
           buttons: [this.translateService.transform('Okay')]
         });
         prompt.present();

@@ -63,6 +63,12 @@ export class MenuComponent implements OnInit {
     this._menuCtrl.close();
   }
 
+  setCurrency(currency) {
+    this.auth.setCurrencyPrf(currency);
+    this.navCtrl.navigateRoot(['/']);
+    this._menuCtrl.close();
+  }
+
   changeLanguage(event) {
     const lang = this.translateService.currentLang == 'ar' ? 'en' : 'ar';
     this.eventService.setLanguagePref$.next(lang);
