@@ -66,6 +66,8 @@ export class AuthService {
     name: 'English'
   };
   
+  public currencies = [];//available currencies 
+
   public currentLocation = null; 
 
   public _urlLoginAuth0 = '/auth/login-auth0';
@@ -79,7 +81,7 @@ export class AuthService {
   private _urlIsEmailVerified = '/auth/is-email-verified';
   private _urlVerifyEmail = '/auth/verify-email';
   public urlLoginByApple = '/auth/login-by-apple';
-  public _urlLocate = 'auth/locate';
+  public _urlLocate = '/auth/locate';
 
   constructor(
     public http: HttpClient,
@@ -835,7 +837,9 @@ export class AuthService {
       receive_email: contact.contact_receive_email,
       company_name: contact.company_name,
       contact_position: contact.contact_position,
-      phone_number: contact.phone_number
+      phone_number: contact.phone_number,
+      currency_code: contact.currency_code,
+      country_id: contact.country_id
     };
 
     return this.http.post(url, JSON.stringify(params), { headers })

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 //services
-import { CountryService } from 'src/app/providers/logged-in/country.service';
+import { CountryService } from 'src/app/providers/country.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 

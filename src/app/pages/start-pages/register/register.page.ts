@@ -52,8 +52,6 @@ export class RegisterPage implements OnDestroy {
 
   public scrollPosition = 0;
 
-  public currencies: Currency[] = [];
-
   constructor(
     // private _storage: Storage,
     public platform: Platform,
@@ -84,20 +82,17 @@ export class RegisterPage implements OnDestroy {
        this.registerForm.controls['country_id'].setValue(this.authService.currentLocation?.country?.country_id);
        
        this.registerForm.controls['country'].setValue(this.translateService.langContent(
-        this.authService.currentLocation?.country?.country_name, 
+        this.authService.currentLocation?.country?.country_name_en, 
         this.authService.currentLocation?.country?.country_name_ar
        ));
        
        //this.registerForm.controls['currency'].setValue(this.authService.currentLocation?.currency?.currency_id);
        this.registerForm.controls['currency_code'].setValue(this.authService.currentLocation?.currency?.code);
       }
-
-      console.log("location updated", this.registerForm.value);
     });
 
     this._initForm();
   }
-
 
   ionViewWillLeave() {
     this.analyticService.track('page_exit', {
@@ -170,8 +165,8 @@ export class RegisterPage implements OnDestroy {
       receive_email: [''],
       requesting_for: [],
       country: [country],
-      country_id: [country_id],
-      currency_code: [currency_code]
+      country_id: [country_id, Validators.required],
+      currency_code: [currency_code, Validators.required]
     });
 
     setTimeout(() => {
@@ -263,6 +258,8 @@ export class RegisterPage implements OnDestroy {
     this.model.phone_number = this.registerForm.value.phone_number;
     this.model.company_name = this.registerForm.value.company_name;
     this.model.contact_position = this.registerForm.value.contact_position;
+    this.model.currency_code = this.registerForm.value.currency_code;
+    this.model.country_id = this.registerForm.value.country_id;
   }
 
   /**
@@ -297,7 +294,10 @@ export class RegisterPage implements OnDestroy {
             email: '',  
             password: '',  
             receive_email: '',
-            requesting_for: ''
+            requesting_for: '',
+            country: "",
+            "currency_code": "",
+            country_id: null
           });
 
           this.registerForm.reset();
