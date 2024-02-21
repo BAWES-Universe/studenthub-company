@@ -1,5 +1,6 @@
 import { Store } from './store';
 import {CompanyContact} from "./company-contact";
+import { Country } from './country';
 
 export class Company {
     company_id: number;
@@ -33,4 +34,5 @@ export class Company {
     subCompanies: Company[];
     stores: Store[];
     companyContacts: CompanyContact[];
+    country: Country;
 }

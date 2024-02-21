@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //models
@@ -11,6 +11,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { TranslateLabelService } from "../../../../providers/translate-label.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { CountryModalComponent } from 'src/app/components/country-modal/country-modal.component';
 
 
 @Component({
@@ -49,6 +50,7 @@ export class CompanyEditPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     private _fb: FormBuilder,
+    public modelCtrl: ModalController,
     public alertCtrl: AlertController,
     private _toastCtrl: ToastController,
     public eventService: EventService,
@@ -105,6 +107,11 @@ export class CompanyEditPage implements OnInit {
    */
   async _initForm() {
 
+    const country = this.translateService.langContent(
+      this.model.country?.country_name_en, 
+      this.model.country?.country_name_ar
+    );
+
     this.form = this._fb.group({
       name: [this.model.company_name, [Validators.required]],
       common_name_en: [this.model.company_common_name_en, [Validators.required]],
@@ -113,6 +120,9 @@ export class CompanyEditPage implements OnInit {
       description_ar: [this.model.company_description_en],
       website: [this.model.company_website],
       email: [this.model.company_email],
+      country: [country],
+      country_id: [this.model.country_id, Validators.required],
+      currency_code: [this.model.currency_code, Validators.required]
     });
   }
 
@@ -168,6 +178,32 @@ export class CompanyEditPage implements OnInit {
     });
   }
 
+  async openCountryList() {
+
+    window.history.pushState({
+      navigationId: window.history.state.navigationId
+    }, null, window.location.pathname);
+
+    const modal = await this.modelCtrl.create({
+      component: CountryModalComponent,
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+ 
+    if (data) {
+      this.form.controls.country.setValue(this.translateService.langContent(data.country_name_en, data.country_name_ar));
+      this.form.controls.country_id.setValue(data.country_id);
+    }
+  }
+
   /**
    * update model values
    */
@@ -179,6 +215,8 @@ export class CompanyEditPage implements OnInit {
     this.model.company_description_ar = this.form.value.description_ar;
     this.model.company_website = this.form.value.website;
     this.model.company_email = this.form.value.email;
+    this.model.country_id = this.form.value.country_id;
+    this.model.currency_code = this.form.value.currency_code;
   }
 
   /**

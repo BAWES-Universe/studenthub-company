@@ -93,7 +93,7 @@ export class AccountPage implements OnInit {
     phoneCtrls.push(this._fb.group({
       phone_number: ['', []]
     }));
-
+    
     this.form = this._fb.group({
       name: [this.model.contact_name, Validators.required],
       //position: [this.model.contact_position, Validators.required],
