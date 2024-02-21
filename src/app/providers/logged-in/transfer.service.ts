@@ -85,12 +85,13 @@ export class TransferService {
    * @param { Transfer } transfer
    * @returns {Observable<any>}
    */
-  save(transfer: Transfer, start_date, end_date): Observable<any> {
+  save(transfer: Transfer, start_date, end_date, currency_code = null): Observable<any> {
     const postUrl = `${this._transferEndpoint}`;
     const params = {
       candidates: transfer.transferCandidates,
       start_date: start_date,
-      end_date: end_date
+      end_date: end_date,
+      currency_code: currency_code
     };
     return this._authhttp.post(postUrl, params);
   }
@@ -100,12 +101,13 @@ export class TransferService {
    * @param { Transfer } transfer
    * @returns { Observable<any> }
    */
-  updateTransfer(transfer: Transfer, start_date, end_date): Observable<any> {
+  updateTransfer(transfer: Transfer, start_date, end_date, currency_code = null): Observable<any> {
     const postUrl = `${this._transferEndpoint}/${transfer.transfer_id}`;
     const params = {
       candidates: transfer.transferCandidates,
       start_date: start_date,
-      end_date: end_date
+      end_date: end_date,
+      currency_code: currency_code
     };
     return this._authhttp.patch(postUrl, params);
   }
@@ -131,12 +133,13 @@ export class TransferService {
    * upload excel file to create new transfer
    * @param file
    */
-  uploadTransferExcel(file: string, start_date, end_date): Observable<any> {
+  uploadTransferExcel(file: string, start_date, end_date, currency_code = null): Observable<any> {
     const url = this._transferEndpoint + '/create-by-excel';
     return this._authhttp.uploadFile(url, {
       excel: file,
       start_date: start_date,
-      end_date: end_date
+      end_date: end_date,
+      currency_code: currency_code
     });
   }
 
@@ -145,12 +148,13 @@ export class TransferService {
    * @param file
    * @param transfer_id
    */
-  updateTransferUploadExcel(file: string, transfer_id, start_date, end_date): Observable<any> {
+  updateTransferUploadExcel(file: string, transfer_id, start_date, end_date, currency_code = null): Observable<any> {
     const url = this._transferEndpoint + '/edit-by-excel/' + transfer_id;
     return this._authhttp.patch(url, {
       excel: file,
       start_date: start_date,
-      end_date: end_date
+      end_date: end_date,
+      currency_code: currency_code
     });
   }
 }

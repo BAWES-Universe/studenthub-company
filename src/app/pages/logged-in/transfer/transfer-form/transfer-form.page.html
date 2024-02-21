@@ -113,7 +113,12 @@
   <ion-toolbar class="ion-text-center">
     <div class="desktop-view">
       <ion-title>
-        {{ "Total" | translate}} {{ total | number:'1.0-3' }}
+        {{ "Total" | translate}} {{ total | number:'1.0-3' }} 
+        <ion-select  *ngIf="form" [value]="form.value.currency_code" (ionChange)="onCurrencyUpdate($event)"> 
+          <ion-select-option [value]="currency.code" *ngFor="let currency of authService.currencies">
+            {{ currency.code }}
+          </ion-select-option>
+        </ion-select>
       </ion-title>
     </div>
   </ion-toolbar>
