@@ -143,10 +143,13 @@ export class CompanyEditPage implements OnInit {
 
       this.saving = false;
 
-
       if (jsonResponse.operation == 'success') {
 
         this.authService.company = this.model;
+
+        if(this.model.currency_code) {
+          this.authService.currency_pref = this.model.currency_code;
+        }
 
         this.eventService.companyUpdated$.next({
           'company': this.model,
