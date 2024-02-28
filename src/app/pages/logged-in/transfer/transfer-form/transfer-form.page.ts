@@ -28,6 +28,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { AuthService } from '../../../../providers/auth.service';
 import { TranslateLabelService } from "../../../../providers/translate-label.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -74,6 +75,7 @@ export class TransferFormPage implements OnInit {
     public navCtrl: NavController,
     public platform: Platform,
     public aws: AwsService,
+    public eventService: EventService,
     public transferService: TransferService,
     public candidateService: CandidateService,
     // private _viewCtrl: ViewController,
@@ -290,6 +292,7 @@ export class TransferFormPage implements OnInit {
 
       // On Success. Show Toast with the response message and close the page
       if (jsonResponse.operation == 'success') {
+
         const toast = await this._toastCtrl.create({
           message: this.translateService.errorMessage(jsonResponse.message),
           duration: 3000
@@ -299,6 +302,9 @@ export class TransferFormPage implements OnInit {
 
         // create mode
         if (!this.transfer.transfer_id) {
+
+          this.eventService.transferCreated$.next(); 
+
           this.navCtrl.navigateForward('transfer-view/' + jsonResponse.transfer_id);
           // this.navCtrl.push('transfer-view/'+jsonResponse.transfer_idTransferViewPage, {
           //   'model': jsonResponse.transfer_id

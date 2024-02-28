@@ -25,6 +25,7 @@ import {
   CalendarComponentOptions
 } from 'ion2-calendar';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -62,6 +63,7 @@ export class ImportTransferFormPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
     public authService: AuthService,
+    public eventService: EventService,
     public transferService: TransferService,
     public awsService: AwsService,
     public sentryService: SentryErrorhandlerService,
@@ -202,6 +204,8 @@ export class ImportTransferFormPage implements OnInit {
 
       if (data.operation == 'success') {
 
+        this.eventService.transferCreated$.next(); 
+          
         let prompt = await this._alertCtrl.create({
           message: this.authService.errorMessage(data.message),
           buttons: ["Okay"]

@@ -148,7 +148,7 @@ export class RegisterPage implements OnDestroy {
       country_id = this.authService.currentLocation?.country?.country_id;
        
       country = this.translateService.langContent(
-        this.authService.currentLocation?.country?.country_name, 
+        this.authService.currentLocation?.country?.country_name_en, 
         this.authService.currentLocation?.country?.country_name_ar
       );
 

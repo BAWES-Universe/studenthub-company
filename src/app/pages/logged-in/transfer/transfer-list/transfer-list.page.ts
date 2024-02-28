@@ -49,10 +49,6 @@ export class TransferListPage implements OnInit {
     private translateService: TranslateLabelService,
     public analyticService: AnalyticsService
   ) {
-    this.eventService.companyChanged$.subscribe(() => {
-      this.loadTotalEmployee();
-      this.loadData(1);
-    });
   }
 
   ngOnInit() {
@@ -60,6 +56,15 @@ export class TransferListPage implements OnInit {
 
     // this.loadData(this.currentPage);
     this.loadTotalEmployee();
+
+    this.eventService.companyChanged$.subscribe(() => {
+      this.loadTotalEmployee();
+      this.loadData(1);
+    });
+
+    this.eventService.transferCreated$.subscribe(() => {
+      this.loadData(1);
+    });
   }
 
   ionViewWillLeave() {
@@ -69,7 +74,7 @@ export class TransferListPage implements OnInit {
   }
 
   ionViewWillEnter() {
-   this.loadData(1);
+    this.loadData(1);
   }
 
   /**

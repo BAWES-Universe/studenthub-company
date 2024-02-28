@@ -54,4 +54,6 @@ export class EventService {
   public loadInvitation$ = new Subject();
   public setLanguagePref$ = new Subject();
   public locationUpdated$ = new Subject();
+
+  public transferCreated$ = new Subject();
 }
