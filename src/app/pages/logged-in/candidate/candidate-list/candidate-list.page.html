@@ -16,7 +16,7 @@
 
     <section class="ion-padding empty" *ngIf="!loading && candidates && candidates.length == 0">
       <ion-icon name="ios-filing-outline"></ion-icon>
-      <no-items message="No Employee Yet"></no-items>
+      <no-items message="~ No Employee Yet ~"></no-items>
     </section>
 
     <loading-modal [loading]="loading" type="candidate-list"></loading-modal>

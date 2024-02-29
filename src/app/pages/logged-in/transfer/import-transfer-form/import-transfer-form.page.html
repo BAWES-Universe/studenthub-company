@@ -4,7 +4,7 @@
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/transfer-list"></ion-back-button>
       </ion-buttons>
-      <ion-title>{{ pageTitle }}</ion-title>
+      <ion-title>{{ pageTitle | translate }}</ion-title>
 
   </ion-toolbar>
 </ion-header>
@@ -32,7 +32,7 @@
     <ion-button *ngIf="!start_date || !end_date" (click)="openCalendar()">{{"Please select the date Range" | translate}}</ion-button>
 
     <p class="date-range" *ngIf="this.start_date && this.end_date">
-      From <span *ngIf="this.start_date">{{ toDate(this.start_date) | date}}</span> - To
+      {{ "From" | translate }} <span *ngIf="this.start_date">{{ toDate(this.start_date) | date}}</span> - {{ "To" | translate }}
       <span *ngIf="this.end_date">{{ toDate(this.end_date) | date}}</span>
 
       <ion-button class="btn-clear-date-range" fill="clear" (click)="clearSelection()">

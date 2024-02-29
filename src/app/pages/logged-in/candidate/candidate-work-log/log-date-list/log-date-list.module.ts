@@ -7,6 +7,7 @@ import { LogDateListPageRoutingModule } from './log-date-list-routing.module';
 import { LogDateListPage } from './log-date-list.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import {PipesModule} from 'src/app/pipes/pipes.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import {PipesModule} from 'src/app/pipes/pipes.module';
     IonicModule,
     LoadingModalModule,
     PipesModule,
+    TranslateModule.forChild(),
     LogDateListPageRoutingModule
   ],
   declarations: [

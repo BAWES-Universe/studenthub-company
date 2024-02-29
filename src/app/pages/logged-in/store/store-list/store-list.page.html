@@ -3,16 +3,16 @@
    <ion-list *ngIf="stores && stores.length > 0 && !loading" class="store-list">
       <ion-card *ngFor="let store of stores">
         <ion-badge color="light" *ngIf="store.store_total_candidates > 0">
-          {{"staff_count" | translate: {value:store.store_total_candidates} }}
+          {{ "staff_count" | translate: {value:store.store_total_candidates} }}
         </ion-badge>
         <ion-card-content>
           <div tabindex="0"></div>
           <ion-label>
             <h5 class="store_name">{{ store.store_name }}</h5>
             <div class="store-details" *ngIf="store.store_location || store.brand || store.mall">
-              <p *ngIf="store.store_location"><ion-icon name="paper-plane-outline"></ion-icon> <span>{{ store.store_location }}</span></p>
-              <p *ngIf="store.brand"><ion-icon name="pricetag-outline"></ion-icon> <span>{{ store.brand.brand_name_en }}</span></p>
-              <p *ngIf="store.mall"><ion-icon name="storefront-outline"></ion-icon><span>{{ store.mall.mall_name_en }}</span></p>
+              <p *ngIf="store.store_location"><ion-icon slot="start" name="paper-plane-outline"></ion-icon> <span>{{ store.store_location }}</span></p>
+              <p *ngIf="store.brand"><ion-icon slot="start" name="pricetag-outline"></ion-icon> <span>{{ store.brand.brand_name_en }}</span></p>
+              <p *ngIf="store.mall"><ion-icon slot="start" name="storefront-outline"></ion-icon><span>{{ store.mall.mall_name_en }}</span></p>
             </div>
           </ion-label>
           <ion-list *ngIf="store.candidates && store.candidates.length > 0">
@@ -33,6 +33,7 @@
     </ion-list>
 
     <no-items message="~ No store found ~" *ngIf="!loading && !stores"></no-items>
+    
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>

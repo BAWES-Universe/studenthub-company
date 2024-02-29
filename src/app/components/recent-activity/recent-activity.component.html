@@ -6,17 +6,17 @@
   <div class="activity">
     
     <b *ngIf="activity.updatedBy">
-      <ng-container *ngIf="activity.updatedBy.staff_name">By {{activity.createdBy.staff_name }}:&nbsp;</ng-container>
-      <ng-container *ngIf="activity.updatedBy.candidate_name">By {{activity.createdBy.candidate_name }}:&nbsp;</ng-container>
-      <ng-container *ngIf="activity.updatedBy.contact_name">By {{activity.createdBy.contact_name }}:&nbsp;</ng-container>
-      <ng-container *ngIf="activity.updatedBy.admin_name">By {{activity.createdBy.admin_name }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.updatedBy.staff_name">{{ "by_name" | translate : { value: activity.createdBy.staff_name }  }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.updatedBy.candidate_name">{{ "by_name" | translate : { value: activity.createdBy.candidate_name}  }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.updatedBy.contact_name">{{ "by_name" | translate : { value: activity.createdBy.contact_name}  }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.updatedBy.admin_name">{{ "by_name" | translate : { value: activity.createdBy.admin_name}  }}:&nbsp;</ng-container>
     </b>
 
     <b *ngIf="!activity.updatedBy && activity.createdBy">
-      <ng-container *ngIf="activity.createdBy.staff_name">By {{activity.createdBy.staff_name }}:&nbsp;</ng-container>
-      <ng-container *ngIf="activity.createdBy.candidate_name">By {{activity.createdBy.candidate_name }}:&nbsp;</ng-container>
-      <ng-container *ngIf="activity.createdBy.contact_name">By {{activity.createdBy.contact_name }}:&nbsp;</ng-container>
-      <ng-container *ngIf="activity.createdBy.admin_name">By {{activity.createdBy.admin_name }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.createdBy.staff_name">{{ "by_name" | translate : { value: activity.createdBy.staff_name}  }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.createdBy.candidate_name">{{ "by_name" | translate : { value: activity.createdBy.candidate_name}  }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.createdBy.contact_name">{{ "by_name" | translate : { value: activity.createdBy.contact_name}  }}:&nbsp;</ng-container>
+      <ng-container *ngIf="activity.createdBy.admin_name">{{ "by_name" | translate : { value: activity.createdBy.admin_name}  }}:&nbsp;</ng-container>
     </b>
     
     <!--  [routerLink]="'/candidate-view/' + activity.candidate_id" -->

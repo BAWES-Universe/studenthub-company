@@ -1,4 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
+//services
+import { TranslateLabelService } from '../providers/translate-label.service';
+
 
 @Pipe({
 	name: 'candidateAge',
@@ -8,7 +11,9 @@ export class CandidateAgePipe implements PipeTransform {
 
     public timer: number;
 
-    constructor() {}
+    constructor(
+      public translate: TranslateLabelService
+    ) {}
 
     transform(value: string) {
       
@@ -26,9 +31,9 @@ export class CandidateAgePipe implements PipeTransform {
       if (Number.isNaN(seconds)){
         return '';
       } else if (days <= 545) {
-        return 'a year old';
+        return this.translate.transform('a year old');
       } else { // (days > 545)
-        return ` ${years} years old`;
+        return this.translate.transform("txt_years_old", { value: years });
       }
     }
 }

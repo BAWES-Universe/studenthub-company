@@ -1,4 +1,6 @@
-import { Pipe, PipeTransform, NgZone, ChangeDetectorRef, OnDestroy } from "@angular/core";
+import { Pipe, PipeTransform } from "@angular/core";
+//services
+import { TranslateLabelService } from "../providers/translate-label.service";
 
 
 @Pipe({
@@ -9,6 +11,7 @@ export class AgePipe implements PipeTransform {
     public timer: number;
 
     constructor(
+		public translate: TranslateLabelService
     ) {}
 
 	transform(value: number) {
@@ -30,27 +33,27 @@ export class AgePipe implements PipeTransform {
 		if (Number.isNaN(seconds)){
 			return '';
 		} else if (seconds <= 45) {
-			return 'a few seconds';
+			return this.translate.transform('a few seconds');
 		} else if (seconds <= 90) {
-			return 'a minute';
+			return this.translate.transform('a minute');
 		} else if (minutes <= 45) {
-			return minutes + ' minutes';
+			return this.translate.transform("txt_minutes", { value: minutes });
 		} else if (minutes <= 90) {
-			return 'an hour';
+			return this.translate.transform('an hour');
 		} else if (hours <= 22) {
-			return hours + ' hours';
+			return this.translate.transform("txt_hours", { value: hours });
 		} else if (hours <= 36) {
-			return 'a day';
+			return this.translate.transform('a day');
 		} else if (days <= 25) {
-			return days + ' days';
+			return this.translate.transform("txt_days", { value: days });
 		} else if (days <= 45) {
-			return 'a month';
+			return this.translate.transform('a month');
 		} else if (days <= 345) {
-			return months + ' months';
+			return this.translate.transform("txt_months", { value: months });
 		} else if (days <= 545) {
-			return 'a year';
+			return this.translate.transform('a year');
 		} else { // (days > 545)
-			return years + ' years';
+			return this.translate.transform("txt_years", { value: years });
 		}
     }
 }
