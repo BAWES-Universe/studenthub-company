@@ -1,10 +1,10 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar class="desktop-view">
-
+ 
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/transfer-list"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ pageTitle }}</ion-title>
+    <ion-title>{{ pageTitle | translate }}</ion-title>
 
     <ion-buttons slot="end">
       <ion-select *ngIf="transfer" [(ngModel)]="transfer.currency_code">
@@ -13,7 +13,7 @@
         </ion-select-option>
       </ion-select>
     </ion-buttons>
-
+    
   </ion-toolbar>
 </ion-header>
 
@@ -44,7 +44,7 @@
       translate}}</ion-button>
 
     <p class="date-range" *ngIf="this.start_date && this.end_date">
-      From <span *ngIf="this.start_date">{{ toDate(this.start_date) | date}}</span> - To
+      {{ "From" | translate }} <span *ngIf="this.start_date">{{ toDate(this.start_date) | date}}</span> - {{ "To" | translate }}
       <span *ngIf="this.end_date">{{ toDate(this.end_date) | date}}</span>
 
       <ion-button class="btn-clear-date-range" fill="clear" (click)="clearSelection()">

@@ -3,7 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title class="candidate_name">Time log</ion-title>
+    <ion-title class="candidate_name">
+      {{ "Time log" | translate }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,7 +21,9 @@
           </ion-label>
       </ion-item>
     </ion-list>
-    <p *ngIf="candidateWorkingHourData && candidateWorkingHourData.length == 0">No record found</p>
+    <p *ngIf="candidateWorkingHourData && candidateWorkingHourData.length == 0">
+      {{ "No record found" | translate }}
+    </p>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content>

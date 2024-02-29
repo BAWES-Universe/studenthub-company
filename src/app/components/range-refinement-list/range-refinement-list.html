@@ -20,8 +20,8 @@
             </ion-button>
 
             <span class="ais-CurrentRefinementComponent-list">
-                From {{ this.value.lower | age }}
-                To {{ this.value.upper | age }}
+                {{ "From" | translate }} {{ this.value.lower | age }}
+                {{ "To" | translate }} {{ this.value.upper | age }}
             </span>
         </div>
 

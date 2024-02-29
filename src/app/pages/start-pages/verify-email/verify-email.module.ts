@@ -22,7 +22,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     RouterModule.forChild(routes)
   ],
   declarations: [VerifyEmailPage]

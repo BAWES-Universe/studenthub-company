@@ -1,4 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
+//services
+import { TranslateLabelService } from '../providers/translate-label.service';
+
 
 @Pipe({
 	name: 'timeSpent',
@@ -8,6 +11,7 @@ export class TimeSpentPipe implements PipeTransform {
     public timer: number;
 
     constructor(
+      public translate: TranslateLabelService
     ) {}
 
 	transform(value: number) {
@@ -36,19 +40,19 @@ export class TimeSpentPipe implements PipeTransform {
     }
 
     if (months) {
-      return months.toFixed(2) + ' months';
+      return this.translate.transform("txt_months", { value: months.toFixed(2) }); 
     }
     if (days) {
-      return days.toFixed(2) + ' days';
+      return this.translate.transform("txt_days", { value: days.toFixed(2) }); 
     }
     if (hours) {
-      return hours.toFixed(2) + ' hours';
+      return this.translate.transform("txt_hours", { value: hours.toFixed(2) }); 
     }
     if (minutes) {
-      return minutes.toFixed(2) + ' minutes';
+      return this.translate.transform("txt_minutes", { value: minutes.toFixed(2) });
     }
     if (seconds) {
-      return seconds.toFixed(2) + ' seconds';
+      return this.translate.transform("txt_seconds", { value: seconds.toFixed(2) });
     }
   }
 }
