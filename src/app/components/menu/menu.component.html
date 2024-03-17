@@ -78,4 +78,14 @@
     </ng-container>
 
   </ion-list>
+
+  <!--
+  <ion-list lines="none" class="currency-list" *ngIf="auth.currencies.length > 1">
+    <ion-list-header>Currencies</ion-list-header>
+    <ion-select [value]="auth.currency_pref" (ionChange)="setCurrency($event)">
+      <ion-select-option [value]="currency.code" *ngFor="let currency of auth.currencies">
+        {{ currency.code }}
+      </ion-select-option>
+    </ion-select>
+  </ion-list>  -->
 </div>

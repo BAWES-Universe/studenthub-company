@@ -1,11 +1,19 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
-  <ion-toolbar  class="desktop-view">
+  <ion-toolbar class="desktop-view">
+ 
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/transfer-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ pageTitle | translate }}</ion-title>
 
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="/transfer-list"></ion-back-button>
-      </ion-buttons>
-      <ion-title>{{ pageTitle | translate }}</ion-title>
-
+    <ion-buttons slot="end">
+      <ion-select *ngIf="transfer" [(ngModel)]="transfer.currency_code">
+        <ion-select-option [value]="currency.code" *ngFor="let currency of authService.currencies">
+          {{ currency.code }}
+        </ion-select-option>
+      </ion-select>
+    </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 
@@ -19,7 +27,10 @@
         {{"Step 1: Download Excel template" | translate}}
       </ion-button>
 
-      <h4>{{"Step 2: Fill out the number of hours worked and the bonus amount to be sent in KWD" | translate}}</h4>
+      <!-- 
+        
+        "Step 2: Fill out the number of hours worked and the bonus amount to be sent in KWD"-->
+      <h4>{{ "Step 2: Fill out the number of hours worked and the bonus amount" | translate}}</h4>
 
       <h4>{{"Step 3: Fill Start and End Date" | translate}}</h4>
 
@@ -29,7 +40,8 @@
 
     <h4>{{"I am transferring for work done in the following time period:" | translate}}</h4>
 
-    <ion-button *ngIf="!start_date || !end_date" (click)="openCalendar()">{{"Please select the date Range" | translate}}</ion-button>
+    <ion-button *ngIf="!start_date || !end_date" (click)="openCalendar()">{{"Please select the date Range" |
+      translate}}</ion-button>
 
     <p class="date-range" *ngIf="this.start_date && this.end_date">
       {{ "From" | translate }} <span *ngIf="this.start_date">{{ toDate(this.start_date) | date}}</span> - {{ "To" | translate }}
@@ -39,6 +51,8 @@
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
     </p>
+
+
 
     <br />
 

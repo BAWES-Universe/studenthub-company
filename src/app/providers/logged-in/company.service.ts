@@ -45,7 +45,7 @@ export class CompanyService {
    * @returns {Observable<any>}
    */
   view(company_id): Observable<any> {
-    return this._authhttp.get(this._companyEndpoint + '/'+company_id);
+    return this._authhttp.get(this._companyEndpoint + '/'+company_id + "?expand=country");
   }
 
   /**
@@ -62,7 +62,9 @@ export class CompanyService {
       common_name_ar: model.company_common_name_ar,
       description_en: model.company_description_en,
       description_ar: model.company_description_ar,
-      website: model.company_website
+      website: model.company_website,
+      currency_code: model.currency_code, 
+      country_id: model.country_id
     };
 
     return this._authhttp.patch(url, params);

@@ -1,5 +1,6 @@
 import { Store } from './store';
 import {CompanyContact} from "./company-contact";
+import { Country } from './country';
 
 export class Company {
     company_id: number;
@@ -27,8 +28,11 @@ export class Company {
     deleted: number;
     totalCandidates: number;
     company_approved_to_hire: any;
+    country_id: number;
+    currency_code: string;
     subcompanies: Company[];
     subCompanies: Company[];
     stores: Store[];
     companyContacts: CompanyContact[];
+    country: Country;
 }

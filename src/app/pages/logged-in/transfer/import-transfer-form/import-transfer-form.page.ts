@@ -25,6 +25,7 @@ import {
   CalendarComponentOptions
 } from 'ion2-calendar';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -62,6 +63,7 @@ export class ImportTransferFormPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
     public authService: AuthService,
+    public eventService: EventService,
     public transferService: TransferService,
     public awsService: AwsService,
     public sentryService: SentryErrorhandlerService,
@@ -72,6 +74,10 @@ export class ImportTransferFormPage implements OnInit {
     public platform: Platform,
     public modalCtrl: ModalController,
   ) {
+  }
+
+  ngOnInit() {
+    
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
 
     this.min = '1930/01/01';
@@ -80,10 +86,11 @@ export class ImportTransferFormPage implements OnInit {
     this.max = (this.platform.is('mobile')) ? d.getFullYear() + '-12-12' : d;
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.analyticService.page('Import Transfer Page');
 
     const state = window.history.state;
+
     // Load the passed model (required)
     if (state['transfer']) {
       this.transfer = state['transfer'];
@@ -91,8 +98,14 @@ export class ImportTransferFormPage implements OnInit {
       if (this.transfer.transfer_id) this.pageTitle = "Edit Transfer via Excel";
       this.scenario = 'update'
     }
-    if (!this.transfer && this.transfer_id) {
-      this.loadTransferData();
+
+    if (!this.transfer) {
+      if (this.transfer_id) {
+        this.loadTransferData();
+      } else {
+        this.transfer = new Transfer;
+        this.transfer.currency_code = this.authService.currency_pref;
+      }
     }
   }
 
@@ -185,12 +198,14 @@ export class ImportTransferFormPage implements OnInit {
    */
   async newTransferUpload(file) {
 
-    this.transferService.uploadTransferExcel(file, this.start_date, this.end_date).subscribe(async data => {
+    this.transferService.uploadTransferExcel(file, this.start_date, this.end_date, this.transfer.currency_code).subscribe(async data => {
 
       this.uploading = false;
 
       if (data.operation == 'success') {
 
+        this.eventService.transferCreated$.next(); 
+          
         let prompt = await this._alertCtrl.create({
           message: this.authService.errorMessage(data.message),
           buttons: ["Okay"]
@@ -224,7 +239,7 @@ export class ImportTransferFormPage implements OnInit {
   async editTransferUpload(file) {
 
     this.transferService
-      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.start_date, this.end_date)
+      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.start_date, this.end_date, this.transfer.currency_code)
       .subscribe(async data => {
 
         this.uploading = false;

@@ -27,6 +27,7 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { InvitationPermissionPageModule } from './pages/logged-in/company/invitation/invitation-permission/invitation-permission.module';
+import { CountryModalModule } from './components/country-modal/country-modal.module';
 
 
 export function startupServiceFactory(authService) {
@@ -58,6 +59,7 @@ declare global {
     CalendarModule,
     ModalPopPageModule,
     CompanyHeaderModule,
+    CountryModalModule,
     MenuModule,
     InvitePageModule,
     InvitationFormPageModule,

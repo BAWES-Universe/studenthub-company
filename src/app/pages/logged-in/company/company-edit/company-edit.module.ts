@@ -8,6 +8,7 @@ import { CompanyEditPageRoutingModule } from './company-edit-routing.module';
 
 import { CompanyEditPage } from './company-edit.page';
 import {TranslateModule} from "@ngx-translate/core";
+import { CountryModalModule } from 'src/app/components/country-modal/country-modal.module';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import {TranslateModule} from "@ngx-translate/core";
       CommonModule,
       ReactiveFormsModule,
       FormsModule,
+      CountryModalModule,
       IonicModule,
       CompanyEditPageRoutingModule,
       TranslateModule

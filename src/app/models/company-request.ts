@@ -12,4 +12,6 @@ export class CompanyRequest {
     status: number;
     created_at: string;
     updated_at: string;
+    country_id: number;
+    currency_code: string;
 }

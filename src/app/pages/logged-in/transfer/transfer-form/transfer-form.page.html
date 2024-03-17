@@ -81,7 +81,7 @@
               <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
                 <ion-item>
                   <ion-label position="floating">
-                    {{"Bonus(KWD)" | translate}}
+                    {{"Bonus" | translate}}
                     <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">{{"Invalid value" | translate}}</span>
                   </ion-label>
                   <ion-input type="number" min="0" inputmode="decimal" (ionChange)="calculateTotal()"
@@ -96,7 +96,7 @@
                 *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
                 <ion-item>
                   <div tabindex="0"></div>
-                  {{"Subtotal: KWD" | translate}}
+                  {{"Subtotal" | translate}}
                   {{ (parseNumber(transferCandidateRecord.hours) * transferCandidateRecord.candidate.company.company_hourly_rate) + parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
                 </ion-item>
               </ion-col>
@@ -113,7 +113,12 @@
   <ion-toolbar class="ion-text-center">
     <div class="desktop-view">
       <ion-title>
-        {{"Total KWD" | translate}} {{ total | number:'1.0-3' }}
+        {{ "Total" | translate}} {{ total | number:'1.0-3' }} 
+        <ion-select  *ngIf="form" [value]="form.value.currency_code" (ionChange)="onCurrencyUpdate($event)"> 
+          <ion-select-option [value]="currency.code" *ngFor="let currency of authService.currencies">
+            {{ currency.code }}
+          </ion-select-option>
+        </ion-select>
       </ion-title>
     </div>
   </ion-toolbar>

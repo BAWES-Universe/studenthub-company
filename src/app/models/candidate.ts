@@ -53,6 +53,7 @@ export class Candidate {
   suggested: number;
   suggestionAccepted: number;
   suggestionRejected: number;
+  currency_code: string;
   store: Store;
   company: Company;
   university: University;

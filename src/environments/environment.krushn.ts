@@ -1,6 +1,7 @@
 export const environment = {
     production: true,
     envName: 'krushn',
+    //apiEndpoint: 'http://localhost/studenthub/company/web/v1',
     apiEndpoint: 'http://localhost:8888/bawes/studenthub/company/web/v1',
     algoliaCandidateIndex: 'krushn_candidate_public',
     algoliaCacheDuration: 5 * 60 * 1000, // 5 min in millisecond

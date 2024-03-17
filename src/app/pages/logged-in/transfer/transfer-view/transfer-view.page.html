@@ -8,7 +8,7 @@
     <ion-title>
       {{"Transfer" | translate}}
       <span *ngIf="transferDetails?.company_total">
-        - KWD {{ transferDetails.company_total | number:'1.0-3' }}
+        - {{ transferDetails.currency_code }} {{ transferDetails.company_total | number:'1.0-3' }}
       </span>
     </ion-title>
 
@@ -76,7 +76,7 @@
               <b>{{"Transfer ID" | translate}}</b> <br /> {{ transferDetails.transfer_id}}
             </ion-col>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
-              <b>{{"Transfer Total" | translate}}</b> <br /> KWD {{ transferDetails.company_total | number:'1.0-3' }}
+              <b>{{"Transfer Total" | translate}}</b> <br /> {{ transferDetails.currency_code }} {{ transferDetails.company_total | number:'1.0-3' }}
             </ion-col>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
               <b>{{"Start Date" | translate}}</b> <br />
@@ -105,7 +105,7 @@
           <ion-item tappable *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice)">
             <div tabindex="0"></div>
             <ion-label>
-              {{"Download Invoice" | translate}} #{{ invoice.invoice_id }} - KWD {{ invoice.invoice_total |
+              {{"Download Invoice" | translate}} #{{ invoice.invoice_id }} - {{ transferDetails.currency_code }} {{ invoice.invoice_total |
               number:'1.0-3' }}
               <small>{{ invoice.company.company_name }}</small>
             </ion-label>
@@ -120,7 +120,7 @@
           <ion-item tappable *ngFor="let receipt of receipts" (click)="downloadReceipt(receipt)">
             <div tabindex="0"></div>
             <ion-label>
-              {{"Download Receipt" | translate}} #{{ receipt.invoice_id }} - KWD {{ receipt.invoice_total |
+              {{"Download Receipt" | translate}} #{{ receipt.invoice_id }} - {{ transferDetails.currency_code }} {{ receipt.invoice_total |
               number:'1.0-3' }}<br />
               <small>{{ receipt.company.company_name }}</small>
             </ion-label>
@@ -150,10 +150,11 @@
               <h2 class="candidate_name">{{ resource.candidate.candidate_name? resource.candidate.candidate_name:
                 resource.candidate.candidate_name_ar }}</h2>
 
-              <p *ngIf="resource.hours > 0">{{ resource.hours | number }} {{ "hours" | translate }} x KD
-                {{ resource.company_hourly_rate | number }} {{ "per hour" | translate }}</p>
-              <p *ngIf="resource.bonus">{{"Bonus" | translate}} KD {{resource.bonus | number}}</p>
-              <p><b>KD {{ total(resource) }}</b></p>
+              <p *ngIf="resource.hours > 0">{{ resource.hours | number }} {{ "hours" | translate }} x {{ resource.currency_code }}
+                {{ resource.company_hourly_rate | number }} {{ "per hour" | translate }} </p>
+              <p *ngIf="resource.bonus">{{"Bonus" | translate}} {{ resource.currency_code }} {{resource.bonus | number}}</p>
+              <p><b>{{ resource.currency_code }} {{ total(resource) }}</b></p>
+
  
               <ion-badge slot="start" color="dark"
                 *ngIf="resource.paid != '1' && resource.company_total > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">

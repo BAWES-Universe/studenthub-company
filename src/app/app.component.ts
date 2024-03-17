@@ -21,6 +21,7 @@ import {LanguageService} from "./providers/language.service";
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { AnalyticsService } from './providers/analytics.service';
 import { Preferences } from '@capacitor/preferences';
+import { CurrencyService } from './providers/currency.service';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public candidateService: CandidateService,
     public requestService: CompanyRequestService,
     public router: Router,
+    public currencyService: CurrencyService,
     public translateService: TranslateLabelService,
     public languageService: LanguageService,
     public analyticsService: AnalyticsService,
@@ -115,6 +117,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.platform.ready().then(() => {
 
+      this.loadCurrencies();
+
+      if (!this.auth.currentLocation) { 
+        this.auth.locate().subscribe(res => {
+          
+          this.auth.currentLocation = res; 
+
+          Preferences.set({ key: 'currentLocation', value: JSON.stringify(res) });
+
+          this.eventService.locationUpdated$.next(res);
+        });
+      }
+
       if (this.platform.is('hybrid')) {
         SplashScreen.hide();
       }
@@ -148,6 +163,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.subscribeToEvents();
+  }
+
+  loadCurrencies() {
+    this.currencyService.list(-1).subscribe(data => {
+      this.auth.currencies = data.body;
+    });
   }
 
   logout() {
