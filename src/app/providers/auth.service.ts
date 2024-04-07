@@ -303,6 +303,8 @@ export class AuthService {
    */
   useAppleIdTokenForAuth(params) {
 
+    params.utm_uuid = this.utm_uuid;
+
     const url = environment.apiEndpoint + this.urlLoginByApple;
 
     const headers = new HttpHeaders({
@@ -350,6 +352,7 @@ export class AuthService {
 
     return this.http.post(url, {
       accessToken: accessToken,
+      utm_uuid: this.utm_uuid
     }, {
       headers: headers
     })
@@ -446,6 +449,10 @@ export class AuthService {
       this.eventService.errorStorage$.next();
     });
 
+    if(this.utm_uuid) {
+      Preferences.set({ key: 'utm_uuid', value: this.utm_uuid });
+    }
+
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
@@ -494,10 +501,17 @@ export class AuthService {
       Preferences.get({ key: 'currentLocation' }),
       Preferences.get({ key: 'loggedInCompany' }),
       Preferences.get({ key: 'language_pref' }),
-      Preferences.get({ key: 'currency_pref' })
+      Preferences.get({ key: 'currency_pref' }),
+      Preferences.get({ key: 'utm_uuid' }),
     ];
 
     return Promise.all(promises).then(data => {
+
+      if(data[4].value) {
+        this.utm_uuid = data[4].value;
+      } else {
+        this.utm_uuid = window.localStorage.getItem("utm_id");
+      }
 
       if(data[3].value) {
         this.currency_pref = data[3].value;
@@ -848,7 +862,8 @@ export class AuthService {
       contact_position: contact.contact_position,
       phone_number: contact.phone_number,
       currency_code: contact.currency_code,
-      country_id: contact.country_id
+      country_id: contact.country_id,
+      utm_uuid: this.utm_uuid
     };
 
     return this.http.post(url, JSON.stringify(params), { headers })
