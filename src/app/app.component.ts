@@ -22,6 +22,7 @@ import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { AnalyticsService } from './providers/analytics.service';
 import { Preferences } from '@capacitor/preferences';
 import { CurrencyService } from './providers/currency.service';
+import { CampaignService } from './providers/campaign.service';
 
 
 @Component({
@@ -56,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public translateService: TranslateLabelService,
     public languageService: LanguageService,
     public analyticsService: AnalyticsService,
+    public campaignService: CampaignService,
     public auth0: Auth0Service,
     @Inject(DOCUMENT) public document: Document,
   ) {
@@ -71,7 +73,8 @@ export class AppComponent implements OnInit, OnDestroy {
     if(urlParams.get('utm_id')) {
       this.auth.utm_uuid = urlParams.get('utm_id');
       Preferences.set({ key: 'utm_uuid', value: this.auth.utm_uuid });
-      //this.campaignService.click(this.authService.utm_uuid).subscribe();
+      
+      this.campaignService.click(this.auth.utm_uuid).subscribe();
 
       //this.cookieService.set('utm_uuid', this.authService.utm_uuid, )
       window.localStorage.setItem("utm_uuid", this.auth.utm_uuid);
