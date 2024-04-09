@@ -26,6 +26,8 @@ export class LoginPage implements OnInit {
   // Disable submit button if loading response
   public isLoading = false;
 
+  public loading: boolean = false; 
+
   // Store old email and password to make sure user won't make same mistake twice
   public oldEmailInput = '';
   public oldPasswordInput = '';
@@ -52,6 +54,10 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.analyticService.page('Login Page');
+
+    this.eventService.googleLoginFinished$.subscribe(() => {
+      this.loading = false;
+    });
 
     // Initialize the Login Form
     this.loginForm = this._fb.group({
@@ -203,6 +209,19 @@ export class LoginPage implements OnInit {
     }
   }
 
+  /**
+   * login by google on capacitor app 
+   */
+  loginByGoogle() {
+    this.loading = true; 
+
+    this.authService.loginByGoogle();
+  } 
+
+  /**
+   * change app language 
+   * @param event 
+   */
   changeLanguage(event) {
     const lang = this.translateService.currentLang == 'ar' ? 'en' : 'ar';
     this.eventService.setLanguagePref$.next(lang);

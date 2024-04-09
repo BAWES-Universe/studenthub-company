@@ -66,6 +66,7 @@ export class RegisterPage implements OnDestroy {
     private _router: Router,
     private _activeRouter: ActivatedRoute
   ) {
+    
   }
 
   ngOnInit() {
@@ -87,7 +88,9 @@ export class RegisterPage implements OnDestroy {
        ));
        
        //this.registerForm.controls['currency'].setValue(this.authService.currentLocation?.currency?.currency_id);
-       this.registerForm.controls['currency_code'].setValue(this.authService.currentLocation?.currency?.code);
+       if(this.authService.currentLocation && this.authService.currentLocation.currency && this.authService.currentLocation.currency.code) {
+        this.registerForm.controls['currency_code'].setValue(this.authService.currentLocation?.currency?.code);
+       } 
       }
     });
 
@@ -166,7 +169,7 @@ export class RegisterPage implements OnDestroy {
       requesting_for: [],
       country: [country],
       country_id: [country_id, Validators.required],
-      currency_code: [currency_code, Validators.required]
+      currency_code: [currency_code || "KWD", Validators.required]
     });
 
     setTimeout(() => {

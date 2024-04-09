@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { NavController, AlertController, IonInput, ModalController } from '@ionic/angular';
+import { NavController, AlertController, IonInput, ModalController, Platform } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
@@ -31,6 +31,7 @@ export class UpdatePasswordPage {
   @ViewChild('inptPassword', { static: false }) inptPassword: IonInput;
 
   constructor(
+    public platform: Platform,
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,

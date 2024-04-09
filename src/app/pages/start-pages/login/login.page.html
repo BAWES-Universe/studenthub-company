@@ -1,8 +1,8 @@
 <ion-content class='contentArea ion-padding' [attr.dir]="translateService.direction()">
 
   <div class='brand'>
-    <ion-img src="assets/icon.png"></ion-img>
-    <h3>{{ "Employer Portal" | translate }}</h3>
+    <ion-img src="assets/images/logo.svg"></ion-img>
+    <!-- <h3>{{ "Employer Portal" | translate }}</h3> -->
   </div>
 
   <ion-card class='loginCard'>
@@ -11,15 +11,16 @@
       <!-- Login Form -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()"  class="classicInput" novalidate>
         <ion-item lines="none">
+          <ion-label position="floating">{{'Your Email Address' | translate}}</ion-label>
           <ion-input type="email" #emailInput
             inputmode="email"
-            formControlName="email"
-            placeholder="{{'Your Email Address' | translate}}">
+            formControlName="email">
           </ion-input>
         </ion-item>
 
         <ion-item lines="none" class="field-password">
-          <ion-input type="{{type}}" #passwordInput formControlName="password" placeholder="{{'Your Password' | translate}}">
+          <ion-label position="floating">{{'Your Password' | translate}}</ion-label>
+          <ion-input type="{{type}}" #passwordInput formControlName="password">
           </ion-input>
 
           <ion-button class="btn-password" fill="clear" (click)="showPassword()">
@@ -29,11 +30,11 @@
         </ion-item>
 
         <div class="ion-text-center submit-btn">
-          <ion-button expand="block" type="submit"
+          <ion-button expand="block" type="submit" class="btn-login"
                   [disabled]="!loginForm.valid || isLoading ||
                         (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)">
             <ion-spinner *ngIf="isLoading"></ion-spinner>
-            <span *ngIf="!isLoading">{{"Sign in" | translate}}</span>
+            <span *ngIf="!isLoading">{{ "Sign in" | translate}}</span>
           </ion-button>
         </div>
 
@@ -48,7 +49,9 @@
         </a>
       </div>
 
-      <br/>
+
+      <div class="separator"> <span>{{ "OR" | translate }}</span> </div>
+
       
       <ion-button *ngIf="(this.platform.is('ios') && this.platform.is('capacitor'))" fill="clear" class="div-space btn-apple"
             [class.apple-logo]="!authService.appleAuthLoading" (click)="loginByApple()">
@@ -56,10 +59,18 @@
         <ion-spinner *ngIf="authService.appleAuthLoading"></ion-spinner>
       </ion-button>
 
-      <ion-button class="btn-login-bawes" (click)="loginWithAuth0()" fill="outline">
-        {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/images/icon-bawes.svg"></ion-icon>
+      <ion-button class="btn-login-google" fill="clear" [class.google-logo]="!loading" [disabled]="loading" (click)="loginByGoogle()">
+        <ion-spinner *ngIf="loading"></ion-spinner>
+        <span *ngIf="!loading"> 
+          {{ "Log in with Google" | translate }} 
+          <ion-icon slot="end" src="assets/images/google.svg"></ion-icon>
+        </span>
       </ion-button>
       
+      <ion-button class="btn-login-bawes" (click)="loginWithAuth0()">
+        {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/images/icon-bawes.svg"></ion-icon>
+      </ion-button>
+
       <br />
       
       <div class="ion-text-center" *ngIf="!isLoading" tappable>

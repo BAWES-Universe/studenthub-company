@@ -16,6 +16,7 @@ import {
 import { Company } from '../models/company';
 import { Contact } from "../models/contact";
 import { CompanyContact } from '../models/company-contact';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 // service
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
@@ -82,6 +83,7 @@ export class AuthService {
   private _urlVerifyEmail = '/auth/verify-email';
   public urlLoginByApple = '/auth/login-by-apple';
   public _urlLocate = '/auth/locate';
+  public _urlLoginByGoogle = '/auth/login-by-google';
 
   constructor(
     public http: HttpClient,
@@ -934,4 +936,93 @@ export class AuthService {
     }
   }
 
+
+  /**
+   * Login by Google for mobile app
+   */
+  loginByGoogle() {
+
+    GoogleAuth.signIn().then(async googleUser => {
+ 
+      if (googleUser && googleUser.authentication && googleUser.authentication.idToken) {
+        this.useGoogleIdTokenForAuth(googleUser.authentication.idToken, false);
+      } else {
+        this.eventService.googleLoginFinished$.next({});
+
+        this.showLoginError('Error getting login by Google+ API');
+      }
+    }).catch(async err => {
+
+      console.error(err);
+
+      this.eventService.googleLoginFinished$.next({});
+
+      if (err = 'popup_closed_by_user') {
+        return false;
+      }
+
+      this.showLoginError('Error getting login by Google+ API');
+    }); 
+  }
+  
+  /**
+   * Login by google idToken
+   */
+  async useGoogleIdTokenForAuth(idToken, showLoader = true) {
+
+    let loading;
+
+    if (showLoader) {
+      loading = await this.loadingCtrl.create({
+        spinner: 'crescent',
+        message: this.translate.transform('Logging in...')
+      });
+      loading.present();
+    }
+
+    const url = environment.apiEndpoint + this._urlLoginByGoogle;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Language: this.translate.currentLang || "en"
+    });
+    
+    return this.http.post(url, {
+      idToken: idToken,
+    }, {
+      headers: headers
+    })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        first(),
+        map((res) => res)
+      )
+      .subscribe(async response => {
+
+        if (response.operation == 'success') {
+
+          this.handleLogin(response, 'Google');
+
+        } else if (response.operation == 'error') {
+          const alert = await this.alertCtrl.create({
+            message: this.translate.transform('Error getting login by Google+ API'), // JSON.stringify(err)
+            buttons: [this.translate.transform('Ok')]
+          });
+          await alert.present();
+
+        }
+
+        this.eventService.googleLoginFinished$.next({});
+
+      }, err => {
+
+        this.eventService.googleLoginFinished$.next(err);
+      },
+      () => {
+        if (loading) {
+          loading.dismiss();
+        }
+      });
+  }
 }

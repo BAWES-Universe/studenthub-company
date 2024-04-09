@@ -9,6 +9,7 @@ import { Browser } from '@capacitor/browser';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { DOCUMENT } from '@angular/common';
 import {Router} from "@angular/router";
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 // services
 import { AuthService } from './providers/auth.service';
 import { EventService } from './providers/event.service';
@@ -67,6 +68,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeApp() {
 
+    // use hook after platform dom ready
+    GoogleAuth.initialize({
+      clientId: "123188361193-ijgbu581g8sp4qag6gt4nia3410160qk.apps.googleusercontent.com",
+      scopes: ['profile', 'email'],
+      grantOfflineAccess: false,
+    });
+    
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     

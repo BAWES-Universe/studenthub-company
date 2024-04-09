@@ -67,10 +67,10 @@ ion-footer {
 
 .brand {
     text-align: center;
-
-    img {
-        margin: 40px 0;
-        width: 180px;
+     
+    ion-img {
+        height: 40px;
+        margin: 25px auto 40px;
     }
 }
 
@@ -163,3 +163,10 @@ ion-footer {
     margin-top: 0;
 }
 
+
+ion-item {
+    margin-bottom: 15px;
+  --border-radius: 16px;
+  --border-color: #ccc;
+  --border-width: 1px;
+  }
