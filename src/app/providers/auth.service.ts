@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, RendererFactory2 } from '@angular/core';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError, first, map, retryWhen, take } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
@@ -43,6 +43,7 @@ export class AuthService {
   public email: string;
   public role: string;
   public active_request_count: any;
+  public theme: string;
 
   public company: Company;
 
@@ -71,6 +72,8 @@ export class AuthService {
     
   public currentLocation = null; 
 
+  public renderer;
+
   public _urlLoginAuth0 = '/auth/login-auth0';
   private _urlBasicAuth = '/auth/login';
   private _urlUpdatePass = '/auth/update-password';
@@ -90,11 +93,14 @@ export class AuthService {
     public router: Router,
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
+    public rendererFactory: RendererFactory2,
     public eventService: EventService,
     public translate: TranslateLabelService,
     public analyticService: AnalyticsService,
     public alertCtrl: AlertController
-  ) { }
+  ) { 
+    this.renderer = this.rendererFactory.createRenderer(null, null);
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -143,6 +149,7 @@ export class AuthService {
           this.email = data.email;
           this.profile_name = data.profile_name;
           this.active_request_count = data.active_request_count;
+          this.theme = data.theme;
 
           resolve(true);
         } else {
@@ -169,7 +176,8 @@ export class AuthService {
         profile_name: this.profile_name,
         email: this.email,
         active_request_count: this.active_request_count,
-        language_pref: this.language_pref
+        language_pref: this.language_pref,
+        theme: this.theme
       })
     }).catch(r => {
       this.eventService.errorStorage$.next();
@@ -455,6 +463,8 @@ export class AuthService {
       Preferences.set({ key: 'utm_uuid', value: this.utm_uuid });
     }
 
+    Preferences.set({ key: 'theme', value: this.theme });
+
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
@@ -505,9 +515,14 @@ export class AuthService {
       Preferences.get({ key: 'language_pref' }),
       Preferences.get({ key: 'currency_pref' }),
       Preferences.get({ key: 'utm_uuid' }),
+      Preferences.get({ key: 'theme' }),
     ];
 
     return Promise.all(promises).then(data => {
+
+      if(data[5].value) {
+        this.setTheme(data[5].value);
+      }
 
       if(data[4].value) {
         this.utm_uuid = data[4].value;
@@ -589,6 +604,24 @@ export class AuthService {
     }).catch(r => {
       this.eventService.errorStorage$.next();
     });
+  }
+
+  /**
+   * set app theme
+   * @param theme
+   */
+  setTheme(theme) {
+    Preferences.set({ key: 'theme', value: theme });
+
+    this.theme = theme;
+
+    if (theme == 'night') {
+      this.renderer.removeClass(document.body, 'day');
+      this.renderer.addClass(document.body, 'night');
+    } else {
+      this.renderer.addClass(document.body, 'day');
+      this.renderer.removeClass(document.body, 'night');
+    }
   }
 
   /**

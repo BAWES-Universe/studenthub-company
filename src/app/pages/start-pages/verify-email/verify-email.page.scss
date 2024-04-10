@@ -1,12 +1,8 @@
-.content {
-    color: black !important;
-}
-
 section {
     text-align: center;
     font-size: 18px;
     line-height: 1.44;
-    color: #292f38;
+    color: var(--ion-text-color);
 
     span {
         display: block;
@@ -27,10 +23,8 @@ section {
     direction: ltr;
 
     ion-input {
-        background: transparent !important;
-        color: black !important;
         margin: 13px 11px !important;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid var(--ion-color-dark);
         text-align: center;
         font-size: 40px;
         font-weight: bold;
@@ -47,13 +41,13 @@ ion-footer {
 
     .update-btn {
         font-size: 18px;
-        color: #4a4a4a;
+        color: var(--ion-custom-color-2);
         text-decoration: none;
         margin-bottom: 10px;
         display: block;
 
         .email-btn{
-            color: #4a4a4a;
+            color: var(--ion-custom-color-2);
             font-weight: bold;
         }
     }
@@ -79,19 +73,19 @@ ion-footer {
     font-size: 25px;
     font-weight: 500;
     text-align: center;
-    color: #292f38;
+    color: var(--ion-text-color);
 }
 
 .lbl_code {
     opacity: 0.5;
     font-size: 14px;
     text-align: center;
-    color: black;
+    color: var(--ion-color-dark);
 }
 
 .btn {
-    background: #f24459;
-    color: #fff;
+    background: var(--ion-custom-color-13);
+    color: var(--ion-color-primary-contrast);
     width: 100%;
     max-width: 335px;
     height: 50px;
@@ -110,11 +104,11 @@ ion-footer {
 }
 
 .btn[disabled] { 
-    background: #bdbdbd;
+    background: var(--ion-custom-color-1);
     --opacity: 1;
-    --background: #bdbdbd;
-    --background-focused: #bdbdbd; 
-    --background-hover: #bdbdbd;
+    --background: var(--ion-custom-color-1);
+    --background-focused: var(--ion-custom-color-1); 
+    --background-hover: var(--ion-custom-color-1);
 }  
 
 .btn-resend {
@@ -123,7 +117,7 @@ ion-footer {
     text-align: center;
     display: block;
     font-size: 14px;
-    color:#f24459;
+    color:var(--ion-custom-color-13);
     text-transform: none;
     font-weight: bold;
 }
@@ -133,19 +127,19 @@ ion-footer {
 //}
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    color: black !important;
+    color: var(--ion-color-dark) !important;
     opacity: 0.3;
 }
 ::-moz-placeholder { /* Firefox 19+ */
-    color: black !important;
+    color: var(--ion-color-dark) !important;
     opacity: 0.3;
 }
 :-ms-input-placeholder { /* IE 10+ */
-    color: black !important;
+    color: var(--ion-color-dark) !important;
     opacity: 0.3;
 }
 :-moz-placeholder { /* Firefox 18- */
-    color: black !important;
+    color: var(--ion-color-dark) !important;
     opacity: 0.3;
 }
 
@@ -167,6 +161,6 @@ ion-footer {
 ion-item {
     margin-bottom: 15px;
   --border-radius: 16px;
-  --border-color: #ccc;
+  --border-color: var(--ion-custom-color-32);
   --border-width: 1px;
   }

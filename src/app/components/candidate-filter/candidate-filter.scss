@@ -18,7 +18,7 @@
 
     ion-list-header {
         margin:0 !important; 
-        color: black;
+        color: var(--ion-color-dark);
         border: none !important;
 
         ion-icon[name="add"],

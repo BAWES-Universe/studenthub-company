@@ -1,4 +1,4 @@
-ion-header,
+/*ion-header,
 ion-content,
 ion-toolbar,
 ion-card,
@@ -7,11 +7,11 @@ ion-item,
 ion-card-content,
 ion-button,
 ion-footer {
-    --background: #ffffff;
-    background: #ffffff;
-    --color: #000000;
-    color: #000000;
-}
+    --background: var(--ion-color-primary-contrast);
+    background: var(--ion-color-primary-contrast);
+    --color: var(--ion-color-light-contrast);
+    color: var(--ion-color-light-contrast);
+}*/
 
 ion-content {
     --padding-start: 30px;
@@ -40,7 +40,7 @@ h3 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000000;
+    color: var(--ion-color-light-contrast);
     margin-top: 0px;
     margin-bottom: 43px;
     line-height: 58px;
@@ -64,7 +64,7 @@ h3 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: var(--ion-color-light-contrast);
 }
 
 .requirement {
@@ -75,7 +75,7 @@ h3 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: var(--ion-color-light-contrast);
 }
 
 .txt-additional-info {
@@ -86,7 +86,7 @@ h3 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: var(--ion-color-light-contrast);
 }
 
 .requested-by {
@@ -97,10 +97,10 @@ h3 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: var(--ion-color-light-contrast);
 
     .requested-by-staff {
-        color: #2f80ed;
+        color: var(--ion-custom-color-35);
     }
 }
 
@@ -112,7 +112,7 @@ h3 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: var(--ion-color-light-contrast);
 }
 
 .txt-suggested-candidates {
@@ -123,7 +123,7 @@ h3 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: var(--ion-color-light-contrast);
 }
 
 .request-time {
@@ -133,14 +133,14 @@ h3 {
     font-style: normal;
     line-height: 1.65;
     letter-spacing: normal;
-    color: #000000;
+    color: var(--ion-color-light-contrast);
 }
 
 .btn-view-notes {
     margin: 0px 3px 0;
     border-radius: 5px;
     --box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-    background-color: #ffffff;
+    background-color: var(--ion-color-primary-contrast);
     font-size: 14px;
     font-weight: bold;
     font-stretch: normal;
@@ -148,7 +148,7 @@ h3 {
     line-height: 1.65;
     letter-spacing: normal;
     text-align: center;
-    color: #000;
+    color: var(--ion-color-light-contrast);
     text-transform: none;
     width: 100%;
     height: 40px;
@@ -164,27 +164,27 @@ ion-back-button {
 }
 
 .pending {
-    border-color: #f2c94c;
+    border-color: var(--ion-custom-color-17);
 }
 
 .active {
-    border-color: #56ccf2;
+    border-color: var(--ion-custom-color-36);
 }
 
 .active-invoice {
-    border-color: #f5a5b8;
+    border-color: var(--ion-custom-color-37);
 }
 
 .completed {
-    border-color: #96c050;
+    border-color: var(--ion-custom-color-38);
 }
 
 .cancelled {
-    border-color: #eb5757;
+    border-color: var(--ion-custom-color-18);
 }
 
 .paid-invoice {
-    border-color: #6fcf97;
+    border-color: var(--ion-custom-color-39);
 }
 
 .btn-cancel {
@@ -195,9 +195,9 @@ ion-back-button {
     font-style: normal;
     line-height: 1.65;
     letter-spacing: normal;
-    color: #eb5757;
+    color: var(--ion-custom-color-18);
     text-transform: none;
-    --color: #eb5757;
+    --color: var(--ion-custom-color-18);
     margin-right: 10px;
 }
 
@@ -208,10 +208,10 @@ ion-footer {
         font-size: 18px;
         text-align: center;
         text-transform: none;
-        --color: #ffffff;
-        color: #ffffff;
-        --background: #000000;
-        background: #000000;
+        --color: var(--ion-color-primary-contrast);
+        color: var(--ion-color-primary-contrast);
+        --background: var(--ion-color-light-contrast);
+        background: var(--ion-color-light-contrast);
         --border-radius: 4px;
         border-radius: 4px;
         margin: 12px 10px;
@@ -224,8 +224,8 @@ ion-footer {
     }
 
     ion-button.mark-complete-btn {
-        background: #79a336;
-        --background: #79a336;
+        background: var(--ion-custom-color-40);
+        --background: var(--ion-custom-color-40);
     }
     ion-grid {
         box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);

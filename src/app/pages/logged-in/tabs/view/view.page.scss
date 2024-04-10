@@ -13,7 +13,7 @@ ion-icon {
 
 ion-tab-button:hover{
     ion-label{
-        color: #f24459;
+        color: var(--ion-custom-color-13);
     }
     ion-icon{
       filter: invert(46%) sepia(57%) saturate(5695%) hue-rotate(330deg) brightness(99%) contrast(92%);
@@ -28,11 +28,11 @@ ion-tab-button:hover{
 
 .tabs .tab-button[aria-selected=true], .tabs .tab-button[aria-selected=true] ion-icon
 {
-    color: #f24459;
+    color: var(--ion-custom-color-13);
 }
 
 ion-badge  {
-    --background: red;
+    --background: var(--ion-color-danger);
     border-radius: 100%;
     min-width: 20px;
     height: 20px;
@@ -67,7 +67,7 @@ ion-badge  {
 }
 
 .plt-mobile ion-header {
-  box-shadow: 0 0.5px 4px 0 #b2b2b2;
+  box-shadow: 0 0.5px 4px 0 var(--ion-custom-color-50);
   --border: none;
 
   ion-toolbar:last-child {
@@ -76,12 +76,12 @@ ion-badge  {
 }
 
 .navi-header {
-  background: #4354a5;
-  --background: #4354a5;
+  background: var(--ion-custom-color-9);
+  --background: var(--ion-custom-color-9);
   text-align: center;
 
   h3 {
-    color: #fff;
+    color: var(--ion-color-primary-contrast);
   }
 
   .logo {

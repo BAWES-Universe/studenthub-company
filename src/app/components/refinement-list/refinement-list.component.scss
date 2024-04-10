@@ -7,7 +7,7 @@
     text-align: center;
     margin: 10px auto 0 auto; 
     display: block;
-    color: #f24459;
+    color: var(--ion-custom-color-13);
     background: transparent;
     --background: transparent;
     --box-shadow: none;
@@ -104,12 +104,12 @@
 
         .ais-RefinementListComponent-count {
             position: absolute;
-            color: #828282;
+            color: var(--ion-custom-color-25);
         }
 
         .ais-RefinementListComponent-labelText {
             font-size: 14px;
-            color: #4f4f4f;
+            color: var(--ion-custom-color-6);
         }
 
         .ais-Highlight {
@@ -207,7 +207,7 @@
     }
 
     ion-icon[name="checkmark"] {
-        color: #03a2cd;
+        color: var(--ion-custom-color-26);
         font-size: 14px;
     }
 }
@@ -229,7 +229,7 @@
     list-style: none;
     font-size: 13px;
     font-weight: 500;
-    color: #9b9b9b;
+    color: var(--ion-custom-color-7);
 
     .ais-CurrentRefinements-category {
         .ais-CurrentRefinements-delete {

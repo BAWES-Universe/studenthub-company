@@ -8,6 +8,7 @@
         <ion-img src="{{ awsService.cloudinaryUrl + auth.company.company_logo }}" class="company-logo"
           *ngIf="auth.company.company_logo" (ionError)="auth.company.company_logo = null;"></ion-img>
       </ion-avatar>
+
     </div>
     <ion-label class="heading">
       {{ auth.company.company_name }}
@@ -88,4 +89,11 @@
       </ion-select-option>
     </ion-select>
   </ion-list>  -->
+
+  <ion-button fill="clear" class="btn-theme" (click)="changeTheme()">
+  
+    <ion-icon *ngIf="auth.theme == 'night'" slot="icon-only" name="moon-outline"></ion-icon>
+    <ion-icon *ngIf="auth.theme != 'night'" slot="icon-only" name="partly-sunny-outline"></ion-icon>
+  </ion-button> 
 </div>
+ 

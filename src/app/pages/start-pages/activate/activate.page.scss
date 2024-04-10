@@ -5,8 +5,8 @@
   }
   
   .contentArea{
-    //background: #4354a5;
-    --background: #eee;
+    //background: var(--ion-custom-color-9);
+    --background: var(--ion-custom-color-31);
   }
   
 .brand {
@@ -18,7 +18,7 @@
   }
 
   h3{
-    //color:white;
+    //color:var(--ion-color-primary-contrast);
     margin:0;
     padding:0;
     padding-bottom: 10px;
@@ -52,13 +52,13 @@ text-transform: capitalize;
 
   
   .submit-btn ion-spinner {
-    color: #000;
+    color: var(--ion-color-light-contrast);
   }
   
 ion-item {
   margin-bottom: 15px;
   --border-radius: 16px;
-  --border-color: #ccc;
+  --border-color: var(--ion-custom-color-32);
   --border-width: 1px;
 }
 
@@ -78,7 +78,7 @@ ion-item {
   
         ion-icon {
             font-size: 22px;
-            color: #000;
+            color: var(--ion-color-light-contrast);
         }
     }
   }
