@@ -36,7 +36,7 @@ h3 {
     font-style: normal;
     line-height: 1.41;
     letter-spacing: normal;
-    color: #000000;
+    color: var(--ion-color-light-contrast);
     margin-bottom: 0px;
 }
 
@@ -57,23 +57,23 @@ ion-icon {
     font-stretch: normal;
     line-height: 1.41;
     letter-spacing: normal;
-    color: #4f4f4f;
+    color: var(--ion-custom-color-6);
 } 
 
 ion-button,button {
     height: 27px;
     --border-radius: 3px;
     border-radius: 3px;
-    background-color: #f24459;
+    background-color: var(--ion-custom-color-13);
     font-size: 14px;
     line-height: 1.41;
-    color: #fff;
+    color: var(--ion-color-primary-contrast);
     margin-bottom: 7px;
     text-transform: unset;
     letter-spacing: normal;
     --padding-start: 5px;
     --padding-end: 5px;
-    --background: #f24459;
+    --background: var(--ion-custom-color-13);
     --border: none;
 }
 

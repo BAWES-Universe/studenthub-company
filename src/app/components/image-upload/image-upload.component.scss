@@ -1,6 +1,6 @@
 ion-item {
     --inner-border-width: 0px;
-    --color: #4c70f2;
+    --color: var(--ion-custom-color-14);
     font-size: 14px;
     --background: transparent;
     margin-bottom: 16px;
@@ -12,12 +12,12 @@ ion-thumbnail {
     height: 97px;
     flex-grow: 0;
     border-radius: 10px;
-    background-color: #f7f8fa;
+    background-color: var(--ion-custom-color-15);
 }
 
 .icon-wrapper {
     padding: 16px 16px 17px 17px;
-    border: dashed 1px #4c70f2;
+    border: dashed 1px var(--ion-custom-color-14);
 
     ion-icon {
         width: 64px;
@@ -38,7 +38,7 @@ ion-label {
     font-style: normal;
     line-height: 1.43;
     letter-spacing: normal;
-    color: #4c70f2;
+    color: var(--ion-custom-color-14);
 
     h5 {
         font-size: 14px; 
@@ -47,6 +47,6 @@ ion-label {
 
     p {
         font-size: 16px;
-        color: #4b4b61;
+        color: var(--ion-custom-color-16);
     }
 }

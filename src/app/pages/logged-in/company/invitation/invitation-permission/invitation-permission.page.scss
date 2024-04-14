@@ -9,7 +9,7 @@ ion-back-button {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #292f38;
+    color: var(--ion-text-color);
 }
 
 ion-content {
@@ -27,7 +27,7 @@ ion-content {
         width: 279px;
         //height: 106px;
         border-radius: 4px;
-        border: solid 2px #e0e0e0;
+        border: solid 2px var(--ion-custom-color-46);
         margin: 0 auto 15px;
         white-space: normal;
         clear: both;
@@ -40,7 +40,7 @@ ion-content {
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
-            color: #292f38;
+            color: var(--ion-text-color);
             clear: both;
             //position: absolute;
             //top: 17px;
@@ -48,20 +48,20 @@ ion-content {
 
         p {
             opacity: 0.9;
-            -webkit-text-stroke: 0 #f24459;
+            -webkit-text-stroke: 0 var(--ion-custom-color-13);
             font-size: 13px;
             font-weight: normal;
             font-stretch: normal;
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
-            color: #4f4f4f;
+            color: var(--ion-custom-color-6);
             margin-top: 39px;
         }
     }
 
     ion-button.selected {
-        border: 2px solid #f24459;
+        border: 2px solid var(--ion-custom-color-13);
     }
 }
 

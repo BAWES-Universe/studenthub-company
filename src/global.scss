@@ -105,7 +105,7 @@ ion-header.add-border:after {
 ng5-slider {
   $handleSize: 12px;
 
-  background: #bdbdbd !important;
+  background: var(--ion-custom-color-1) !important;
   margin: 10px 0 15px !important;
 
   .ng5-slider-pointer {
@@ -121,13 +121,13 @@ ng5-slider {
       }
   }
 
-  .ng5-slider-selection {
-      background: #d8e0f3 !important;
-  }
-
   .ng5-slider-bubble {
       display: none !important;
   }
+}
+
+body.day .ng5-slider-selection {
+  background: var(--ion-custom-color-45) !important;
 }
 
 ion-modal {
@@ -140,10 +140,15 @@ ion-modal {
       line-height: normal;
       letter-spacing: normal;
       text-align: left;
-      color: #ffffff;
+      color: var(--ion-color-primary-contrast);
     }
   }
 }
+
+body.day ion-router-outlet  ion-header {
+  background: var(--ion-color-primary-contrast);
+}
+
 ion-router-outlet {
   ion-header ion-buttons[slot="end"] ion-button {
     font-size: 18px;
@@ -166,12 +171,10 @@ ion-router-outlet {
       //padding-left: 10px;
       //padding-right: 10px;
       .ion-activatable {
-        color: #000000;
+        color: var(--ion-color-light-contrast);
       }
   }
-  ion-header {
-    background: #fff;
-  }
+  
 
   ion-title:not([size="small"]) {
       font-size: 18px;
@@ -180,7 +183,7 @@ ion-router-outlet {
       font-style: normal;
       line-height: normal;
       letter-spacing: normal;
-      color: #000000;
+      color: var(--ion-color-light-contrast);
   }
 
   ion-content {
@@ -203,9 +206,12 @@ ion-toolbar.desktop-view {
   margin: 0 auto;
 }
 
+body.day ion-footer {  
+  background-color: var(--ion-color-primary-contrast);
+}
+
 ion-footer {
   box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
   padding: 9px;
 
   ion-button {
@@ -222,21 +228,21 @@ ion-footer {
   }
 
   ion-button[disabled] {
-      background: #bdbdbd;
-      --color: #fff;
+      background: var(--ion-custom-color-1);
+      --color: var(--ion-color-primary-contrast);
       --opacity: 1;
-      --background: #bdbdbd;
-      --background-focused: #bdbdbd;
-      --background-hover: #bdbdbd;
+      --background: var(--ion-custom-color-1);
+      --background-focused: var(--ion-custom-color-1);
+      --background-hover: var(--ion-custom-color-1);
       border-radius: 4px;
       --border-radius: 4px;
   }
 
   .button-disabled {
-      background-color: #bdbdbd;
-      --background: #bdbdbd;
-      --background-focused: #bdbdbd;
-      --background-hover: #bdbdbd;
+      background-color: var(--ion-custom-color-1);
+      --background: var(--ion-custom-color-1);
+      --background-focused: var(--ion-custom-color-1);
+      --background-hover: var(--ion-custom-color-1);
   }
 }
 
@@ -259,7 +265,7 @@ ion-footer {
 
 .split-pane-side ion-router-outlet ion-toolbar,
 .split-pane-side ion-router-outlet ion-content{
-  --background: #ffffff;
+  --background: var(--ion-color-primary-contrast);
 }
 
 .main-right-menu,

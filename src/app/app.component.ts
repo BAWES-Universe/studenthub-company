@@ -9,6 +9,7 @@ import { Browser } from '@capacitor/browser';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { DOCUMENT } from '@angular/common';
 import {Router} from "@angular/router";
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 // services
 import { AuthService } from './providers/auth.service';
 import { EventService } from './providers/event.service';
@@ -22,6 +23,7 @@ import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { AnalyticsService } from './providers/analytics.service';
 import { Preferences } from '@capacitor/preferences';
 import { CurrencyService } from './providers/currency.service';
+import { CampaignService } from './providers/campaign.service';
 
 
 @Component({
@@ -56,6 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public translateService: TranslateLabelService,
     public languageService: LanguageService,
     public analyticsService: AnalyticsService,
+    public campaignService: CampaignService,
     public auth0: Auth0Service,
     @Inject(DOCUMENT) public document: Document,
   ) {
@@ -65,13 +68,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeApp() {
 
+    // use hook after platform dom ready
+    GoogleAuth.initialize({
+      clientId: "123188361193-ijgbu581g8sp4qag6gt4nia3410160qk.apps.googleusercontent.com",
+      scopes: ['profile', 'email'],
+      grantOfflineAccess: false,
+    });
+    
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     
     if(urlParams.get('utm_id')) {
       this.auth.utm_uuid = urlParams.get('utm_id');
       Preferences.set({ key: 'utm_uuid', value: this.auth.utm_uuid });
-      //this.campaignService.click(this.authService.utm_uuid).subscribe();
+      
+      this.campaignService.click(this.auth.utm_uuid).subscribe();
 
       //this.cookieService.set('utm_uuid', this.authService.utm_uuid, )
       window.localStorage.setItem("utm_uuid", this.auth.utm_uuid);

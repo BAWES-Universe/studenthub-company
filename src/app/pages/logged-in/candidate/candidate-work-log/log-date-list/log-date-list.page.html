@@ -21,9 +21,9 @@
           </ion-label>
       </ion-item>
     </ion-list>
-    <p *ngIf="candidateWorkingHourData && candidateWorkingHourData.length == 0">
-      {{ "No record found" | translate }}
-    </p>
+
+    <no-items *ngIf="candidateWorkingHourData && candidateWorkingHourData.length == 0" 
+      message="~ No record found ~"></no-items>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content>

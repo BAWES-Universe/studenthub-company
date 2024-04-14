@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { AlertController, IonContent } from '@ionic/angular';
+import { AlertController, IonContent, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CustomValidator } from '../../../validators/custom.validator';
@@ -33,6 +33,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
   constructor(
     public _fb: FormBuilder,
     public router: Router,
+    public platform: Platform,
     public _authService: AuthService,
     public translateService: TranslateLabelService,
     public _alertCtrl: AlertController,

@@ -1,10 +1,10 @@
 .scroll-content {
-    color: black;
+    color: var(--ion-color-dark);
 }
 
 .button-md {
-    background: #fff;
-    color: #000;
+    background: var(--ion-color-primary-contrast);
+    color: var(--ion-color-light-contrast);
 }
 
 .error-msg {

@@ -44,7 +44,7 @@
     animation-iteration-count: infinite;
     animation-name: placeHolderShimmer;
     animation-timing-function: linear;
-    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background: linear-gradient(to right, var(--ion-custom-color-31)eee 8%, #dddddd 18%, var(--ion-custom-color-31)eee 33%);
     background-size: 800px 104px;
     position: relative;
     display: block;
@@ -73,13 +73,13 @@
     margin-left: 0;
     margin-right: 0;
     border-radius: 5px;
-    background-color: #ffffff;
+    //background-color: var(--ion-color-primary-contrast);
     box-shadow: none;
 
     ion-card-header {
       margin: 0;
       position: relative;
-      background-color: #f2c94c;
+      background-color: var(--ion-custom-color-17);
       margin-bottom: 0;
 
       ion-card-title {
@@ -90,7 +90,7 @@
         line-height: 1.31;
         letter-spacing: normal;
         text-align: left;
-        color: #000000;
+        color: var(--ion-color-light-contrast);
       }
 
       ion-card-subtitle {
@@ -101,7 +101,7 @@
         line-height: 1.31;
         letter-spacing: normal;
         text-align: left;
-        color: #000000;
+        color: var(--ion-color-light-contrast);
       }
 
       p {
@@ -112,7 +112,7 @@
         line-height: 1.31;
         letter-spacing: normal;
         text-align: left;
-        color: #000;
+        color: var(--ion-color-light-contrast);
         margin: 10px 0 5px 0;
       }
     }
@@ -120,8 +120,8 @@
     ion-card-content {
       position: relative;
       border-radius: 5px;
-      background-color: #ffffff;
-      border: solid 1px #bdbdbd;
+      background-color: var(--ion-color-primary-contrast);
+      border: solid 1px var(--ion-custom-color-1);
 
       font-size: 16px;
       font-weight: normal;
@@ -130,7 +130,7 @@
       line-height: 1.65;
       letter-spacing: normal;
       text-align: left;
-      color: #000;
+      color: var(--ion-color-light-contrast);
       padding: 17px 24px 70px 24px;
 
       .content-footer {
@@ -147,7 +147,7 @@
           line-height: 3;
           letter-spacing: normal;
           text-align: center;
-          color: #ffffff;
+          color: var(--ion-color-primary-contrast);
           margin: 0;
           padding: 0;
         }
@@ -187,7 +187,7 @@
         line-height: 1.65;
         letter-spacing: normal;
         text-align: left;
-        color: #000;
+        color: var(--ion-color-light-contrast);
         margin-top: 40px;
         margin-bottom: 10px;
       }
@@ -200,21 +200,21 @@
         line-height: 1.65;
         letter-spacing: normal;
         text-align: left;
-        color: #000;
+        color: var(--ion-color-light-contrast);
       }
     }
   }
 
   .pending ion-card-header {
-    background-color: #f2994a;
+    background-color: var(--ion-custom-color-28);
   }
 
   .background-red {
-    background: #eb5757
+    background: var(--ion-custom-color-18)
   }
 
   .background-green {
-    background: #219653
+    background: var(--ion-custom-color-19)
   }
 
   .pending-request {
@@ -433,7 +433,7 @@
     --background: none;
 
     ion-icon {
-      color: #000;
+      color: var(--ion-color-light-contrast);
     }
 
     ion-skeleton-text:nth-child(1) {
@@ -609,7 +609,7 @@
       line-height: normal;
       letter-spacing: normal;
       text-align: left;
-      color: #000;
+      color: var(--ion-color-light-contrast);
     }
 
     note {
@@ -636,7 +636,7 @@
         height: 25px;
         margin: 13px 0 0;
         padding: 5px 9px 2px;
-        background-color: #f2f2f2;
+        background-color: var(--ion-custom-color-20);
       }
     }
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, RendererFactory2 } from '@angular/core';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError, first, map, retryWhen, take } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
@@ -16,6 +16,7 @@ import {
 import { Company } from '../models/company';
 import { Contact } from "../models/contact";
 import { CompanyContact } from '../models/company-contact';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 // service
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
@@ -42,6 +43,7 @@ export class AuthService {
   public email: string;
   public role: string;
   public active_request_count: any;
+  public theme: string;
 
   public company: Company;
 
@@ -70,6 +72,8 @@ export class AuthService {
     
   public currentLocation = null; 
 
+  public renderer;
+
   public _urlLoginAuth0 = '/auth/login-auth0';
   private _urlBasicAuth = '/auth/login';
   private _urlUpdatePass = '/auth/update-password';
@@ -82,17 +86,21 @@ export class AuthService {
   private _urlVerifyEmail = '/auth/verify-email';
   public urlLoginByApple = '/auth/login-by-apple';
   public _urlLocate = '/auth/locate';
+  public _urlLoginByGoogle = '/auth/login-by-google';
 
   constructor(
     public http: HttpClient,
     public router: Router,
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
+    public rendererFactory: RendererFactory2,
     public eventService: EventService,
     public translate: TranslateLabelService,
     public analyticService: AnalyticsService,
     public alertCtrl: AlertController
-  ) { }
+  ) { 
+    this.renderer = this.rendererFactory.createRenderer(null, null);
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -141,6 +149,7 @@ export class AuthService {
           this.email = data.email;
           this.profile_name = data.profile_name;
           this.active_request_count = data.active_request_count;
+          this.theme = data.theme;
 
           resolve(true);
         } else {
@@ -167,7 +176,8 @@ export class AuthService {
         profile_name: this.profile_name,
         email: this.email,
         active_request_count: this.active_request_count,
-        language_pref: this.language_pref
+        language_pref: this.language_pref,
+        theme: this.theme
       })
     }).catch(r => {
       this.eventService.errorStorage$.next();
@@ -303,6 +313,8 @@ export class AuthService {
    */
   useAppleIdTokenForAuth(params) {
 
+    params.utm_uuid = this.utm_uuid;
+
     const url = environment.apiEndpoint + this.urlLoginByApple;
 
     const headers = new HttpHeaders({
@@ -350,6 +362,7 @@ export class AuthService {
 
     return this.http.post(url, {
       accessToken: accessToken,
+      utm_uuid: this.utm_uuid
     }, {
       headers: headers
     })
@@ -446,6 +459,12 @@ export class AuthService {
       this.eventService.errorStorage$.next();
     });
 
+    if(this.utm_uuid) {
+      Preferences.set({ key: 'utm_uuid', value: this.utm_uuid });
+    }
+
+    Preferences.set({ key: 'theme', value: this.theme });
+
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
@@ -494,10 +513,22 @@ export class AuthService {
       Preferences.get({ key: 'currentLocation' }),
       Preferences.get({ key: 'loggedInCompany' }),
       Preferences.get({ key: 'language_pref' }),
-      Preferences.get({ key: 'currency_pref' })
+      Preferences.get({ key: 'currency_pref' }),
+      Preferences.get({ key: 'utm_uuid' }),
+      Preferences.get({ key: 'theme' }),
     ];
 
     return Promise.all(promises).then(data => {
+
+      if(data[5].value) {
+        this.setTheme(data[5].value);
+      }
+
+      if(data[4].value) {
+        this.utm_uuid = data[4].value;
+      } else {
+        this.utm_uuid = window.localStorage.getItem("utm_id");
+      }
 
       if(data[3].value) {
         this.currency_pref = data[3].value;
@@ -573,6 +604,24 @@ export class AuthService {
     }).catch(r => {
       this.eventService.errorStorage$.next();
     });
+  }
+
+  /**
+   * set app theme
+   * @param theme
+   */
+  setTheme(theme) {
+    Preferences.set({ key: 'theme', value: theme });
+
+    this.theme = theme;
+
+    if (theme == 'night') {
+      this.renderer.removeClass(document.body, 'day');
+      this.renderer.addClass(document.body, 'night');
+    } else {
+      this.renderer.addClass(document.body, 'day');
+      this.renderer.removeClass(document.body, 'night');
+    }
   }
 
   /**
@@ -848,7 +897,8 @@ export class AuthService {
       contact_position: contact.contact_position,
       phone_number: contact.phone_number,
       currency_code: contact.currency_code,
-      country_id: contact.country_id
+      country_id: contact.country_id,
+      utm_uuid: this.utm_uuid
     };
 
     return this.http.post(url, JSON.stringify(params), { headers })
@@ -919,4 +969,93 @@ export class AuthService {
     }
   }
 
+
+  /**
+   * Login by Google for mobile app
+   */
+  loginByGoogle() {
+
+    GoogleAuth.signIn().then(async googleUser => {
+ 
+      if (googleUser && googleUser.authentication && googleUser.authentication.idToken) {
+        this.useGoogleIdTokenForAuth(googleUser.authentication.idToken, false);
+      } else {
+        this.eventService.googleLoginFinished$.next({});
+
+        this.showLoginError('Error getting login by Google+ API');
+      }
+    }).catch(async err => {
+
+      console.error(err);
+
+      this.eventService.googleLoginFinished$.next({});
+
+      if (err = 'popup_closed_by_user') {
+        return false;
+      }
+
+      this.showLoginError('Error getting login by Google+ API');
+    }); 
+  }
+  
+  /**
+   * Login by google idToken
+   */
+  async useGoogleIdTokenForAuth(idToken, showLoader = true) {
+
+    let loading;
+
+    if (showLoader) {
+      loading = await this.loadingCtrl.create({
+        spinner: 'crescent',
+        message: this.translate.transform('Logging in...')
+      });
+      loading.present();
+    }
+
+    const url = environment.apiEndpoint + this._urlLoginByGoogle;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Language: this.translate.currentLang || "en"
+    });
+    
+    return this.http.post(url, {
+      idToken: idToken,
+    }, {
+      headers: headers
+    })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        first(),
+        map((res) => res)
+      )
+      .subscribe(async response => {
+
+        if (response.operation == 'success') {
+
+          this.handleLogin(response, 'Google');
+
+        } else if (response.operation == 'error') {
+          const alert = await this.alertCtrl.create({
+            message: this.translate.transform('Error getting login by Google+ API'), // JSON.stringify(err)
+            buttons: [this.translate.transform('Ok')]
+          });
+          await alert.present();
+
+        }
+
+        this.eventService.googleLoginFinished$.next({});
+
+      }, err => {
+
+        this.eventService.googleLoginFinished$.next(err);
+      },
+      () => {
+        if (loading) {
+          loading.dismiss();
+        }
+      });
+  }
 }

@@ -28,6 +28,17 @@ export class MenuComponent implements OnInit {
   }
 
   /**
+   * change theme
+   */
+  changeTheme() {
+    if (!this.auth.theme || this.auth.theme == 'day') {
+      this.auth.setTheme('night');
+    } else {
+      this.auth.setTheme('day');
+    }
+  }
+
+  /**
    * change company request
    * @param employer
    */

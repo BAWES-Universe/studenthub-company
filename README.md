@@ -42,3 +42,14 @@ For ionic serve command, replace port 3000 with 8100
 For more commands follow the link 
 
 https://raw.githubusercontent.com/sangam14/dockercheatsheets/master/dockercheatsheet8.png
+
+
+Test 
+- transfer flow 
+- candidate request flow 
+- all pages and sub pages 
+- why able to invite already assigned candidate ?
+- badge background 
+- create transfer option popup color + ui 
+- transfer list not getting update on creating first transfer 
+- ion-refresher missing from pages 

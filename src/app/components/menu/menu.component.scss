@@ -68,7 +68,7 @@
 
 ion-item:hover,
 ion-item.activePage {
-  background-color: #f1f1f1;
+  background-color: var(--ion-custom-color-12);
 }
 
 .password ion-label {
@@ -93,7 +93,7 @@ ion-item.activePage {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #292f38;
+    color: var(--ion-text-color);
     padding-left: 6px;
     padding-right: 6px;
   }
@@ -126,13 +126,13 @@ ion-avatar {
   top: 1px;
   width: 28px;
   height: 28px;
-  border: solid 2px #ffffff;
-  background-color: #f24459;
+  border: solid 2px var(--ion-color-primary-contrast);
+  background-color: var(--ion-custom-color-13);
   border-radius: 50%;
   font-size: 13px;
   font-weight: 500;
   text-align: center;
-  color: #fff;
+  color: var(--ion-color-primary-contrast);
 }
 
 [dir="ltr"] .notifications {
@@ -154,7 +154,7 @@ ion-avatar {
 }
 
 .companies-list {
-  border-top: 1px solid #dedede;
+  border-top: 1px solid var(--ion-custom-color-47);
   padding-bottom: 0;
 
   ion-label {
@@ -164,7 +164,7 @@ ion-avatar {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #292f38;
+    color: var(--ion-text-color);
   }
 
   ion-item {
@@ -178,13 +178,13 @@ ion-avatar {
 
 .add-company-btn ion-label {
   font-size: 15px;
-  color: #292f38;
+  color: var(--ion-text-color);
   white-space: inherit;
 }
 
 .add-company-btn small {
   font-size: 11px;
-  color: #9b9b9b;
+  color: var(--ion-custom-color-7);
 }
 
 .item .label {
@@ -203,18 +203,17 @@ ion-avatar {
 }
 
 .card.profile-card {
-  background: #f24459;
-  color: #fff;
+  background: var(--ion-custom-color-13);
+  color: var(--ion-color-primary-contrast);
   border-radius: 10px;
 
   .card-header {
     span.initials {
       display: block;
       float: var(--start);
-      border: 1px solid #fff;
+      border: 1px solid var(--ion-color-primary-contrast);
       border-radius: 22px;
       padding: 9px;
-      background: #fff;
       color: indianred;
     }
 
@@ -222,7 +221,7 @@ ion-avatar {
       margin-top: 9px;
       display: block;
       text-align: center;
-      color: #fff;
+      color: var(--ion-color-primary-contrast);
       font-size: 20px;
     }
   }
@@ -338,7 +337,7 @@ menu {
 }
 
 .toolbar {
-  color: #292f38;
+  color: var(--ion-text-color);
   font-size: 22px;
   font-weight: bold;
   padding-right: 22px;
@@ -392,7 +391,7 @@ menu {
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #000000;
+  color: var(--ion-color-light-contrast);
 }
 
 .menu-footer {
@@ -450,7 +449,7 @@ span.count {
   border-radius: 10px;
   width: 20px;
   height: 20px;
-  color: #fff;
+  color: var(--ion-color-primary-contrast);
   //padding-top: 2px;
   text-align: center;
   font-size: 12px;
@@ -483,10 +482,6 @@ span.count {
 
 .selected {
   background: red;
-}
-
-.not-selected {
-  background: #fff;
 }
 
 .add-new {
@@ -523,13 +518,13 @@ div.add-new {
 
 .un-assign {
   background: chocolate;
-  color: #fff;
+  color: var(--ion-color-primary-contrast);
 }
 
 .invitation-notification-icon {
-  background: #ffb226;
+  background: var(--ion-custom-color-21);
   top: -10px;
-  border: 2px solid #3e81f2;
+  border: 2px solid var(--ion-custom-color-44);
   border-radius: 100%;
   display: block;
   width: 22px;
@@ -540,7 +535,6 @@ div.add-new {
 }
 
 .item-md ion-avatar {
-  background: #fff;
   border-radius: 3px;
 }
 
@@ -573,7 +567,7 @@ div.add-new {
   border-radius: 10px;
   font-size: 20px;
   padding: 4px;
-  color: #000000;
+  color: var(--ion-color-light-contrast);
 }
 
 ion-icon.no-logo.main-logo {
@@ -583,12 +577,12 @@ ion-icon.no-logo.main-logo {
 
 ion-avatar,
 ion-img {
-  background: #f5f7fb !important;
+  background: var(--ion-custom-color-10) !important;
 }
 
 ion-avatar.no-logo {
   text-align: center;
-  color: #dbdcdd;
+  color: var(--ion-custom-color-11);
 }
 
 ion-badge {
@@ -615,5 +609,11 @@ ion-badge {
 }
 
 .current {
-  background: #f1f1f1;
+  background: var(--ion-custom-color-12);
+}
+
+.btn-theme {
+  position: absolute;
+  bottom: 5px;
+  
 }

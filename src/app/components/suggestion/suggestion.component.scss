@@ -8,7 +8,7 @@ ion-card {
   padding: 16px 9px 15px 17px;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+  //background-color: var(--ion-color-primary-contrast);
 
   ion-badge {
     height: 25px;
@@ -20,8 +20,8 @@ ion-card {
     line-height: normal;
     letter-spacing: normal;
     text-align: center;
-    color: #000;
-    background-color: #f2f2f2;
+    color: var(--ion-color-light-contrast);
+    background-color: var(--ion-custom-color-20);
   }
 
   .activity {
@@ -31,7 +31,7 @@ ion-card {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: var(--ion-color-light-contrast);
     padding: 0 5px;
     margin: 10px 0 0;
   }
@@ -44,7 +44,7 @@ ion-card {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: var(--ion-color-light-contrast);
   }
 
   ion-item {
@@ -64,7 +64,7 @@ ion-card {
       font-style: normal;
       line-height: normal;
       letter-spacing: normal;
-      color: #000;
+      color: var(--ion-color-light-contrast);
       text-transform: capitalize;
     }
   }
@@ -84,7 +84,7 @@ ion-button {
   line-height: 1.65;
   letter-spacing: normal;
   text-align: center;
-  color: #ffffff;
+  color: var(--ion-color-primary-contrast);
   text-transform: none;
   height: 45px;
   width: 152px;
@@ -92,11 +92,11 @@ ion-button {
 }
 
 .btn-accept {
-  --background: #219653;
+  --background: var(--ion-custom-color-19);
 }
 
 .btn-reject {
-  --background: #eb5757;
+  --background: var(--ion-custom-color-18);
   margin: 0;
 }
 

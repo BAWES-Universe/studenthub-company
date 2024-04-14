@@ -4,7 +4,7 @@ button{
     margin-left: auto;
     margin-right: auto;
     width: 50%;
-    background: #333333;
+    background: var(--ion-custom-color-22)333;
 }
 
 .button-block {
@@ -26,7 +26,7 @@ section{
         font-size: 25px;
         font-weight: 500;
         text-align: center;
-        color: #292f38;
+        color: var(--ion-text-color);
     }
 
     .request-sent-msg{
@@ -34,7 +34,7 @@ section{
         height: 51px;
         font-size: 18px;
         text-align: center;
-        color: #292f38;
+        color: var(--ion-text-color);
       span {
         display: block;
       }
@@ -66,7 +66,7 @@ img {
   line-height: normal;
   letter-spacing: normal;
   text-align: center;
-  color: #ffffff;
+  color: var(--ion-color-primary-contrast);
   height: 50px;
   border-radius: 4px;
 }

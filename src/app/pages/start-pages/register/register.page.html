@@ -8,11 +8,12 @@
 <!--  </ion-toolbar>-->
 <!--</ion-header>-->
 <ion-content [attr.dir]="translateService.direction()" [scrollEvents]="true" (ionScroll)="logScrolling($event)" class='contentArea ion-padding' fullscreen="true">
-  <ion-back-button [class.hide-back-button]="otp" defaultHref="/login"></ion-back-button>
+
+  <ion-back-button *ngIf="!platform.is('desktop')" [class.hide-back-button]="otp" defaultHref="/login"></ion-back-button>
 
   <div class='brand'>
-    <ion-img src="assets/icon.png"></ion-img>
-    <h3>{{ "Employer Portal" | translate }}</h3>
+    <ion-img src="assets/logo.png"></ion-img>
+    <!-- <ion-img src="assets/images/logo.svg"></ion-img><h3>{{ "Employer Portal" | translate }}</h3> -->
   </div>
 
   <ion-card class='registerCard'>
@@ -20,7 +21,7 @@
 
       <form [formGroup]="registerForm" *ngIf="registerForm" (ngSubmit)="registerSubmit()" (keyup.enter)="registerSubmit()"  novalidate>
 
-        <ion-item>
+        <ion-item lines="none">
           <ion-label position="floating">{{ "Your Name" | translate}}*</ion-label>
           <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="name" maxlength="30"></ion-input>
         </ion-item>
@@ -30,7 +31,7 @@
           <p>{{ "Please enter name" | translate}}</p>
         </div>
 
-        <ion-item>
+        <ion-item  lines="none">
           <ion-label position="floating">{{ "Your Company Name" | translate}}*</ion-label>
           <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="company_name" maxlength="30"></ion-input>
         </ion-item>
@@ -40,12 +41,12 @@
           <p>{{ "Please enter company name" | translate}}</p>
         </div>
 
-        <ion-item>
+        <ion-item lines="none">
           <ion-label position="floating">{{ "Your Job Title" | translate}}</ion-label>
           <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="contact_position" maxlength="30"></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item lines="none">
           <ion-label position="floating">{{ "Your Phone Number" | translate}}*</ion-label>
           <ion-input inputmode="text" enterkeyhint="Next" #input type="text" formControlName="phone_number" maxlength="30"></ion-input>
         </ion-item>
@@ -55,7 +56,7 @@
           <p>{{ "Please enter phone number" | translate}}</p>
         </div>
 
-        <ion-item>
+        <ion-item lines="none">
           <ion-label position="floating">{{ "Email Address" | translate}}</ion-label>
           <ion-input inputmode="email" enterkeyhint="Next" type="email" [readonly]="this.otp" formControlName="email"></ion-input>
         </ion-item>
@@ -70,7 +71,7 @@
           </p>
         </div>
        
-        <ion-item>
+        <ion-item lines="none">
           <ion-label position="floating">{{ "Requesting for" | translate}}</ion-label>
           <ion-select formControlName="requesting_for" interface="action-sheet">
             <ion-select-option>{{ "For Hiring Part-timers" | translate }}</ion-select-option>
@@ -81,12 +82,12 @@
           </ion-select>
         </ion-item>
 
-        <ion-item>
+        <ion-item lines="none">
           <ion-label position="floating">{{ "Country" | translate}}*</ion-label>
           <ion-input style="cursor: pointer;" (click)="openCountryList()" [readonly]="true" formControlName="country"></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item lines="none">
           <ion-label position="floating">{{ "Currency" | translate}}*</ion-label>
           <ion-select formControlName="currency_code">
             <ion-select-option [value]="currency.code" *ngFor="let currency of authService.currencies">
@@ -142,7 +143,7 @@
         <ion-spinner *ngIf="authService.appleAuthLoading"></ion-spinner>
       </ion-button>
 
-      <ion-button fill="outline" class="btn-login-bawes" (click)="loginWithAuth0()">
+      <ion-button class="btn-login-bawes" (click)="loginWithAuth0()">
         {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/images/icon-bawes.svg"></ion-icon>
       </ion-button>
 

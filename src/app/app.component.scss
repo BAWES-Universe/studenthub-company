@@ -35,11 +35,8 @@ ion-menu.md ion-list#inbox-list ion-list-header {
 
 ion-menu.md ion-list#labels-list ion-list-header {
   font-size: 16px;
-
   margin-bottom: 18px;
-
-  color: #757575;
-
+  color: var(--ion-custom-color-4);
   min-height: 26px;
 }
 
@@ -58,7 +55,7 @@ ion-menu.md ion-item.selected ion-icon {
 }
 
 ion-menu.md ion-item ion-icon {
-  color: #616e7e;
+  color: var(--ion-custom-color-5);
 }
 
 ion-menu.md ion-item ion-label {
@@ -90,7 +87,7 @@ ion-menu.ios ion-item.selected ion-icon {
 
 ion-menu.ios ion-item ion-icon {
   font-size: 24px;
-  color: #73849a;
+  color: var(--ion-custom-color-8);
 }
 
 ion-menu.ios ion-list#labels-list ion-list-header {
@@ -119,15 +116,15 @@ ion-item.selected {
 }
 
 .logo{width:60px;}
-h3{margin-top:0; color:white;}
+h3{margin-top:0; color:var(--ion-color-primary-contrast);}
 
 .navi-header {
-  background: #4354a5;
-  --background: #4354a5;
+  background: var(--ion-custom-color-9);
+  --background: var(--ion-custom-color-9);
 }
 
 .companies-list {
-  border-top: 1px solid #dedede;
+  border-top: 1px solid var(--ion-custom-color-47);
   padding-bottom: 0;
 
   ion-label {
@@ -137,7 +134,7 @@ h3{margin-top:0; color:white;}
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #292f38;
+    color: var(--ion-text-color);
   }
 
   ion-item {
@@ -151,7 +148,7 @@ h3{margin-top:0; color:white;}
     border-radius: 10px;
     font-size: 20px;
     padding: 4px;
-    color: #000000;
+    color: var(--ion-color-light-contrast);
   }
 
   ion-icon.no-logo.main-logo {
@@ -160,12 +157,12 @@ h3{margin-top:0; color:white;}
   }
 
   ion-avatar,ion-img{
-    background: #f5f7fb !important;
+    background: var(--ion-custom-color-10) !important;
   }
 
   ion-avatar.no-logo {
     text-align: center;
-    color: #dbdcdd;
+    color: var(--ion-custom-color-11);
   }
 
   ion-badge {
@@ -183,10 +180,11 @@ h3{margin-top:0; color:white;}
 }
 
 .current {
-  background: #f1f1f1;
+  background: var(--ion-custom-color-12);
 }
 
 .navi-header[_ngcontent-afb-c134] {
-  background: #4354a5;
-  --background: #4354a5;
+  background: var(--ion-custom-color-9);
+  --background: var(--ion-custom-color-9);
 }
+

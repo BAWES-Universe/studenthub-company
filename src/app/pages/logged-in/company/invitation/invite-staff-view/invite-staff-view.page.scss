@@ -14,7 +14,7 @@
     position: absolute;
     top: 14px;
     font-size: 20px;
-    color: #9b9b9b;
+    color: var(--ion-custom-color-7);
     --padding-bottom: 0;
     --padding-end: 0;
     --padding-top: 0;
@@ -24,7 +24,7 @@
 
 .invitation-detail {
     border-radius: 4px;
-    background-color: #ffffff;
+    background-color: var(--ion-color-primary-contrast);
     display: block;
     margin: auto;
     padding: 0 30px;
@@ -34,7 +34,7 @@ h2 {
     font-size: 24px;
     font-weight: 500;
     text-align: center;
-    color: #4a4a4a;
+    color: var(--ion-custom-color-2);
     display: block;
     position: relative;
     padding-top: 24px;
@@ -49,13 +49,13 @@ p {
 }
 
 p strong {
-    color: #4a4a4a;
+    color: var(--ion-custom-color-2);
 }
 
 .btn-reject, .btn-accept {
     font-size: 18px;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--ion-color-primary-contrast);
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -74,10 +74,10 @@ p strong {
 
 .btn-reject {
     box-shadow: none;
-  --border-color: #292f38;
+  --border-color: var(--ion-text-color);
   --background: transparent;
-    color: #292f38;
-  --color-focused: #292f38;
+    color: var(--ion-text-color);
+  --color-focused: var(--ion-text-color);
   --background-focused: transparent;
     margin-top: 10px;
 }
