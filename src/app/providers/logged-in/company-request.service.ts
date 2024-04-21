@@ -55,7 +55,8 @@ export class CompanyRequestService {
       additional_info: model.request_additional_info,
       compensation: model.request_compensation,
       location: model.request_location,
-      job_description: model.request_job_description
+      job_description: model.request_job_description,
+      requestSkills: model.requestSkills
     });
   }
 
@@ -93,7 +94,8 @@ export class CompanyRequestService {
       additional_info: model.request_additional_info,
       compensation: model.request_compensation,
       location: model.request_location,
-      job_description: model.request_job_description
+      job_description: model.request_job_description,
+      requestSkills: model.requestSkills
     });
   }
 
@@ -111,7 +113,7 @@ export class CompanyRequestService {
    */
   view(id): Observable<any> {
     const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,invitations.candidate,invitations.suggestion,stories';
+      '?expand=requestSkills,requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,invitations.candidate,invitations.suggestion,stories';
     return this.authhttp.get(url);
   }
 

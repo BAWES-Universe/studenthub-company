@@ -93,6 +93,22 @@
           <ion-textarea formControlName="additional_info" placeholder="{{'Anything you type here will be shared to the recruiter and be kept private from the employees you are looking to hire' | translate}}"></ion-textarea>
         </ion-item>
       </ion-list>
+
+      
+      <h5>{{ "Skills" | translate }}</h5>
+
+      <div [formGroup]="requestSkill" *ngFor="let requestSkill of requestSkills.controls; let i = index">
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-input autocomplete="off1" (ionChange)="onSkillChange($event, i)" formControlName="skill" enterkeyhint="Next"></ion-input>
+
+          <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="requestSkills.controls.length -1 != i" (click)="removeSkill(i)">
+            <img src="assets/images/close.svg">
+          </ion-button>
+
+        </ion-item>
+      </div> 
+
     </form>
   </div>
 </ion-content>

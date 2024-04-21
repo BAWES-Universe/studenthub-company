@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -83,6 +83,20 @@ export class RequestFormPage implements OnInit {
   loadForm() {
     this.company = this.model.company;
 
+    let skillCtrls = [];
+
+    if(this.model.requestSkills) {
+      for (let requestSkill of this.model.requestSkills) {
+        skillCtrls.push(this.fb.group({
+          skill: [requestSkill.skill]//, [Validators.required]
+        }));
+      }
+    }
+
+    skillCtrls.push(this.fb.group({
+      skill: ['', []]
+    }));
+
     this.form = this.fb.group({
       position_type: [this.model.request_position_type + '', Validators.required],
       position_title: [this.model.request_position_title, Validators.required],
@@ -90,7 +104,8 @@ export class RequestFormPage implements OnInit {
       location: [this.model.request_location],
       additional_info: [this.model.request_additional_info],
       job_description: [this.model.request_job_description, Validators.required],
-      compensation: [this.model.request_compensation, Validators.required]
+      compensation: [this.model.request_compensation, Validators.required],
+      requestSkills:  new FormArray(skillCtrls),
     });
 
     this.operation = (this.requestID) ? this.translateService.transform('Update') : this.translateService.transform('Create');
@@ -107,6 +122,7 @@ export class RequestFormPage implements OnInit {
     this.model.request_job_description = this.form.value.job_description;
     this.model.request_compensation = this.form.value.compensation;
     this.model.request_location = this.form.value.location;
+    this.model.requestSkills = this.form.value.requestSkills;
   }
 
   /**
@@ -181,6 +197,46 @@ export class RequestFormPage implements OnInit {
     this.form.controls.job_description.setValue(null);
     this.form.controls.compensation.setValue(null);
     this.form.controls.location.setValue(null);
+    this.form.controls['requestSkills'].setValue([
+      this.fb.group({
+        skill: ['', []]
+      })
+    ]);
+  }
+
+  // convenience getters for easy access to form fields
+  get f() { return this.form.controls; }
+  get requestSkills() { return <FormArray<FormGroup>>this.f['requestSkills']; } //as FormArray
+
+  removeSkill(index) {
+    this.requestSkills.removeAt(index);
+    this.requestSkills.markAsDirty();
+  }
+
+  addSkill() {
+    this.requestSkills.push(this.fb.group({
+      skill: ['', []]
+    }));
+  }
+
+  /**
+   * add new input
+   * @param event
+   * @param index
+   */
+  onSkillChange(event, index) {
+
+    // remove field on clearing it out + have next empty field
+
+    if (this.requestSkills.length - index > 1 && event.target.value.length == 0) {
+      return this.removeSkill(index);
+    }
+
+    // check if new field is not added && something is typed
+    if (((index - this.requestSkills.length) === -1) && event.target.value) {
+      // adding new field
+      this.addSkill();
+    }
   }
 
   onEditorReady() {
