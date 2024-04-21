@@ -108,10 +108,11 @@ ion-item.field-password {
   width: calc(100% - 100px);
   margin-left: auto;
   margin-right: auto;
-
+ 
   span {
     position: relative;
     top: 9px;
+    background: var(--ion-color-dark-contrast);
     //background: var(--ion-color-primary-contrast);
     padding: 0 10px;
   }
