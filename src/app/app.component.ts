@@ -78,6 +78,10 @@ export class AppComponent implements OnInit, OnDestroy {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     
+    if(urlParams.get('auth_key')) {
+      this.auth.loginByKey(urlParams.get('auth_key'));
+    }
+
     if(urlParams.get('utm_id')) {
       this.auth.utm_uuid = urlParams.get('utm_id');
       Preferences.set({ key: 'utm_uuid', value: this.auth.utm_uuid });
