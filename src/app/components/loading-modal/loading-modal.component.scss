@@ -44,7 +44,7 @@
     animation-iteration-count: infinite;
     animation-name: placeHolderShimmer;
     animation-timing-function: linear;
-    background: linear-gradient(to right, var(--ion-custom-color-31)eee 8%, #dddddd 18%, var(--ion-custom-color-31)eee 33%);
+   // background: linear-gradient(to right, var(--ion-custom-color-31)eee 8%, #dddddd 18%, var(--ion-custom-color-31)eee 33%);
     background-size: 800px 104px;
     position: relative;
     display: block;
@@ -73,7 +73,7 @@
     margin-left: 0;
     margin-right: 0;
     border-radius: 5px;
-    //background-color: var(--ion-color-primary-contrast);
+    background-color: var(--ion-color-dark-contrast);
     box-shadow: none;
 
     ion-card-header {
@@ -120,7 +120,7 @@
     ion-card-content {
       position: relative;
       border-radius: 5px;
-      background-color: var(--ion-color-primary-contrast);
+      background-color: var(--ion-color-dark-contrast);
       border: solid 1px var(--ion-custom-color-1);
 
       font-size: 16px;
@@ -147,7 +147,7 @@
           line-height: 3;
           letter-spacing: normal;
           text-align: center;
-          color: var(--ion-color-primary-contrast);
+          color: var(--ion-color-dark-contrast);
           margin: 0;
           padding: 0;
         }

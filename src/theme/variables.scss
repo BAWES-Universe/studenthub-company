@@ -137,8 +137,15 @@
    */
   body.night {
     
-    --ck-color-base-background: var(--background);
-    --ck-color-toolbar-background: var(--background);
+    ion-item {
+      --background : #121212;
+    }
+
+    --background: #000000;
+    background: #000000;
+
+    --ck-color-base-background: #121212;//var(--background);
+    --ck-color-toolbar-background: #121212;//var(--background);
 
     --ion-custom-color-1: #bdbdbd;
     --ion-custom-color-2: #4a4a4a;

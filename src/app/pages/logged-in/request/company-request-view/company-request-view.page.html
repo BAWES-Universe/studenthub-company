@@ -36,6 +36,9 @@
         <p class="txt-additional-info" [innerHTML]="request.request_job_description"></p>
 
         <p class="txt-additional-info">{{ request.request_compensation }}</p>
+        
+        <h2>Skills</h2>
+        <ion-badge *ngFor="let requestSkill of request.requestSkills">{{ requestSkill.skill }}</ion-badge>
 
         <div class="requested-by">
           <ng-container *ngIf="request.contact">{{"Requested by" | translate}} <span class="requested-by-staff">{{ request.contact.contact_name }}</span></ng-container>

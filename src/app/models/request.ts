@@ -31,6 +31,12 @@ export class Request {
     lastActivity: Note;
     invitations: Invitation[];
     stats: Stats;
+    requestSkills: RequestSkill[];
+}
+
+export class RequestSkill {
+  request_uuid: string;
+  skill: string;
 }
 
 class Stats {
