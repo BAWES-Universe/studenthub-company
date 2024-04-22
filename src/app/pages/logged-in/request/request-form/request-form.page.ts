@@ -8,9 +8,11 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { EventService } from 'src/app/providers/event.service';
 import { TranslateLabelService } from "../../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { CountryService } from 'src/app/providers/country.service';
 // models
 import { Request } from 'src/app/models/request';
-import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { Country } from 'src/app/models/country';
 
 
 @Component({
@@ -44,6 +46,8 @@ export class RequestFormPage implements OnInit {
   
   public Editor = ClassicEditor;
 
+  public countrylistData: Country[] = [];
+
   constructor(
     public requestService: CompanyRequestService,
     private fb: FormBuilder,
@@ -51,6 +55,7 @@ export class RequestFormPage implements OnInit {
     private location: Location,
     private eventService: EventService,
     private route: ActivatedRoute,
+    public countryService: CountryService,
     private translateService: TranslateLabelService,
     public analyticService: AnalyticsService
   ) {
@@ -78,6 +83,17 @@ export class RequestFormPage implements OnInit {
     } else {
       this.loadForm();
     }
+  
+    this.loadCountryList();
+  }
+
+  /**
+   * Load list of countries
+   */
+  loadCountryList() {
+    this.countryService.list(-1).subscribe(response => {
+      this.countrylistData = response.body;
+    });
   }
 
   loadForm() {
@@ -106,6 +122,8 @@ export class RequestFormPage implements OnInit {
       job_description: [this.model.request_job_description, Validators.required],
       compensation: [this.model.request_compensation, Validators.required],
       requestSkills:  new FormArray(skillCtrls),
+      nationality_id: [this.model.nationality_id],
+      gender: [this.model.gender + '']
     });
 
     this.operation = (this.requestID) ? this.translateService.transform('Update') : this.translateService.transform('Create');
@@ -123,6 +141,8 @@ export class RequestFormPage implements OnInit {
     this.model.request_compensation = this.form.value.compensation;
     this.model.request_location = this.form.value.location;
     this.model.requestSkills = this.form.value.requestSkills;
+    this.model.gender = this.form.value.gender; 
+    this.model.nationality_id = this.form.value.nationality_id;
   }
 
   /**
@@ -197,6 +217,8 @@ export class RequestFormPage implements OnInit {
     this.form.controls.job_description.setValue(null);
     this.form.controls.compensation.setValue(null);
     this.form.controls.location.setValue(null);
+    this.form.controls.nationality_id.setValue(null);
+    this.form.controls.gender.setValue(null);
     this.form.controls['requestSkills'].setValue([
       this.fb.group({
         skill: ['', []]

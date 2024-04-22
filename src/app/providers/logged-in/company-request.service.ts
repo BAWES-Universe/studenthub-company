@@ -56,7 +56,9 @@ export class CompanyRequestService {
       compensation: model.request_compensation,
       location: model.request_location,
       job_description: model.request_job_description,
-      requestSkills: model.requestSkills
+      requestSkills: model.requestSkills,
+      nationality_id: model.nationality_id,
+      gender: model.gender
     });
   }
 
@@ -95,7 +97,9 @@ export class CompanyRequestService {
       compensation: model.request_compensation,
       location: model.request_location,
       job_description: model.request_job_description,
-      requestSkills: model.requestSkills
+      requestSkills: model.requestSkills,
+      nationality_id: model.nationality_id,
+      gender: model.gender
     });
   }
 
@@ -138,7 +142,7 @@ export class CompanyRequestService {
    * check if request updated
    * @param request_uuid
    */
-   isRequestUpdated(request_uuid) : Observable<any> {
+  isRequestUpdated(request_uuid) : Observable<any> {
     let url = this.companyRequestEndpoint + '/is-request-updated/' + request_uuid;
     return this.authhttp.get(url);
   }
