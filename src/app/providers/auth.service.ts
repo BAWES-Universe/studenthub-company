@@ -87,6 +87,7 @@ export class AuthService {
   public urlLoginByApple = '/auth/login-by-apple';
   public _urlLocate = '/auth/locate';
   public _urlLoginByGoogle = '/auth/login-by-google';
+  public _urlLoginByKey  = '/auth/login-by-key';
 
   constructor(
     public http: HttpClient,
@@ -969,6 +970,72 @@ export class AuthService {
     }
   }
 
+  /**
+   * login with auth key
+   * @param auth_key 
+   * @returns 
+   */
+  async loginByKey(auth_key: string) {
+    
+    const loading = await this.loadingCtrl.create({
+      spinner: 'crescent',
+      message: this.translate.transform('Logging in...')
+    });
+    loading.present();
+
+    const url = environment.apiEndpoint + this._urlLoginByKey;
+
+    const headers = this._buildAuthHeaders();
+
+    return this.http.post(url, {
+      auth_key: auth_key
+    }, {
+      headers
+    })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        first(),
+        map((res) => res)
+      )
+      .subscribe(async response => {
+
+        if (response.operation == 'success') {
+
+          this.setAccessToken(response, true);
+
+        } else if (response.operation == 'error' && response.errorType == 'email-not-verified') {
+
+          Preferences.set({ 'key': "unVerifiedToken", "value": JSON.stringify(response.unVerifiedToken) }).catch(r => {
+            this.eventService.errorStorage$.next();
+          });
+  
+          this.router.navigate([
+            'verify-email',
+            response['unVerifiedToken']['email']
+          ]);
+  
+        } else if (response.operation == 'error') {
+          const alert = await this.alertCtrl.create({
+            message: this.errorMessage(response.message), // JSON.stringify(err)
+            buttons: [this.translate.transform('Okay')]
+          });
+          await alert.present();
+
+        }
+
+        //this.eventService.googleLoginFinished$.next({});
+
+      }, err => {
+
+        //this.eventService.googleLoginFinished$.next(err);
+      },
+      () => {
+        if (loading) {
+          loading.dismiss();
+        }
+      });
+  }
 
   /**
    * Login by Google for mobile app
