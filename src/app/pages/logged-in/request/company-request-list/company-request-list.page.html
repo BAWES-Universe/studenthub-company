@@ -12,7 +12,8 @@
     <div class="segment-div">
       <ion-segment [value]="segment" (ionChange)="segmentChange($event)">
 
-        <ion-segment-button value="pending" *ngIf="requestStats.pending > 0">
+        <!-- *ngIf="requestStats.pending > 0" -->
+        <ion-segment-button value="pending">
           <ion-label>{{ "pending_value" | translate: {value:requestStats.pending} }}</ion-label>
         </ion-segment-button>
 
@@ -21,19 +22,19 @@
         </ion-segment-button>
         
         <ion-segment-button value="finished_by_recruitment" *ngIf="requestStats.finished_by_recruitment > 0">
-          <ion-label>{{"finished_by_recruitment_value" |  translate: {value: requestStats.finished_by_recruitment} }}</ion-label>
+          <ion-label>{{ "finished_by_recruitment_value" |  translate: {value: requestStats.finished_by_recruitment} }}</ion-label>
         </ion-segment-button>
 
         <ion-segment-button value="re_work" *ngIf="requestStats.re_work > 0">
-          <ion-label>{{"re_work_value" |  translate: {value: requestStats.re_work} }}</ion-label>
+          <ion-label>{{ "re_work_value" |  translate: {value: requestStats.re_work} }}</ion-label>
         </ion-segment-button>
          
         <ion-segment-button value="delivered" *ngIf="requestStats.delivered > 0">
-          <ion-label>{{"completed_value" |  translate: {value: requestStats.delivered} }}</ion-label>
+          <ion-label>{{ "completed_value" |  translate: {value: requestStats.delivered} }}</ion-label>
         </ion-segment-button>
 
         <ion-segment-button value="cancelled" *ngIf="requestStats.cancelled > 0">
-          <ion-label>{{"cancelled_value" |  translate: {value: requestStats.cancelled} }}</ion-label>
+          <ion-label>{{ "cancelled_value" |  translate: {value: requestStats.cancelled} }}</ion-label>
         </ion-segment-button>
       </ion-segment>
     </div>
