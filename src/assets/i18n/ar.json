@@ -2,6 +2,8 @@
   "Position Type": "نوع الوظيفة",
   "Any": "أي",
   "Select Nationality": "اختر الجنسية",
+  "re_work_value" : "إعادة العمل ({{value}})",
+  "finished_by_recruitment_value" : "تم الانتهاء من التوظيف ({{value}})",
   "OR": "أو",
   "Log in with Google": "قم بتسجيل الدخول باستخدام Google",
   "Email not found in inbox? Please check spam folder.": "لم يتم العثور على البريد الإلكتروني في البريد الوارد؟ يرجى التحقق من مجلد الرسائل غير المرغوب فيها.",
