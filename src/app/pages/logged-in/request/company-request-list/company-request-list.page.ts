@@ -177,6 +177,13 @@ export class CompanyRequestListPage implements OnInit {
       
       //this.calculateStats();
 
+      this.requestStats.pending = parseInt(response.headers.get('X-Pending-Count'));
+      this.requestStats.cancelled = parseInt(response.headers.get('X-Cancelled-Count'));
+      this.requestStats.delivered = parseInt(response.headers.get('X-Completed-Count'));
+      this.requestStats.finished_by_recruitment = parseInt(response.headers.get('X-Finished-Count'));
+      this.requestStats.started = parseInt(response.headers.get('X-Open-Count'));
+      this.requestStats.re_work = parseInt(response.headers.get('X-Rework-Count'));
+
     },
       error => { },
       () => {
