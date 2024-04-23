@@ -6,7 +6,6 @@ import { Company } from 'src/app/models/company';
 import { Request } from 'src/app/models/request';
 // services
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
-import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { EventService } from 'src/app/providers/event.service';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -30,7 +29,8 @@ export class CompanyRequestListPage implements OnInit {
   public currentPage = 1;
   public pages: number[] = [];
   public requests: Request[] = [];
-  public segment = 'open';
+  
+  public segment = 'started';
 
   public filters: {
     companyName: string,
@@ -45,15 +45,19 @@ export class CompanyRequestListPage implements OnInit {
     };
 
   public requestStats: {
-    pending: Request[],
-    open: Request[],
-    completed: Request[],
-    cancelled: Request[]
+    pending: number,
+    started: number,
+    delivered: number,
+    cancelled: number,
+    finished_by_recruitment: number,
+    re_work: number,
   } = {
-    pending: [],
-    open: [],
-    completed: [],
-    cancelled: []
+    pending: 0,
+    started: 0,
+    delivered: 0,
+    cancelled: 0,
+    finished_by_recruitment: 0,
+    re_work: 0
   };
 
   public min; // min date
@@ -66,19 +70,19 @@ export class CompanyRequestListPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public platform: Platform,
-    public companyService: CompanyService,
     public eventService: EventService,
     public requestService: CompanyRequestService,
-    public aws: AwsService,
-    public alertCtrl: AlertController,
-    public toastCtrl: ToastController,
-    public modalCtrl: ModalController,
     public router: Router,
     public auth: AuthService,
     public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.content.scrollToPoint(0, this.scrollPosition);
+
     this.analyticService.page('Request List Page');
 
     this.min = '1930/01/01';
@@ -97,10 +101,6 @@ export class CompanyRequestListPage implements OnInit {
     });
   }
 
-  ionViewWillEnter() {
-    this.content.scrollToPoint(0, this.scrollPosition);
-  }
-
   ionViewWillLeave() {
     this.analyticService.track('page_exit', {
       'page': 'Request List Page'
@@ -111,6 +111,10 @@ export class CompanyRequestListPage implements OnInit {
     });
   }
 
+  /**
+   * refresh 
+   * @param event 
+   */
   doRefresh(event) {
     this.list(event);
   }
@@ -123,6 +127,8 @@ export class CompanyRequestListPage implements OnInit {
     if(!refresher)
       this.loading = true;
 
+    this.currentPage = 1;
+    
     const urlParams = this.urlParams();
 
     this.requestService.listWithPagination(1, urlParams).subscribe(response => {
@@ -132,7 +138,14 @@ export class CompanyRequestListPage implements OnInit {
 
       this.requests = response.body;
 
-      this.calculateStats();
+      //this.calculateStats();
+
+      this.requestStats.pending = parseInt(response.headers.get('X-Pending-Count'));
+      this.requestStats.cancelled = parseInt(response.headers.get('X-Cancelled-Count'));
+      this.requestStats.delivered = parseInt(response.headers.get('X-Completed-Count'));
+      this.requestStats.finished_by_recruitment = parseInt(response.headers.get('X-Finished-Count'));
+      this.requestStats.started = parseInt(response.headers.get('X-Open-Count'));
+      this.requestStats.re_work = parseInt(response.headers.get('X-Rework-Count'));
 
       if(refresher) {
         refresher.target.complete();
@@ -162,7 +175,7 @@ export class CompanyRequestListPage implements OnInit {
 
       this.requests = this.requests.concat(response.body);
       
-      this.calculateStats();
+      //this.calculateStats();
 
     },
       error => { },
@@ -177,7 +190,7 @@ export class CompanyRequestListPage implements OnInit {
    * Return url string to filter list
    */
   urlParams() {
-    let urlParams = '&per-page=100000';
+    let urlParams = '';//&per-page=100000
 
     if (this.filters.companyName) {
       urlParams += '&company_name=' + this.filters.companyName;
@@ -185,6 +198,8 @@ export class CompanyRequestListPage implements OnInit {
 
     if (this.filters.requestStatus) {
       urlParams += '&request_status=' + this.filters.requestStatus;
+    } else {
+      urlParams += '&request_status=' + this.segment;// load only current segment's request
     }
 
     if (this.filters.startDate) {
@@ -225,8 +240,11 @@ export class CompanyRequestListPage implements OnInit {
 
   segmentChange(event) {
     this.segment = event.detail.value;
+
+    this.list();
   }
 
+  /*
   calculateStats() {
 
     this.reset();
@@ -258,14 +276,17 @@ export class CompanyRequestListPage implements OnInit {
     } else {
       this.segment = 'pending';
     }
-  }
+  }*/
 
   reset() {
+    this.requests = [];
     this.requestStats = {
-        pending: [],
-        open: [],
-        completed: [],
-        cancelled: []
+        pending: 0,
+        started: 0,
+        delivered: 0,
+        cancelled: 0,
+        re_work: 0,
+        finished_by_recruitment: 0,
       };
     }
   }
