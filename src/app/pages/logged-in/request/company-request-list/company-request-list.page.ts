@@ -30,7 +30,7 @@ export class CompanyRequestListPage implements OnInit {
   public pages: number[] = [];
   public requests: Request[] = [];
   
-  public segment = 'started';
+  public segment = 'pending';//started
 
   public filters: {
     companyName: string,
