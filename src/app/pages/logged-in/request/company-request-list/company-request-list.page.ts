@@ -124,8 +124,10 @@ export class CompanyRequestListPage implements OnInit {
    */
   async list(refresher = null) {
 
-    if(!refresher)
+    if(!refresher) {
+      this.requests = [];
       this.loading = true;
+    }
 
     this.currentPage = 1;
     
