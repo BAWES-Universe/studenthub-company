@@ -25,6 +25,17 @@ export class CandidateService {
   }
 
   /**
+   * search candidate for request
+   * @param match_request_id 
+   * @param page 
+   * @returns 
+   */
+  searchRequestMatch(match_request_id: any, page: number): Observable<any> {
+    const url = this._candidateEndpoint + '/search?expand=cadndiateSkills,candidateExperiences,candidateTags&match_request_id=' + match_request_id + '&page=' + page;
+    return this._authhttp.getRaw(url);
+  }
+  
+  /**
    * Return total no of candidates
    * working for them
    * @returns {Observable<any>}

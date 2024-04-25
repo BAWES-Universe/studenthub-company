@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title *ngIf="candidate" class="candidate_name">
       {{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}</ion-title>
-    <ion-buttons slot="end" *ngIf="candidate">
+    <ion-buttons slot="end" *ngIf="candidate && candidate.is_our_employee">
       <ion-button [routerLink]="['/log-date-list',candidate.candidate_id]">
         {{ "View Log" | translate }}
       </ion-button>
@@ -115,22 +115,24 @@
                   </ion-label>
                 </ion-item>
 
-                <ion-item class="resume" target="_blank" href="{{ getResumeUrl(candidate) }}"
-                          *ngIf="candidate.candidate_resume">
-                  <div tabindex="0"></div>
-                  <ion-label>
-                    <h5>{{ "CV / Portfolio" | translate}}</h5>
-                    <p>{{ "Download uploaded PDF file" | translate}}</p>
-                  </ion-label>
-                </ion-item>
+                <ng-container *ngIf="candidate.is_our_employee">
+                  <ion-item class="resume" target="_blank" href="{{ getResumeUrl(candidate) }}"
+                            *ngIf="candidate.candidate_resume">
+                    <div tabindex="0"></div>
+                    <ion-label>
+                      <h5>{{ "CV / Portfolio" | translate}}</h5>
+                      <p>{{ "Download uploaded PDF file" | translate}}</p>
+                    </ion-label>
+                  </ion-item>
 
-                <ion-item class="resume" *ngIf="!candidate.candidate_resume">
-                  <div tabindex="0"></div>
-                  <ion-label>
-                    <p>{{ "CV / Portfolio(not set)" | translate}}</p>
-                  </ion-label>
-                </ion-item>
-
+                  <ion-item class="resume" *ngIf="!candidate.candidate_resume">
+                    <div tabindex="0"></div>
+                    <ion-label>
+                      <p>{{ "CV / Portfolio(not set)" | translate}}</p>
+                    </ion-label>
+                  </ion-item>
+                </ng-container>
+                
                 <ion-item class="skills">
                   <div tabindex="0"></div>
                   <ion-label *ngIf="candidate.candidateSkills && candidate.candidateSkills.length > 0">

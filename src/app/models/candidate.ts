@@ -60,6 +60,7 @@ export class Candidate {
   country: Country;
   area: Area;
   nationality: Country;
+  is_our_employee: boolean;
   candidateExperiences: any;
   candidateSkills: any;
   candidateIdCard: any;

@@ -22,6 +22,8 @@ import { EventService } from 'src/app/providers/event.service';
 import { Request } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { Candidate } from 'src/app/models/candidate';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 
 
 @Component({
@@ -58,12 +60,20 @@ export class CompanyRequestViewPage implements OnInit {
 
   public alertConfirmReload;
 
+  public matchedCandidates: Candidate[] = [];
+  public MPageCount = 0;
+  public McurrentPage = 0;
+  public Mtotal = 0;
+
+  public loadingMatched:boolean = false;
+
   constructor(
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public route: ActivatedRoute,
+    public candidateService: CandidateService,
     public authService: AuthService,
     public requestService: CompanyRequestService,
     public requestActivityService: RequestActivityService,
@@ -85,6 +95,9 @@ export class CompanyRequestViewPage implements OnInit {
   }
   
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.analyticService.page('Request View Page');
 
     if(!this.request_uuid)
@@ -116,6 +129,68 @@ export class CompanyRequestViewPage implements OnInit {
       }
     });
   }
+
+  segmentChanged(event) {
+    this.segment = event.target.value;
+
+    if(this.segment == "matches") {
+      if(this.matchedCandidates.length == 0) {
+        this.loadMatched();
+      }
+    }
+  }
+
+  loadMatched() {
+ 
+    this.loadingMatched = true;
+
+    this.McurrentPage = 1;
+
+    this.candidateService.searchRequestMatch(this.request_uuid, this.McurrentPage).subscribe(data => {
+
+      this.matchedCandidates = data.body;
+      this.MPageCount = parseInt(data.headers.get('X-Pagination-Page-Count'));
+      this.McurrentPage = parseInt(data.headers.get('X-Pagination-Current-Page'));
+      this.Mtotal = parseInt(data.headers.get('X-Pagination-Total-Count'));
+    },
+    () => { },
+    () => {
+      this.loadingMatched = false;
+    });
+  }
+
+  /**
+   * load more matched candidates 
+   * @param event 
+   */
+  doInfiniteMatched(event) {
+
+    this.loadingMatched = true;
+    
+    this.McurrentPage++;
+
+    this.candidateService.searchRequestMatch(this.request_uuid, this.McurrentPage).subscribe(data => {
+
+      this.matchedCandidates = this.matchedCandidates.concat(data.body);
+      this.MPageCount = parseInt(data.headers.get('X-Pagination-Page-Count'));
+      this.McurrentPage = parseInt(data.headers.get('X-Pagination-Current-Page'));
+      this.Mtotal = parseInt(data.headers.get('X-Pagination-Total-Count'));
+    },
+    () => { },
+    () => {
+      this.loadingMatched = false;
+      event.target.complete();
+    });
+  }
+
+  candidateSelected(candidate) {
+    this.navCtrl.navigateForward('candidate-view/' + candidate.candidate_id, {
+      state: {
+        request: this.request
+      }
+    });
+  }
+  
 
   /**
    * list invoices
