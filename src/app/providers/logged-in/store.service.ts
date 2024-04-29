@@ -26,6 +26,20 @@ export class StoreService {
   }
 
   /**
+   * request to unassign to change store 
+   * @param store_id 
+   * @param candidate_id 
+   * @returns 
+   */
+  storeAssignmentRequest(store_id: number, candidate_id: number): Observable<any> {
+    let url = this._storeEndpoint + '/store-assignment-request';
+    return this._authhttp.post(url, {
+      store_id: store_id,
+      candidate_id: candidate_id
+    });
+  }
+
+  /**
    * List of all stores
    * @returns {Observable<any>}
    */
