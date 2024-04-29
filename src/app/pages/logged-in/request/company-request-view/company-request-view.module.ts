@@ -20,6 +20,7 @@ import {TranslateModule} from "@ngx-translate/core";
         FormsModule,
         PipesModule,
         IonicModule,
+        
         SuggestionModule,
         LoadingModalModule,
         CompanyRequestViewRoutingModule,

@@ -18,12 +18,13 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 import { EventService } from 'src/app/providers/event.service';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 // models
 import { Request } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
-import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { Candidate } from 'src/app/models/candidate';
-import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { RequestApplication } from 'src/app/models/request-application';
 
 
 @Component({
@@ -66,6 +67,14 @@ export class CompanyRequestViewPage implements OnInit {
   public Mtotal = 0;
 
   public loadingMatched:boolean = false;
+
+  public loadingApplications: boolean = false; 
+
+  public candidateApplications: RequestApplication[] = [];
+  
+  public applicationPageCount = 0;
+  public applicationCurrentPage  = 0;
+  public applicationTotal = 0;
 
   constructor(
     public modalCtrl: ModalController,
@@ -137,7 +146,54 @@ export class CompanyRequestViewPage implements OnInit {
       if(this.matchedCandidates.length == 0) {
         this.loadMatched();
       }
+    } else if(this.segment == "applied") {
+      if(this.candidateApplications.length == 0) {
+        this.loadApplications();
+      }
     }
+  }
+
+  loadApplications() {
+ 
+    this.loadingApplications = true;
+
+    this.applicationCurrentPage = 1;
+
+    this.requestService.listApplications(this.request_uuid, this.applicationCurrentPage).subscribe(data => {
+
+      this.candidateApplications = data.body;
+      this.applicationPageCount = parseInt(data.headers.get('X-Pagination-Page-Count'));
+      this.applicationCurrentPage = parseInt(data.headers.get('X-Pagination-Current-Page'));
+      this.applicationTotal = parseInt(data.headers.get('X-Pagination-Total-Count'));
+    },
+    () => { },
+    () => {
+      this.loadingApplications = false;
+    });
+  }
+
+  /**
+   * load more on scroll to bottom
+   * @param event 
+   */
+  doInfiniteApplications(event) {
+
+    this.loadingApplications = true;
+
+    this.applicationCurrentPage++;
+
+    this.requestService.listApplications(this.request_uuid, this.applicationCurrentPage).subscribe(data => {
+
+      this.candidateApplications = data.body;
+      this.applicationPageCount = parseInt(data.headers.get('X-Pagination-Page-Count'));
+      this.applicationCurrentPage = parseInt(data.headers.get('X-Pagination-Current-Page'));
+      this.applicationTotal = parseInt(data.headers.get('X-Pagination-Total-Count'));
+    },
+    () => { },
+    () => {
+      this.loadingApplications = false;
+      event.target.complete();
+    });
   }
 
   loadMatched() {

@@ -4,6 +4,7 @@ import { Note } from './note';
 import { Contact } from './contact';
 import {Invitation} from './invitation';
 import { Country } from './country';
+import { RequestApplication } from './request-application';
 
 export class Request {
     request_uuid: string;
@@ -36,6 +37,7 @@ export class Request {
     invitations: Invitation[];
     stats: Stats;
     requestSkills: RequestSkill[];
+    requestApplications: RequestApplication[];
 }
 
 export class RequestSkill {
