@@ -4,6 +4,7 @@ import { University } from './university';
 import { Country } from './country';
 import { Area } from './area';
 import { RequestApplication } from './request-application';
+import { StoreAssignmentRequest } from './store-assignment-request';
 
 export class Candidate {
   employee_id: number;
@@ -69,6 +70,7 @@ export class Candidate {
   invitedCount: number;
   isInvitedForCompany: any;
   requestApplications: RequestApplication[];
+  storeAssignmentRequest: StoreAssignmentRequest;
 }
 
 export class CandidateWorkingHour {
