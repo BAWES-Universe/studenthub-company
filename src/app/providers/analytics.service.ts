@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as mixpanel from 'mixpanel-browser';
 import { environment } from 'src/environments/environment';
+//services
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -8,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AnalyticsService {
 
-  constructor() { 
+  constructor(public authService: AuthService) { 
     mixpanel.init(environment.mixpanelKey);
   }
 
@@ -43,7 +45,12 @@ export class AnalyticsService {
       "name": name
     });*/
     
-    mixpanel.track_pageview({"page": name});
+    const params = {
+      language : this.authService.language_pref,
+      channel : "Company Web App",
+    }
+
+    mixpanel.track_pageview({"page": name, ...params });
 
     // track the elapsed time between a page viewed and page exit
     //call time_event with page_viewed event
@@ -56,9 +63,17 @@ export class AnalyticsService {
    * @param params 
    */
   track(eventName, params) {
+    
+    params.language = this.authService.language_pref; 
+    params.channel = "Company Web App"; 
+    
     if(window.analytics)
       window.analytics.track(eventName, params);
 
     mixpanel.track(eventName, params);
+  }
+
+  refresh() {
+    mixpanel.reset();
   }
 }

@@ -20,7 +20,7 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 // service
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
-import { AnalyticsService } from './analytics.service';
+//import { AnalyticsService } from './analytics.service';
 import { CompanyRequest } from '../models/company-request';
 
 
@@ -97,7 +97,7 @@ export class AuthService {
     public rendererFactory: RendererFactory2,
     public eventService: EventService,
     public translate: TranslateLabelService,
-    public analyticService: AnalyticsService,
+    //public analyticService: AnalyticsService,
     public alertCtrl: AlertController
   ) { 
     this.renderer = this.rendererFactory.createRenderer(null, null);
@@ -491,12 +491,6 @@ export class AuthService {
 
     if(response.currency_pref)
       this.currency_pref = response.currency_pref;
-
-    this.analyticService.user(this.id, {
-      name: this.profile_name,
-      email: this.email,
-      company_id: response.company_id
-    });
 
     // Save to Storage
     this.saveInStorage();
