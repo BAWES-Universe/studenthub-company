@@ -242,6 +242,12 @@ export class AppComponent implements OnInit, OnDestroy {
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
 
+      this.analyticsService.user(this.auth.id, {
+        name: this.auth.profile_name,
+        email: this.auth.email,
+        company_id: this.auth.company_id
+      });
+  
       if(!this.subscribeForRequest) {
         this.subscribeForRequest = setInterval(data => {
           this.checkRequestCount();
