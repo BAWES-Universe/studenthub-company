@@ -98,8 +98,9 @@
           <p class="ion-text-center">{{ "No applications received yet!" | translate }}</p>
         </div>
         
-        <candidate tappable (click)="candidateSelected(candidateApplications.candidate)" [candidate]="candidateApplications.candidate" 
-          *ngFor="let candidateApplications of candidateApplications">
+        <candidate tappable (click)="candidateSelected(candidateApplication.candidate)" [candidate]="candidateApplication.candidate" 
+          [application]="candidateApplication"
+          *ngFor="let candidateApplication of candidateApplications">
         </candidate>
     
         <ion-infinite-scroll *ngIf="applicationCurrentPage < applicationPageCount" (ionInfinite)="doInfiniteApplications($event)">

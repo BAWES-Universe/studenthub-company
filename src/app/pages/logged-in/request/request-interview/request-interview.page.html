@@ -1,0 +1,42 @@
+<ion-header [class.add-border]="borderLimit">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-back-button (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{ "Schedule interview" | translate }}
+    </ion-title>
+  </ion-toolbar>
+  <!--
+  <ion-toolbar>
+    <div class="title">{{ candidate.candidate_name }}</div>
+  </ion-toolbar>-->
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+
+  <form [formGroup]="form" *ngIf="form">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">{{ "Schedule at" | translate}}</ion-label>
+        <ion-datetime [min]="todayDate" 
+          doneText="{{ 'Done' | translate}}" cancelText="{{ 'Cancel' | translate}}" 
+          formControlName="interview_at"></ion-datetime>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="floating">{{ "Note" | translate}}</ion-label>
+        <ion-textarea formControlName="internal_note"></ion-textarea>
+      </ion-item>
+
+      <div class="ion-padding">
+        <ion-button [disabled]="loading || !form.dirty || !form.valid" (click)="submit()" expands="block">
+          <ion-spinner *ngIf="loading"></ion-spinner>
+          <span *ngIf="!loading">{{ "Submit" | translate}}</span>
+        </ion-button>
+      </div>
+      
+    </ion-list>  
+  </form>
+
+</ion-content>

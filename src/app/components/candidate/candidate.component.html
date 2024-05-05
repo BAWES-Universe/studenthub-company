@@ -16,6 +16,21 @@
     </ion-badge>
     -->
 
+    <p *ngIf="application && application.requestInterview">
+      <span *ngIf="application.requestInterview.status == 0">
+        Requested to schedule interview at {{ application.requestInterview.interview_at }}
+      </span>
+      <span *ngIf="application.requestInterview.status == 1">
+        Interview scheduled at {{ application.requestInterview.interview_at }}
+      </span>
+      <span *ngIf="application.requestInterview.status == 2">
+        Interview schedule request rejected
+      </span>
+      <span *ngIf="application.requestInterview.status == 3">
+        Interview schedule request cancelled
+      </span>
+    </p>
+
     <ng-container *ngIf="invitation">
       <ion-badge *ngIf="invitation && invitation.invitation_status == 1" color="warning">
         {{"Invited" | translate}}
@@ -28,4 +43,8 @@
       </ion-badge>
     </ng-container>
   </ion-label>
+  <ion-button *ngIf="application && !application.requestInterview" (click)="scheduleInterview($event)">
+    Schedule interview
+  </ion-button>
 </ion-item>
+  
