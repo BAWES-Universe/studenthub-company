@@ -45,6 +45,7 @@ export class CompanyRequestViewPage implements OnInit {
   public acceptedSuggestions = [];
 
   public rejectedSuggestions = [];
+
   public segment: string = 'details';
   public request_uuid;
   public loading = false;
@@ -116,11 +117,12 @@ export class CompanyRequestViewPage implements OnInit {
     const model = window.history.state.model;
 
     this.loadDetail();
+    this.loadApplications();
 
-    this.internvalSubscribe = setInterval(_ => {
+    /*this.internvalSubscribe = setInterval(_ => {
       this.isRequestUpdated();
     }, 6 * 1000);//every 6 seconds
-
+*/
     this.eventService.userLoggedOut$.subscribe(() => {
       clearInterval(this.internvalSubscribe);
       this.internvalSubscribe = null;
@@ -138,6 +140,30 @@ export class CompanyRequestViewPage implements OnInit {
       }
     });
   }
+  
+  doRefresh(event) {
+    switch (this.segment) {
+      case "details":
+        this.loadDetail();
+        break;
+      case "updates":
+        this.loadRequestActivities();
+        break;
+      case "matches":
+        this.loadMatched();
+        break;
+      case "invited":
+        this.loadDetail();
+        break;
+      case "applied":
+        this.loadApplications();
+        break;
+      default:
+        break;
+    }
+
+    event.target.complete();
+  }
 
   segmentChanged(event) {
     this.segment = event.target.value;
@@ -146,10 +172,10 @@ export class CompanyRequestViewPage implements OnInit {
       if(this.matchedCandidates.length == 0) {
         this.loadMatched();
       }
-    } else if(this.segment == "applied") {
-      if(this.candidateApplications.length == 0) {
-        this.loadApplications();
-      }
+    //} else if(this.segment == "applied") {
+      //if(this.candidateApplications.length == 0) {
+      //  this.loadApplications();
+      //}
     }
   }
 

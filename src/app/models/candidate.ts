@@ -5,6 +5,7 @@ import { Country } from './country';
 import { Area } from './area';
 import { RequestApplication } from './request-application';
 import { StoreAssignmentRequest } from './store-assignment-request';
+import { CandidateWorkHistory } from './candidate-work-history';
 
 export class Candidate {
   employee_id: number;
@@ -71,6 +72,7 @@ export class Candidate {
   isInvitedForCompany: any;
   requestApplications: RequestApplication[];
   storeAssignmentRequest: StoreAssignmentRequest;
+  currentWorkHistory: CandidateWorkHistory;
 }
 
 export class CandidateWorkingHour {

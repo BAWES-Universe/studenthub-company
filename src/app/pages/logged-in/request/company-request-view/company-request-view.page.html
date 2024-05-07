@@ -9,6 +9,7 @@
   </ion-toolbar>
 
   <ion-toolbar class="desktop-view">
+
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
 
       <ion-segment-button mode="md" value="details">
@@ -25,25 +26,20 @@
         </ion-segment-button>
 
         <ion-segment-button mode="md" value="invited">
-          <ion-label>{{ "Invited" | translate }}</ion-label>
+          <ion-label>{{ "Invited" | translate }}
+          <ion-chip *ngIf="request">{{ request.invitations.length }}</ion-chip></ion-label>
         </ion-segment-button>
 
         <ion-segment-button mode="md" value="applied">
-          <ion-label>{{ "Applied" | translate }}</ion-label>
+          <ion-label>{{ "Applied" | translate }}
+          <ion-chip *ngIf="request">{{ applicationTotal }}</ion-chip></ion-label>
         </ion-segment-button>
 
       </ng-container>
 
       <ion-segment-button mode="md" value="suggested">
-        <ion-label>{{ "Suggested" | translate }}</ion-label>
-      </ion-segment-button>
-
-      <ion-segment-button mode="md" value="accepted">
-        <ion-label>{{ "Accepted" | translate }}</ion-label>
-      </ion-segment-button>
-
-      <ion-segment-button mode="md" value="rejected">
-        <ion-label>{{ "Rejected" | translate }}</ion-label>
+        <ion-label>{{ "Suggestions" | translate }}
+        <ion-chip *ngIf="request">{{ suggestedSuggestions.length }}</ion-chip></ion-label>
       </ion-segment-button>
 
     </ion-segment>
@@ -52,6 +48,10 @@
 </ion-header>
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateLabelService.direction()">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <div class="desktop-view">
     <div *ngIf="request && !loading">
@@ -146,42 +146,29 @@
       </div>
 
       <div class="container" *ngIf="segment == 'suggested'"> 
-      <!-- 
-        <h4 class="txt-suggested-candidates">{{"suggested_candidates_count" | translate : { value: suggestedSuggestions.length} }}</h4>
-      -->
-
-        <div *ngIf="suggestedSuggestions.length == 0" class="ion-text-center no-invi">
+      
+        <div *ngIf="suggestedSuggestions.length == 0 && acceptedSuggestions.length == 0 
+          && rejectedSuggestions.length == 0" class="ion-text-center no-invi">
           <img src="assets/images/no-invitation.png"/>
           <p class="ion-text-center">{{ "We are working on it!" | translate }}</p>
         </div>
 
+        <h4 class="txt-suggested-candidates" *ngIf="suggestedSuggestions.length > 0">
+          {{"suggested_candidates_count" | translate : { value: suggestedSuggestions.length} }}
+        </h4>
+      
         <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions"
                     [model]="suggestion"></suggestion>
-      </div>
-
-      <div class="container" *ngIf="segment == 'accepted'"> 
-      
-        <!--
-        <h4 class="txt-suggested-candidates">{{"accepted_count" | translate : { value: acceptedSuggestions.length} }}</h4>
--->
-        <div *ngIf="acceptedSuggestions.length == 0" class="ion-text-center no-invi">
-          <img src="assets/images/no-invitation.png"/>
-          <p class="ion-text-center">{{ "We are working on it!" | translate }}</p>
-        </div>
-
+       
+        <h4 class="txt-suggested-candidates" *ngIf="acceptedSuggestions.length > 0">
+          {{"accepted_count" | translate : { value: acceptedSuggestions.length} }}</h4>
+  
         <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions"
                     [model]="suggestion"></suggestion>
-      </div>
-
-      <div class="container" *ngIf="segment == 'rejected'">  
-        <!-- 
-        <h4 class="txt-suggested-candidates">{{"rejected_count" | translate : { value: rejectedSuggestions.length} }}</h4>
-      -->
-        <div *ngIf="rejectedSuggestions.length == 0" class="ion-text-center no-invi">
-          <img src="assets/images/no-invitation.png"/>
-          <p class="ion-text-center">{{ "No rejection yet!" | translate }}</p>
-        </div>
-        
+      
+        <h4 class="txt-suggested-candidates" *ngIf="rejectedSuggestions.length > 0">
+          {{"rejected_count" | translate : { value: rejectedSuggestions.length} }}</h4>
+       
         <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions"
                     [model]="suggestion"></suggestion>
       </div>

@@ -126,6 +126,10 @@ h3 {
     color: var(--ion-color-light-contrast);
 }
 
+.txt-suggested-candidates:first-child {
+    margin-top: 0;
+}
+
 .request-time {
     font-size: 18px;
     font-weight: bold;

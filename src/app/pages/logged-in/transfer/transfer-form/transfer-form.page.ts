@@ -156,7 +156,7 @@ export class TransferFormPage implements OnInit {
       const candidateTransferRecord = new TransferCandidate;
       candidateTransferRecord.candidate = candidate;
       candidateTransferRecord.candidate_id = candidate.candidate_id;
-
+      candidateTransferRecord.currentWorkHistory = candidate.currentWorkHistory;
       // Append the candidateTransferRecord into the allTransferCandidateRecordsMapped array
       allTransferCandidateRecordsMapped[candidate.candidate_id] = candidateTransferRecord;
     });
@@ -192,6 +192,7 @@ export class TransferFormPage implements OnInit {
         CustomValidator.negativeNumberValidator
       ]];
     });
+    
     formControls.start_date = [(this.transfer && this.transfer.start_date) ? this.transfer.start_date : '', [
       Validators.required
     ]];
@@ -225,6 +226,7 @@ export class TransferFormPage implements OnInit {
     let error = '';
 
     for (const entry of this.transfer.transferCandidates) {
+
       // Check if any candidates have unset hours or 0 hours set
       if (!entry.hours || entry.hours == 0) {
         error = this.translateService.transform('You have set that some employees haven\'t worked any hours. Are you sure?');
@@ -338,7 +340,7 @@ export class TransferFormPage implements OnInit {
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
         const hours = this.parseNumber(transferCandidate.hours);
         const bonus = this.parseNumber(transferCandidate.bonus);
-        this.total += (hours * transferCandidate.candidate.company.company_hourly_rate) + bonus;
+        this.total += (hours * this.getCompanyHourlyRate(transferCandidate)) + bonus;
       });
     }
   }
@@ -437,6 +439,15 @@ export class TransferFormPage implements OnInit {
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
+  }
+
+  getCompanyHourlyRate(transferCandidateRecord) {
+    if (transferCandidateRecord.currentWorkHistory && transferCandidateRecord.currentWorkHistory.company_hourly_rate > 0) {
+      console.log(transferCandidateRecord.currentWorkHistory.company_hourly_rate, transferCandidateRecord.candidate.company.company_hourly_rate);
+    }
+    return (transferCandidateRecord.currentWorkHistory && transferCandidateRecord.currentWorkHistory.company_hourly_rate > 0) ? 
+        transferCandidateRecord.currentWorkHistory.company_hourly_rate :
+        transferCandidateRecord.candidate.company.company_hourly_rate;
   }
 
   logScrolling(e) {
