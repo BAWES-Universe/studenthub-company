@@ -4,6 +4,15 @@
     <div class="requested-by" *ngIf="request.contact" [innerHTML]="'requested_by_value' | translate:{value: request.contact.contact_name}"></div>
     <div class="created-at">{{ "on" | translate }} {{ toDate(request.request_updated_datetime) | date}}</div>
 
+    <ion-badge *ngIf="request.nationality">
+      {{ translateService.langContent(request.nationality.country_nationality_name_en, request.nationality.country_nationality_name_ar) }}
+    </ion-badge>
+
+    <ion-badge *ngIf="request.gender == 0">{{ "Any gender" | translate }}</ion-badge>
+    <ion-badge *ngIf="request.gender == 1">{{ "Male" | translate }}</ion-badge>
+    <ion-badge *ngIf="request.gender == 2">{{ "Female" | translate }}</ion-badge>
+    <ion-badge *ngIf="request.gender == 3">{{ "Other gender" | translate }}</ion-badge>
+
     <ion-list lines="none">
       <ion-item *ngIf="request.request_location">
         <div tabindex="0"></div>

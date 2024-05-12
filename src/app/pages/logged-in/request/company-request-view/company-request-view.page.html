@@ -57,6 +57,15 @@
     <div *ngIf="request && !loading">
       <div class="container" *ngIf="segment == 'details'"> 
 
+        <ion-badge *ngIf="request.nationality">
+          {{ translateLabelService.langContent(request.nationality.country_nationality_name_en, request.nationality.country_nationality_name_ar) }}
+        </ion-badge>
+
+        <ion-badge *ngIf="request.gender == 0">{{ "Any gender" | translate }}</ion-badge>
+        <ion-badge *ngIf="request.gender == 1">{{ "Male" | translate }}</ion-badge>
+        <ion-badge *ngIf="request.gender == 2">{{ "Female" | translate }}</ion-badge>
+        <ion-badge *ngIf="request.gender == 3">{{ "Other gender" | translate }}</ion-badge>
+
         <h4 class="company-name">
           {{ request.company.company_name?request.company.company_name: request.company.company_common_name_en }}
         </h4>

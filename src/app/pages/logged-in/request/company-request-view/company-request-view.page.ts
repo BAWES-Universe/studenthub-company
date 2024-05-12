@@ -97,7 +97,7 @@ export class CompanyRequestViewPage implements OnInit {
   ) {
   }
 
-  ionViewWillLeave() {
+  ionViewWillLeave() { 
     this.analyticService.track('page_exit', {
       'page': 'Request View Page'
     });  

@@ -21,7 +21,7 @@ export class CompanyRequestService {
    */
   list(companyID: number): Observable<any> {
     const url = this.companyRequestEndpoint + '?company_id=' + companyID +
-      '&expand=company,staff,requestCreatedBy,requestUpdatedBy,contact,requestActivities,requestActivities.staff';
+      '&expand=nationality,company,staff,requestCreatedBy,requestUpdatedBy,contact,requestActivities,requestActivities.staff';
     return this.authhttp.get(url);
   }
 
@@ -31,7 +31,7 @@ export class CompanyRequestService {
    */
   listWithPagination(page: number, urlParams: string = ''): Observable<any> {
     const url = this.companyRequestEndpoint + '?page=' + page + urlParams +
-      '&expand=staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,stats';
+      '&expand=nationality,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,stats';
     return this.authhttp.getRaw(url);
   }
 
@@ -128,7 +128,7 @@ export class CompanyRequestService {
    */
   view(id): Observable<any> {
     const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=requestSkills,requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,invitations.candidate,invitations.suggestion,stories';
+      '?expand=nationality,requestSkills,requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,invitations.candidate,invitations.suggestion,stories';
     return this.authhttp.get(url);
   }
 
