@@ -10,7 +10,7 @@
 
   <ion-toolbar class="desktop-view">
 
-    <ion-segment mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
+    <ion-segment *ngIf="!platform.is('mobile')"  mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
 
       <ion-segment-button mode="md" value="details">
         <ion-label>{{ "Details" | translate }}</ion-label>
@@ -43,6 +43,18 @@
       </ion-segment-button>
 
     </ion-segment>
+
+    <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)" [value]="segment">
+      <ion-select-option value="details">{{ "Details" | translate }}</ion-select-option>
+      <ion-select-option value="updates">{{ "Updates" | translate }}</ion-select-option>
+      <ng-container *ngIf="request && request.request_position_type == 2">
+        <ion-select-option value="matches">{{ "Matches" | translate }}</ion-select-option>
+        <ion-select-option value="invited">{{ "Invited" | translate }}</ion-select-option>
+        <ion-select-option value="applied">{{ "Applied" | translate }}</ion-select-option>
+      </ng-container>
+      <ion-select-option value="suggested">{{ "Suggestions" | translate }}</ion-select-option>
+    </ion-select>
+
   </ion-toolbar>
 
 </ion-header>

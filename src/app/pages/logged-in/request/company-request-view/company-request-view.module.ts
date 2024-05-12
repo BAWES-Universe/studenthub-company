@@ -13,6 +13,7 @@ import { RecentActivityComponent } from 'src/app/components/recent-activity/rece
 import { SuggestionModule } from 'src/app/components/suggestion/suggestion.module';
 import {CandidateModule} from "../../../../components/candidate/candidate.module";
 import {TranslateModule} from "@ngx-translate/core";
+import { RequestListingModule } from 'src/app/components/request-listing/request-listing.module';
 
 @NgModule({
     imports: [
@@ -20,7 +21,7 @@ import {TranslateModule} from "@ngx-translate/core";
         FormsModule,
         PipesModule,
         IonicModule,
-        
+        RequestListingModule,
         SuggestionModule,
         LoadingModalModule,
         CompanyRequestViewRoutingModule,

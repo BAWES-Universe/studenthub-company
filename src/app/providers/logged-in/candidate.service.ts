@@ -25,6 +25,17 @@ export class CandidateService {
   }
 
   /**
+   * list candidate applications
+   * @param candidate_id 
+   * @param page 
+   * @returns 
+   */
+  listApplications(candidate_id: string, page: number) : Observable<any> {
+    let url = this._candidateEndpoint + '/applications/'+ candidate_id +'?expand=request&page=' + page;//requestInterview
+    return this._authhttp.getRaw(url);
+  }
+  
+  /**
    * search candidate for request
    * @param match_request_id 
    * @param page 

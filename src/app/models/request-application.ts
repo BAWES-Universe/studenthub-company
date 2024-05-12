@@ -1,5 +1,6 @@
 import { Candidate } from "./candidate";
 import { Fulltimer } from "./fulltimer";
+import { Request } from "./request";
 
 export class RequestApplication {
     application_uuid: string;
@@ -12,4 +13,5 @@ export class RequestApplication {
     candidate: Candidate;
     fulltimer: Fulltimer;
     requestInterview: any;
+    request: Request;
 }

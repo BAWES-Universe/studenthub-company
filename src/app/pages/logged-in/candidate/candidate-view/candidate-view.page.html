@@ -11,12 +11,38 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <ion-toolbar class="desktop-view">
+
+    <ion-segment *ngIf="!platform.is('mobile')"  mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
+
+      <ion-segment-button mode="md" value="details">
+        <ion-label>{{ "Details" | translate }}</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button mode="md" value="applications">
+        <ion-label>{{ "Applications" | translate }}</ion-label>
+      </ion-segment-button>
+
+    </ion-segment>
+
+    <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)" [value]="segment">
+      <ion-select-option value="details">{{ "Details" | translate }}</ion-select-option>
+      <ion-select-option value="applications">{{ "Applications" | translate }}</ion-select-option>
+    </ion-select>
+
+  </ion-toolbar>
+
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" [dir]="translateService.direction()">
 
-  <div  class="desktop-view container">
-    <div *ngIf="candidate">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="desktop-view container">
+
+    <div *ngIf="candidate && segment == 'details'">
       <ion-grid>
         <ion-row>
           <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
@@ -264,9 +290,28 @@
           </ion-col>
         </ion-row>
       </ion-grid>
+
+      <loading-modal [loading]="loading && !candidate" type="candidate-view"></loading-modal>
     </div>
 
-    <loading-modal [loading]="loading && !candidate" type="candidate-view"></loading-modal>
+    <div *ngIf="segment == 'applications'">
+
+      <div *ngIf="!loadingApplications && candidateApplications.length == 0" class="ion-text-center no-invi">
+        <img src="assets/images/no-invitation.png"/>
+        <p class="ion-text-center">No applications yet!</p>
+      </div>
+      
+      <!-- [application]="candidateApplication" -->
+      <request-listing tappable (click)="applicationSelected(candidateApplication.request)" 
+        [request]="candidateApplication.request" 
+        *ngFor="let candidateApplication of candidateApplications">
+      </request-listing>
+  
+      <ion-infinite-scroll *ngIf="applicationCurrentPage < applicationPageCount" (ionInfinite)="doInfiniteApplications($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </div>
+    
   </div>
 </ion-content>
 <ion-footer *ngIf="candidate && !loading ">

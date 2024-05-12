@@ -166,17 +166,18 @@ export class CompanyRequestViewPage implements OnInit {
   }
 
   segmentChanged(event) {
-    this.segment = event.target.value;
+    if(this.segment != event.target.value)
+      this.segment = event.target.value;
 
     if(this.segment == "matches") {
       if(this.matchedCandidates.length == 0) {
         this.loadMatched();
       }
-    //} else if(this.segment == "applied") {
+    } /*else if(this.segment == "applied") {
       //if(this.candidateApplications.length == 0) {
-      //  this.loadApplications();
+        this.loadApplications();
       //}
-    }
+    }*/
   }
 
   loadApplications() {

@@ -10,6 +10,7 @@ import { CandidateViewPage } from './candidate-view.page';
 import {LoadingModalModule} from '../../../../components/loading-modal/loading-modal.module';
 import {PipesModule} from '../../../../pipes/pipes.module';
 import {TranslateModule} from "@ngx-translate/core";
+import { RequestListingModule } from 'src/app/components/request-listing/request-listing.module';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import {TranslateModule} from "@ngx-translate/core";
         FormsModule,
         IonicModule,
         PipesModule,
+        RequestListingModule,
         CandidateViewPageRoutingModule,
         LoadingModalModule,
         TranslateModule

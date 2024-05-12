@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {AlertController, ModalController, NavController} from '@ionic/angular';
+import {AlertController, ModalController, NavController, Platform} from '@ionic/angular';
 // models
 import { Candidate } from 'src/app/models/candidate';
 // services
@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import {InvitePage} from "../../invite/invite.page";
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { RequestApplication } from 'src/app/models/request-application';
 
 
 
@@ -27,7 +28,18 @@ export class CandidateViewPage implements OnInit {
 
   public borderLimit;
 
+  public loadingApplications: boolean = false; 
+
+  public candidateApplications: RequestApplication[] = [];
+  
+  public applicationPageCount = 0;
+  public applicationCurrentPage  = 0;
+  public applicationTotal = 0;
+  
+  public segment: string = 'details';
+
   constructor(
+    public platform: Platform,
     public aws: AwsService,
     public activatedRoute: ActivatedRoute,
     public candidateService: CandidateService,
@@ -148,5 +160,82 @@ export class CandidateViewPage implements OnInit {
       }
     });
     await modal.present();
+  }
+
+
+  loadApplications() {
+ 
+    this.loadingApplications = true;
+
+    this.applicationCurrentPage = 1;
+
+    this.candidateService.listApplications(this.candidate_id, this.applicationCurrentPage).subscribe(data => {
+
+      this.candidateApplications = data.body;
+      this.applicationPageCount = parseInt(data.headers.get('X-Pagination-Page-Count'));
+      this.applicationCurrentPage = parseInt(data.headers.get('X-Pagination-Current-Page'));
+      this.applicationTotal = parseInt(data.headers.get('X-Pagination-Total-Count'));
+    },
+    () => { },
+    () => {
+      this.loadingApplications = false;
+    });
+  }
+
+  /**
+   * load more on scroll to bottom
+   * @param event 
+   */
+  doInfiniteApplications(event) {
+
+    this.loadingApplications = true;
+
+    this.applicationCurrentPage++;
+
+    this.candidateService.listApplications(this.candidate_id, this.applicationCurrentPage).subscribe(data => {
+
+      this.candidateApplications = data.body;
+      this.applicationPageCount = parseInt(data.headers.get('X-Pagination-Page-Count'));
+      this.applicationCurrentPage = parseInt(data.headers.get('X-Pagination-Current-Page'));
+      this.applicationTotal = parseInt(data.headers.get('X-Pagination-Total-Count'));
+    },
+    () => { },
+    () => {
+      this.loadingApplications = false;
+      event.target.complete();
+    });
+  }
+
+  segmentChanged(event) {
+    if(this.segment != event.target.value)
+      this.segment = event.target.value;
+
+    if(this.segment == "applications" && this.applicationTotal == 0) {
+      this.loadApplications();
+    }
+  }
+
+
+  doRefresh(event) {
+    switch (this.segment) {
+      case "details":
+        this.loadData();
+        break;
+      case "applications":
+        this.loadApplications();
+        break;
+      default:
+        break;
+    }
+
+    event.target.complete();
+  }  
+
+  applicationSelected(request) {
+    this.navCtrl.navigateForward('/request-view/' + request.request_uuid, {
+      state : {
+        from: 'company-request-list'
+      }
+    });
   }
 }
