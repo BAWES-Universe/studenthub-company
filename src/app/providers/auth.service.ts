@@ -20,7 +20,6 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 // service
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
-//import { AnalyticsService } from './analytics.service';
 import { CompanyRequest } from '../models/company-request';
 
 
@@ -97,7 +96,6 @@ export class AuthService {
     public rendererFactory: RendererFactory2,
     public eventService: EventService,
     public translate: TranslateLabelService,
-    //public analyticService: AnalyticsService,
     public alertCtrl: AlertController
   ) { 
     this.renderer = this.rendererFactory.createRenderer(null, null);

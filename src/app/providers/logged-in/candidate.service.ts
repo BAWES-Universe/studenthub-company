@@ -20,7 +20,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   list(): Observable<any> {
-    let url = `${this._candidateEndpoint}?expand=store,company`;
+    let url = `${this._candidateEndpoint}?expand=store,company,currentWorkHistory`;
     return this._authhttp.get(url);
   }
 

@@ -11,4 +11,5 @@ export class RequestApplication {
     updated_at: string;
     candidate: Candidate;
     fulltimer: Fulltimer;
+    requestInterview: any;
 }

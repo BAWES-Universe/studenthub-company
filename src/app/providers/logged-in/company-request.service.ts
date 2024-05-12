@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 // services
 import { AuthHttpService } from './authhttp.service';
 // models
@@ -50,8 +50,17 @@ export class CompanyRequestService {
    * @returns 
    */
   listApplications(request_uuid: string, page: number) : Observable<any> {
-    let url = this.companyRequestEndpoint + '/applications/'+ request_uuid +'?expand=candidate&page=' + page;
+    let url = this.companyRequestEndpoint + '/applications/'+ request_uuid +'?expand=candidate,requestInterview&page=' + page;
     return this.authhttp.getRaw(url);
+  }
+
+  /**
+   * request to schedule interview
+   * @param params 
+   * @returns 
+   */
+  requestInterview(params): Observable<any> {
+    return this.authhttp.post(this.companyRequestEndpoint + '/request-interview', params);
   }
 
   /**
