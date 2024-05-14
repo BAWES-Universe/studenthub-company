@@ -10,17 +10,20 @@ import { StoreListPage } from './store-list.page';
 import {LoadingModalModule} from 'src/app/components/loading-modal/loading-modal.module';
 import {NoItemsModule} from 'src/app/components/no-items/no-items.module';
 import {TranslateModule} from '@ngx-translate/core';
+import { CandidateOptionComponent } from './candidate-option-component';
+import { SelectSearchModule } from 'src/app/components/select-search/select-search.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        StoreListPageRoutingModule,
-        LoadingModalModule,
-        NoItemsModule,
-        TranslateModule
-    ],
-  declarations: [StoreListPage]
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    StoreListPageRoutingModule,
+    LoadingModalModule,
+    NoItemsModule,
+    TranslateModule,
+    SelectSearchModule,
+  ],
+  declarations: [StoreListPage, CandidateOptionComponent]
 })
 export class StoreListPageModule {}

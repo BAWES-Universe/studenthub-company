@@ -20,10 +20,32 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   list(): Observable<any> {
-    let url = `${this._candidateEndpoint}?expand=store,company`;
+    let url = `${this._candidateEndpoint}?expand=store,company,currentWorkHistory`;
     return this._authhttp.get(url);
   }
 
+  /**
+   * list candidate applications
+   * @param candidate_id 
+   * @param page 
+   * @returns 
+   */
+  listApplications(candidate_id: string, page: number) : Observable<any> {
+    let url = this._candidateEndpoint + '/applications/'+ candidate_id +'?expand=request&page=' + page;//requestInterview
+    return this._authhttp.getRaw(url);
+  }
+  
+  /**
+   * search candidate for request
+   * @param match_request_id 
+   * @param page 
+   * @returns 
+   */
+  searchRequestMatch(match_request_id: any, page: number): Observable<any> {
+    const url = this._candidateEndpoint + '/search?expand=cadndiateSkills,candidateExperiences,candidateTags&match_request_id=' + match_request_id + '&page=' + page;
+    return this._authhttp.getRaw(url);
+  }
+  
   /**
    * Return total no of candidates
    * working for them

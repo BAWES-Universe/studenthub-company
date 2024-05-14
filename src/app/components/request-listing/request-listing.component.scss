@@ -5,6 +5,12 @@
   margin-right: 19px;
   width: 18px;
 }
+
+ion-badge {
+  margin-inline-end: 5px;
+}
+
+
 label{
   vertical-align: middle;
   font-size: 14px;
@@ -42,6 +48,8 @@ h1 {
   letter-spacing: normal;
   text-align: justify;
   color: var(--ion-custom-color-6);
+  margin-bottom: 12px;
+  display: block;
 }
 .requested-by {
   font-size: 14px;
@@ -211,6 +219,8 @@ ion-card {
           letter-spacing: normal;
           text-align: justify;
           color: var(--ion-color-light-contrast);
+          margin-bottom: 15px;
+          display: block;
         }
     }
 }

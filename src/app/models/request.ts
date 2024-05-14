@@ -3,6 +3,8 @@ import { Company } from './company';
 import { Note } from './note';
 import { Contact } from './contact';
 import {Invitation} from './invitation';
+import { Country } from './country';
+import { RequestApplication } from './request-application';
 
 export class Request {
     request_uuid: string;
@@ -21,17 +23,21 @@ export class Request {
     request_status: any;
     // request_status: Status;
     request_feedback: string;
+    gender: number;
+    nationality_id: number;
     request_created_datetime: string;
     request_updated_datetime: string;
     requestCreatedBy: Staff;
     requestUpdatedBy: Staff;
     contact: Contact;
     company: Company;
+    nationality: Country;    
     stories: Story[];
     lastActivity: Note;
     invitations: Invitation[];
     stats: Stats;
     requestSkills: RequestSkill[];
+    requestApplications: RequestApplication[];
 }
 
 export class RequestSkill {

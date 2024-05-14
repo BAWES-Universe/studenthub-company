@@ -259,6 +259,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/start-pages/activate/activate.module').then( m => m.ActivatePageModule)
   },
   {
+    path: 'request-interview',
+    loadChildren: () => import('./pages/logged-in/request/request-interview/request-interview.module').then( m => m.RequestInterviewPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },

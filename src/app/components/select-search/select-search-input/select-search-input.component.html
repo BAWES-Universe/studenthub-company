@@ -1,0 +1,8 @@
+<ion-item class="input-wrapper" (click)="onClick($event)" tappable [class.no-value-selected]="!value">
+  <div tabindex="0"></div>
+  <ion-label>
+    <h5  *ngIf="title">{{title | translate}}</h5>
+    <p>{{ (selectedItem? selectedItem[labelAttr] : placeholder) | translate }}</p>
+  </ion-label>
+  <ion-icon name="arrow-down-outline" slot="end"></ion-icon>
+</ion-item>

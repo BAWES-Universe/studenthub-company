@@ -1,0 +1,12 @@
+<ion-searchbar (ionInput)="searchFilter($event)" debounce=250>
+</ion-searchbar>
+
+<ion-list>
+  <ion-item tappable *ngFor="let item of displayedCollection" (click)="onSelect(item)">
+    <div tabindex="0"></div>
+    <ion-label>
+      <span [innerHTML]="highlight(item[labelAttr])"></span>
+      <span *ngIf="!item[labelAttr]" [innerHTML]="highlight(item[altLabelAttr])"></span>
+    </ion-label>
+  </ion-item>
+</ion-list>

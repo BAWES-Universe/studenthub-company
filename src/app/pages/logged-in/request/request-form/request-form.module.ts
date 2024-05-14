@@ -8,6 +8,7 @@ import { RequestFormPageRoutingModule } from './request-form-routing.module';
 
 import { RequestFormPage } from './request-form.page';
 import {TranslateModule} from "@ngx-translate/core";
+import { SelectSearchModule } from 'src/app/components/select-search/select-search.module';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import {TranslateModule} from "@ngx-translate/core";
         CommonModule,
         FormsModule,
         IonicModule,
+        SelectSearchModule,
         ReactiveFormsModule,
         RequestFormPageRoutingModule,
         TranslateModule

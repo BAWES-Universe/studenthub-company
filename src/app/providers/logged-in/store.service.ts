@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 //models
-import {Company} from "../../models/company";
-
+//import {Company} from "../../models/company";
 //services
 import {AuthHttpService} from "./authhttp.service";
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,20 @@ export class StoreService {
   }
 
   /**
+   * request to unassign to change store 
+   * @param store_id 
+   * @param candidate_id 
+   * @returns 
+   */
+  storeAssignmentRequest(candidate_id: number, store_id: number | null = null): Observable<any> {
+    let url = this._storeEndpoint + '/store-assignment-request';
+    return this._authhttp.post(url, {
+      store_id: store_id,
+      candidate_id: candidate_id
+    });
+  }
+
+  /**
    * List of all stores
    * @returns {Observable<any>}
    */
@@ -38,7 +52,7 @@ export class StoreService {
    * List of all stores by company id
    * @returns {Observable<any>}
    */
-  listByCompany(company_id:number, page: number): Observable<any> {
+  listByCompany(company_id: number, page: number): Observable<any> {
     let url = this._storeEndpoint + '/' + company_id + '?page=' + page + '&expand=candidates';
     return this._authhttp.getRaw(url);
   }
@@ -47,9 +61,9 @@ export class StoreService {
    * List of all stores by company id
    * @returns {Observable<any>}
    */
-  listByCompanyStore(page: number): Observable<any> {
+  listByCompanyStore(page: number, params = '&expand=candidates,totalCandidates,candidates.storeAssignmentRequest,mall,brand,company'): Observable<any> {
     // let url = this._storeEndpoint + '/company-store' + '?page=' + page + '&expand=candidates,subCompanies,stores,stores.mall,stores.brand,stores.candidates,totalCandidates';
-    let url = this._storeEndpoint + '/company-store' + '?page=' + page + '&expand=candidates,mall,brand,totalCandidates,company';
+    let url = this._storeEndpoint + '/company-store' + '?page=' + page + params;
     return this._authhttp.getRaw(url);
   }
 }

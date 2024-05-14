@@ -28,86 +28,145 @@
 
     <form [formGroup]="form" *ngIf="form">
 
-      <ion-list>
-        <ion-radio-group mode="md" formControlName="position_type">
-          <ion-row>
-            <ion-col>
+      <ion-grid>
+        <ion-row>
+          <ion-col size-sm="12" size-xs="12">
+            <ion-item lines="none" class="input-wrapper">
+              <div tabindex="0"></div>
+              <ion-label>{{ "Position Type" | translate }}</ion-label> 
+              <ion-radio-group mode="md" formControlName="position_type">
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <div tabindex="0"></div>
+                      <ion-radio slot="start" value="1"></ion-radio>
+                      <ion-label>{{ "Full time" | translate}}</ion-label>
+                    </ion-item>
+                  </ion-col>
+      
+                  <ion-col>
+                    <ion-item>
+                      <div tabindex="0"></div>
+                      <ion-radio slot="start" value="2"></ion-radio>
+                      <ion-label>{{ "Part time" | translate}}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-radio-group>
+            </ion-item>
+      
+            <ion-item lines="none" class="input-wrapper">
+              <div tabindex="0"></div>
+              <ion-label>{{ "Gender" | translate }}</ion-label>
+              <ion-radio-group formControlName="gender">
+                <ion-row>
+                  <ion-col>
+                    <ion-item class="toggle-wrapper">
+                      <div tabindex="0"></div>
+                      <ion-radio slot="start" value="1"></ion-radio>
+                      <ion-label>{{ "Male" | translate }}</ion-label>
+                    </ion-item>
+                  </ion-col>
+        
+                  <ion-col>
+                    <ion-item class="toggle-wrapper">
+                      <div tabindex="0"></div>
+                      <ion-radio slot="start" value="2"></ion-radio>
+                      <ion-label>{{ "Female" | translate }}</ion-label>
+                    </ion-item>
+                  </ion-col>
+        
+                  <ion-col>
+                    <ion-item class="toggle-wrapper">
+                      <div tabindex="0"></div>
+                      <ion-radio slot="start" value="3"></ion-radio>
+                      <ion-label>{{ "Other" | translate }}</ion-label>
+                    </ion-item>
+                  </ion-col>
+
+                  <ion-col>
+                    <ion-item class="toggle-wrapper">
+                      <div tabindex="0"></div>
+                      <ion-radio slot="start" value="0"></ion-radio>
+                      <ion-label>{{ "Any" | translate }}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                  
+                </ion-row>
+              </ion-radio-group> 
+            </ion-item>
+       
               <ion-item>
-                <div tabindex="0"></div>
-                <ion-radio slot="start" value="1"></ion-radio>
-                <ion-label>{{"Full time" | translate}}</ion-label>
-              </ion-item>
-            </ion-col>
+                <ion-label position="floating">{{"Job Description" | translate}}</ion-label>
+                  
+                <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" 
+                  (ready)="onEditorReady()" (change)="onChange($event)">
+                </ckeditor>
+                <!--<ion-input type="text" formControlName="job_description"></ion-input>-->
 
-            <ion-col>
+              </ion-item>
+             
               <ion-item>
-                <div tabindex="0"></div>
-                <ion-radio slot="start" value="2"></ion-radio>
-                <ion-label>{{"Part time" | translate}}</ion-label>
+                <ion-label position="floating">{{"Compensation" | translate}}</ion-label>
+                <ion-textarea formControlName="compensation" placeholder="{{'Please provide compensation detail' | translate}}"></ion-textarea>
               </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-radio-group>
-      </ion-list>
+             
+              <ion-item>
+                <ion-label position="floating">{{"Additional notes to the recruiter" | translate}}</ion-label>
+                <ion-textarea formControlName="additional_info" placeholder="{{'Anything you type here will be shared to the recruiter and be kept private from the employees you are looking to hire' | translate}}"></ion-textarea>
+              </ion-item>
+ 
+          </ion-col>
+          <ion-col size-md="6" size-lg="6" size-sm="12" size-xs="12">
+           
+            <app-select-search-input
+              *ngIf="countrylistData"
+              formControlName="nationality_id"
+              placeholder="Select nationality if specific nationality require"
+              title="Nationality"
+              [collection]="countrylistData"
+              valueAttr="country_id"
+              labelAttr="country_nationality_name_en">
+            </app-select-search-input>
+      
+              <ion-item>
+                <ion-label position="floating">{{"Position title" | translate}}</ion-label>
+                <ion-input type="text" formControlName="position_title"></ion-input>
+              </ion-item>
+       
+              <ion-item>
+                <ion-label position="floating">{{"Number of employees" | translate}}</ion-label>
+                <ion-input type="text" formControlName="number_of_employees"></ion-input>
+              </ion-item>
+             
+              <ion-item>
+                <ion-label position="floating">{{"Location" | translate}}</ion-label>
+                <ion-input type="text" formControlName="location"></ion-input>
+              </ion-item>
+           
+          </ion-col>
+          <ion-col size-md="6" size-lg="6" size-sm="12" size-xs="12">
+                   
+              <h5 style="margin-top: 0;">{{ "Skills" | translate }}</h5>
 
-      <ion-list>
-        <ion-item>
-          <ion-label position="floating">{{"Position title" | translate}}</ion-label>
-          <ion-input type="text" formControlName="position_title"></ion-input>
-        </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>
-          <ion-label position="floating">{{"Job Description" | translate}}</ion-label>
-            
-          <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" 
-            (ready)="onEditorReady()" (change)="onChange($event)">
-          </ckeditor>
-          <!--<ion-input type="text" formControlName="job_description"></ion-input>-->
-
-        </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>
-          <ion-label position="floating">{{"Number of employees" | translate}}</ion-label>
-          <ion-input type="text" formControlName="number_of_employees"></ion-input>
-        </ion-item>
-      </ion-list>
-
-      <ion-list>
-        <ion-item>
-          <ion-label position="floating">{{"Location" | translate}}</ion-label>
-          <ion-input type="text" formControlName="location"></ion-input>
-        </ion-item>
-      </ion-list>
-
-      <ion-list>
-        <ion-item>
-          <ion-label position="floating">{{"Compensation" | translate}}</ion-label>
-          <ion-textarea formControlName="compensation" placeholder="{{'Please provide compensation detail' | translate}}"></ion-textarea>
-        </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>
-          <ion-label position="floating">{{"Additional notes to the recruiter" | translate}}</ion-label>
-          <ion-textarea formControlName="additional_info" placeholder="{{'Anything you type here will be shared to the recruiter and be kept private from the employees you are looking to hire' | translate}}"></ion-textarea>
-        </ion-item>
-      </ion-list>
+              <div [formGroup]="requestSkill" *ngFor="let requestSkill of requestSkills.controls; let i = index">
+                <ion-item class="input-wrapper">
+                  <div tabindex="0"></div>
+                  <ion-input autocomplete="off1" (ionChange)="onSkillChange($event, i)" formControlName="skill" enterkeyhint="Next"></ion-input>
+        
+                  <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="requestSkills.controls.length -1 != i" (click)="removeSkill(i)">
+                    <img src="assets/images/close.svg">
+                  </ion-button>
+        
+                </ion-item>
+              </div> 
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
       
-      <h5>{{ "Skills" | translate }}</h5>
+      
 
-      <div [formGroup]="requestSkill" *ngFor="let requestSkill of requestSkills.controls; let i = index">
-        <ion-item class="input-wrapper">
-          <div tabindex="0"></div>
-          <ion-input autocomplete="off1" (ionChange)="onSkillChange($event, i)" formControlName="skill" enterkeyhint="Next"></ion-input>
-
-          <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="requestSkills.controls.length -1 != i" (click)="removeSkill(i)">
-            <img src="assets/images/close.svg">
-          </ion-button>
-
-        </ion-item>
-      </div> 
 
     </form>
   </div>

@@ -28,6 +28,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { InvitationPermissionPageModule } from './pages/logged-in/company/invitation/invitation-permission/invitation-permission.module';
 import { CountryModalModule } from './components/country-modal/country-modal.module';
+import { RequestInterviewPageModule } from './pages/logged-in/request/request-interview/request-interview.module';
 
 
 export function startupServiceFactory(authService) {
@@ -62,6 +63,7 @@ declare global {
     CountryModalModule,
     MenuModule,
     InvitePageModule,
+    RequestInterviewPageModule,
     InvitationFormPageModule,
     // IonicStorageModule.forRoot({
     //   name: '__payroll_company',

@@ -97,7 +97,14 @@
                 <ion-item>
                   <div tabindex="0"></div>
                   {{"Subtotal" | translate}}
-                  {{ (parseNumber(transferCandidateRecord.hours) * transferCandidateRecord.candidate.company.company_hourly_rate) + parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
+                  {{ (
+                      parseNumber(transferCandidateRecord.hours) 
+                      * 
+                      getCompanyHourlyRate(transferCandidateRecord)
+                     ) + 
+                     parseNumber(transferCandidateRecord.bonus) 
+                     | number:'1.0-3' 
+                  }}
                 </ion-item>
               </ion-col>
             </ion-row>

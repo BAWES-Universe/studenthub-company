@@ -76,13 +76,17 @@ export class InvitePage implements OnInit {
     this.save();
   }
 
+  getUrlParams() {
+    return "&expand=nationality";
+  }
+
   /**
    * load all requests for parttimers
    */
   loadRequests() {
     this.loadingRequests = true;
 
-    this.requestService.listActiveRequests(1).subscribe(response => {
+    this.requestService.listActiveRequests(1, this.getUrlParams()).subscribe(response => {
 
       this.loadingRequests = false;
 
@@ -104,7 +108,7 @@ export class InvitePage implements OnInit {
 
     this.currentPage++;
 
-    this.requestService.listActiveRequests(this.currentPage).subscribe(response => {
+    this.requestService.listActiveRequests(this.currentPage, this.getUrlParams()).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 // services
 import { AuthHttpService } from './authhttp.service';
 // models
@@ -21,7 +21,7 @@ export class CompanyRequestService {
    */
   list(companyID: number): Observable<any> {
     const url = this.companyRequestEndpoint + '?company_id=' + companyID +
-      '&expand=company,staff,requestCreatedBy,requestUpdatedBy,contact,requestActivities,requestActivities.staff';
+      '&expand=nationality,company,staff,requestCreatedBy,requestUpdatedBy,contact,requestActivities,requestActivities.staff';
     return this.authhttp.get(url);
   }
 
@@ -31,7 +31,7 @@ export class CompanyRequestService {
    */
   listWithPagination(page: number, urlParams: string = ''): Observable<any> {
     const url = this.companyRequestEndpoint + '?page=' + page + urlParams +
-      '&expand=staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,stats';
+      '&expand=nationality,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,stats';
     return this.authhttp.getRaw(url);
   }
 
@@ -41,6 +41,26 @@ export class CompanyRequestService {
   listActiveRequests(page: number, filterParams = '') : Observable<any> {
     let url = this.companyRequestEndpoint + '/active?page=' + page + filterParams;
     return this.authhttp.getRaw(url);
+  }
+
+  /**
+   * list candidate applications
+   * @param request_uuid 
+   * @param page 
+   * @returns 
+   */
+  listApplications(request_uuid: string, page: number) : Observable<any> {
+    let url = this.companyRequestEndpoint + '/applications/'+ request_uuid +'?expand=candidate,requestInterview&page=' + page;
+    return this.authhttp.getRaw(url);
+  }
+
+  /**
+   * request to schedule interview
+   * @param params 
+   * @returns 
+   */
+  requestInterview(params): Observable<any> {
+    return this.authhttp.post(this.companyRequestEndpoint + '/request-interview', params);
   }
 
   /**
@@ -56,7 +76,9 @@ export class CompanyRequestService {
       compensation: model.request_compensation,
       location: model.request_location,
       job_description: model.request_job_description,
-      requestSkills: model.requestSkills
+      requestSkills: model.requestSkills,
+      nationality_id: model.nationality_id,
+      gender: model.gender
     });
   }
 
@@ -95,7 +117,9 @@ export class CompanyRequestService {
       compensation: model.request_compensation,
       location: model.request_location,
       job_description: model.request_job_description,
-      requestSkills: model.requestSkills
+      requestSkills: model.requestSkills,
+      nationality_id: model.nationality_id,
+      gender: model.gender
     });
   }
 
@@ -113,7 +137,7 @@ export class CompanyRequestService {
    */
   view(id): Observable<any> {
     const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=requestSkills,requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,invitations.candidate,invitations.suggestion,stories';
+      '?expand=nationality,requestSkills,requestCreatedByContact,requestUpdatedByContact,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff,invitations,invitations.candidate,invitations.suggestion,stories';
     return this.authhttp.get(url);
   }
 
@@ -138,7 +162,7 @@ export class CompanyRequestService {
    * check if request updated
    * @param request_uuid
    */
-   isRequestUpdated(request_uuid) : Observable<any> {
+  isRequestUpdated(request_uuid) : Observable<any> {
     let url = this.companyRequestEndpoint + '/is-request-updated/' + request_uuid;
     return this.authhttp.get(url);
   }

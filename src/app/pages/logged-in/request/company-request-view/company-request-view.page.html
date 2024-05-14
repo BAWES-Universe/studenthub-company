@@ -3,15 +3,80 @@
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/"></ion-back-button>
       </ion-buttons>
-    <ion-title *ngIf="request && request.company.company_name">{{ request.company.company_name?request.company.company_name: request.company.company_common_name_en }}</ion-title>
+    <ion-title *ngIf="request && request.company.company_name">
+      {{ request.company.company_name?request.company.company_name: request.company.company_common_name_en }}
+    </ion-title>
   </ion-toolbar>
+
+  <ion-toolbar class="desktop-view">
+
+    <ion-segment *ngIf="!platform.is('mobile')"  mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
+
+      <ion-segment-button mode="md" value="details">
+        <ion-label>{{ "Details" | translate }}</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button mode="md" value="updates">
+        <ion-label>{{ "Updates" | translate }}</ion-label>
+      </ion-segment-button>
+
+      <ng-container *ngIf="request && request.request_position_type == 2">
+        <ion-segment-button mode="md" value="matches">
+          <ion-label>{{ "Matches" | translate }}</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button mode="md" value="invited">
+          <ion-label>{{ "Invited" | translate }}
+          <ion-chip *ngIf="request">{{ request.invitations.length }}</ion-chip></ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button mode="md" value="applied">
+          <ion-label>{{ "Applied" | translate }}
+          <ion-chip *ngIf="request">{{ applicationTotal }}</ion-chip></ion-label>
+        </ion-segment-button>
+
+      </ng-container>
+
+      <ion-segment-button mode="md" value="suggested">
+        <ion-label>{{ "Suggestions" | translate }}
+        <ion-chip *ngIf="request">{{ suggestedSuggestions.length }}</ion-chip></ion-label>
+      </ion-segment-button>
+
+    </ion-segment>
+
+    <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)" [value]="segment">
+      <ion-select-option value="details">{{ "Details" | translate }}</ion-select-option>
+      <ion-select-option value="updates">{{ "Updates" | translate }}</ion-select-option>
+      <ng-container *ngIf="request && request.request_position_type == 2">
+        <ion-select-option value="matches">{{ "Matches" | translate }}</ion-select-option>
+        <ion-select-option value="invited">{{ "Invited" | translate }}</ion-select-option>
+        <ion-select-option value="applied">{{ "Applied" | translate }}</ion-select-option>
+      </ng-container>
+      <ion-select-option value="suggested">{{ "Suggestions" | translate }}</ion-select-option>
+    </ion-select>
+
+  </ion-toolbar>
+
 </ion-header>
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateLabelService.direction()">
 
-  <div class="desktop-view">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-      <div *ngIf="request && !loading">
+  <div class="desktop-view">
+    <div *ngIf="request && !loading">
+      <div class="container" *ngIf="segment == 'details'"> 
+
+        <ion-badge *ngIf="request.nationality">
+          {{ translateLabelService.langContent(request.nationality.country_nationality_name_en, request.nationality.country_nationality_name_ar) }}
+        </ion-badge>
+
+        <ion-badge *ngIf="request.gender == 0">{{ "Any gender" | translate }}</ion-badge>
+        <ion-badge *ngIf="request.gender == 1">{{ "Male" | translate }}</ion-badge>
+        <ion-badge *ngIf="request.gender == 2">{{ "Female" | translate }}</ion-badge>
+        <ion-badge *ngIf="request.gender == 3">{{ "Other gender" | translate }}</ion-badge>
 
         <h4 class="company-name">
           {{ request.company.company_name?request.company.company_name: request.company.company_common_name_en }}
@@ -37,63 +102,111 @@
 
         <p class="txt-additional-info">{{ request.request_compensation }}</p>
         
-        <h2>Skills</h2>
+        <h2>{{ "Skills" | translate }}</h2>
+
         <ion-badge *ngFor="let requestSkill of request.requestSkills">{{ requestSkill.skill }}</ion-badge>
 
         <div class="requested-by">
           <ng-container *ngIf="request.contact">{{"Requested by" | translate}} <span class="requested-by-staff">{{ request.contact.contact_name }}</span></ng-container>
           <div class="requested-by-time">{{"on" | translate}} {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
+        </div>        
+      </div>
+
+      <div *ngIf="segment == 'applied'" class="match-wrapper">
+
+        <div *ngIf="!loadingApplications && candidateApplications.length == 0" class="ion-text-center no-invi">
+          <img src="assets/images/no-invitation.png"/>
+          <p class="ion-text-center">{{ "No applications received yet!" | translate }}</p>
+        </div>
+        
+        <candidate tappable (click)="candidateSelected(candidateApplication.candidate)" [candidate]="candidateApplication.candidate" 
+          [application]="candidateApplication"
+          *ngFor="let candidateApplication of candidateApplications">
+        </candidate>
+    
+        <ion-infinite-scroll *ngIf="applicationCurrentPage < applicationPageCount" (ionInfinite)="doInfiniteApplications($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </div>
+
+      <div *ngIf="segment == 'matches'" class="match-wrapper">
+
+        <div *ngIf="!loadingMatched && matchedCandidates.length == 0" class="ion-text-center no-invi">
+          <img src="assets/images/no-invitation.png"/>
+          <p class="ion-text-center">{{ "There are no matched found, please search manually!" | translate }}</p>
+        </div>
+        
+        <candidate tappable (click)="candidateSelected(candidate)" [candidate]="candidate" 
+          *ngFor="let candidate of matchedCandidates">
+        </candidate>
+    
+        <ion-infinite-scroll *ngIf="McurrentPage < MPageCount" (ionInfinite)="doInfiniteMatched($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </div>
+
+      <div class="activity-container container" *ngIf="segment == 'updates'"> 
+        
+        <div *ngIf="requestActivities.length == 0" class="ion-text-center no-invi">
+          <img src="assets/images/ic_message.svg"/>
+          <p class="ion-text-center">{{ "We are working on it!" | translate }}</p>
         </div>
 
+        <!--
         <h4 class="txt-activities">{{"Recent Activity" | translate}}</h4>
-
-        <div class="activity-container">
-
+        -->
           <ng-container *ngFor="let requestActivity of requestActivities;let i = index;">
-            <app-recent-activity [activity]="requestActivity" *ngIf="activityExpanded || i < 2"></app-recent-activity>
+            <app-recent-activity [activity]="requestActivity"></app-recent-activity>
+            <!-- *ngIf="activityExpanded || i < 2"-->
           </ng-container>
 
-          <ion-button class="btn-view-notes" *ngIf="requestActivities.length > 2" (click)="toggleActivityExpanded()">
+          <!-- <ion-button class="btn-view-notes" *ngIf="requestActivities.length > 2" (click)="toggleActivityExpanded()">
             <span *ngIf="!activityExpanded">{{"view_all_notes" | translate: { value : requestActivities.length } }}</span>
             <span *ngIf="activityExpanded">{{"Collapse" | translate}}</span>
-          </ion-button>
-        </div>
-
-        <div *ngIf="suggestedSuggestions.length > 0">
-          <h4 class="txt-suggested-candidates">{{"suggested_candidates_count" | translate : { value: suggestedSuggestions.length} }}</h4>
-
-
-          <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions"
-                      [model]="suggestion"></suggestion>
-        </div>
-
-        <div *ngIf="acceptedSuggestions.length > 0">
-          <h4 class="txt-suggested-candidates">{{"accepted_count" | translate : { value: acceptedSuggestions.length} }}</h4>
-
-          <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions"
-                      [model]="suggestion"></suggestion>
-        </div>
-
-        <div *ngIf="rejectedSuggestions.length > 0">
-          <h4 class="txt-suggested-candidates">{{"rejected_count" | translate : { value: rejectedSuggestions.length} }}</h4>
-
-          <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions"
-                      [model]="suggestion"></suggestion>
-        </div>
-
-
-        <h4 class="txt-activities" *ngIf="request.invitations && request.invitations.length > 0">
-          {{"Invited Candidates" | translate}}
-        </h4>
-
-        <div class="activity-container">
-
-          <ng-container *ngFor="let invitation of request.invitations;let i = index;">
-            <candidate [routerLink]="['/candidate-view/',invitation.candidate.candidate_id]" [candidate]="invitation.candidate" [invitation]="invitation"></candidate>
-          </ng-container>
-        </div>
-
+          </ion-button>-->
       </div>
+
+      <div class="container" *ngIf="segment == 'suggested'"> 
+      
+        <div *ngIf="suggestedSuggestions.length == 0 && acceptedSuggestions.length == 0 
+          && rejectedSuggestions.length == 0" class="ion-text-center no-invi">
+          <img src="assets/images/no-invitation.png"/>
+          <p class="ion-text-center">{{ "We are working on it!" | translate }}</p>
+        </div>
+
+        <h4 class="txt-suggested-candidates" *ngIf="suggestedSuggestions.length > 0">
+          {{"suggested_candidates_count" | translate : { value: suggestedSuggestions.length} }}
+        </h4>
+      
+        <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions"
+                    [model]="suggestion"></suggestion>
+       
+        <h4 class="txt-suggested-candidates" *ngIf="acceptedSuggestions.length > 0">
+          {{"accepted_count" | translate : { value: acceptedSuggestions.length} }}</h4>
+  
+        <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions"
+                    [model]="suggestion"></suggestion>
+      
+        <h4 class="txt-suggested-candidates" *ngIf="rejectedSuggestions.length > 0">
+          {{"rejected_count" | translate : { value: rejectedSuggestions.length} }}</h4>
+       
+        <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions"
+                    [model]="suggestion"></suggestion>
+      </div>
+
+      <div class="container activity-container" *ngIf="segment == 'invited'">  
+
+        <div *ngIf="request.invitations.length == 0" class="ion-text-center no-invi">
+          <img src="assets/images/no-invitation.png"/>
+          <p class="ion-text-center">{{ "We are working on it!" | translate }}</p>
+        </div>
+
+        <candidate *ngFor="let invitation of request.invitations;let i = index;" 
+          [routerLink]="['/candidate-view/',invitation.candidate.candidate_id]" 
+          [candidate]="invitation.candidate" [invitation]="invitation"></candidate>
+      </div>
+    </div>  
+
 <!--    <ion-button *ngIf="request && request.request_status == 'started'"-->
 <!--      class="btn-cv-search" routerLink="/cv-search">-->
 <!--      {{"CV Search: Invite candidates to apply for this position" | translate}}-->

@@ -1,4 +1,5 @@
 import { Candidate } from './candidate';
+import { CandidateWorkHistory } from './candidate-work-history';
 
 export class TransferCandidate {
     tc_id: number;
@@ -21,4 +22,5 @@ export class TransferCandidate {
 
     // Related
     candidate: Candidate;
+    currentWorkHistory: CandidateWorkHistory;
 }

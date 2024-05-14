@@ -3,6 +3,9 @@ import { Company } from './company';
 import { University } from './university';
 import { Country } from './country';
 import { Area } from './area';
+import { RequestApplication } from './request-application';
+import { StoreAssignmentRequest } from './store-assignment-request';
+import { CandidateWorkHistory } from './candidate-work-history';
 
 export class Candidate {
   employee_id: number;
@@ -60,12 +63,16 @@ export class Candidate {
   country: Country;
   area: Area;
   nationality: Country;
+  is_our_employee: boolean;
   candidateExperiences: any;
   candidateSkills: any;
   candidateIdCard: any;
   pendingField: any[];
   invitedCount: number;
   isInvitedForCompany: any;
+  requestApplications: RequestApplication[];
+  storeAssignmentRequest: StoreAssignmentRequest;
+  currentWorkHistory: CandidateWorkHistory;
 }
 
 export class CandidateWorkingHour {
