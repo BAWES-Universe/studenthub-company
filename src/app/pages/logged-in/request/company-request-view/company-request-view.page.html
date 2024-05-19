@@ -30,10 +30,11 @@
           <ion-chip *ngIf="request">{{ request.invitations.length }}</ion-chip></ion-label>
         </ion-segment-button>
 
+        <!--
         <ion-segment-button mode="md" value="applied">
           <ion-label>{{ "Applied" | translate }}
           <ion-chip *ngIf="request">{{ applicationTotal }}</ion-chip></ion-label>
-        </ion-segment-button>
+        </ion-segment-button>-->
 
       </ng-container>
 
@@ -50,7 +51,7 @@
       <ng-container *ngIf="request && request.request_position_type == 2">
         <ion-select-option value="matches">{{ "Matches" | translate }}</ion-select-option>
         <ion-select-option value="invited">{{ "Invited" | translate }}</ion-select-option>
-        <ion-select-option value="applied">{{ "Applied" | translate }}</ion-select-option>
+        <!--<ion-select-option value="applied">{{ "Applied" | translate }}</ion-select-option>-->
       </ng-container>
       <ion-select-option value="suggested">{{ "Suggestions" | translate }}</ion-select-option>
     </ion-select>
