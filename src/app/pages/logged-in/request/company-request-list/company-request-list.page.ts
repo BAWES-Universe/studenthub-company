@@ -287,6 +287,11 @@ export class CompanyRequestListPage implements OnInit {
     }
   }*/
 
+  segmentChanged(event) {
+    if(this.segment != event.target.value)
+      this.segment = event.target.value;
+  }
+
   reset() {
     this.requests = [];
     this.requestStats = {
