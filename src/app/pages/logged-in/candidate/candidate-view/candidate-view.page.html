@@ -25,7 +25,7 @@
 
     </ion-segment>
 
-    <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)" [value]="segment">
+    <ion-select *ngIf="platform.is('mobile')" (ionChange)="segmentChanged($event)" [value]="segment">
       <ion-select-option value="details">{{ "Details" | translate }}</ion-select-option>
       <ion-select-option value="applications">{{ "Applications" | translate }}</ion-select-option>
     </ion-select>

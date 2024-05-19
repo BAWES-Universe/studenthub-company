@@ -6,6 +6,10 @@
   --background: var(--ion-custom-color-34);
 }
 
+ion-segment {
+  overflow: auto;
+}
+
 ion-segment-button {
   //--background-checked : var(--ion-custom-color-34);
   --ion-color-base : var(--ion-custom-color-34);
@@ -20,7 +24,10 @@ ion-segment-button {
   color: var(--ion-text-color);
   text-transform: inherit;
   --border-width:5px;
+  min-width: auto;
+  width: auto;
 }
+
 .btn-div {
   width: 100%;
   text-align: right;

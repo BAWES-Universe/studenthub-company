@@ -10,11 +10,12 @@
     </div>
     
     <div class="segment-div">
-      <ion-segment [value]="segment" (ionChange)="segmentChange($event)">
+     
+      <ion-segment *ngIf="!platform.is('mobile')"  [value]="segment" (ionChange)="segmentChange($event)">
 
         <!-- *ngIf="requestStats.pending > 0" -->
         <ion-segment-button value="pending">
-          <ion-label>{{ "pending_value" | translate: {value:requestStats.pending} }}</ion-label>
+          <ion-label> {{ "pending_value" | translate: {value:requestStats.pending} }}</ion-label>
         </ion-segment-button>
 
         <ion-segment-button value="started" *ngIf="requestStats.started > 0">
@@ -37,6 +38,35 @@
           <ion-label>{{ "cancelled_value" |  translate: {value: requestStats.cancelled} }}</ion-label>
         </ion-segment-button>
       </ion-segment>
+ 
+      <ion-select *ngIf="platform.is('mobile')" (ionChange)="segmentChanged($event)" [value]="segment">
+       
+        <!-- *ngIf="requestStats.pending > 0" -->
+        <ion-select-option value="pending">
+          {{ "pending_value" | translate: {value:requestStats.pending} }}
+        </ion-select-option>
+
+        <ion-select-option value="started" *ngIf="requestStats.started > 0">
+          {{ "open_value" | translate: {value:requestStats.started} }}
+        </ion-select-option>
+        
+        <ion-select-option value="finished_by_recruitment" *ngIf="requestStats.finished_by_recruitment > 0">
+          {{ "finished_by_recruitment_value" |  translate: {value: requestStats.finished_by_recruitment} }} 
+        </ion-select-option>
+
+        <ion-select-option value="re_work" *ngIf="requestStats.re_work > 0">
+          {{ "re_work_value" |  translate: {value: requestStats.re_work} }} 
+        </ion-select-option>
+         
+        <ion-select-option value="delivered" *ngIf="requestStats.delivered > 0">
+          {{ "completed_value" |  translate: {value: requestStats.delivered} }} 
+        </ion-select-option>
+
+        <ion-select-option value="cancelled" *ngIf="requestStats.cancelled > 0">
+          {{ "cancelled_value" |  translate: {value: requestStats.cancelled} }} 
+        </ion-select-option>
+      </ion-select>
+
     </div>
 
     <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)" 
