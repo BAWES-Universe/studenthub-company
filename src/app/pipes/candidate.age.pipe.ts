@@ -26,7 +26,7 @@ export class CandidateAgePipe implements PipeTransform {
       const hours = Math.round(Math.abs(minutes / 60));
       const days = Math.round(Math.abs(hours / 24));
       // let months = Math.round(Math.abs(days/30.416));
-      const years = Math.round(Math.abs(days / 365));
+      const years = Math.floor(Math.abs(days / 365));
 
       if (Number.isNaN(seconds)){
         return '';
