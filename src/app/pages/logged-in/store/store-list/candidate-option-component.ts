@@ -6,7 +6,7 @@ import { PopoverController } from "@ionic/angular";
     template: `
       <ion-list *ngIf="!candidate.storeAssignmentRequest">
         <ion-item (click)="close('un-assign')" tappable lines="none">
-          {{ "Request to un-assign" | translate }}
+          {{ "Request to remove" | translate }}
         </ion-item>
         <ion-item (click)="close('change-store')" tappable lines="none">
           {{ "Change Store" | translate }}
