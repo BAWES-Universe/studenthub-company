@@ -60,13 +60,17 @@ export class TranslateLabelService  extends TranslateService {
         return false;
     }
 
+    isString(x) {
+      return Object.prototype.toString.call(x) === "[object String]"
+    }
+
     /**
      * json to string error message
      * @param message
      */
     errorMessage(message): string {
 
-        if (message.length)
+        if (this.isString(message))
         {
             return message + '';
 		    }
