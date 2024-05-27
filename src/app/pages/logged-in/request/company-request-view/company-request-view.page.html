@@ -21,9 +21,10 @@
       </ion-segment-button>
 
       <ng-container *ngIf="request && request.request_position_type == 2">
+        <!--
         <ion-segment-button mode="md" value="matches">
           <ion-label>{{ "Matches" | translate }}</ion-label>
-        </ion-segment-button>
+        </ion-segment-button>-->
 
         <ion-segment-button mode="md" value="invited">
           <ion-label>{{ "Invited" | translate }}
@@ -49,7 +50,8 @@
       <ion-select-option value="details">{{ "Details" | translate }}</ion-select-option>
       <ion-select-option value="updates">{{ "Updates" | translate }}</ion-select-option>
       <ng-container *ngIf="request && request.request_position_type == 2">
-        <ion-select-option value="matches">{{ "Matches" | translate }}</ion-select-option>
+        <!--
+        <ion-select-option value="matches">{{ "Matches" | translate }}</ion-select-option>-->
         <ion-select-option value="invited">{{ "Invited" | translate }}</ion-select-option>
         <!--<ion-select-option value="applied">{{ "Applied" | translate }}</ion-select-option>-->
       </ng-container>
