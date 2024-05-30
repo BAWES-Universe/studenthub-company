@@ -110,6 +110,9 @@ export class StoreListPage implements OnInit {
 
     const popup = await this.popoverCtrl.create({
       component : CandidateOptionComponent,
+      componentProps: {
+        candidate: candidate
+      },
       event: event,
       translucent: true
     });
@@ -120,6 +123,8 @@ export class StoreListPage implements OnInit {
           this.assingToStore(candidate);
         } else if(e.data.action == "un-assign") {
           this.storeAssignmentRequest(candidate);
+        } else if(e.data.action == "cancel-request") {
+          this.cancelStoreAssignmentRequest(candidate);
         }
       }
     });
@@ -150,6 +155,32 @@ export class StoreListPage implements OnInit {
       }
     });
     await selectPage.present();
+  }
+
+  cancelStoreAssignmentRequest(candidate) {
+    this.storeService.cancelAssignmentRequest(candidate.storeAssignmentRequest.sar_uuid).subscribe(async response => {
+      if( response.operation == "success") {
+
+        candidate.storeAssignmentRequest = null;
+
+        if(response.message) {
+          this.toastCtrl.create({
+            message: this.translateService.errorMessage(response.message),
+            duration: 3000,
+          // buttons: ['Okay']
+          }).then(prompt => {
+            prompt.present();
+          });
+        }
+        
+      } else {
+        let prompt = await this.alertCtrl.create({
+          message: this.translateService.errorMessage(response.message),
+          buttons: [this.translateService.transform('Okay')]
+        });
+        prompt.present();
+      }
+    }); 
   }
 
   /**

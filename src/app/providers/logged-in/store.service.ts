@@ -40,6 +40,16 @@ export class StoreService {
   }
 
   /**
+   * @param sar_uuid \
+   * @returns 
+   */
+  cancelAssignmentRequest(sar_uuid: string): Observable<any> {
+    let url = this._storeEndpoint + '/cancel-store-assignment-request/' + sar_uuid;
+    return this._authhttp.patch(url, {
+    });
+  }
+
+  /**
    * List of all stores
    * @returns {Observable<any>}
    */
