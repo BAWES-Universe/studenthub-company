@@ -1,13 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, NavController, Platform, IonContent } from '@ionic/angular';
+import { format, parseISO } from 'date-fns';
+import {ActivatedRoute} from '@angular/router';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
-// models
-import {CandidateWorkingHour} from 'src/app/models/candidate';
-import {CandidateWorkingHourService} from 'src/app/providers/logged-in/candidate-working-hour.service';
-import {ActivatedRoute} from '@angular/router';
+import { CandidateWorkingHourService } from 'src/app/providers/logged-in/candidate-working-hour.service';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+// models
+import { CandidateWorkingHour } from 'src/app/models/candidate';
+//pages 
+import { ApproveWorkLogPage } from '../../approve-work-log/approve-work-log.page';
+import { RejectWorkLogPage } from '../../reject-work-log/reject-work-log.page';
 
 
 declare var window;
@@ -25,28 +30,44 @@ export class LogHourListPage implements OnInit {
   public currentPage = 1;
   public totalCount = 0;
   public totalHours = 0;
-  public hour;
+  
+  public date;
+  public store_id: number;
   public candidate_id : any;
+
   public candidateWorkingHourData: CandidateWorkingHour[];
+
+  public stats: any; 
 
   constructor(
     public platform: Platform,
     public activateRoute: ActivatedRoute,
     public navCtrl: NavController,
+    public modalCtrl: ModalController,
     public authService: AuthService,
+    public translateService: TranslateLabelService,
     public candidateWorkingHour: CandidateWorkingHourService,
     public eventService: EventService,
     public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    this.hour = this.activateRoute.snapshot.paramMap.get('hour');
+    this.date = this.activateRoute.snapshot.paramMap.get('date');
     this.candidate_id = this.activateRoute.snapshot.paramMap.get('candidate_id');
+    this.store_id = parseInt(this.activateRoute.snapshot.paramMap.get('store_id'));
+
     this.analyticService.page('Candidate Working Hours');
   }
 
   ionViewWillEnter() {
     this.loadData();
+    this.loadStats();
+  }
+
+  loadStats() {
+    this.candidateWorkingHour.stats(this.getUrlParams()).subscribe(response => {
+      this.stats = response;
+    });
   }
 
   ionViewWillLeave() {
@@ -60,14 +81,13 @@ export class LogHourListPage implements OnInit {
    */
   loadData() {
     this.loading = true;
-    const param = `&date=${this.hour}&candidate_id=${this.candidate_id}`;
-    this.candidateWorkingHour.listByHour(this.currentPage, param).subscribe(response => {
+     
+    this.candidateWorkingHour.listByHour(this.currentPage, this.getUrlParams()).subscribe(response => {
       this.loading =  false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
       this.candidateWorkingHourData = response.body;
-      this.countTotal();
     });
   }
 
@@ -88,14 +108,15 @@ export class LogHourListPage implements OnInit {
     this.loading = true;
 
     this.currentPage++;
-    const param = `&date=${this.hour}&candidate_id=${this.candidate_id}`;
-    this.candidateWorkingHour.listByHour(this.currentPage, param).subscribe(response => {
+    
+    this.candidateWorkingHour.listByHour(this.currentPage, this.getUrlParams()).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
+
         this.candidateWorkingHourData = this.candidateWorkingHourData.concat(response.body);
-        this.countTotal();
+         
         event.target.complete();
     },
     error => { },
@@ -104,9 +125,65 @@ export class LogHourListPage implements OnInit {
     });
   }
 
-  countTotal() {
-    this.totalHours = this.candidateWorkingHourData.reduce((partialSum, a) => partialSum + a.total_time, 0);
+  getUrlParams() { 
+    return "&date=" + this.date + "&store_id=" + this.store_id +
+      "&candidate_id=" + this.candidate_id;
+    //format(parseISO(this.date), 'yyyy-MM-dd')   
   }
 
-}
+  async approve() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
+    const modal = await this.modalCtrl.create({
+      component: ApproveWorkLogPage, 
+      initialBreakpoint: 0.5,
+      breakpoints: [0, 0.25, 0.5, 0.75],
+      cssClass: "footer-modal approve-work-log-modal",
+      componentProps: { 
+        candidate_id: this.candidate_id,
+        date: this.date,
+        store_id: this.store_id
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.refresh) {       
+        this.loadStats();
+      }
+    });
+    modal.present();
+  }
+  
+  async reject() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: RejectWorkLogPage,
+      initialBreakpoint: 0.5,
+      breakpoints: [0, 0.25, 0.5, 0.75],
+      cssClass: "footer-modal reject-work-log-modal",
+      componentProps: { 
+        candidate_id: this.candidate_id,
+        date: this.date,
+        store_id: this.store_id
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.refresh) {       
+        this.loadStats();
+      }
+    });
+    modal.present();
+  }
+}

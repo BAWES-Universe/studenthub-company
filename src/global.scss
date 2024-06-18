@@ -94,6 +94,61 @@ ion-footer.filter-closed {
 //  }
 //}
 
+.clearfix {
+  display: table;
+  clear: both;
+}
+
+ion-content {
+  --background: #F7F8FA;
+  background: #F7F8FA;
+  --padding-top: 24px;
+}
+
+ion-back-button {
+  --background: #F7F8FA;
+  background: #F7F8FA;
+  --border-radius: 100%;
+  border-radius: 100%;
+  margin: 8px 0;
+}
+
+@media (max-width: 900px) {
+  ion-header {
+    //box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%);
+    background: #fff;
+    --background: #fff;
+
+    ion-toolbar {
+      //padding: 40px 0 13px 0 !important;
+
+      ion-title {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 48px;
+        letter-spacing: -0.5px;
+        color: #23233D;
+        //padding-left: 32px;
+        //padding-right: 32px;
+        align-items: center;
+      }
+    }
+  }
+
+  ion-toolbar {
+    --padding-start: 25px;
+
+  }
+
+  ion-content {
+    --padding-start: 25px;
+    --padding-end: 25px;
+    --padding-top: 25px;
+    --padding-bottom: 25px;
+  }
+}
+
 .clear-header:after {
   display: none;
 }
@@ -186,12 +241,12 @@ ion-router-outlet {
       color: var(--ion-color-light-contrast);
   }
 
-  ion-content {
+  /*ion-content {
     //--padding-start: 30px;
     //--padding-end: 30px;
     --padding-start: 10px;
     --padding-end: 10px;
-  }
+  }*/
 }
 
 ion-header {
@@ -199,6 +254,9 @@ ion-header {
   //background: #fafafa;
 }
 
+ion-footer .max-width,
+ion-content .max-width,
+ion-toolbar.max-width, 
 ion-footer .desktop-view,
 ion-content .desktop-view,
 ion-toolbar.desktop-view {
@@ -271,4 +329,29 @@ ion-footer {
 .main-right-menu,
 .main-left-menu {
     padding: 26px 0 0 0;
+}
+
+/*ion-segment {
+  margin-top: 16px;
+}*/
+
+ion-segment-button {
+  text-transform: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--ion-custom-color-52);
+  --color: var(--ion-custom-color-52);
+}
+
+ion-segment-button.segment-button-checked {
+  font-weight: 600;
+  color: var(--ion-custom-color-51);
+  --color: var(--ion-custom-color-51);
+  --indicator-color: var(--ion-custom-color-51);
+  --border-color: var(--ion-custom-color-51);
 }

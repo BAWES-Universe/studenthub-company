@@ -6,6 +6,7 @@ import { TimeAgoPipe } from './timeago.pipe';
 import { AgePipe } from './age.pipe';
 import {CandidateAgePipe} from './candidate.age.pipe';
 import {TimeSpentPipe} from "./timespent.pipe";
+import { SecondsToTimePipe } from './secondToTime.pipe';
 
 
 // import custom pipes here
@@ -17,7 +18,8 @@ import {TimeSpentPipe} from "./timespent.pipe";
         TimeAgoPipe,
         AgePipe,
         TimeSpentPipe,
-        CandidateAgePipe
+        CandidateAgePipe,
+        SecondsToTimePipe
     ],
     imports: [],
     exports: [
@@ -27,7 +29,8 @@ import {TimeSpentPipe} from "./timespent.pipe";
         TimeAgoPipe,
         AgePipe,
         TimeSpentPipe,
-        CandidateAgePipe
+        CandidateAgePipe,
+        SecondsToTimePipe
     ]
 })
 export class PipesModule {}

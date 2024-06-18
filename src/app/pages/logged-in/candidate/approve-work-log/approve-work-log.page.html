@@ -1,0 +1,47 @@
+<ion-content>
+
+  <h5>Approve working hours</h5>
+  
+  <button class="btn-close" (click)="close()">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-icon name="close-outline"></ion-icon>
+  </button>
+
+  <form (ngSubmit)="save()" (keyup.enter)="save()" [formGroup]="form" *ngIf="form">
+    
+    <p>How would you rate Nada Madi?</p>
+
+    <ul class="rating-wrapper">
+      <li *ngClass="{ 'selected': form.value.rating == 1 }" (click)="setRating(1)">
+        <ion-icon src="../../../../../assets/images/rate-1.svg"></ion-icon>
+      </li>
+      <li *ngClass="{ 'selected': form.value.rating == 2 }" (click)="setRating(2)">
+        <ion-icon src="../../../../../assets/images/rate-2.svg"></ion-icon>
+      </li>
+      <li *ngClass="{ 'selected': form.value.rating == 3 }" (click)="setRating(3)">
+        <ion-icon src="../../../../../assets/images/rate-3.svg"></ion-icon>
+      </li>
+      <li *ngClass="{ 'selected': form.value.rating == 4 }" (click)="setRating(4)">
+        <ion-icon src="../../../../../assets/images/rate-4.svg"></ion-icon>
+      </li>
+      <li *ngClass="{ 'selected': form.value.rating == 5 }" (click)="setRating(5)">
+        <ion-icon src="../../../../../assets/images/rate-5.svg"></ion-icon>
+      </li>
+    </ul>
+
+    <ion-item line="none">
+      <ion-label position="floating">Notes</ion-label>
+      <ion-textarea formControlName="note"></ion-textarea>
+    </ion-item>
+  
+    <ion-item line="none">
+      <ion-label position="floating">Make feedback public</ion-label>
+      <ion-toggle value="1" formControlName="is_public"></ion-toggle>
+    </ion-item>
+
+    <ion-button class="btn-submit" type="submit()" [disabled]="saving || !form.valid">
+      <ion-spinner *ngIf="saving"></ion-spinner>
+      <span  *ngIf="!saving">Submit Feedback</span>
+    </ion-button>
+  </form>
+</ion-content>

@@ -91,4 +91,8 @@ export class CandidateWorkingHour {
   updated_at: string;
   store: Store;
   candidate: Candidate;
+  dateStatus: number;
+  checkIn: string;
+  checkOut: string;
+  
 }

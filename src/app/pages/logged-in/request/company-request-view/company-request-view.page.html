@@ -1,7 +1,7 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar class="desktop-view">
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="/"></ion-back-button>
+        <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
       </ion-buttons>
     <ion-title *ngIf="request && request.company.company_name">
       {{ request.company.company_name?request.company.company_name: request.company.company_common_name_en }}

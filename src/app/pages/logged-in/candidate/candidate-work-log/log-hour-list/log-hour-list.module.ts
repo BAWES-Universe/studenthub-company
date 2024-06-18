@@ -9,6 +9,8 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
 import {PipesModule} from 'src/app/pipes/pipes.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
+import { ApproveWorkLogPageModule } from '../../approve-work-log/approve-work-log.module';
+import { RejectWorkLogPageModule } from '../../reject-work-log/reject-work-log.module';
 
 @NgModule({
   imports: [
@@ -17,6 +19,8 @@ import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
     LoadingModalModule,
     PipesModule,
     NoItemsModule,
+    ApproveWorkLogPageModule,
+    RejectWorkLogPageModule,
     TranslateModule.forChild(),
     LogHourListPageRoutingModule
   ],

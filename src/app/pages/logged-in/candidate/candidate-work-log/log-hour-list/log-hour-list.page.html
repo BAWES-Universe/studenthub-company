@@ -1,33 +1,86 @@
-<ion-header>
-  <ion-toolbar class="desktop-view">
+<ion-header [translucent]="true" [collapse]="true">
+  <ion-toolbar class="max-width">
     <ion-buttons slot="start">
-        <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{"Time Log"}}  | {{totalHours | timeSpent}}</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="max-width" *ngIf="candidateWorkingHourData">
+    <ion-title>{{ date | date : 'mediumDate': undefined: translateService.currentLang}}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+  <ion-header class="max-width" *ngIf="candidateWorkingHourData" collapse="condense">
+    <ion-toolbar>
+      <ion-title>{{ date | date : 'mediumDate': undefined: translateService.currentLang}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
 
-  <div class="max-width desktop-view">
-    <ion-list *ngIf="candidateWorkingHourData">
-      <ion-item *ngFor="let hours of candidateWorkingHourData">
-          <ion-label>
-            <p>From: {{hours.start_time}}</p>
-            <p>Till : {{hours.end_time}}</p>
-            <p>Total : {{hours.total_time | timeSpent}}</p>
-            <p>Store : {{hours.store.store_name}} @ {{hours.store.company.company_common_name_en}}</p>
-            <p>Candidate : {{hours.candidate.candidate_name}}</p>
-          </ion-label>
-      </ion-item>
-    </ion-list>
+  <div class="max-width">
+    
+    <ion-card class="main-card" *ngIf="stats"> 
+      
+      <span class="txt-label">{{ "Total Time" | translate}}</span>
+    
+      <ion-badge class="warning" *ngIf="stats.status == 0">Pending</ion-badge>
+      <ion-badge class="success" *ngIf="stats.status == 1">Approved</ion-badge>
+      <ion-badge class="warning" *ngIf="stats.status == 2">Rejected</ion-badge>
 
-    <no-items *ngIf="!candidateWorkingHourData" message="~ No record found ~"></no-items>
- 
-    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-      <ion-infinite-scroll-content>
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+      <div class="clearfix"></div>
+      <h4 class="txt-time" *ngIf="stats && stats.totalTime">{{ stats.totalTime | secondsToTime }}</h4>  
+      <h4 class="txt-time" *ngIf="!stats || !stats.totalTime">00:00</h4>
+
+      <div class="time-wrapper">
+        <div class="time-left">
+          <b>{{"Start Time:" | translate}}</b> 
+
+          <span *ngIf="stats && stats.checkIn">{{ 
+            translateService.toDate(stats.checkIn) | date: "shortTime": undefined: translateService.currentLang }}</span>  
+          <span *ngIf="!stats || !stats.checkIn">00:00</span>
+        </div>  
+
+        <div class="time-right">
+          <b>{{"End Time:" | translate}}</b> 
+
+          <span *ngIf="stats && stats.checkOut">{{ translateService.toDate(stats.checkOut) | date: "shortTime": undefined: translateService.currentLang }}</span>  
+          <span *ngIf="!stats || !stats.checkOut">00:00</span>
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+
+    </ion-card>
+
+    <div class="session-wrapper" *ngIf="totalCount > 0">
+
+      <h5 class="txt-session-heading">Sessions <span>({{ totalCount }})</span></h5>
+
+      <p *ngFor="let hour of candidateWorkingHourData">
+        <b>{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+        <span>
+          {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+          <ion-icon name="arrow-forward-outline"></ion-icon> 
+          {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+        </span>
+      </p>
+
+      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content>
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+  
+    </div>
+
+    <div class="btn-wrapper">
+      <ion-button class="btn-reject" (click)="reject()"  fill="outline" color="danger">
+        Reject
+      </ion-button>
+    
+      <ion-button class="btn-approve" (click)="approve()">
+        Approve
+      </ion-button>
+    </div>
+    
   </div>
-</ion-content>
+</ion-content> 

@@ -1,15 +1,17 @@
 <ion-header [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar class="desktop-view">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="candidate" class="candidate_name">
       {{ candidate.candidate_name? candidate.candidate_name: candidate.candidate_name_ar }}</ion-title>
-    <ion-buttons slot="end" *ngIf="candidate && candidate.is_our_employee">
+    <!--
+      <ion-buttons slot="end" *ngIf="candidate && candidate.is_our_employee">
       <ion-button [routerLink]="['/log-date-list',candidate.candidate_id]">
         {{ "View Log" | translate }}
       </ion-button>
     </ion-buttons>
+-->
   </ion-toolbar>
   <ion-toolbar class="desktop-view">
 
@@ -95,7 +97,7 @@
               <div class="work-history-wrapper">
                 <h5 class="heading" *ngIf="workHistory.length > 0">{{ "StudentHub Assignments" | translate}}</h5>
 
-                <ion-item *ngFor="let history of workHistory" lines="none">
+                <ion-item *ngFor="let history of workHistory" lines="none" routerLink="/candidate-assignment/{{ history.id }}">
 
                   <div tabindex="0"></div>
                   <label *ngIf="history.store" tappable>

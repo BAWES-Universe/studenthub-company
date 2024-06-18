@@ -61,7 +61,7 @@ export class LogDateListPage implements OnInit {
    */
   loadData() {
     this.loading = true;
-    const param = `&candidate_id=${this.candidate_id}`;
+    const param = `&expand=company,candidate&candidate_id=${this.candidate_id}`;
     this.candidateWorkingHour.list(this.currentPage, param).subscribe(response => {
       this.loading =  false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
@@ -88,7 +88,7 @@ export class LogDateListPage implements OnInit {
     this.loading = true;
 
     this.currentPage++;
-    const param = `&candidate_id=${this.candidate_id}`;
+    const param = `&expand=company,candidate&candidate_id=${this.candidate_id}`;
     this.candidateWorkingHour.list(this.currentPage, param).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));

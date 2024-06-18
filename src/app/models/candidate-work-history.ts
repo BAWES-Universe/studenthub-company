@@ -1,3 +1,6 @@
+import { Company } from "./company";
+import { Store } from "./store";
+
 export class CandidateWorkHistory {
     id: number;
     candidate_id: number;
@@ -9,4 +12,6 @@ export class CandidateWorkHistory {
     end_date: string;
     candidate_hourly_rate: number; 
     company_hourly_rate: number;
+    company: Company;
+    store: Store;
 }

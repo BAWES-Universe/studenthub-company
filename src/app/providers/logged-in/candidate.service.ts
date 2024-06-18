@@ -66,6 +66,15 @@ export class CandidateService {
   }
 
   /**
+   * return work history
+   * @param candidate_id
+   */
+  workHistoryDetail(id): Observable<any> {
+    let url = this._candidateEndpoint + '/work-history-detail/' + id + '?expand=store,company';
+    return this._authhttp.get(url);
+  }
+
+  /**
    * candidate deatil
    * @param candidate_id
    */

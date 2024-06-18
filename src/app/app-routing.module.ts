@@ -260,11 +260,25 @@ const routes: Routes = [
   },
   {
     path: 'request-interview',
+    canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/request/request-interview/request-interview.module').then( m => m.RequestInterviewPageModule)
+  },
+  {
+    path: 'candidate-assignment',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-assignment/candidate-assignment.module').then( m => m.CandidateAssignmentPageModule)
   },
   {
     path: '**',
     redirectTo: 'not-found'
+  },
+  {
+    path: 'approve-work-log',
+    loadChildren: () => import('./pages/logged-in/candidate/approve-work-log/approve-work-log.module').then( m => m.ApproveWorkLogPageModule)
+  },
+  {
+    path: 'reject-work-log',
+    loadChildren: () => import('./pages/logged-in/candidate/reject-work-log/reject-work-log.module').then( m => m.RejectWorkLogPageModule)
   },
 ];
 

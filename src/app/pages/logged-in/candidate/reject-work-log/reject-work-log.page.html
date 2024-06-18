@@ -1,0 +1,29 @@
+<ion-content>
+
+  <h5>Reject working hours</h5>
+  
+  <button class="btn-close" (click)="close()">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-icon name="close-outline"></ion-icon>
+  </button>
+
+  <h4>Why are you rejecting this?</h4>
+  
+  <form (ngSubmit)="save()" (keyup.enter)="save()" [formGroup]="form" *ngIf="form">
+
+    <ion-chip (click)="setReason('Logs are wrong')">Logs are wrong</ion-chip>
+    <ion-chip (click)="setReason('Student is absent')">Student is absent</ion-chip>
+    <ion-chip (click)="setReason('Bad attitude')">Bad attitude</ion-chip>
+    <ion-chip (click)="setReason('Student was late')">Student was late</ion-chip>
+
+    <ion-item line="none">
+      <ion-label position="floating">Notes</ion-label>
+      <ion-textarea formControlName="note"></ion-textarea>
+    </ion-item>
+  
+    <ion-button class="btn-submit" type="submit()" [disabled]="saving || !form.valid">
+      <ion-spinner *ngIf="saving"></ion-spinner>
+      <span  *ngIf="!saving">Submit Feedback</span>
+    </ion-button>
+  </form>
+</ion-content>

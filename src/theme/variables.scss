@@ -3,6 +3,9 @@
 
 /** Ionic CSS Variables **/
 :root {
+  --start: left;
+  --end: right;
+
   body.day {
 
     --ion-text-color: #292f38;
@@ -57,6 +60,8 @@
     --ion-custom-color-48: #dbdbdb;
     --ion-custom-color-49: #57CCC6;
     --ion-custom-color-50: #b2b2b2;
+    --ion-custom-color-51: #263879;
+    --ion-custom-color-52: #68687A;
 
     /** primary **/
     --ion-color-primary: #3880ff;
@@ -318,4 +323,9 @@
 
     --ion-tab-bar-background: #1f1f1f;
   }
+}
+
+[dir="rtl"]:root {
+  --start: right;
+  --end: left;
 }

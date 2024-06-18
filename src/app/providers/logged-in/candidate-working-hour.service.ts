@@ -16,9 +16,19 @@ export class CandidateWorkingHourService {
    * Return invitations
    * @returns {Observable<any>}
    */
-  list(page: number, param = null): Observable<any>{
-    const url = this._endpoint + `/date?page=${page}&expand=company,candidate${param}`;
+  list(page: number, param = ""): Observable<any>{
+    const url = this._endpoint + `/date?page=${page}${param}`;
     return this._authhttp.getRaw(url);
+  }
+
+  /**
+   * get total time per day, checkIn, checkOut etc 
+   * @param param 
+   * @returns 
+   */
+  stats(param: string): Observable<any>{
+    const url = this._endpoint + `/stats?${param}`;
+    return this._authhttp.get(url);
   }
 
   /**
