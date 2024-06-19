@@ -21,10 +21,11 @@ export class StoreService {
    * @param store_id
    */
   view(store_id): Observable<any> {
-    let url = this._storeEndpoint + '/view/' + store_id + '?expand=candidates,mall,brand';
+    //candidates,candidates.storeAssignmentRequest,
+    let url = this._storeEndpoint + '/view/' + store_id + '?expand=mall,brand';
     return this._authhttp.get(url);
   }
-
+  
   /**
    * request to unassign to change store 
    * @param store_id 
@@ -71,7 +72,7 @@ export class StoreService {
    * List of all stores by company id
    * @returns {Observable<any>}
    */
-  listByCompanyStore(page: number, params = '&expand=candidates,totalCandidates,candidates.storeAssignmentRequest,mall,brand,company'): Observable<any> {
+  listByCompanyStore(page: number, params = '&expand=candidatesSummary,totalCandidates,candidatesSummary.storeAssignmentRequest,mall,brand,company'): Observable<any> {
     // let url = this._storeEndpoint + '/company-store' + '?page=' + page + '&expand=candidates,subCompanies,stores,stores.mall,stores.brand,stores.candidates,totalCandidates';
     let url = this._storeEndpoint + '/company-store' + '?page=' + page + params;
     return this._authhttp.getRaw(url);

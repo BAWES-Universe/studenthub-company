@@ -272,14 +272,6 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'not-found'
   },
-  {
-    path: 'approve-work-log',
-    loadChildren: () => import('./pages/logged-in/candidate/approve-work-log/approve-work-log.module').then( m => m.ApproveWorkLogPageModule)
-  },
-  {
-    path: 'reject-work-log',
-    loadChildren: () => import('./pages/logged-in/candidate/reject-work-log/reject-work-log.module').then( m => m.RejectWorkLogPageModule)
-  },
 ];
 
 @NgModule({

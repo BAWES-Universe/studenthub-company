@@ -19,9 +19,19 @@ export class CandidateService {
    * List of all candidates
    * @returns {Observable<any>}
    */
-  list(): Observable<any> {
-    let url = `${this._candidateEndpoint}?expand=store,company,currentWorkHistory`;
+  list(urlParams = "expand=store,company,currentWorkHistory"): Observable<any> {
+    let url = `${this._candidateEndpoint}?${urlParams}`;
     return this._authhttp.get(url);
+  }
+
+  /**
+   * @param page 
+   * @param urlParams 
+   * @returns 
+   */
+  listWithPagination(page: number, urlParams: string): Observable<any> {
+    let url = `${this._candidateEndpoint}/with-pagination?page=${page}&${urlParams}`;
+    return this._authhttp.getRaw(url);
   }
 
   /**

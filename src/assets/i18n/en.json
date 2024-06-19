@@ -1,4 +1,5 @@
 {
+    "txt_total_more": "View {{total}} more",
     "txt_rate_candidate": "How would you rate {{ candidate }}?",
     "Welcome": "Welcome",
     "password_max_length" : "Password can not be greater than {{value}} character",

@@ -137,15 +137,15 @@ ion-back-button {
   }
 
   ion-toolbar {
-    --padding-start: 25px;
-
+    --padding-start: 24px;
   }
 
   ion-content {
-    --padding-start: 25px;
-    --padding-end: 25px;
-    --padding-top: 25px;
-    --padding-bottom: 25px;
+    --ion-padding: 24px;
+    --padding-start: 24px;
+    --padding-end: 24px;
+    --padding-top: 24px;
+    --padding-bottom: 24px;
   }
 }
 
