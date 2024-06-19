@@ -39,6 +39,9 @@ export class LogHourListPage implements OnInit {
 
   public stats: any; 
 
+  public warningMsg; 
+  public successMsg;
+
   constructor(
     public platform: Platform,
     public activateRoute: ActivatedRoute,
@@ -154,6 +157,10 @@ export class LogHourListPage implements OnInit {
 
       if(e.data && e.data.refresh) {       
         this.loadStats();
+
+        if(e.data.message) {
+          this.successMsg = e.data.message;
+        }
       }
     });
     modal.present();
@@ -182,6 +189,10 @@ export class LogHourListPage implements OnInit {
 
       if(e.data && e.data.refresh) {       
         this.loadStats();
+
+        if(e.data.message) {
+          this.warningMsg = e.data.message;
+        }
       }
     });
     modal.present();

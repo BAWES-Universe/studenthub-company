@@ -355,3 +355,17 @@ ion-segment-button.segment-button-checked {
   --indicator-color: var(--ion-custom-color-51);
   --border-color: var(--ion-custom-color-51);
 }
+
+.modal-sheet,
+.footer-modal {
+  --max-width: 800px;
+  --border-radius: 30px;
+}
+ 
+.approve-work-log-modal {
+  --height: 865px;
+} 
+
+.reject-work-log-modal {
+  --height: 842px;
+}

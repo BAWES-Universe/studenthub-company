@@ -3,6 +3,7 @@ ion-content {
     --padding-start: 24px;
     --padding-end: 24px;
     --padding-bottom: 24px;
+    --padding-top: 0;
 }
 
 h5 {
@@ -12,7 +13,7 @@ h5 {
     font-style: normal;
     font-weight: 700;
     line-height: 28px; /* 140% */
-    margin: 0 -24px 18px;
+    margin: 0 -24px 0;
     border-bottom: 1px solid #E2E2E6;
     padding: 24px;
 }
@@ -65,6 +66,24 @@ ion-grid {
     margin: 0 -10px;
 }
 
+ion-item:not(.toggle-wrapper) {
+    border: 1px solid var(--Grey-Grey---300, #D8D8D4);
+    --box-shadow: 0px 2px 2px 0px rgba(218, 227, 225, 0.10), 0px -1px 1px 0px rgba(218, 227, 225, 0.15) inset;
+}
+
+.toggle-wrapper {
+    --padding-start: 0;
+    --padding-top: 0px;
+    margin-top: -16px;
+    margin-bottom: 8px;
+
+    ion-toggle {
+        --handle-height: 22px;
+        --handle-width: 22px;
+        height: 24px;
+    }
+}
+
 ion-item {
     --color: var(--Neutral-95, #23233D);
     --placeholder-color: var(--Neutral-80, #68687A);
@@ -81,9 +100,7 @@ ion-item {
     --padding-start: 16px;
     --padding-end: 16px;*/
     border-radius: 4px;
-    border: 1px solid var(--Grey-Grey---300, #D8D8D4);
     --background: var(--Additional-White, #FFF);
-    --box-shadow: 0px 2px 2px 0px rgba(218, 227, 225, 0.10), 0px -1px 1px 0px rgba(218, 227, 225, 0.15) inset;
     --inner-border-width: 0px; 
     --border-width: 0px;
     margin-bottom: 16px;
@@ -104,16 +121,32 @@ p {
 }
 
 .rating-wrapper {
+    display: block;
+    margin: 16px auto;
+    width: 330px;
+    
+    ul {
+        padding: 0;
+        margin: 0;
+        float: var(--start);
+        list-style: none;
+    }
+
     li {
         border-radius: 40px;
-        display: flex;
+        width: 60px;
         height: 60px;
-        padding: 20px 10px;
+        padding: 7px 10px;
         justify-content: center;
         align-items: center;
         border-radius: 40px;
         border: 1px solid var(--Neutral-20, #F5F5F7);
         background: #FFF;
+        cursor: pointer;
+        text-align: center;
+        font-size: 37px;
+        margin: 0 3px;
+        float: var(--start);
     }
 
     .selected {

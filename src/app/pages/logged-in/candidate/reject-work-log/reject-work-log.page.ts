@@ -63,24 +63,25 @@ export class RejectWorkLogPage implements OnInit {
       
       if (res.operation == "success") {
         
-        let alert = await this._alertCtrl.create({
+        /*let alert = await this._alertCtrl.create({
           header: this.translateService.transform('Success'),
           message: res.message,
           buttons: [this.translateService.transform('Okay')],
         });
-        alert.present();
+        alert.present();*/
 
         this.form.reset();
 
         this.close({
-          refresh: true
+          refresh: true,
+          message: res.message
         })
 
       } else if (res.operation == "error") {
 
         let alert = await this._alertCtrl.create({
           header: this.translateService.transform('Error'),
-          message: res.message,
+          message: this.translateService.errorMessage(res.message),
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();

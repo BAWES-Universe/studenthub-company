@@ -3,6 +3,7 @@ ion-content {
     --padding-start: 24px;
     --padding-end: 24px;
     --padding-bottom: 24px;
+    --padding-top: 0;
 }
 
 h5 {
@@ -12,7 +13,7 @@ h5 {
     font-style: normal;
     font-weight: 700;
     line-height: 28px; /* 140% */
-    margin: 0 -24px 18px;
+    margin: 0 -24px 0;
     border-bottom: 1px solid #E2E2E6;
     padding: 24px;
 }
@@ -27,20 +28,35 @@ h4 {
     line-height: 24px; /* 150% */
 }
 
-ion-chip {
-    color: #23233D;
+.chips-wrapper {
     text-align: center;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px; /* 142.857% */
-    border-radius: 40px;
-    border: 1px solid var(--Neutral-30, #EEEEF0);
-    display: flex;
-    padding: 8px 16px;
-    align-items: flex-start;
-    gap: 8px;
+    margin-bottom: 16px;
+
+    ion-chip {
+        color: #23233D;
+        text-align: center;
+        font-feature-settings: "clig" off, "liga" off;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        border-radius: 40px;
+        border: 1px solid #EEEEF0;
+        border: 1px solid var(--Neutral-30, #EEEEF0);
+        /* display: flex; */
+        padding: 8px 16px;
+        align-items: flex-start;
+        gap: 8px;
+        --background: #fff;
+        /* padding: 8px 16px; */
+        height: auto; 
+    }
+
+    ion-chip.selected {
+        color: var(--Blue-Tint-9, #334BA1);
+        border: 2px solid var(--Primary-Main, #4C70F2);
+        background: var(--Blue-Tint-1, #F5F7FF);
+    }
 }
 
 .btn-close {

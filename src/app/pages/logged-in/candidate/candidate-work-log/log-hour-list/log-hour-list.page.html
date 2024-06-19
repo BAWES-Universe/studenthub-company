@@ -15,6 +15,14 @@
     </ion-toolbar>
   </ion-header>
 
+  <div class="message-wrapper warning" *ngIf="warningMsg">
+    <p class="message">{{ warningMsg }}</p>
+  </div>
+  
+  <div class="message-wrapper success" *ngIf="successMsg">
+    <p class="message">{{ successMsg }}</p>
+  </div>
+
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
 
   <div class="max-width">
@@ -72,7 +80,7 @@
   
     </div>
 
-    <div class="btn-wrapper">
+    <div class="btn-wrapper" *ngIf="stats && stats.status == 0">
       <ion-button class="btn-reject" (click)="reject()"  fill="outline" color="danger">
         Reject
       </ion-button>

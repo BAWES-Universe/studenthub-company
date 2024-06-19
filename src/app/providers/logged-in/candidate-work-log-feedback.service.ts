@@ -10,7 +10,7 @@ import { AuthHttpService } from './authhttp.service';
 })
 export class CandidateWorkLogFeedbackService {
 
-  private _endpoint: string = "/candidate-work-log-feedback";
+  private _endpoint: string = "/candidate-work-log-feedbacks";
 
   constructor(public _authhttp: AuthHttpService) { 
 

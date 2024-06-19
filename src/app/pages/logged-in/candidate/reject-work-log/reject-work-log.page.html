@@ -11,10 +11,16 @@
   
   <form (ngSubmit)="save()" (keyup.enter)="save()" [formGroup]="form" *ngIf="form">
 
-    <ion-chip (click)="setReason('Logs are wrong')">Logs are wrong</ion-chip>
-    <ion-chip (click)="setReason('Student is absent')">Student is absent</ion-chip>
-    <ion-chip (click)="setReason('Bad attitude')">Bad attitude</ion-chip>
-    <ion-chip (click)="setReason('Student was late')">Student was late</ion-chip>
+    <div class="chips-wrapper">
+      <ion-chip [class.selected]="form.value.reason == 'Logs are wrong'" 
+        (click)="setReason('Logs are wrong')">Logs are wrong</ion-chip>
+      <ion-chip [class.selected]="form.value.reason == 'Student is absent'" 
+        (click)="setReason('Student is absent')">Student is absent</ion-chip>
+      <ion-chip [class.selected]="form.value.reason == 'Bad attitude'" 
+        (click)="setReason('Bad attitude')">Bad attitude</ion-chip>
+      <ion-chip [class.selected]="form.value.reason == 'Student was late'" 
+        (click)="setReason('Student was late')">Student was late</ion-chip>
+    </div>
 
     <ion-item line="none">
       <ion-label position="floating">Notes</ion-label>

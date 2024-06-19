@@ -45,7 +45,7 @@ export class ApproveWorkLogPage implements OnInit {
       date: [this.date, Validators.required],
       status: [1],
       note: ["", Validators.required],
-      is_public: ["", Validators.required],
+      is_public: [true],
       rating: ["", Validators.required],
     });
   }
@@ -65,24 +65,25 @@ export class ApproveWorkLogPage implements OnInit {
       
       if (res.operation == "success") {
         
-        let alert = await this._alertCtrl.create({
+        /*let alert = await this._alertCtrl.create({
           header: this.translateService.transform('Success'),
           message: res.message,
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
-
+        */
         this.form.reset();
 
         this.close({
-          refresh: true
+          refresh: true,
+          message: res.message
         })
 
       } else if (res.operation == "error") {
 
         let alert = await this._alertCtrl.create({
           header: this.translateService.transform('Error'),
-          message: res.message,
+          message: this.translateService.errorMessage(res.message),
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
@@ -91,6 +92,8 @@ export class ApproveWorkLogPage implements OnInit {
   } 
 
   updateModelFromForm() {
+
+    console.log(this.form.value);
 
     if(!this.model) 
       this.model = new CandidateWorkLogFeedback;
