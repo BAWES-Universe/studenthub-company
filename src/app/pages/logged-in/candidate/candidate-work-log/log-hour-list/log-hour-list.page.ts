@@ -145,7 +145,8 @@ export class LogHourListPage implements OnInit {
       componentProps: { 
         candidate_id: this.candidate_id,
         date: this.date,
-        store_id: this.store_id
+        store_id: this.store_id,
+        candidate: this.stats.candidate
       }
     });
     modal.onDidDismiss().then(e => {

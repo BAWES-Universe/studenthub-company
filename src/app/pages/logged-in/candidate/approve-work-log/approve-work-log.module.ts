@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ApproveWorkLogPageRoutingModule } from './approve-work-log-routing.module';
 
 import { ApproveWorkLogPage } from './approve-work-log.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { ApproveWorkLogPage } from './approve-work-log.page';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
+    TranslateModule.forChild(),
     ApproveWorkLogPageRoutingModule
   ],
   declarations: [ApproveWorkLogPage]

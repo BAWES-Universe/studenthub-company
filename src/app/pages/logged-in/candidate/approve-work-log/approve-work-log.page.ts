@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
+import { Candidate } from 'src/app/models/candidate';
 //models
 import { CandidateWorkLogFeedback } from 'src/app/models/candidate-work-log-feedback';
 //services
@@ -16,6 +17,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 })
 export class ApproveWorkLogPage implements OnInit {
  
+  candidate: Candidate;
 
   candidate_id: number;
   date: string; 
