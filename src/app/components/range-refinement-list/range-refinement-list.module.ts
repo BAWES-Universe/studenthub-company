@@ -23,7 +23,7 @@ import {TranslateModule} from "@ngx-translate/core";
         FormsModule,
         PipesModule,
         Ng5SliderModule,
-        TranslateModule,
+        TranslateModule.forChild()
     ],
     exports: [
         RangeRefinementComponent

@@ -2,6 +2,14 @@
   margin: 0 auto 15px auto;
 }
 
+ion-content {
+  --padding-bottom: 120px;
+}
+
+.desktop-view {
+  position: relative;
+}
+
 ion-card {
   border-radius: 8px;
   --background: var(--Neutral-0, #FFF);
@@ -118,4 +126,16 @@ ion-card {
     left: 15px;
     right: auto;
   }
+}
+
+.btn-view-logs {
+  width: calc(100% - 48px);
+  max-width: 787px;
+  position: fixed;
+  bottom: 24px;
+  text-transform: none;
+  height: 56px;
+  --height: 56px;
+  --box-shadow: none;
+  z-index: 999;
 }

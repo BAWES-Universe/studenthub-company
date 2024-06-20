@@ -9,7 +9,7 @@ import {TranslateModule} from "@ngx-translate/core";
     declarations: [UpdateAlertComponent],
     imports: [
         IonicModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
     exports: [UpdateAlertComponent]
 })

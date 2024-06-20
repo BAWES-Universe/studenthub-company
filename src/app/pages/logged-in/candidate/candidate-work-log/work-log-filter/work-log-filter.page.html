@@ -1,0 +1,57 @@
+<ion-header mode="md">
+   
+  <ion-toolbar class="desktop-view">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="desktop-view">
+    <ion-title>
+      {{ "Filter Results" | translate }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="ion-text-capitalize setting" (click)="resetFilter()">
+        {{ "Reset" | translate }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+   
+  <div class="desktop-view">
+    <h5>{{ "Session Status" | translate }}</h5>
+
+    <ion-badge tappable color="primary" (click)="resetStatus()" [class.active]="[0, 1, 2].indexOf(filters.session_status) == -1">
+      {{ "All" | translate }}
+    </ion-badge>
+
+    <ion-badge tappable color="primary" (click)="filterByStatus($event, 0)" [class.active]="filters.session_status == 0">Pending</ion-badge>
+    <ion-badge tappable color="primary" (click)="filterByStatus($event, 1)" [class.active]="filters.session_status == 1">Approved</ion-badge>
+    <ion-badge tappable color="primary" (click)="filterByStatus($event, 2)" [class.active]="filters.session_status == 2">Rejected</ion-badge>
+
+    <ion-grid class="request_filter">
+      <ion-row>
+        <ion-col size="6">
+            <h5>{{ "From" | translate }}</h5>
+            <ion-input [(ngModel)]="filters.start_date" id="start_date" placeholder="YYYY-MM-DD"></ion-input>
+            <app-date-popup presentation="date" key="start_date" side="top" (onClose)="filterDate($event,'start_date')"></app-date-popup>
+        </ion-col>
+        <ion-col size="6">
+            <h5>{{ "To" | translate }}</h5>
+          <ion-input [(ngModel)]="filters.end_date" id="end_date" placeholder="YYYY-MM-DD"></ion-input>
+          <app-date-popup presentation="date" key="end_date" side="top" (onClose)="filterDate($event,'end_date')"></app-date-popup>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content> 
+<ion-footer>
+  <div class="desktop-view">
+    <ion-button color="primary" (click)="fetchResult()" class="btn-filter">
+      {{ "Filter Results" | translate }}
+    </ion-button>
+  </div>
+</ion-footer>

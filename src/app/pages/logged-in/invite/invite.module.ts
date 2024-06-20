@@ -22,7 +22,7 @@ import {TranslateModule} from "@ngx-translate/core";
         InvitePageRoutingModule,
         NoItemsModule,
         LoadingModalModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [InvitePage]
 })

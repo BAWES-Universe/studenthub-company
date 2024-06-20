@@ -25,7 +25,7 @@ const routes: Routes = [
         // SharedModule,
         IonicModule,
         RouterModule.forChild(routes),
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [InvitationPermissionPage]
 })

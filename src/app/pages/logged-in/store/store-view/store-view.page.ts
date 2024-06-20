@@ -291,7 +291,7 @@ export class StoreViewPage implements OnInit {
    * Return url string to filter list
    */
   urlParams() {
-    let urlParams = 'expand=candidates,candidates.storeAssignmentRequest&store_id=' + this.store_id;
+    let urlParams = 'expand=storeAssignmentRequest&store_id=' + this.store_id;
 
     if (this.filters.name) {
       urlParams += '&q=' + this.filters.name;

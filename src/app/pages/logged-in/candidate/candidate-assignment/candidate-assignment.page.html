@@ -56,8 +56,10 @@
   </div>
 
   <div class="desktop-view session-wrapper" *ngIf="history && segment == 'logs'">
+    
     <div class="date-wrapper" tappable *ngFor="let hour of candidateWorkingHourData" 
     [routerLink]="['/log-hour-list', history.candidate_id, hour.date, history.store_id]">
+    
       <h2>{{ hour.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
       
       <ion-badge class="warning" *ngIf="hour.dateStatus == 0">

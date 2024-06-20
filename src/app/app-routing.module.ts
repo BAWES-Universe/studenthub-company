@@ -106,6 +106,15 @@ const routes: Routes = [
       name: 'StoreViewPage'
     }
   },
+
+  {
+    path: 'work-log-list',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/work-log-list/work-log-list.module').then( m => m.WorkLogListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'WorkLogListPage'
+    }
+  },
   {
     path: 'import-transfer-form',
     loadChildren: () => import('./pages/logged-in/transfer/import-transfer-form/import-transfer-form.module').then(m => m.ImportTransferFormPageModule),
@@ -271,6 +280,10 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },
+  {
+    path: 'work-log-filter',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/work-log-filter/work-log-filter.module').then( m => m.WorkLogFilterPageModule)
   },
 ];
 

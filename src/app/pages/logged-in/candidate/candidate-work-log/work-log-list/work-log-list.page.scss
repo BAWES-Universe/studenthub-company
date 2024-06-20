@@ -1,0 +1,186 @@
+
+ion-header {
+    ion-title {
+        margin-inline-start: 2px;
+        padding-inline-start: 2px;
+        margin-top: 4px;
+        margin-bottom: 16px;
+    }
+}
+
+ion-card {
+  padding: 4px 16px;
+  margin: 0 0  16px 0 ;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.10);
+  --border-radius: 8px;
+  --background: var(--Neutral-0, #FFF);
+  --box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.10);
+  --padding-top: 12px; 
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-bottom: 12px; 
+  
+  ion-item {
+    --background: var(--Neutral-0, #FFF);
+    --box-shadow: none;
+    --padding-top: 0; 
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-bottom: 0; 
+    
+    h5 {
+      color: var(--Neutral-95, #23233D);
+      font-feature-settings: 'clig' off, 'liga' off;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 20px; /* 142.857% */
+    }
+
+    ion-img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
+  ion-badge {
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    border-radius: 6px;
+    float: var(--end);
+  }
+
+  ion-badge.warning {
+    color: var(--Orange-Tint-8, #CA7F3E);
+    background: var(--Orange-Tint-1, #FFF7F0);
+  }
+  
+  ion-badge.success {
+    background: var(--Green-Tint-1, #EDFCF3);
+    color: var(--Green-Tint-Main, #29B564);
+  }
+
+  .txt-date {
+    color: var(--Neutral-100, #0F0F2C);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 28px; /* 155.556% */
+    float: var(--start);
+    margin: 0 0 8px 0;
+  }
+
+  .time-wrapper {
+    b { 
+      color: var(--Neutral-95, #23233D);
+      font-feature-settings: 'clig' off, 'liga' off;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px; /* 150% */
+      float: var(--start);
+    }
+
+    span {
+        color: var(--Neutral-90, #4B4B61);
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+        float: var(--end);
+
+        ion-icon {
+            margin: 0 8px;
+            position: relative;
+            top: 3px;
+        }
+    }
+  }
+}
+
+
+.searchbar-wrapper {
+  padding: 0 0 6px 0;
+
+  ion-searchbar {
+    width: calc(100% - 64px);
+    --border-radius: 8px;
+    --background: var(--Neutral-20, #F5F5F7); 
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    --placeholder-color: #7D7D8D;
+    color: var(--ion-color-custom-10);
+    --box-shadow: none;
+    --min-height: 40px;
+    --height: 40px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    --icon-color: rgba(125, 125, 141, 0.7);
+    float: var(--start);
+  }
+
+  ion-button {
+    width: 40px;
+    height: 40px;
+    flex-grow: 0;
+    margin: 0;
+    margin-inline-start: 16px;
+    border-radius: 8px;
+    background-color: #F5F5F7;
+    --border-radius: 8px;
+    float: var(--end);
+
+    ion-icon{
+      color:var(--ion-color-custom-5);
+    }  
+  }
+  
+  ion-button.active::after { 
+    content: " ";
+    background: red;
+    background: var(--ion-color-primary);
+    border-radius: 100%;
+    position: absolute;
+    top: -2px;
+    right: 0;
+    display: block;
+    padding: 5px;
+    z-index: 999;
+  }
+}
+
+.btn-more-logs {
+  color: #23233D;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+  text-transform: none;
+  margin: 0;
+  --padding-start: 0;
+  --padding-bottom: 0;
+  --padding-top: 0px;
+}
+
+@media (max-width: 900px) {
+  ion-searchbar {
+    width: calc(100% - 24px) !important;
+  }
+}
+
+[dir=rtl] ion-button.active::after { 
+  left: 0;
+  right: auto;
+}

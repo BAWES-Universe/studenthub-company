@@ -42,14 +42,14 @@ const routes: Routes = [
             },
             {
                 path: '',
-                redirectTo: '/view/requests',
+                redirectTo: '/view/staff',
                 pathMatch: 'full'
             }
         ]
     },
     {
         path: '',
-        redirectTo: '/view/requests',
+        redirectTo: '/view/staff',
         pathMatch: 'full'
     }
 ];

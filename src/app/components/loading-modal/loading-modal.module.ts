@@ -15,7 +15,7 @@ import {TranslateModule} from "@ngx-translate/core";
         CommonModule,
         FormsModule,
         IonicModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   exports: [
     LoadingModalComponent,

@@ -14,7 +14,7 @@ import {TranslateModule} from "@ngx-translate/core";
         IonicModule,
         RouterModule,
         PipesModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
     exports: [SuggestionComponent]
 })

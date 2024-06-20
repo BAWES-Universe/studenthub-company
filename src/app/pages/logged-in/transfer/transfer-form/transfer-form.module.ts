@@ -21,7 +21,7 @@ import {TranslateModule} from "@ngx-translate/core";
         PipesModule,
         DateDropdownModule,
         CalendarModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   exports: [
     PipesModule

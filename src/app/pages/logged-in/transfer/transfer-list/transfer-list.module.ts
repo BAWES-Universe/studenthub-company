@@ -17,7 +17,7 @@ import {TranslateModule} from "@ngx-translate/core";
         IonicModule,
         TransferListPageRoutingModule,
         LoadingModalModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [TransferListPage]
 })

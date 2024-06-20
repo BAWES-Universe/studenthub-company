@@ -21,7 +21,7 @@ import { SelectSearchModule } from 'src/app/components/select-search/select-sear
     StoreListPageRoutingModule,
     LoadingModalModule,
     NoItemsModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     SelectSearchModule,
   ],
   declarations: [StoreListPage, CandidateOptionComponent]

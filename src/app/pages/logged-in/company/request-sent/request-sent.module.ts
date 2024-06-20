@@ -20,7 +20,7 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         RouterModule.forChild(routes),
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [RequestSentPage]
 })

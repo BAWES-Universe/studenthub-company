@@ -1,4 +1,5 @@
 {
+    "txt_more_logs": "+{{ total }} more logs",
     "txt_total_more": "View {{total}} more",
     "txt_rate_candidate": "How would you rate {{ candidate }}?",
     "Welcome": "Welcome",

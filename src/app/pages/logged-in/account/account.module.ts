@@ -16,7 +16,7 @@ import {TranslateModule} from "@ngx-translate/core";
         FormsModule,
         IonicModule,
         AccountPageRoutingModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [AccountPage]
 })

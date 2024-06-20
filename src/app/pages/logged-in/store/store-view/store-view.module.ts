@@ -19,7 +19,7 @@ import {TranslateModule} from "@ngx-translate/core";
         NoItemsModule,
         LoadingModalModule,
         StoreViewPageRoutingModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [StoreViewPage]
 })

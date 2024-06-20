@@ -20,7 +20,7 @@ import {TranslateModule} from "@ngx-translate/core";
         ReactiveFormsModule,
         NoItemsModule,
         CompanyContactListPageRoutingModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [CompanyContactListPage]
 })
