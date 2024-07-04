@@ -100,5 +100,7 @@ export class TranslateLabelService  extends TranslateService {
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
+
+    console.error("not date")
   }
 }

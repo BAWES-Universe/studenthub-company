@@ -25,7 +25,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+<ion-content [attr.dir]="translateService.direction()" scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
 
   <div class="desktop-view">
     
@@ -76,9 +76,9 @@
           <div class="time-wrapper">
             <b>{{ candidate.latestCandidateWorkingDate.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
             <span> 
-              {{ translateService.toDate(candidate.latestCandidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+              {{ translateService.toDate(candidate.latestCandidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang }} 
               <ion-icon name="arrow-forward-outline"></ion-icon> 
-              {{ translateService.toDate(candidate.latestCandidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+              {{ translateService.toDate(candidate.latestCandidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang }}
             </span>
           </div>
 
@@ -92,6 +92,7 @@
         </ion-button>
       </ng-container>
     </ion-card>  
+
     <no-items *ngIf="candidates.length == 0 && !loading" message="~ No Employees Assigned Yet! ~"></no-items>
 
     <loading-modal [loading]="loading" type="candidate-list"></loading-modal>

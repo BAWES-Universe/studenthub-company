@@ -23,7 +23,7 @@ export class StoreListPage implements OnInit {
   public currentPage = 1;
   public pages: number[] = [];
 
-  public stores: Store[];
+  public stores: Store[]  = [];
   public companies: Company[];
   public loading = false;
 

@@ -66,7 +66,7 @@ export class WorkLogListPage implements OnInit {
 
   ngOnInit() {
     this.analyticService.page('Store View Page');
-
+ 
     this.loadData();
     this.loadAllStores();
   }

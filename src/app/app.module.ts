@@ -3,7 +3,7 @@ import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-bro
 import { RouteReuseStrategy } from '@angular/router';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
+import localeAr from '@angular/common/locales/ar-KW';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './providers/auth.service';
@@ -29,6 +29,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { InvitationPermissionPageModule } from './pages/logged-in/company/invitation/invitation-permission/invitation-permission.module';
 import { CountryModalModule } from './components/country-modal/country-modal.module';
 import { RequestInterviewPageModule } from './pages/logged-in/request/request-interview/request-interview.module';
+import { registerLocaleData } from '@angular/common';
 
 
 export function startupServiceFactory(authService) {
@@ -104,5 +105,7 @@ export class AppModule {
 
   constructor(public injector: Injector) {
     AppModule.injector = injector;
+
+    registerLocaleData(localeAr, 'ar');
   }
 }
