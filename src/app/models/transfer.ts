@@ -6,6 +6,7 @@ export class Transfer {
     company_total: number;
     payment_received_on: string;
     transfer_status: number;
+    transfer_status_name: string;
     start_date: string;
     end_date: string;
     transfer_created_at: string;

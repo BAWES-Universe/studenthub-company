@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, NavController } from '@ionic/angular';
+import { ActionSheetController, NavController, PopoverController } from '@ionic/angular';
 // models
 import { Transfer } from 'src/app/models/transfer';
 // services
@@ -41,14 +41,15 @@ export class TransferListPage implements OnInit {
   public borderLimit;
 
   constructor(
+    public popoverCtrl: PopoverController,
     public navCtrl: NavController,
     public transferService: TransferService,
     private actionSheetCtrl: ActionSheetController,
     private candidateService: CandidateService,
     private eventService: EventService,
-    private translateService: TranslateLabelService,
+    public translateService: TranslateLabelService,
     public analyticService: AnalyticsService
-  ) {
+  ) { 
   }
 
   ngOnInit() {
@@ -91,8 +92,6 @@ export class TransferListPage implements OnInit {
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
 
       this.transfers = response.body;
-      this.organiseTransfers();
-
     },
       error => { },
       () => { this.loading = false; }
@@ -114,8 +113,7 @@ export class TransferListPage implements OnInit {
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.transfers = this.transfers.concat(response.body);
-      this.organiseTransfers();
-
+       
     },
     error => { },
     () => {
@@ -185,6 +183,10 @@ export class TransferListPage implements OnInit {
     this.navCtrl.navigateForward('transfer-view/' + transfer_id);
   }
 
+  dismissPopup() {
+    this.popoverCtrl.dismiss();
+  }
+  
   /**
    * Present action sheet to create a new transfer
    */
