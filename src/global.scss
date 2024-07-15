@@ -369,3 +369,9 @@ ion-segment-button.segment-button-checked {
 .reject-work-log-modal {
   --height: 842px;
 }
+
+[dir="rtl"] {
+  ion-back-button[icon="assets/images/icon-back.svg"] {
+    transform: rotate(180deg) !important;
+  }
+}
