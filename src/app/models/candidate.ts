@@ -73,6 +73,7 @@ export class Candidate {
   requestApplications: RequestApplication[];
   storeAssignmentRequest: StoreAssignmentRequest;
   currentWorkHistory: CandidateWorkHistory;
+  candidateWorkingDates: CandidateWorkingDate[];
 }
 
 export class CandidateWorkingHour {
@@ -87,6 +88,23 @@ export class CandidateWorkingHour {
   start_location_long: string;
   end_location_lat: string;
   end_location_long: string;
+  created_at: string;
+  updated_at: string;
+  store: Store;
+  candidate: Candidate;
+  dateStatus: number;
+  checkIn: string;
+  checkOut: string;  
+}
+
+export class CandidateWorkingDate {
+  candidate_id: number;
+  store_id: number;
+  date: string;
+  start_time: string;
+  end_time: string;
+  total_time: number;
+  status: number;
   created_at: string;
   updated_at: string;
   store: Store;

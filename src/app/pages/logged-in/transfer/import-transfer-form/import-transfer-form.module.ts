@@ -17,7 +17,7 @@ import {TranslateModule} from "@ngx-translate/core";
         IonicModule,
         ImportTransferFormPageRoutingModule,
         DateDropdownModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [ImportTransferFormPage]
 })

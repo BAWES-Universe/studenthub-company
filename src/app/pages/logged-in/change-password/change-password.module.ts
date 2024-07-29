@@ -16,7 +16,7 @@ import {TranslateModule} from "@ngx-translate/core";
         FormsModule,
         IonicModule,
         ChangePasswordPageRoutingModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [ChangePasswordPage]
 })

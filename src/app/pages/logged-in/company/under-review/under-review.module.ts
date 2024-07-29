@@ -16,7 +16,7 @@ import { CompanyHeaderModule } from 'src/app/components/company-header/company-h
     CommonModule,
     FormsModule,
     IonicModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     CompanyHeaderModule,
     RouterModule,
     UnderReviewPageRoutingModule

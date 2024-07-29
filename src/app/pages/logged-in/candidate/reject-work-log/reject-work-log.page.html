@@ -1,0 +1,35 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <h5>{{ "Reject working hours" | translate }}</h5>
+  
+  <button class="btn-close" (click)="close()">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-icon name="close-outline"></ion-icon>
+  </button>
+
+  <h4>{{ "Why are you rejecting this?" | translate }}</h4>
+  
+  <form (ngSubmit)="save()" (keyup.enter)="save()" [formGroup]="form" *ngIf="form">
+
+    <div class="chips-wrapper">
+      <ion-chip [class.selected]="form.value.reason == 'Logs are wrong'" 
+        (click)="setReason('Logs are wrong')">{{ "Logs are wrong" | translate }}</ion-chip>
+      <ion-chip [class.selected]="form.value.reason == 'Student is absent'" 
+        (click)="setReason('Student is absent')">{{ "Student is absent" | translate }}</ion-chip>
+      <ion-chip [class.selected]="form.value.reason == 'Bad attitude'" 
+        (click)="setReason('Bad attitude')">{{ "Bad attitude" | translate }}</ion-chip>
+      <ion-chip [class.selected]="form.value.reason == 'Student was late'" 
+        (click)="setReason('Student was late')">{{ "Student was late" | translate }}</ion-chip>
+    </div>
+
+    <ion-item line="none">
+      <ion-label position="floating">{{ "Notes" | translate }}</ion-label>
+      <ion-textarea formControlName="note"></ion-textarea>
+    </ion-item>
+  
+    <ion-button class="btn-submit" type="submit()" [disabled]="saving || !form.valid">
+      <ion-spinner *ngIf="saving"></ion-spinner>
+      <span  *ngIf="!saving">{{ "Submit Feedback" | translate }}</span>
+    </ion-button>
+  </form>
+</ion-content>

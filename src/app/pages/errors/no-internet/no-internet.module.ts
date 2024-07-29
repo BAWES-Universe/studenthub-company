@@ -19,7 +19,7 @@ const routes: Routes = [
         CommonModule,
         IonicModule,
         RouterModule.forChild(routes),
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [NoInternetPage]
 })

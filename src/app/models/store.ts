@@ -13,7 +13,11 @@ export class Store {
 
     // Related
     candidates: Candidate[];
+    candidatesSummary: Candidate[];
     company: Company;
     mall: Mall;
     brand: Brand;
+
+    //for ui 
+    isOpen: boolean;
 }

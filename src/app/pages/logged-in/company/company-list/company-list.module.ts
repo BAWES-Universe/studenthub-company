@@ -17,7 +17,7 @@ import {TranslateModule} from "@ngx-translate/core";
         IonicModule,
         CompanyListPageRoutingModule,
         LoadingModalModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [CompanyListPage]
 })

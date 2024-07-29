@@ -13,7 +13,7 @@ import {TranslateModule} from "@ngx-translate/core";
         CommonModule,
         IonicModule,
         PipesModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
     exports: [NoteComponent]
 })

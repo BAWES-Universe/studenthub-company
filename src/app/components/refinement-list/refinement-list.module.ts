@@ -21,7 +21,7 @@ import {TranslateModule} from "@ngx-translate/core";
         NgAisModule,
         IsFacetsSearchModule,
         CommonModule,
-        TranslateModule,
+        TranslateModule.forChild()
         //     ais-facets-search,
         //    NgAisFacetsSearch,
         //    NgAisRefinementListModule

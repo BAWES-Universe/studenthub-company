@@ -5,11 +5,7 @@ import { LogHourListPage } from './log-hour-list.page';
 
 const routes: Routes = [
   {
-    path: ':candidate_id',
-    component: LogHourListPage
-  },
-  {
-    path: ':candidate_id/:hour',
+    path: ':candidate_id/:date/:store_id',
     component: LogHourListPage
   }
 ];

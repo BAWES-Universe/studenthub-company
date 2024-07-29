@@ -15,16 +15,18 @@
       </ion-header>
 
       <ion-tab-bar class="tabs desktop" #mainTabs slot="top" *ngIf="!platform.is('mobile')">
-        <ion-tab-button class="tab-button" layout="icon-start" tab="requests">
-          <ion-icon name="chatbubble-outline"></ion-icon>
-          <ion-label>{{"Hire" | translate}}</ion-label>
-        </ion-tab-button>
-
+        
         <ion-tab-button class="tab-button" layout="icon-start" tab="staff">
           <ion-icon name="person-outline"></ion-icon>
-          <ion-label>{{"Assigned Staff" | translate}}</ion-label>
+          <ion-label>{{"Asignees" | translate}}</ion-label>
           <!--        <ion-badge *ngIf="conversationAlert > 0">{{ conversationAlert }}</ion-badge>-->
         </ion-tab-button>
+        
+        <ion-tab-button class="tab-button" layout="icon-start" tab="requests">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <ion-label>{{"Requests" | translate}}</ion-label>
+        </ion-tab-button>
+
         <ion-tab-button class="tab-button" layout="icon-start" tab="transfer">
           <ion-icon name="repeat-outline"></ion-icon>
           <ion-label>{{"Transfers" | translate}}</ion-label>
@@ -33,16 +35,18 @@
       </ion-tab-bar>
 
       <ion-tab-bar class="tabs mobile-view" #mainTabs slot="bottom" *ngIf="platform.is('mobile')">
-        <ion-tab-button class="tab-button" layout="icon-top" tab="requests">
-          <ion-icon name="chatbubble-outline"></ion-icon>
-          <ion-label>{{"Hire" | translate}}</ion-label>
-        </ion-tab-button>
-
+        
         <ion-tab-button class="tab-button" layout="icon-top" tab="staff">
           <ion-icon name="person-outline"></ion-icon>
-          <ion-label>{{"Assigned Staff" | translate}}</ion-label>
+          <ion-label>{{"Asignees" | translate}}</ion-label>
           <!--        <ion-badge *ngIf="conversationAlert > 0">{{ conversationAlert }}</ion-badge>-->
         </ion-tab-button>
+
+        <ion-tab-button class="tab-button" layout="icon-top" tab="requests">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <ion-label>{{"Requests" | translate}}</ion-label>
+        </ion-tab-button>
+
         <ion-tab-button class="tab-button" layout="icon-top" tab="transfer">
           <ion-icon name="repeat-outline"></ion-icon>
           <ion-label>{{"Transfers" | translate}}</ion-label>

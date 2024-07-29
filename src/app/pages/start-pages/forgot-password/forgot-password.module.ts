@@ -21,7 +21,7 @@ const routes: Routes = [
         ReactiveFormsModule,
         IonicModule,
         RouterModule.forChild(routes),
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [ForgotPasswordPage]
 })

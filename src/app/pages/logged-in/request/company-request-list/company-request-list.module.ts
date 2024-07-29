@@ -25,7 +25,7 @@ import {TranslateModule} from "@ngx-translate/core";
         RequestListingModule,
         CompanyRequestListPageRoutingModule,
         NoItemsModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [CompanyRequestListPage]
 })

@@ -27,7 +27,7 @@ const routes: Routes = [
         CompanyHeaderModule,
         ViewPageRoutingModule,
         RouterModule.forChild(routes),
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [ViewPage]
 })

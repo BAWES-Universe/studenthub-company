@@ -19,7 +19,7 @@ import { SelectSearchModule } from 'src/app/components/select-search/select-sear
         SelectSearchModule,
         ReactiveFormsModule,
         RequestFormPageRoutingModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [RequestFormPage]
 })

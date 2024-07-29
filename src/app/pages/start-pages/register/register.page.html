@@ -9,7 +9,7 @@
 <!--</ion-header>-->
 <ion-content [attr.dir]="translateService.direction()" [scrollEvents]="true" (ionScroll)="logScrolling($event)" class='contentArea ion-padding' fullscreen="true">
 
-  <ion-back-button *ngIf="!platform.is('desktop')" [class.hide-back-button]="otp" defaultHref="/login"></ion-back-button>
+  <ion-back-button mode="md" icon="assets/images/icon-back.svg" *ngIf="!platform.is('desktop')" [class.hide-back-button]="otp" defaultHref="/login"></ion-back-button>
 
   <div class='brand'>
     <ion-img src="assets/logo.png"></ion-img>

@@ -23,7 +23,7 @@ export class StoreListPage implements OnInit {
   public currentPage = 1;
   public pages: number[] = [];
 
-  public stores: Store[];
+  public stores: Store[]  = [];
   public companies: Company[];
   public loading = false;
 
@@ -67,6 +67,10 @@ export class StoreListPage implements OnInit {
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.stores = response.body;
+
+        if (this.stores.length > 0) {
+          this.stores[0].isOpen = true;
+        }
     },
       error => this.loading = false,
       () => this.loading = false
@@ -219,5 +223,9 @@ export class StoreListPage implements OnInit {
 
   onImageError(candidate) {
     candidate.candidate_personal_photo = null;
+  }
+
+  toggleAccord(store) { 
+    store.isOpen = !store.isOpen;
   }
 }

@@ -1,5 +1,6 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-no-padding">
   <div class="desktop-view">
+
     <section class="ion-padding no-transfers" *ngIf="!loading && transfers && transfers.length == 0">
       <ion-icon name="ios-filing-outline"></ion-icon>
       <h2>{{"Create a transfer to start salary distribution" | translate}}</h2>
@@ -8,108 +9,55 @@
       </ion-button>
     </section>
 
-    <section *ngIf="transfers && transfers.length > 0">
+    <ion-item class="item-transfer" tappable *ngFor="let transfer of transfers" (click)="transferDetails(transfer.transfer_id)">
+      <div tabindex="0"></div>
+      <ion-label>
+        <p class="txt-time">{{ translateService.toDate(transfer.transfer_created_at) | date: 'MMM d, y - h:mm a' }}</p>
+        <h5>{{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}</h5>
+        <p class="txt-id">#{{transfer.transfer_id}}</p>
+      </ion-label>
+      <ion-badge slot="end" [class.badge-paid]="transfer.transfer_status == transferService.STATUS_TRANSFER_COMPLETE" 
+        [class.badge-unpaid]="transfer.transfer_status != transferService.STATUS_TRANSFER_COMPLETE">
+        {{ transfer.transfer_status_name | translate }}
+      </ion-badge>
+    </ion-item>  
 
-      <ion-segment [(ngModel)]="inProgress" *ngIf="totalInProcess > 0 && completedTransfers.length > 0">
-        <ion-segment-button value="In Progress">
-          {{"In Progress" | translate}}
-        </ion-segment-button>
-        <ion-segment-button value="completed">
-          {{"Completed" | translate}}
-        </ion-segment-button>
-      </ion-segment>
-
-      <div [ngSwitch]="inProgress">
-
-        <ion-list *ngSwitchCase="'In Progress'">
-          <!-- Locked Transfers, waiting for payment -->
-          <div *ngIf="lockTransfers.length > 0">
-
-            <ion-item-divider color="light"><b>{{"Waiting for your payment" | translate}}</b></ion-item-divider>
-
-            <ion-item tappable *ngFor="let transfer of lockTransfers" (click)="transferDetails(transfer.transfer_id)">
-              <div tabindex="0"></div>
-              <ion-label>
-                <p>{{"Transfer" | translate}} #{{transfer.transfer_id}}</p>
-                {{transfer.transfer_created_at}}
-              </ion-label>
-              <ion-badge slot="end">{{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
-            </ion-item>
-          </div>
-
-          <!-- Transfer Drafts -->
-          <div *ngIf="draftTransfers.length > 0">
-
-            <ion-item-divider color="light"><b>{{"Draft" | translate}}</b></ion-item-divider>
-
-            <ion-item tappable *ngFor="let transfer of draftTransfers" (click)="transferDetails(transfer.transfer_id)">
-              <div tabindex="0"></div>
-              <ion-label>
-                <p>{{"Transfer" | translate}} #{{transfer.transfer_id}}</p>
-                {{transfer.transfer_created_at}}
-              </ion-label>
-              <ion-badge slot="end">{{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
-            </ion-item>
-          </div>
-
-          <!-- Transfers with Distribution in Progress -->
-          <div *ngIf="inProgressTransfers.length > 0">
-            <ion-item-divider color="light"><b>{{"In Progress" | translate}}</b></ion-item-divider>
-            <ion-item tappable *ngFor="let transfer of inProgressTransfers"
-              (click)="transferDetails(transfer.transfer_id)">
-              <div tabindex="0"></div>
-              <ion-label>
-                <p>{{"Transfer" | translate}} #{{transfer.transfer_id}}</p>
-                {{transfer.transfer_created_at}}
-              </ion-label>
-              <ion-badge slot="end">{{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
-            </ion-item>
-          </div>
-          <!-- Transfers Where Company Sent Payment -->
-          <div *ngIf="sentTransfers.length > 0">
-
-            <ion-item-divider color="light"><b>{{"Payment Sent" | translate}}</b></ion-item-divider>
-
-            <ion-item tappable *ngFor="let transfer of sentTransfers" (click)="transferDetails(transfer.transfer_id)">
-              <div tabindex="0"></div>
-              <ion-label>
-                <p>{{"Transfer" | translate}} #{{transfer.transfer_id}}</p>
-                {{transfer.transfer_created_at}}
-              </ion-label>
-              <ion-badge slot="end">{{ transfer.currency_code }} {{transfer.company_total | number:'1.0-3' }}</ion-badge>
-            </ion-item>
-          </div>
-        </ion-list>
-
-        <!-- Completed Transfers -->
-        <ion-list *ngSwitchCase="'completed'">
-          <div *ngIf="completedTransfers.length > 0">
-            <ion-item tappable *ngFor="let transfer of completedTransfers"
-              (click)="transferDetails(transfer.transfer_id)">
-              <div tabindex="0"></div>
-              <ion-label>
-                <p>{{"Transfer" | translate}} #{{transfer.transfer_id}}</p>
-                {{ transfer.transfer_created_at }}
-              </ion-label>
-              <ion-badge slot="end">{{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}</ion-badge>
-            </ion-item>
-          </div>
-        </ion-list>
-      </div>
-
-      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-
-    </section>
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
     <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
+
   </div>
-</ion-content>
-<ion-footer *ngIf="transfers && transfers.length > 0 && totalEmployees > 0">
-  <div class="desktop-view">
-    <ion-button color="dark" (click)="presentActionSheetForNewTransfer()">
-      {{"Create New Transfer" | translate}}
-    </ion-button>
-  </div>
-</ion-footer>
+
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <!--  (click)="presentActionSheetForNewTransfer()"-->
+    <ion-fab-button class="btn-fab" id="btn-fab" >
+      <ion-icon name="add"></ion-icon> {{ "Create New Transfer" | translate }}
+    </ion-fab-button>
+     <!--  <ion-fab-list side="top">
+      <ion-fab-button>
+        <ion-icon name="document"></ion-icon> Manual input of hours
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="globe"></ion-icon> Excel sheet upload
+      </ion-fab-button>
+    </ion-fab-list>-->
+  </ion-fab>
+
+  <ion-popover trigger="btn-fab" side="top" reference="trigger" triggerAction="click">
+    <ng-template>
+      <ion-item tappable (click)="dismissPopup();createNewTransfer()">
+        <ion-label>
+          {{ "Manual input of hours" | translate }}
+        </ion-label>
+      </ion-item>
+      <ion-item tappable lines="none" (click)="dismissPopup();importTransfer()">
+        <ion-label>
+          {{ "Excel sheet upload" | translate }}
+        </ion-label>
+      </ion-item>
+    </ng-template>
+  </ion-popover>
+</ion-content> 

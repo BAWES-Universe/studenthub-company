@@ -21,7 +21,7 @@ import { RequestListingModule } from 'src/app/components/request-listing/request
         RequestListingModule,
         CandidateViewPageRoutingModule,
         LoadingModalModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [CandidateViewPage]
 })

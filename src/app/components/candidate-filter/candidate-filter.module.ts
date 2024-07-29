@@ -18,7 +18,7 @@ import {TranslateModule} from "@ngx-translate/core";
         NgAisModule,
         RefinementListModule,
         RangeRefinementModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   exports: [
     CandidateFilterComponent

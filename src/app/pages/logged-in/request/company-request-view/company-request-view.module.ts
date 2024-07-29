@@ -26,7 +26,7 @@ import { RequestListingModule } from 'src/app/components/request-listing/request
         LoadingModalModule,
         CompanyRequestViewRoutingModule,
         CandidateModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [
     CompanyRequestViewPage,

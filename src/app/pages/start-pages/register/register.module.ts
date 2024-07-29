@@ -28,7 +28,7 @@ const routes: Routes = [
         CountryModalModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [RegisterPage]
 })

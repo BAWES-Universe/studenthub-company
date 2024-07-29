@@ -12,7 +12,7 @@ import {TranslateModule} from "@ngx-translate/core";
         CommonModule,
         IonicModule,
         AppErrorPageRoutingModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [AppErrorPage]
 })

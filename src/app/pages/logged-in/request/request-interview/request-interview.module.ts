@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     RequestInterviewPageRoutingModule
   ],
   declarations: [RequestInterviewPage]

@@ -1,17 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {ModalController, NavController, Platform, IonContent, ToastController} from '@ionic/angular';
-// services
-
-import { AuthService } from 'src/app/providers/auth.service';
-import { EventService } from 'src/app/providers/event.service';
-// models
-import {CandidateWorkingHour} from 'src/app/models/candidate';
-import {CandidateWorkingHourService} from 'src/app/providers/logged-in/candidate-working-hour.service';
+import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+// services
 import { AnalyticsService } from 'src/app/providers/analytics.service';
-
-
-declare var window;
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service'; 
+// models
+import {CandidateWorkingDate } from 'src/app/models/candidate';
+ 
 
 @Component({
   selector: 'app-log-date-list-page',
@@ -27,17 +22,12 @@ export class LogDateListPage implements OnInit {
   public totalCount = 0;
   public candidate_id: any;
 
-  public candidateWorkingHourData: CandidateWorkingHour[];
+  public candidateWorkingDates: CandidateWorkingDate[] = [];
 
   constructor(
-    public platform: Platform,
-    public navCtrl: NavController,
-    public modalCtrl: ModalController,
-    public authService: AuthService,
-    public candidateWorkingHour: CandidateWorkingHourService,
-    public eventService: EventService,
+    public candidateService: CandidateService,
+    public translateService: TranslateLabelService,
     public activateRoute: ActivatedRoute,
-    public toastCtrl: ToastController,
     public analyticService: AnalyticsService
   ) { }
 
@@ -62,12 +52,12 @@ export class LogDateListPage implements OnInit {
   loadData() {
     this.loading = true;
     const param = `&candidate_id=${this.candidate_id}`;
-    this.candidateWorkingHour.list(this.currentPage, param).subscribe(response => {
+    this.candidateService.listCandidateWorkingDates(this.currentPage, param).subscribe(response => {
       this.loading =  false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-      this.candidateWorkingHourData = response.body;
+      this.candidateWorkingDates = response.body;
     });
   }
 
@@ -89,12 +79,12 @@ export class LogDateListPage implements OnInit {
 
     this.currentPage++;
     const param = `&candidate_id=${this.candidate_id}`;
-    this.candidateWorkingHour.list(this.currentPage, param).subscribe(response => {
+    this.candidateService.listCandidateWorkingDates(this.currentPage, param).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-        this.candidateWorkingHourData = this.candidateWorkingHourData.concat(response.body);
+        this.candidateWorkingDates = this.candidateWorkingDates.concat(response.body);
         event.target.complete();
     },
     error => { },

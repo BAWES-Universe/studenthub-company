@@ -25,7 +25,7 @@ const routes: Routes = [
         IonicModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [UpdatePasswordPage]
 })

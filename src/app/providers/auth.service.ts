@@ -508,14 +508,14 @@ export class AuthService {
       Preferences.get({ key: 'language_pref' }),
       Preferences.get({ key: 'currency_pref' }),
       Preferences.get({ key: 'utm_uuid' }),
-      Preferences.get({ key: 'theme' }),
+     // Preferences.get({ key: 'theme' }),
     ];
 
     return Promise.all(promises).then(data => {
 
-      if(data[5].value) {
-        this.setTheme(data[5].value);
-      }
+      //if(data[5].value) {
+      //  this.setTheme(data[5].value);
+      //}
 
       if(data[4].value) {
         this.utm_uuid = data[4].value;
@@ -604,6 +604,7 @@ export class AuthService {
    * @param theme
    */
   setTheme(theme) {
+    
     Preferences.set({ key: 'theme', value: theme });
 
     this.theme = theme;
@@ -1120,5 +1121,15 @@ export class AuthService {
           loading.dismiss();
         }
       });
+  }
+
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+  toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
   }
 }

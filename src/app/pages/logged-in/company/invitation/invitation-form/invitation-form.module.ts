@@ -26,7 +26,7 @@ const routes: Routes = [
         IonicModule,
         // SharedModule,
         RouterModule.forChild(routes),
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [InvitationFormPage]
 })

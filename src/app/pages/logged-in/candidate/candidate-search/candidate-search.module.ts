@@ -29,7 +29,7 @@ import {TranslateModule} from "@ngx-translate/core";
         CandidateModule,
         NoItemsModule,
         CandidateSearchPageRoutingModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   declarations: [CandidateSearchPage]
 })

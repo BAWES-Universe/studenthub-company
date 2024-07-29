@@ -15,7 +15,7 @@ import {TranslateModule} from '@ngx-translate/core';
         CommonModule,
         IonicModule,
         RouterModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
   exports: [
     MenuComponent

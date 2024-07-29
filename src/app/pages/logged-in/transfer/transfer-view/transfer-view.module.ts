@@ -19,7 +19,7 @@ import {TranslateModule} from "@ngx-translate/core";
         TransferViewPageRoutingModule,
         PipesModule,
         LoadingModalModule,
-        TranslateModule
+        TranslateModule.forChild()
     ],
     exports: [
         PipesModule

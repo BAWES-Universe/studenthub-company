@@ -19,7 +19,7 @@ import { CountryModalModule } from 'src/app/components/country-modal/country-mod
       CountryModalModule,
       IonicModule,
       CompanyEditPageRoutingModule,
-      TranslateModule
+      TranslateModule.forChild()
     ],
   declarations: [CompanyEditPage]
 })
