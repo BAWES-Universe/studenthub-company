@@ -50,7 +50,7 @@
 
     <div class="detail-item">
       <div class="txt-label">{{ "Start Date" | translate }}</div>
-      <div class="txt-value">{{ translateService.toDate(history.start_date) | date }} </div>
+      <div class="txt-value">{{ translateService.toDate(history.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang }} </div>
     </div>
 
   </div>

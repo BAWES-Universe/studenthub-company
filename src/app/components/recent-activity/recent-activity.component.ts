@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 @Component({
   selector: 'app-recent-activity',
@@ -11,9 +12,11 @@ export class RecentActivityComponent implements OnInit {
   
   @Input() request;
 
-  constructor() { }
+  constructor(public translateService: TranslateLabelService) { }
 
-  ngOnInit() {}
+  ngOnInit(
+    
+  ) {}
 
   doNothing(event) {
     event.preventDefault();

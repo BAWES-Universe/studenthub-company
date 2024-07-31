@@ -32,7 +32,7 @@ export class ChangePasswordPage implements OnInit {
     private _fb: FormBuilder,
     public accountService: AccountService,
     private _alertCtrl: AlertController,
-    private translateService: TranslateLabelService,
+    public translateService: TranslateLabelService,
     public analyticService: AnalyticsService
   ) {
   }

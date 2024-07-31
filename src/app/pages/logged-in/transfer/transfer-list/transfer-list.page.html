@@ -12,7 +12,9 @@
     <ion-item class="item-transfer" tappable *ngFor="let transfer of transfers" (click)="transferDetails(transfer.transfer_id)">
       <div tabindex="0"></div>
       <ion-label>
-        <p class="txt-time">{{ translateService.toDate(transfer.transfer_created_at) | date: 'MMM d, y - h:mm a' }}</p>
+        <p class="txt-time" *ngIf="transfer.transfer_created_at_unix">
+          {{ translateService.toDate(transfer.transfer_created_at_unix) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang }}
+        </p>
         <h5>{{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}</h5>
         <p class="txt-id">#{{transfer.transfer_id}}</p>
       </ion-label>

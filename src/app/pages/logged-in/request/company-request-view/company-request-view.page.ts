@@ -92,7 +92,7 @@ export class CompanyRequestViewPage implements OnInit {
     public location: Location,
     public suggestionService: SuggestionService,
     public eventService: EventService,
-    public translateLabelService: TranslateLabelService,
+    public translateService: TranslateLabelService,
     public platform: Platform,
     public analyticService: AnalyticsService
   ) {
