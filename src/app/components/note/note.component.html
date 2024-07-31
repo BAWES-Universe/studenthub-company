@@ -13,6 +13,6 @@
 
   <p class="txt-time">
     {{ note.note_updated_datetime | timeAgo }} {{"on" | translate}}
-    {{ toDate(note.note_created_datetime) | date: 'MMM d, y' }}
+    {{ toDate(note.note_created_datetime) | date: 'MMM d, yyyy, hh:mm a' : undefined: translateService.currentLang }}
   </p>
 </ion-card>

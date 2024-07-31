@@ -74,7 +74,7 @@
                   <span class="txt-born-on">
                     {{ "Born on" | translate}}
                     <b>{{
-                      toDate(candidate.candidate_birth_date) | date :'MMMM d, y'}}</b>
+                      toDate(candidate.candidate_birth_date) | date :'MMMM d, y' : undefined: translateService.currentLang }}</b>
                   </span>
                 </span>
 
@@ -107,7 +107,7 @@
 
                     <p>
                       {{ toDate(history.start_date) | date }} {{ "to" | translate}}
-                      <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
+                      <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date : 'MMMM d, y': undefined: translateService.currentLang }}</ng-container>
                       <ng-container *ngIf="!history.end_date">{{"now" | translate}}</ng-container>
                     </p>
                   </label>
@@ -250,7 +250,7 @@
                         <span>{{ "Civil ID" | translate }}
                           <b>{{ candidate.candidate_civil_id}}</b></span><br />
                         <span class="txt-expiring-on"> {{ "Expiring on" | translate}} {{
-                          toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y'}}</span>
+                          toDate(candidate.candidate_civil_expiry_date) | date : 'MMMM d, y' : undefined: translateService.currentLang }}</span>
                       </div>
                       <p *ngIf="!candidate.candidate_civil_expiry_date || !candidate.candidate_civil_id">
                         {{ "Civil ID (not set)" | translate}}

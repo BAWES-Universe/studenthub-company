@@ -34,7 +34,7 @@
 
   <p class="txt-time">
     {{ activity.note_updated_datetime | timeAgo }} {{"on" | translate}}
-    {{ toDate(activity.note_created_datetime) | date: 'MMM d, y' }}
+    {{ toDate(activity.note_created_datetime) | date: 'MMM d, yyyy, hh:mm a' : undefined: translateService.currentLang }}
   </p>
 </ion-card>
 

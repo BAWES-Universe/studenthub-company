@@ -26,6 +26,7 @@ import {
 } from 'ion2-calendar';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { EventService } from 'src/app/providers/event.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -66,6 +67,7 @@ export class ImportTransferFormPage implements OnInit {
     public eventService: EventService,
     public transferService: TransferService,
     public awsService: AwsService,
+    public translateService: TranslateLabelService,
     public sentryService: SentryErrorhandlerService,
     public analyticService: AnalyticsService,
     private _loadingCtrl: LoadingController,

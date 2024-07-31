@@ -4,6 +4,7 @@ import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Note } from 'src/app/models/note';
 //services
 import { NoteService } from 'src/app/providers/logged-in/note.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class NoteComponent implements OnInit {
     public platform: Platform,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
-    public noteService: NoteService
+    public noteService: NoteService,
+    public translateService: TranslateLabelService
   ) { }
 
   ngOnInit() {

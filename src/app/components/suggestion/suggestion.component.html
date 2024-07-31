@@ -65,7 +65,7 @@
 
   <p class="txt-time">
     {{ model.suggestion_datetime | timeAgo }} on
-    {{ toDate(model.suggestion_datetime) | date: 'MMM d, y' }}
+    {{ toDate(model.suggestion_datetime) | date: 'MMM d, yyyy, hh:mm a' : undefined: translateService.currentLang }}
   </p>
 </ion-card>
 

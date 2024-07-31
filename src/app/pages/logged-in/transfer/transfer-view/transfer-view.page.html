@@ -80,12 +80,12 @@
             </ion-col>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
               <b>{{"Start Date" | translate}}</b> <br />
-              <span *ngIf="transferDetails.start_date">{{ toDate(transferDetails.start_date) | date}}</span>
+              <span *ngIf="transferDetails.start_date">{{ toDate(transferDetails.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang}}</span>
               <span *ngIf="!transferDetails.start_date">-</span>
             </ion-col>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
               <b>{{"End Date" | translate}}</b> <br />
-              <span>{{ toDate(transferDetails.end_date) | date}}</span>
+              <span>{{ toDate(transferDetails.end_date) | date : 'MMMM d, y': undefined: translateService.currentLang }}</span>
               <span *ngIf="!transferDetails.end_date">-</span>
             </ion-col>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">

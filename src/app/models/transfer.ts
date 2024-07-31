@@ -10,7 +10,9 @@ export class Transfer {
     start_date: string;
     end_date: string;
     transfer_created_at: string;
+    transfer_created_at_unix: string;
     transfer_updated_at: string;
+    transfer_updated_at_unix: string;
     currency_code: string;
     
     // Related

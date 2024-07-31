@@ -37,7 +37,7 @@ export class TransferViewPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public alertCtrl: AlertController,
     public _toastCtrl: ToastController,
-    public translateLabelService: TranslateLabelService,
+    public translateService: TranslateLabelService,
     public analyticService: AnalyticsService
   ) {
   }
@@ -120,15 +120,15 @@ export class TransferViewPage implements OnInit {
   async markCancel() {
 
     let alert = await this.alertCtrl.create({
-      header: 'Cancel transfer?',
-      message: 'Do you want to change status to Cancelled?',
+      header:  this.translateService.transform('Cancel transfer?'),
+      message: this.translateService.transform('Do you want to change status to Cancelled?'),
       buttons: [
         {
-          text: 'No',
+          text: this.translateService.transform('No'),
           role: 'cancel'
         },
         {
-          text: 'Yes',
+          text: this.translateService.transform('Yes'),
           handler: async () => {
 
             const loader = await this._loadingCtrl.create();
@@ -137,7 +137,7 @@ export class TransferViewPage implements OnInit {
             this.transferService.markCancel(this.transferDetails).subscribe(async response => {
               
               const toast = await this._toastCtrl.create({
-                message: this.translateLabelService.errorMessage(response.message),
+                message: this.translateService.errorMessage(response.message),
                 duration: 3000
               });
               toast.present();
@@ -158,22 +158,22 @@ export class TransferViewPage implements OnInit {
   async transferLock(transfer: Transfer) {
     // Load list of transfer
     const alert = await this.alertCtrl.create({
-      header: 'Confirm locking the transfer?',
-      message: 'You will no longer be able to edit the transfer once it\'s locked.',
+      header: this.translateService.transform('Confirm locking the transfer?'),
+      message: this.translateService.transform("You will no longer be able to edit the transfer once it's locked."),
       buttons: [
         {
-          text: 'No',
+          text: this.translateService.transform('No'),
           role: 'cancel'
         },
         {
-          text: 'Yes',
+          text: this.translateService.transform('Yes'),
           handler: async () => {
             const loader = await this._loadingCtrl.create();
             loader.present();
             this.transferService.makeTransfertoLock(transfer).subscribe(async response => {
 
               const toast = await this._toastCtrl.create({
-                message: this.translateLabelService.errorMessage(response.message),
+                message: this.translateService.errorMessage(response.message),
                 duration: 3000
               });
               toast.present();
@@ -197,7 +197,7 @@ export class TransferViewPage implements OnInit {
     this.transferService.makePaymentSent(transfer).subscribe(async response => {
 
       const toast = await this._toastCtrl.create({
-        message: this.translateLabelService.errorMessage(response.message),
+        message: this.translateService.errorMessage(response.message),
         duration: 3000
       });
       toast.present();
@@ -261,14 +261,14 @@ export class TransferViewPage implements OnInit {
    */
   async delete(transfer: Transfer) {
     const alert = await this.alertCtrl.create({
-      header: 'Do you really want to delete this transfer?',
+      header: this.translateService.transform('Do you really want to delete this transfer?'),
       buttons: [
         {
-          text: 'No',
+          text: this.translateService.transform('No'),
           role: 'cancel'
         },
         {
-          text: 'Yes',
+          text: this.translateService.transform('Yes'),
           handler: () => {
             this.deleteConfirmed(transfer);
           }
@@ -292,7 +292,7 @@ export class TransferViewPage implements OnInit {
         this.navCtrl.pop();
       } else {
         const alert = await this.alertCtrl.create({
-          message: this.translateLabelService.errorMessage(response.message),
+          message: this.translateService.errorMessage(response.message),
           buttons: ['Okay']
         });
         alert.present();
@@ -350,6 +350,6 @@ export class TransferViewPage implements OnInit {
   }
   
   _translate(key) {
-    return this.translateLabelService.transform(key);
+    return this.translateService.transform(key);
   }
 }

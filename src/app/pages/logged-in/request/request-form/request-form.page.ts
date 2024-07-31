@@ -56,7 +56,7 @@ export class RequestFormPage implements OnInit {
     private eventService: EventService,
     private route: ActivatedRoute,
     public countryService: CountryService,
-    private translateService: TranslateLabelService,
+    public translateService: TranslateLabelService,
     public analyticService: AnalyticsService
   ) {
   }

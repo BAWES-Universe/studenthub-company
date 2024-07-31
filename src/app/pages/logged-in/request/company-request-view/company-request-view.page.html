@@ -62,7 +62,7 @@
 
 </ion-header>
 
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateLabelService.direction()">
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
@@ -73,7 +73,7 @@
       <div class="container" *ngIf="segment == 'details'"> 
 
         <ion-badge *ngIf="request.nationality">
-          {{ translateLabelService.langContent(request.nationality.country_nationality_name_en, request.nationality.country_nationality_name_ar) }}
+          {{ translateService.langContent(request.nationality.country_nationality_name_en, request.nationality.country_nationality_name_ar) }}
         </ion-badge>
 
         <ion-badge *ngIf="request.gender == 0">{{ "Any gender" | translate }}</ion-badge>
@@ -111,7 +111,7 @@
 
         <div class="requested-by">
           <ng-container *ngIf="request.contact">{{"Requested by" | translate}} <span class="requested-by-staff">{{ request.contact.contact_name }}</span></ng-container>
-          <div class="requested-by-time">{{"on" | translate}} {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
+          <div class="requested-by-time">{{"on" | translate}} {{ toDate(request.request_created_datetime) | date: 'MMM d, yyyy, hh:mm a' : undefined: translateService.currentLang }} </div>
         </div>        
       </div>
 

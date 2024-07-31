@@ -85,7 +85,7 @@ export class TransferFormPage implements OnInit {
     private _fb: FormBuilder,
     public authService: AuthService,
     private modalCtrl: ModalController,
-    private translateService: TranslateLabelService,
+    public translateService: TranslateLabelService,
     public analyticService: AnalyticsService
   ) {
 
