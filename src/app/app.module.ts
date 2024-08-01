@@ -30,7 +30,12 @@ import { InvitationPermissionPageModule } from './pages/logged-in/company/invita
 import { CountryModalModule } from './components/country-modal/country-modal.module';
 import { RequestInterviewPageModule } from './pages/logged-in/request/request-interview/request-interview.module';
 import { registerLocaleData } from '@angular/common';
+import { AwsService } from './providers/aws.service';
 
+
+export function awsStartupServiceFactory(awsService) {
+  return () => awsService.setConfig();
+}
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -84,6 +89,13 @@ declare global {
     }),
   ],
   providers: [
+    {
+      // Provider for APP_INITIALIZER
+      provide: APP_INITIALIZER,
+      useFactory: awsStartupServiceFactory,
+      deps: [AwsService],
+      multi: true
+    },
     {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,
