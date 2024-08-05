@@ -55,9 +55,14 @@
                 src="{{ aws.cloudinaryUrl + 'candidate-photo/' + transferCandidateRecord.candidate.candidate_personal_photo }}">
               </ion-img>
             </ion-avatar>
-            <h2 class="candidate_name">
-              {{ transferCandidateRecord.candidate.candidate_name? transferCandidateRecord.candidate.candidate_name: transferCandidateRecord.candidate.candidate_name_ar }}
-            </h2>
+            <ion-label>
+              <h5 class="candidate_name">
+                {{ transferCandidateRecord.candidate.candidate_name? transferCandidateRecord.candidate.candidate_name: transferCandidateRecord.candidate.candidate_name_ar }}
+              </h5>
+              <p>
+                {{ getCompanyHourlyRate(transferCandidateRecord) }} {{ form.value.currency_code }} {{ "per hour" | translate }}  
+              </p>
+            </ion-label>
           </ion-item>
 
           <ion-grid>
@@ -67,7 +72,7 @@
                 <ion-item>
 
                   <ion-label position="floating">
-                    {{"Hours Worked" | translate}}
+                    {{ "Hours Worked" | translate}}
                     <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">{{"Invalid value" | translate}}</span>
                   </ion-label>
                   <ion-input type="number" inputmode="decimal" min="0" (ionChange)="calculateTotal()"
