@@ -23,8 +23,15 @@
 
     <!-- Instructions for Create -->
     <section *ngIf="scenario == 'create'">
+ 
+      <h4>{{"Step 1: Download Excel template" | translate}}</h4>
+
       <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
-        {{"Step 1: Download Excel template" | translate}}
+        {{ "Download template" | translate }}
+      </ion-button>
+      
+      <ion-button color="primary" (click)="downloadTemplate(true)">
+        {{ "Download with previous transfer data" | translate }}  
       </ion-button>
 
       <!-- 
