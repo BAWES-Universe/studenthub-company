@@ -280,10 +280,10 @@ export class ImportTransferFormPage implements OnInit {
   /**
    * download transfer template invoice
    */
-  async downloadTemplate() {
+  async downloadTemplate(preFilled = false) {
     let loader = await this._loadingCtrl.create();
     loader.present();
-    this.transferService.downloadTransferTemplate().subscribe(response => {
+    this.transferService.downloadTransferTemplate(preFilled).subscribe(response => {
       loader.dismiss();
     });
   }
