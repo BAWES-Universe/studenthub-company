@@ -121,7 +121,8 @@ export class TransferFormPage implements OnInit {
     }
 
     // Update Page Title if Editing a Transfer that already exists in backend
-    if (this.transfer && this.transfer.transfer_id) { this.pageTitle = 'Edit Transfer'; }
+    if (this.transfer && this.transfer.transfer_id) { 
+      this.pageTitle = 'Edit Transfer'; }
 
     // Load List of All Candidates Assigned to this Company
     this._loadCandidateListThenInitialize();
@@ -157,7 +158,7 @@ export class TransferFormPage implements OnInit {
       const candidateTransferRecord = new TransferCandidate;
       candidateTransferRecord.candidate = candidate;
       candidateTransferRecord.candidate_id = candidate.candidate_id;
-      candidateTransferRecord.currentWorkHistory = candidate.currentWorkHistory;
+      //candidateTransferRecord.currentWorkHistory = candidate.currentWorkHistory;
       candidateTransferRecord.transfer_cost = candidate.currentWorkHistory.transferCost; //effective transfer cost 
 
       // Append the candidateTransferRecord into the allTransferCandidateRecordsMapped array
@@ -397,7 +398,6 @@ export class TransferFormPage implements OnInit {
     });
   }
 
-
   async openCalendar() {
     const options: CalendarModalOptions = {
       canBackwardsSelected: true,
@@ -448,8 +448,13 @@ export class TransferFormPage implements OnInit {
   }
 
   getCompanyHourlyRate(transferCandidateRecord) {
-    return (transferCandidateRecord.currentWorkHistory && transferCandidateRecord.currentWorkHistory.company_hourly_rate > 0) ? 
-        transferCandidateRecord.currentWorkHistory.company_hourly_rate :
+
+    if(!transferCandidateRecord.candidate) {
+      transferCandidateRecord.company_hourly_rate;
+    }
+
+    return (transferCandidateRecord.candidate.currentWorkHistory && transferCandidateRecord.candidate.currentWorkHistory.company_hourly_rate > 0) ? 
+        transferCandidateRecord.candidate.currentWorkHistory.company_hourly_rate :
         transferCandidateRecord.candidate.company.company_hourly_rate;
   }
 
