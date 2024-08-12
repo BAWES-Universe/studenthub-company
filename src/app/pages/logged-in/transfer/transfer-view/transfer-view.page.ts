@@ -68,7 +68,9 @@ export class TransferViewPage implements OnInit {
     this.loading = true;
 
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
+      
       this.transferDetails = response;
+
       this._updateTransferStatus();
 
       this.receipts = [];
@@ -316,7 +318,8 @@ export class TransferViewPage implements OnInit {
    * Calculating Total per Candidate
    */
   total(candidate) {
-    return Number((candidate.company_hourly_rate * candidate.hours) + candidate.bonus).toFixed(3);
+    return Number((candidate.company_hourly_rate * candidate.hours) + candidate.bonus 
+      + candidate.transfer_cost).toFixed(3);
   }
 
   logScrolling(e) {

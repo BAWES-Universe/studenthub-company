@@ -14,7 +14,7 @@ export class CandidateService {
   private _candidateEndpoint: string = "/candidates";
 
   constructor(private _authhttp: AuthHttpService) { }
-
+  
   /**
    * List of all candidates
    * @returns {Observable<any>}
