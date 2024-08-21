@@ -12,6 +12,8 @@ export class CandidateWorkHistory {
     end_date: string;
     candidate_hourly_rate: number; 
     company_hourly_rate: number;
+    transfer_cost: number;//store level transfer cost
+    transferCost: number;//effective transfer cost 
     company: Company;
     store: Store;
 }

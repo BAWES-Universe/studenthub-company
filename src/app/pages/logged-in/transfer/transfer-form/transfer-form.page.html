@@ -1,4 +1,4 @@
-<ion-header [class.add-border]="borderLimit" class="clear-header">
+<ion-header [class.add-border]="scrollTop" class="clear-header">
   <ion-toolbar  class="desktop-view">
 
       <ion-buttons slot="start">
@@ -61,6 +61,9 @@
               </h5>
               <p>
                 {{ getCompanyHourlyRate(transferCandidateRecord) }} {{ form.value.currency_code }} {{ "per hour" | translate }}  
+                <ng-container *ngIf="transferCandidateRecord.transfer_cost > 0">
+                  + {{ transferCandidateRecord.transfer_cost }} {{ form.value.currency_code }} {{ "transfer cost" | translate }}
+                </ng-container>  
               </p>
             </ion-label>
           </ion-item>
@@ -106,8 +109,9 @@
                       parseNumber(transferCandidateRecord.hours) 
                       * 
                       getCompanyHourlyRate(transferCandidateRecord)
-                     ) + 
-                     parseNumber(transferCandidateRecord.bonus) 
+                     ) 
+                     + parseNumber(transferCandidateRecord.bonus) 
+                     + parseNumber(transferCandidateRecord.transfer_cost)
                      | number:'1.0-3' 
                   }}
                 </ion-item>
@@ -117,7 +121,14 @@
         </ion-card>
       </ion-item-group>
     </form>
+
   </div>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="scrollTop > 20">
+    <ion-fab-button class="btn-fab" id="btn-fab" (click)="scrollToTop()">
+      <ion-icon name="arrow-up"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>
 

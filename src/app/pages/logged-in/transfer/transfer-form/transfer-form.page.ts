@@ -68,7 +68,7 @@ export class TransferFormPage implements OnInit {
     // pickMode: 'multi'
   };
 
-  public borderLimit;
+  public scrollTop;
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -121,11 +121,11 @@ export class TransferFormPage implements OnInit {
     }
 
     // Update Page Title if Editing a Transfer that already exists in backend
-    if (this.transfer && this.transfer.transfer_id) { this.pageTitle = 'Edit Transfer'; }
+    if (this.transfer && this.transfer.transfer_id) { 
+      this.pageTitle = 'Edit Transfer'; }
 
     // Load List of All Candidates Assigned to this Company
     this._loadCandidateListThenInitialize();
-
   }
 
   /**
@@ -137,7 +137,9 @@ export class TransferFormPage implements OnInit {
     const loader = await this._loadingCtrl.create();
     loader.present();
 
-    this.candidateService.list().subscribe(response => {
+    const params = "expand=store,company,currentWorkHistory,currentWorkHistory.transferCost";
+
+    this.candidateService.list(params).subscribe(response => {
       const allCandidatesAssignedToCompany: Candidate[] = response;
       this._initTransferCandidateList(allCandidatesAssignedToCompany);
       loader.dismiss();
@@ -156,7 +158,9 @@ export class TransferFormPage implements OnInit {
       const candidateTransferRecord = new TransferCandidate;
       candidateTransferRecord.candidate = candidate;
       candidateTransferRecord.candidate_id = candidate.candidate_id;
-      candidateTransferRecord.currentWorkHistory = candidate.currentWorkHistory;
+      //candidateTransferRecord.currentWorkHistory = candidate.currentWorkHistory;
+      candidateTransferRecord.transfer_cost = candidate.currentWorkHistory.transferCost; //effective transfer cost 
+
       // Append the candidateTransferRecord into the allTransferCandidateRecordsMapped array
       allTransferCandidateRecordsMapped[candidate.candidate_id] = candidateTransferRecord;
     });
@@ -188,6 +192,7 @@ export class TransferFormPage implements OnInit {
         // Validators.required,
         CustomValidator.negativeNumberValidator
       ]];
+
       formControls['bonus[' + record.candidate.candidate_id + ']'] = [record.bonus, [
         CustomValidator.negativeNumberValidator
       ]];
@@ -340,7 +345,9 @@ export class TransferFormPage implements OnInit {
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
         const hours = this.parseNumber(transferCandidate.hours);
         const bonus = this.parseNumber(transferCandidate.bonus);
-        this.total += (hours * this.getCompanyHourlyRate(transferCandidate)) + bonus;
+        this.total += (hours * this.getCompanyHourlyRate(transferCandidate)) 
+          + bonus 
+          + this.parseNumber(transferCandidate.transfer_cost);
       });
     }
   }
@@ -351,7 +358,7 @@ export class TransferFormPage implements OnInit {
    */
   parseNumber(value) {
     if (!value) { return 0; }
-    return Number(value);
+      return Number(value);
   }
 
   onImageError(candidate) {
@@ -390,7 +397,6 @@ export class TransferFormPage implements OnInit {
       this.transfer = response;
     });
   }
-
 
   async openCalendar() {
     const options: CalendarModalOptions = {
@@ -442,15 +448,22 @@ export class TransferFormPage implements OnInit {
   }
 
   getCompanyHourlyRate(transferCandidateRecord) {
-    if (transferCandidateRecord.currentWorkHistory && transferCandidateRecord.currentWorkHistory.company_hourly_rate > 0) {
-      console.log(transferCandidateRecord.currentWorkHistory.company_hourly_rate, transferCandidateRecord.candidate.company.company_hourly_rate);
+
+    if(!transferCandidateRecord.candidate) {
+      transferCandidateRecord.company_hourly_rate;
     }
-    return (transferCandidateRecord.currentWorkHistory && transferCandidateRecord.currentWorkHistory.company_hourly_rate > 0) ? 
-        transferCandidateRecord.currentWorkHistory.company_hourly_rate :
+
+    return (transferCandidateRecord.candidate.currentWorkHistory && transferCandidateRecord.candidate.currentWorkHistory.company_hourly_rate > 0) ? 
+        transferCandidateRecord.candidate.currentWorkHistory.company_hourly_rate :
         transferCandidateRecord.candidate.company.company_hourly_rate;
   }
 
+  scrollToTop() {
+    this.content.scrollToTop(0);
+    //this.content.scrollToPoint(0, 0);
+  }
+
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 0);
+    this.scrollTop = e.detail.scrollTop; //( > 0);
   }
 }

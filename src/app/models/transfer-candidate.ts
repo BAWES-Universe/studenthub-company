@@ -13,6 +13,7 @@ export class TransferCandidate {
     company_hourly_rate: number;
     hours: number;
     bonus: number;
+    transfer_cost: number;
     paid: number;
     currency_code: string;
     
