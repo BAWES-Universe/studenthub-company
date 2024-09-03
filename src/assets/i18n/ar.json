@@ -1,4 +1,12 @@
 {
+  "Chat": "دردشة",
+  "Chats": "الدردشات",
+  "Refreshing...": "جارٍ التحديث...",
+  "You have no active chats": "ليس لديك دردشات نشطة",
+  "You": "أنت",
+  "New message": "رسالة جديدة",
+  "Type message here": "اكتب الرسالة هنا",
+  "Send": "إرسال",
   "Transfer Cost": "تكلفة النقل",
   "transfer cost": "تكلفة النقل",
   "Download template": "تنزيل القالب",

@@ -11,6 +11,7 @@ import {InvitePage} from "../../invite/invite.page";
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { RequestApplication } from 'src/app/models/request-application';
+import { ChatService } from 'src/app/providers/logged-in/chat.service';
 
 
 
@@ -20,6 +21,8 @@ import { RequestApplication } from 'src/app/models/request-application';
   styleUrls: ['./candidate-view.page.scss'],
 })
 export class CandidateViewPage implements OnInit {
+
+  public startingChat: boolean = false; 
 
   public candidate: Candidate;
   public candidate_id;
@@ -48,6 +51,7 @@ export class CandidateViewPage implements OnInit {
     public translateService: TranslateLabelService,
     public authService: AuthService,
     public modalCtrl: ModalController,
+    public chatService: ChatService,
     public analyticService: AnalyticsService
   ) { }
 
@@ -235,6 +239,26 @@ export class CandidateViewPage implements OnInit {
     this.navCtrl.navigateForward('/request-view/' + request.request_uuid, {
       state : {
         from: 'company-request-list'
+      }
+    });
+  }
+
+  startChat() {
+    this.startingChat = true; 
+
+    this.chatService.startChat(this.candidate_id).subscribe(async res => {
+      this.startingChat = false; 
+    
+      if (res.operation == "error") {
+        let prompt = await this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        });
+        return prompt.present();
+      }
+      else 
+      {
+        this.navCtrl.navigateForward('/chat-view/' + res.chat.chat_uuid);
       }
     });
   }
