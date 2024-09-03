@@ -277,13 +277,25 @@ const routes: Routes = [
     canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/candidate/candidate-assignment/candidate-assignment.module').then( m => m.CandidateAssignmentPageModule)
   },
-  {
-    path: '**',
-    redirectTo: 'not-found'
-  },
+
   {
     path: 'work-log-filter',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/work-log-filter/work-log-filter.module').then( m => m.WorkLogFilterPageModule)
+  },
+  
+  {
+    path: 'chat-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/chat/chat-list/chat-list.module').then( m => m.ChatListPageModule)
+  },
+  {
+    path: 'chat-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/chat/chat-view/chat-view.module').then( m => m.ChatViewPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
   },
 ];
 

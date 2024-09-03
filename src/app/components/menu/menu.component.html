@@ -33,6 +33,16 @@
       </ion-label>
     </ion-item>
 
+    <ion-item [routerLink]="'/chat-list'" routerLinkActive="active">
+      <div tabindex="0"></div>
+      <ion-icon name="chatbubbles" mode="ios"></ion-icon>
+      <ion-label>
+        {{"Chat" | translate}} 
+      </ion-label>  
+      <ion-badge  *ngIf="totalUnread > 0">{{ totalUnread }}</ion-badge>
+      
+    </ion-item>
+ 
     <!--
     <ion-item target="_blank" href="https://dash.plugn.io">
       <div tabindex="0"></div>

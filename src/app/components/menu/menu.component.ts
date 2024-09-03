@@ -14,6 +14,8 @@ import {TranslateLabelService} from "../../providers/translate-label.service";
 })
 export class MenuComponent implements OnInit {
 
+  public totalUnread;
+
   constructor(
     private _menuCtrl: MenuController,
     public navCtrl: NavController,
@@ -24,7 +26,9 @@ export class MenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.eventService.alertCount$.subscribe((data: any) => {
+      this.totalUnread = data.total;
+    })
   }
 
   /**

@@ -1,5 +1,5 @@
 import { Component, OnInit, ApplicationRef, OnDestroy, Inject, NgZone } from '@angular/core';
-import { AlertController, MenuController, NavController, Platform } from '@ionic/angular';
+import { AlertController, MenuController, NavController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
@@ -24,6 +24,7 @@ import { AnalyticsService } from './providers/analytics.service';
 import { Preferences } from '@capacitor/preferences';
 import { CurrencyService } from './providers/currency.service';
 import { CampaignService } from './providers/campaign.service';
+import { ChatService } from './providers/logged-in/chat.service';
 
 
 @Component({
@@ -39,6 +40,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public updatesAvailable = false;
   public subscribeForRequest;
 
+  public alertSubscription;
+
   constructor(
     public zone: NgZone,
     public updates: SwUpdate,
@@ -48,6 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public eventService: EventService,
     public navCtrl: NavController,
     public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public _menuCtrl: MenuController,
     public awsService: AwsService,
     public companyService: CompanyService,
@@ -59,6 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public languageService: LanguageService,
     public analyticsService: AnalyticsService,
     public campaignService: CampaignService,
+    public chatService: ChatService,
     public auth0: Auth0Service,
     @Inject(DOCUMENT) public document: Document,
   ) {
@@ -131,6 +136,12 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.platform.ready().then(() => {
+
+      //in case login event not getting fired 
+      if (this.auth.isLogged) {
+        this._updateAlert();
+        this.alertSubscribe();
+      }
 
       this.loadCurrencies();
 
@@ -239,8 +250,21 @@ export class AppComponent implements OnInit, OnDestroy {
       this.navCtrl.navigateForward(['app-error']);
     });
 
+    /**
+     * Update alert count
+     */
+    this.eventService.alertUpdate$.subscribe(() => {
+      this._updateAlert();
+    });
+
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
+
+      console.log("userLogined$ fired");
+      
+      this._updateAlert();
+
+      this.alertSubscribe();
 
       this.analyticsService.user(this.auth.id, {
         name: this.auth.profile_name,
@@ -271,6 +295,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.eventService.userLoggedOut$.subscribe((logoutReason) => {
 
       console.log('logout');
+
+      if (this.alertSubscription) {
+        clearInterval(this.alertSubscription);
+        this.alertSubscription = null;
+      }
 
       if (this.subscribeForRequest) {
         clearInterval(this.subscribeForRequest);
@@ -491,4 +520,42 @@ export class AppComponent implements OnInit, OnDestroy {
         companyHeader[0].setAttribute('dir', 'ltr');
     }
   }
+
+  /**
+    * Get notification count after every minute
+    */
+  async alertSubscribe() {
+    if (this.alertSubscription) {
+      return null;
+    }
+
+    this.alertSubscription = setInterval(x => {
+      this._updateAlert();
+    }, 1 * 1000);
+  }
+
+  /**
+   * Update alert count on app
+   */
+  async _updateAlert() {
+    this.chatService.unreadCount().subscribe(async data => {
+
+      if (data.operation && data.operation == 'error') {
+        const toast = await this.toastCtrl.create({
+          message: this.translateService.transform('Account deactivated'),
+          duration: 3000,
+          position: 'top',
+          cssClass: 'error_toast_' + this.translateService.direction()
+        });
+        await toast.present();
+
+        this.eventService.userLoggedOut$.next({});
+      } 
+      else 
+      {
+        this.eventService.alertCount$.next(data);
+      }
+    });
+  }
+
 }
