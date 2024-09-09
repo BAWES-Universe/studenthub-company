@@ -73,14 +73,39 @@
               <!-- Hours Input Column -->
               <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
                 <ion-item>
-
                   <ion-label position="floating">
-                    {{ "Hours Worked" | translate}}
+                    {{ "Hours" | translate}}
                     <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">{{"Invalid value" | translate}}</span>
                   </ion-label>
-                  <ion-input type="number" inputmode="decimal" min="0" (ionChange)="calculateTotal()"
+                  <ion-input type="number" inputmode="numeric" min="0" (ionChange)="calculateTotal()"
                     [(ngModel)]="transferCandidateRecord.hours"
                     formControlName="hours[{{transferCandidateRecord.candidate.candidate_id}}]">
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
+                <ion-item>
+                  <ion-label position="floating">
+                    {{ "Minutes" | translate}}
+                    <span class="error" *ngIf="parseNumber(transferCandidateRecord.minutes) < 0 || parseNumber(transferCandidateRecord.minutes) > 59">{{"Invalid value" | translate}}</span>
+                  </ion-label>
+                  <ion-input type="number" inputmode="numeric" min="0" (ionChange)="calculateTotal()"
+                    [(ngModel)]="transferCandidateRecord.minutes"
+                    formControlName="minutes[{{transferCandidateRecord.candidate.candidate_id}}]">
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+              
+              <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
+                <ion-item>
+                  <ion-label position="floating">
+                    {{ "Seconds" | translate}}
+                    <span class="error" *ngIf="parseNumber(transferCandidateRecord.seconds) < 0 || parseNumber(transferCandidateRecord.seconds) > 59">{{"Invalid value" | translate}}</span>
+                  </ion-label>
+                  <ion-input type="number" inputmode="numeric" min="0" (ionChange)="calculateTotal()"
+                    [(ngModel)]="transferCandidateRecord.seconds"
+                    formControlName="seconds[{{transferCandidateRecord.candidate.candidate_id}}]">
                   </ion-input>
                 </ion-item>
               </ion-col>
@@ -99,16 +124,27 @@
                 </ion-item>
               </ion-col>
 
-              <!-- Total Calculation Column -->
-              <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12"
-                *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
+              <!-- Total Calculation Column 
+                *ngIf="parseNumber(transferCandidateRecord.hours) > 0"-->
+              <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
                 <ion-item>
                   <div tabindex="0"></div>
                   {{"Subtotal" | translate}}
-                  {{ (
+                  {{ 
+                     (
                       parseNumber(transferCandidateRecord.hours) 
                       * 
                       getCompanyHourlyRate(transferCandidateRecord)
+                     ) 
+                     + (
+                      parseNumber(transferCandidateRecord.minutes) 
+                      * 
+                      getCompanyHourlyRate(transferCandidateRecord) / 60
+                     ) 
+                     + (
+                      parseNumber(transferCandidateRecord.seconds) 
+                      * 
+                      getCompanyHourlyRate(transferCandidateRecord) / 3600
                      ) 
                      + parseNumber(transferCandidateRecord.bonus) 
                      + parseNumber(transferCandidateRecord.transfer_cost)
