@@ -24,43 +24,49 @@
     <!-- Instructions for Create -->
     <section *ngIf="scenario == 'create'">
  
-      <h4>{{"Step 1: Download Excel template" | translate}}</h4>
+      <h4>{{"Step 1: Fill Start and End Date" | translate}}</h4>
+
+      <h4>{{"I am transferring for work done in the following time period:" | translate}}</h4>
+
+      <ion-button *ngIf="!start_date || !end_date" (click)="openCalendar()">
+        {{"Please select the date Range" | translate}}</ion-button>
+
+      <p class="date-range" *ngIf="this.start_date && this.end_date">
+        {{ "From" | translate }} <span *ngIf="this.start_date">{{ toDate(this.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang }}</span> - {{ "To" | translate }}
+        <span *ngIf="this.end_date">{{ toDate(this.end_date) | date : 'MMMM d, y': undefined: translateService.currentLang }}</span>
+
+        <ion-button class="btn-clear-date-range" fill="clear" (click)="clearSelection()">
+          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+        </ion-button>
+      </p>
+      
+      <h4>{{"Step 2: Download Excel template" | translate}}</h4>
 
       <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
         {{ "Download template" | translate }}
       </ion-button>
       
-      <ion-button color="primary" (click)="downloadTemplate(true)">
+      <ion-button color="primary" (click)="downloadTemplate('previousTransfer')">
         {{ "Download with previous transfer data" | translate }}  
+      </ion-button>
+
+      <ion-button color="primary" (click)="downloadTemplate('workLog')" *ngIf="!start_date || !end_date">
+        {{ "Download with current month's work log" | translate }}  
+      </ion-button>
+
+      <ion-button color="primary" (click)="downloadTemplate('workLog')" *ngIf="start_date && end_date">
+        {{ "Download with work log for selected dates" | translate }}  
       </ion-button>
 
       <!-- 
         
         "Step 2: Fill out the number of hours worked and the bonus amount to be sent in KWD"-->
-      <h4>{{ "Step 2: Fill out the number of hours worked and the bonus amount" | translate}}</h4>
-
-      <h4>{{"Step 3: Fill Start and End Date" | translate}}</h4>
-
+      <h4>{{ "Step 3: Fill out the number of hours worked and the bonus amount" | translate}}</h4>
 
       <h4>{{"Step 4: Upload the updated Excel file" | translate}}</h4>
     </section>
 
-    <h4>{{"I am transferring for work done in the following time period:" | translate}}</h4>
-
-    <ion-button *ngIf="!start_date || !end_date" (click)="openCalendar()">{{"Please select the date Range" |
-      translate}}</ion-button>
-
-    <p class="date-range" *ngIf="this.start_date && this.end_date">
-      {{ "From" | translate }} <span *ngIf="this.start_date">{{ toDate(this.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang }}</span> - {{ "To" | translate }}
-      <span *ngIf="this.end_date">{{ toDate(this.end_date) | date : 'MMMM d, y': undefined: translateService.currentLang }}</span>
-
-      <ion-button class="btn-clear-date-range" fill="clear" (click)="clearSelection()">
-        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-      </ion-button>
-    </p>
-
-
-
+     
     <br />
 
     <!-- Instructions for Update -->
