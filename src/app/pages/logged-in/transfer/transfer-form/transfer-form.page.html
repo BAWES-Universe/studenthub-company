@@ -35,6 +35,10 @@
           </ion-button>
         </p>
       </ion-card>
+      
+      <ion-button class="btn-approved-work-log" *ngIf="ready" (click)="approvedWorkLog()" [disabled]="!transfer.start_date || !transfer.end_date">
+        {{ "Set approved work log for provided date range" | translate }}
+      </ion-button>
 
       <!-- store_id pipe returns the transferCandidates grouped by store as object of following format: -->
       <!-- {name: string, resources: TransferCandidate[]} -->

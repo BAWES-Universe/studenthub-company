@@ -166,5 +166,15 @@ export class TransferService {
       currency_code: currency_code
     });
   }
+
+  /**
+   * @param start_date 
+   * @param end_date 
+   * @returns 
+   */
+  approvedWorkLog(start_date, end_date): Observable<any> {
+    const url = `${this._transferEndpoint}/approved-work-log?start_date=${start_date}&end_date=${end_date}`;
+    return this._authhttp.get(url);
+  }
 }
 
