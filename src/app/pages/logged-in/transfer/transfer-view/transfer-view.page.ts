@@ -235,17 +235,6 @@ export class TransferViewPage implements OnInit {
   }
 
   /**
-   * Calculating Total cost
-   * @param hourly_rate
-   * @param hours
-   * @param bonus
-   * @param transfer_cost
-   */
-  totalCost(hourly_rate, hours, bonus, transfer_cost) {
-    return (2 * Number(hours)) + Number(bonus) + Number(transfer_cost);
-  }
-
-  /**
    * Load the Transfer form page to edit the transfer details
    */
   edit(transferDetails: any) {
@@ -318,8 +307,13 @@ export class TransferViewPage implements OnInit {
    * Calculating Total per Candidate
    */
   total(candidate) {
-    return Number((candidate.company_hourly_rate * candidate.hours) + candidate.bonus 
-      + candidate.transfer_cost).toFixed(3);
+    return Number(
+      (candidate.company_hourly_rate * candidate.hours) 
+      + ((candidate.company_hourly_rate / 60) * candidate.minutes) 
+      + ((candidate.company_hourly_rate/ 3600) * candidate.seconds) 
+      + candidate.bonus 
+      + candidate.transfer_cost
+    ).toFixed(3);
   }
 
   logScrolling(e) {

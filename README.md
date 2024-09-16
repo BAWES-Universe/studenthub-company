@@ -51,5 +51,17 @@ Test
 - why able to invite already assigned candidate ?
 - badge background 
 - create transfer option popup color + ui 
-- transfer list not getting update on creating first transfer 
-- ion-refresher missing from pages 
+
+To test for transfer
+
+- transfer with parent
+  - calculation 
+  - receipt 
+  - invoice 
+  - excel upload with minutes + seconds 
+  - excel template with minutes + seconds 
+  - transfer with 0 hours 30 min 30 seconds 
+  - stats 
+  - listing + details pages in all apps 
+  
+- without parent 

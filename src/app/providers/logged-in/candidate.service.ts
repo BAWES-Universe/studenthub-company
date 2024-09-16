@@ -24,6 +24,11 @@ export class CandidateService {
     return this._authhttp.get(url);
   }
 
+  workLogStats(urlParams: string = "") : Observable<any> {
+    let url = `${this._candidateEndpoint}/work-log-stats?${urlParams}`;
+    return this._authhttp.get(url);
+  }
+
   /**
    * @param currentPage 
    * @param urlParams 
@@ -42,6 +47,11 @@ export class CandidateService {
   listWithPagination(page: number, urlParams: string): Observable<any> {
     let url = `${this._candidateEndpoint}/with-pagination?page=${page}&${urlParams}`;
     return this._authhttp.getRaw(url);
+  }
+
+  downloadWorkLog(urlParams: string): Observable<any> {
+    let url = `${this._candidateEndpoint}/work-log-excel?${urlParams}`;
+    return this._authhttp.excelget(url, `transfer-template.xlsx`);
   }
 
   /**

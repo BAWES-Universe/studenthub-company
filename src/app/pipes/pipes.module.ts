@@ -7,7 +7,7 @@ import { AgePipe } from './age.pipe';
 import {CandidateAgePipe} from './candidate.age.pipe';
 import {TimeSpentPipe} from "./timespent.pipe";
 import { SecondsToTimePipe } from './secondToTime.pipe';
-
+import { ConvertToBoldPipe } from './convert-to-bold';
 
 // import custom pipes here
 @NgModule({
@@ -19,7 +19,8 @@ import { SecondsToTimePipe } from './secondToTime.pipe';
         AgePipe,
         TimeSpentPipe,
         CandidateAgePipe,
-        SecondsToTimePipe
+        SecondsToTimePipe,
+        ConvertToBoldPipe
     ],
     imports: [],
     exports: [
@@ -30,7 +31,8 @@ import { SecondsToTimePipe } from './secondToTime.pipe';
         AgePipe,
         TimeSpentPipe,
         CandidateAgePipe,
-        SecondsToTimePipe
+        SecondsToTimePipe,
+        ConvertToBoldPipe
     ]
 })
 export class PipesModule {}

@@ -28,16 +28,7 @@ export class EventService {
   public roleChanged$ = new Subject();
   public refreshEmployerList$ = new Subject();
   public userLoggedOut$ = new Subject();
-  public updateCounts$ = new Subject();
-  public alertCount$ = new Subject();
-  public conversationCount$ = new Subject();
-  public applicationCount$ = new Subject();
-  public jobUpdated$ = new Subject();
-  public jobCreated$ = new Subject();
-  public invitationSent$ = new Subject();
-  public updateStats$ = new Subject();
-  public updateCurrency$ = new Subject();
-  public applicationRejected$ = new Subject();
+  
   public googleLoginFinished$ = new Subject();
   public savedSearchUpdated$ = new Subject();
   public locationSelected$ = new Subject();
@@ -56,4 +47,7 @@ export class EventService {
   public locationUpdated$ = new Subject();
 
   public transferCreated$ = new Subject();
+
+  public alertCount$ = new Subject();
+  public alertUpdate$ = new Subject();
 }

@@ -128,6 +128,28 @@ export class TransferFormPage implements OnInit {
     this._loadCandidateListThenInitialize();
   }
 
+  approvedWorkLog() {
+    this.transferService.approvedWorkLog(this.transfer.start_date, this.transfer.end_date).subscribe(data => {
+
+      let values = {}
+
+      for (let record of data) {
+        values['hours[' + record.candidate_id + ']'] = record.hours;
+        values['minutes[' + record.candidate_id + ']'] = record.minutes;
+        values['seconds[' + record.candidate_id + ']'] = record.seconds;
+      }
+
+      this.form.patchValue(values);
+      this.form.markAsDirty();
+      this.form.updateValueAndValidity();
+
+      this._toastCtrl.create({
+        message: "Transfer hours, minutes, seconds updated from work log",
+          duration: 3000
+      }).then(t => t.present());
+    });
+  }
+
   /**
    * Load List of All Candidates Assigned to this Company
    * Initialise the form once loaded.
@@ -159,7 +181,7 @@ export class TransferFormPage implements OnInit {
       candidateTransferRecord.candidate = candidate;
       candidateTransferRecord.candidate_id = candidate.candidate_id;
       //candidateTransferRecord.currentWorkHistory = candidate.currentWorkHistory;
-      candidateTransferRecord.transfer_cost = candidate.currentWorkHistory.transferCost; //effective transfer cost 
+      candidateTransferRecord.transfer_cost = candidate.currentWorkHistory?.transferCost; //effective transfer cost 
 
       // Append the candidateTransferRecord into the allTransferCandidateRecordsMapped array
       allTransferCandidateRecordsMapped[candidate.candidate_id] = candidateTransferRecord;
@@ -189,6 +211,16 @@ export class TransferFormPage implements OnInit {
 
       // Create Form Controls with validation for this TransferCandidate record
       formControls['hours[' + record.candidate.candidate_id + ']'] = [record.hours, [
+        // Validators.required,
+        CustomValidator.negativeNumberValidator
+      ]];
+
+      formControls['minutes[' + record.candidate.candidate_id + ']'] = [record.minutes, [
+        // Validators.required,
+        CustomValidator.negativeNumberValidator
+      ]];
+
+      formControls['seconds[' + record.candidate.candidate_id + ']'] = [record.seconds, [
         // Validators.required,
         CustomValidator.negativeNumberValidator
       ]];
@@ -233,7 +265,11 @@ export class TransferFormPage implements OnInit {
     for (const entry of this.transfer.transferCandidates) {
 
       // Check if any candidates have unset hours or 0 hours set
-      if (!entry.hours || entry.hours == 0) {
+      if (
+        (!entry.hours || entry.hours == 0) && 
+        (!entry.minutes || entry.minutes == 0) && 
+        (!entry.seconds || entry.seconds == 0)
+      ) {
         error = this.translateService.transform('You have set that some employees haven\'t worked any hours. Are you sure?');
       }
 
@@ -280,11 +316,26 @@ export class TransferFormPage implements OnInit {
   }
 
   /**
+   * remove those not paying candidates
+   */
+  removeUnaccountedUsers() {
+    this.transfer.transferCandidates = this.transfer.transferCandidates.filter((candidates, index) => {
+      return (candidates.bonus > 0 || candidates.hours > 0 || candidates.minutes > 0 || candidates.seconds > 0);
+    });
+  }
+
+  /**
    * Save the model
    */
   async save() {
     const loader = await this._loadingCtrl.create();
     loader.present();
+
+    /**
+     * Update the transfer data if it already exists
+     * Otherwise create a new transfer
+     */
+    this.removeUnaccountedUsers();
 
     /**
      * Update the transfer data if it already exists
@@ -343,11 +394,21 @@ export class TransferFormPage implements OnInit {
     this.total = 0;
     if (this.transfer) {
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
+
         const hours = this.parseNumber(transferCandidate.hours);
+        const minutes = this.parseNumber(transferCandidate.minutes);
+        const seconds = this.parseNumber(transferCandidate.seconds);
+        const rate = this.getCompanyHourlyRate(transferCandidate);
+
         const bonus = this.parseNumber(transferCandidate.bonus);
-        this.total += (hours * this.getCompanyHourlyRate(transferCandidate)) 
-          + bonus 
-          + this.parseNumber(transferCandidate.transfer_cost);
+
+        const subTotal = (hours * rate) 
+          + (minutes * (rate / 60)) 
+          + (seconds * (rate / 3600)) 
+          + bonus;
+
+        if (subTotal > 0)
+          this.total += subTotal + this.parseNumber(transferCandidate.transfer_cost);
       });
     }
   }

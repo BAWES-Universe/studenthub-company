@@ -49,6 +49,15 @@ export class WorkLogListPage implements OnInit {
     start_date: null
   };
 
+  public stats: any; 
+
+  public segment: string = "details";
+
+  public interval;
+
+  public generatingExcel: boolean = false; 
+  public generatingApprovedExcel: boolean = false; 
+
   constructor(
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
@@ -67,19 +76,72 @@ export class WorkLogListPage implements OnInit {
   ngOnInit() {
     this.analyticService.page('Store View Page');
  
-    this.loadData();
+    //this.loadData();
     this.loadAllStores();
+
+    this.loadSummary();
+  }
+
+  ionViewDidEnter() {
+    this.interval = setInterval(() => {
+      this.loadSummary();
+    }, 1000);
   }
 
   ionViewWillLeave() {
     this.analyticService.track('page_exit', {
       'page': 'Store View Page'
     });  
+
+    clearInterval(this.interval);
+    this.interval = null;
+  }
+
+  segmentChanged(event) {
+    if (event.target.value == "logs" && this.candidates.length == 0) {
+      this.loadData();
+    }
+  }
+
+  loadSummary() {
+
+    //this.loading = true;
+ 
+    const urlParams = this.urlParams();
+
+    this.candidateService.workLogStats(urlParams).subscribe(result => {
+    //  this.loading = false;
+ 
+      this.stats = result;
+    }, () => {
+     // this.loading = false;
+    });
   }
 
   searchByName(event) {
     this.filters.name = event.detail.value;
     this.loadData(); // reload all result
+  }
+
+  download(approved = null) {
+    if (approved) {
+      this.generatingApprovedExcel = true;
+    } else {
+      this.generatingExcel = true;
+    }
+
+    let urlParams = this.urlParams();
+
+    if (approved)
+      urlParams += "&approved=" + approved;
+
+    this.candidateService.downloadWorkLog(urlParams).subscribe(result => {
+      if (approved) {
+        this.generatingApprovedExcel = false;
+      } else {
+        this.generatingExcel = false;
+      }
+    });
   }
 
   async loadData() {

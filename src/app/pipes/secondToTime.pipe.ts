@@ -16,5 +16,4 @@ export class SecondsToTimePipe implements PipeTransform {
 
     return `${hoursString}:${minutesString}:${secondsString}`;
   }
-
 }
