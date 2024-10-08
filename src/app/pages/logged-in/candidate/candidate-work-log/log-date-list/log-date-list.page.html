@@ -32,11 +32,17 @@
       <div class="clearfix"></div>
 
       <div class="time-wrapper">
-        <b>{{ candidateWorkingDate.total_time | secondsToTime }}</b>  
+        <b *ngIf="candidateWorkingDate.total_time">{{ candidateWorkingDate.total_time | secondsToTime }}</b>  
+        <b *ngIf="!candidateWorkingDate.total_time">{{ "On-going" | translate }}</b>  
         <span>
           {{ translateService.toDate(candidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
           <ion-icon name="arrow-forward-outline"></ion-icon> 
-          {{ translateService.toDate(candidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+          <ng-container *ngIf="candidateWorkingDate.end_time">
+            {{ translateService.toDate(candidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+          </ng-container>
+          <ng-container *ngIf="!candidateWorkingDate.end_time">
+            {{ "Now" | translate }}
+          </ng-container>
         </span>
       </div>
     </div>

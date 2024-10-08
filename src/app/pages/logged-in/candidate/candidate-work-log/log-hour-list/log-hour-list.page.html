@@ -71,11 +71,17 @@
       <h5 class="txt-session-heading">{{ "Sessions" | translate }} <span>({{ totalCount }})</span></h5>
 
       <p *ngFor="let hour of candidateWorkingHourData">
-        <b>{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+        <b *ngIf="hour.total_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+        <b *ngIf="!hour.total_time">{{ "On-going" | translate }}</b>
         <span>
           {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
           <ion-icon name="arrow-forward-outline"></ion-icon> 
-          {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+          <ng-container *ngIf="hour.end_time">
+            {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+          </ng-container>
+          <ng-container *ngIf="!hour.end_time">
+            {{ "Now" | translate }}
+          </ng-container>
         </span>
       </p>
 
