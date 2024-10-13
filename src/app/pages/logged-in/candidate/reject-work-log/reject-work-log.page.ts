@@ -43,7 +43,7 @@ export class RejectWorkLogPage implements OnInit {
       store_id: [this.store_id, Validators.required],
       date: [this.date, Validators.required],
       status: [2],
-      note: ["", Validators.required],
+      note: [""],//, Validators.required
       reason: ["", Validators.required],
     });
   }
@@ -104,6 +104,7 @@ export class RejectWorkLogPage implements OnInit {
 
   setReason(reason) {
     this.form.controls.reason.setValue(reason);
+    this.form.markAsDirty();
     this.form.controls.reason.updateValueAndValidity();
   }
 }

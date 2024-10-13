@@ -46,7 +46,7 @@ export class ApproveWorkLogPage implements OnInit {
       store_id: [this.store_id, Validators.required],
       date: [this.date, Validators.required],
       status: [1],
-      note: ["", Validators.required],
+      note: [""],//, Validators.required
       is_public: [true],
       rating: ["", Validators.required],
     });
@@ -111,7 +111,7 @@ export class ApproveWorkLogPage implements OnInit {
 
   setRating(rating) {
     this.form.controls.rating.setValue(rating);
+    this.form.markAsDirty(); 
     this.form.controls.rating.updateValueAndValidity();
   }
-
 }
