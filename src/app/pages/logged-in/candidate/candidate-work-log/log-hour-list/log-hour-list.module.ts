@@ -11,6 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
 import { ApproveWorkLogPageModule } from '../../approve-work-log/approve-work-log.module';
 import { RejectWorkLogPageModule } from '../../reject-work-log/reject-work-log.module';
+import { WorkLogModule } from 'src/app/components/work-log/work-log.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { RejectWorkLogPageModule } from '../../reject-work-log/reject-work-log.m
     LoadingModalModule,
     PipesModule,
     NoItemsModule,
+    WorkLogModule,
     ApproveWorkLogPageModule,
     RejectWorkLogPageModule,
     TranslateModule.forChild(),

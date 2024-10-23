@@ -20,6 +20,8 @@ export class RejectWorkLogPage implements OnInit {
   date: string; 
   store_id: number; 
 
+  public hour;
+
   model: CandidateWorkLogFeedback;
 
   public form: FormGroup;
@@ -43,6 +45,7 @@ export class RejectWorkLogPage implements OnInit {
       store_id: [this.store_id, Validators.required],
       date: [this.date, Validators.required],
       status: [2],
+      candidate_working_hour_uuid: [this.hour?.candidate_working_hour_uuid],
       note: [""],//, Validators.required
       reason: ["", Validators.required],
     });
@@ -100,6 +103,7 @@ export class RejectWorkLogPage implements OnInit {
     this.model.status = this.form.value.status;
     this.model.note = this.form.value.note;
     this.model.reason = this.form.value.reason;
+    this.model.candidate_working_hour_uuid = this.form.value.candidate_working_hour_uuid;
   }
 
   setReason(reason) {

@@ -6,6 +6,7 @@ export class CandidateWorkLogFeedback {
     store_id: number;
     company_id: number;
     date : string;
+    candidate_working_hour_uuid: string;
     status : number;
     note: string;
     reason : string;

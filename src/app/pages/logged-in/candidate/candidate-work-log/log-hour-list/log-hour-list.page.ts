@@ -198,4 +198,75 @@ export class LogHourListPage implements OnInit {
     });
     modal.present();
   }
+
+  async rejectSession(hour) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: RejectWorkLogPage,
+      initialBreakpoint: 0.5,
+      breakpoints: [0, 0.25, 0.5, 0.75],
+      cssClass: "footer-modal reject-work-log-modal",
+      componentProps: { 
+        candidate_id: this.candidate_id,
+        date: this.date,
+        store_id: this.store_id,
+        hour: hour
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.refresh) {       
+        this.loadStats();
+
+        if(e.data.message) {
+          this.warningMsg = e.data.message;
+        }
+
+        hour.status = 2;
+      }
+    });
+    modal.present();
+  }
+
+  async approveSession(hour) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: ApproveWorkLogPage, 
+      initialBreakpoint: 0.5,
+      breakpoints: [0, 0.25, 0.5, 0.75],
+      cssClass: "footer-modal approve-work-log-modal",
+      componentProps: { 
+        candidate_id: this.candidate_id,
+        date: this.date,
+        store_id: this.store_id,
+        candidate: this.stats.candidate,
+        hour: hour
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.refresh) {       
+        this.loadStats();
+
+        if(e.data.message) {
+          this.successMsg = e.data.message;
+        }
+
+        hour.status = 1;
+      }
+    });
+    modal.present();
+  }
 }
