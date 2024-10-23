@@ -1,7 +1,8 @@
 <ion-content [attr.dir]="translateService.direction()">
 
-  <h5>{{ "Reject working hours" | translate }}</h5>
-  
+  <h5 *ngIf="hour">{{ "Reject work session" | translate }}</h5>
+  <h5 *ngIf="!hour">{{ "Reject all working hours" | translate }}</h5>
+
   <button class="btn-close" (click)="close()">
     <ion-ripple-effect></ion-ripple-effect>
     <ion-icon name="close-outline"></ion-icon>

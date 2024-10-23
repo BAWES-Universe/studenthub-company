@@ -13,7 +13,7 @@
 <ion-content>
 
   <div class="desktop-view session-wrapper">
-    
+     
     <div class="date-wrapper" tappable *ngFor="let candidateWorkingDate of candidateWorkingDates" 
     [routerLink]="['/log-hour-list', candidateWorkingDate.candidate_id, candidateWorkingDate.date, candidateWorkingDate.store_id]">
     
@@ -45,6 +45,15 @@
           </ng-container>
         </span>
       </div>
+
+      <!--
+      <p>
+        <b>{{ "Tracking Method" | translate }}:</b>
+        <span>
+          {{ candidateWorkingDate.via | translate }}
+        </span>
+      </p>  -->
+      
     </div>
     
     <!-- todo: replace with placeholder image -->

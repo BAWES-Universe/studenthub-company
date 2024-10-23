@@ -70,8 +70,9 @@
 
       <h5 class="txt-session-heading">{{ "Sessions" | translate }} <span>({{ totalCount }})</span></h5>
 
+      <!--
       <p *ngFor="let hour of candidateWorkingHourData">
-        <b *ngIf="hour.total_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+        <b *ngIf="hour.total_time">{{ hour.total_time | secondsToTime }}</b>  
         <b *ngIf="!hour.total_time">{{ "On-going" | translate }}</b>
         <span>
           {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
@@ -83,7 +84,11 @@
             {{ "Now" | translate }}
           </ng-container>
         </span>
-      </p>
+      </p>-->
+
+      <app-work-log (onApproveClicked)="approveSession(hour)" (onRejectClicked)="rejectSession(hour)" 
+        [hour]="hour" *ngFor="let hour of candidateWorkingHourData">
+      </app-work-log>
 
       <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content>
@@ -92,15 +97,23 @@
   
     </div>
 
-    <div class="btn-wrapper" *ngIf="stats && stats.status == 0">
-      <ion-button class="btn-reject" (click)="reject()"  fill="outline" color="danger">
-        {{ "Reject" | translate }}
-      </ion-button>
     
-      <ion-button class="btn-approve" (click)="approve()">
-        {{ "Approve" | translate }}
-      </ion-button>
-    </div>
     
   </div>
 </ion-content> 
+<!-- if pending count > 0 -->
+<ion-footer *ngIf="stats && stats.health[0] > 0">
+  <div class="max-width">
+    <div class="btn-wrapper" >
+      <ion-button class="btn-reject" (click)="reject()"  fill="outline" color="danger">
+        {{ "Reject all" | translate }}
+      </ion-button>
+    
+      <ion-button class="btn-approve" (click)="approve()">
+        {{ "Approve all" | translate }}
+      </ion-button>
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</ion-footer>

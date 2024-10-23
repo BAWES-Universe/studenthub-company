@@ -6,6 +6,12 @@ ion-title {
 ion-content {
     --padding-top: 25px;
 }
+@media (max-width: 900px) {
+    
+    ion-footer .max-width {
+        padding-inline-start: 16px;    
+    }
+}
 
 .main-card {
 margin: 0;
@@ -154,11 +160,11 @@ p {
 }
 
 .btn-wrapper {
-    display: flex;
- 
+   // display: flex;
+
     ion-button {
-        display: flex;
-        text-transform: capitalize;
+    //    display: flex;
+       // text-transform: capitalize;
         --box-shadow: none;
         --border-radius: 8px;
         height: 56px;
@@ -169,11 +175,14 @@ p {
         font-style: normal;
         font-weight: 600;
         line-height: 24px; /* 150% */
+        float: var(--start);
+        margin-inline-end: 16px !important;
+     
     }
 
     .btn-reject {
-        //width: 342px;
-        align-items: flex-start;
+        width: 115px;
+    //    align-items: flex-start;
         gap: 16px;
         margin-inline-end: 16px;
         --border: 1px solid var(--Red-Tint-Main, #EB5757);
@@ -182,7 +191,7 @@ p {
 
     .btn-approve {
     //  min-width: 200px;//calc(100% - 342px - 15px);//
-        align-items: flex-start;
+      //  align-items: flex-start;
         gap: 16px;
     }
 }

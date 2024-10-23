@@ -13,7 +13,6 @@ export class CandidateWorkLogFeedbackService {
   private _endpoint: string = "/candidate-work-log-feedbacks";
 
   constructor(public _authhttp: AuthHttpService) { 
-
   }
 
   save(model: CandidateWorkLogFeedback) {

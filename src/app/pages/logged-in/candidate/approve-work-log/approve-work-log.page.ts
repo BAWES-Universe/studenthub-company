@@ -18,6 +18,8 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 export class ApproveWorkLogPage implements OnInit {
  
   candidate: Candidate;
+  
+  public hour;
 
   candidate_id: number;
   date: string; 
@@ -45,6 +47,7 @@ export class ApproveWorkLogPage implements OnInit {
       candidate_id: [this.candidate_id, Validators.required],
       store_id: [this.store_id, Validators.required],
       date: [this.date, Validators.required],
+      candidate_working_hour_uuid: [this.hour?.candidate_working_hour_uuid],
       status: [1],
       note: [""],//, Validators.required
       is_public: [true],
@@ -107,6 +110,7 @@ export class ApproveWorkLogPage implements OnInit {
     this.model.note = this.form.value.note;
     this.model.is_public = this.form.value.is_public;
     this.model.rating = this.form.value.rating;
+    this.model.candidate_working_hour_uuid = this.form.value.candidate_working_hour_uuid;
   }
 
   setRating(rating) {
