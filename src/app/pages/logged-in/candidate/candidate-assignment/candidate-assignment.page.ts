@@ -1,5 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ModalController, PopoverController } from '@ionic/angular';
+import { format } from 'date-fns';
+import {
+  CalendarModal,
+  CalendarModalOptions,
+  DayConfig,
+  CalendarResult,
+  CalendarComponentOptions
+} from 'ion2-calendar';
+import { DatePickerComponent } from 'src/app/components/date-picker/date-picker.component';
 //models
 import { CandidateWorkingHour } from 'src/app/models/candidate';
 import { CandidateWorkHistory } from 'src/app/models/candidate-work-history';
@@ -29,9 +39,16 @@ export class CandidateAssignmentPage implements OnInit {
 
   public candidateWorkingHourData: CandidateWorkingHour[] = [];
 
-  public segment: string = "details";
+  public segment: string = "logs";
   
+  public end_date;
+  public start_date;
+  public startDateFormatted;
+  public endDateFormatted;
+
   constructor(
+    public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
     public activateRoute: ActivatedRoute,
     public candidateService: CandidateService,
     public candidateWorkingHour: CandidateWorkingHourService,
@@ -63,8 +80,18 @@ export class CandidateAssignmentPage implements OnInit {
   }
 
   getUrlParams() {
-    return '&expand=dateStatus,checkIn,checkOut&candidate_id=' + this.history.candidate_id + 
+    let url = '&expand=dateStatus,checkIn,checkOut&candidate_id=' + this.history.candidate_id + 
       "&store_id=" + this.history.store_id;
+
+    if (this.start_date) {
+      url += "&start_date=" + this.start_date;
+    }
+  
+    if (this.end_date) {
+      url += "&end_date=" + this.end_date;
+    }
+
+    return url;
   }
 
   /**
@@ -119,5 +146,98 @@ export class CandidateAssignmentPage implements OnInit {
 
   segmentChanged(event) {
 
+  }
+
+
+  async openCalendar() {
+    const options: CalendarModalOptions = {
+      canBackwardsSelected: true,
+      pickMode: 'range',
+      title: '',
+      defaultScrollTo : new Date(this.end_date ? this.end_date : new Date()),
+      defaultDateRange: {
+        from: new Date(this.start_date ? this.start_date : ''),
+        to: new Date(this.end_date ? this.end_date : '')
+      }
+    };
+
+    const myCalendar = await this.modalCtrl.create({
+      component: CalendarModal,
+      componentProps: { options }
+    });
+
+    myCalendar.present();
+
+    const event: any = await myCalendar.onDidDismiss();
+    const date = event.data;
+    if (date) {
+      const from: CalendarResult = date.from;
+      const to: CalendarResult = date.to;
+      if (from.string) {
+        this.start_date = from.string;
+        this.startDateFormatted = format(from.dateObj, 'dd/MM/yyyy');
+      }
+      if (to.string) {
+        this.end_date = to.string;
+        this.endDateFormatted = format(to.dateObj, 'dd/MM/yyyy');
+      }
+
+      if (from.string || to.string) {
+        this.loadData();
+      }
+    }
+  }
+
+  async selectEndDate(event)  {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    const modal = await this.popoverCtrl.create({
+      component: DatePickerComponent, 
+      event: event,
+      componentProps: { 
+        dateFormatted: this.endDateFormatted,
+        date: this.end_date
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+ 
+      if (e.data && e.data.date) {
+        this.endDateFormatted = e.data.dateFormatted;
+        this.end_date = e.data.date;
+      }
+    });
+    modal.present();
+  }
+
+  async selectStartDate(event) {
+     
+    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    const modal = await this.popoverCtrl.create({
+      component: DatePickerComponent, 
+      event: event,
+      componentProps: { 
+        dateFormatted: this.startDateFormatted,
+        date: this.start_date
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+ 
+      if (e.data && e.data.date) {
+        this.startDateFormatted = e.data.dateFormatted;
+        this.start_date = e.data.date;
+      }
+    });
+    modal.present();
   }
 }
