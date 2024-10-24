@@ -1,4 +1,8 @@
 {
+  "Are you sure you want to approve all?": "",
+  "Make sure to confirm your action as this will affect all selected work hours.": "",
+  "Are you sure you want to reject all?": "",
+  "How was her performance?": "",
   "txt_candidate_work_log": "{{ candidate }}'s Work Logs",
   "Store Assignment": "",
   "Select Date": "",

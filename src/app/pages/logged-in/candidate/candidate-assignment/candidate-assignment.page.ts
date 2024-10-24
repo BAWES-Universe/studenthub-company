@@ -11,7 +11,7 @@ import {
 } from 'ion2-calendar';
 import { DatePickerComponent } from 'src/app/components/date-picker/date-picker.component';
 //models
-import { CandidateWorkingHour } from 'src/app/models/candidate';
+import { CandidateWorkingDate, CandidateWorkingHour } from 'src/app/models/candidate';
 import { CandidateWorkHistory } from 'src/app/models/candidate-work-history';
 //services
 import { AnalyticsService } from 'src/app/providers/analytics.service';
@@ -21,6 +21,8 @@ import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { CandidateOptionComponent } from '../../store/store-list/candidate-option-component';
 import { SelectSearchPageComponent } from 'src/app/components/select-search/select-search-page/select-search-page.component';
+import { ApproveWorkLogPage } from '../approve-work-log/approve-work-log.page';
+import { RejectWorkLogPage } from '../reject-work-log/reject-work-log.page';
 
 
 @Component({
@@ -40,7 +42,7 @@ export class CandidateAssignmentPage implements OnInit {
 
   public history: CandidateWorkHistory;
 
-  public candidateWorkingHourData: CandidateWorkingHour[] = [];
+  public candidateWorkingDates: CandidateWorkingDate[] = [];
 
   public segment: string = "logs";
   
@@ -50,6 +52,11 @@ export class CandidateAssignmentPage implements OnInit {
   public start_date;
   public startDateFormatted;
   public endDateFormatted;
+
+  arr_cwd_uuid : string[] = [];
+
+  successMsg;
+  warningMsg;
 
   constructor(
     public popoverCtrl: PopoverController,
@@ -87,8 +94,129 @@ export class CandidateAssignmentPage implements OnInit {
     })
   }
 
+  toggleSelection(candidateWorkingDate, event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.arr_cwd_uuid.indexOf(candidateWorkingDate.cwd_uuid) > -1) {
+      this.arr_cwd_uuid = this.arr_cwd_uuid.filter(e => e != candidateWorkingDate.cwd_uuid);
+    } else {
+      this.arr_cwd_uuid.push(candidateWorkingDate.cwd_uuid)
+    }
+  }
+
+  async reject() {
+
+    const alertConfirm = await this.alertCtrl.create({
+      header: this.translateService.transform('Are you sure you want to reject all?'),
+      subHeader: this.translateService.transform('Make sure to confirm your action as this will affect all selected work hours.'),
+      buttons: [
+        {
+          text: this.translateService.transform('Cancel'),
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: this.translateService.transform('Reject'),
+          cssClass: 'danger',
+          handler: async (data) => {
+            window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+            const modal = await this.modalCtrl.create({
+              component: RejectWorkLogPage,
+              initialBreakpoint: 0.5,
+              breakpoints: [0, 0.25, 0.5, 0.75],
+              cssClass: "footer-modal reject-work-log-modal",
+              componentProps: { 
+                candidate_id: this.history.candidate_id,
+                store_id: this.history.store_id,
+                arr_cwd_uuid: this.arr_cwd_uuid
+              }
+            });
+            modal.onDidDismiss().then(e => {
+        
+              if (!e.data || e.data.from != 'native-back-btn') {
+                window['history-back-from'] = 'onDidDismiss';
+                window.history.back();
+              }
+        
+              if(e.data && e.data.refresh) {       
+                this.loadData();
+        
+                if(e.data.message) {
+                  this.warningMsg = e.data.message;
+                  setTimeout(() => {
+                    this.warningMsg = null;
+                  }, 5000);
+                }
+
+                this.arr_cwd_uuid = [];
+              }
+            });
+            modal.present();
+          }
+        }
+      ]
+    });
+    alertConfirm.present();
+  }
+
+  async approve() {
+
+    const alertConfirm = await this.alertCtrl.create({
+      header: this.translateService.transform('Are you sure you want to approve all?'),
+      subHeader: this.translateService.transform('Make sure to confirm your action as this will affect all selected work hours.'),
+      buttons: [
+        {
+          text: this.translateService.transform('Cancel'),
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: this.translateService.transform('Approve'),
+          handler: async (data) => {
+            window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+            const modal = await this.modalCtrl.create({
+              component: ApproveWorkLogPage, 
+              initialBreakpoint: 0.5,
+              breakpoints: [0, 0.25, 0.5, 0.75],
+              cssClass: "footer-modal approve-work-log-modal",
+              componentProps: { 
+                candidate_id: this.history.candidate_id,
+                store_id: this.history.store_id,
+                candidate: this.history.candidate,
+                arr_cwd_uuid: this.arr_cwd_uuid
+              }
+            });
+            modal.onDidDismiss().then(e => {
+        
+              if (!e.data || e.data.from != 'native-back-btn') {
+                window['history-back-from'] = 'onDidDismiss';
+                window.history.back();
+              }
+        
+              if(e.data && e.data.refresh) {       
+                this.loadData();
+        
+                if(e.data.message) {
+                  this.successMsg = e.data.message;
+                  setTimeout(() => {
+                    this.successMsg = null;
+                  }, 5000);
+                }
+
+                this.arr_cwd_uuid = [];
+              }
+            });
+            modal.present();
+          }
+        }
+      ]
+    });
+    alertConfirm.present();
+  }
+
   getUrlParams() {
-    let url = '&expand=dateStatus,checkIn,checkOut&candidate_id=' + this.history.candidate_id + 
+    let url = '&expand=health&candidate_id=' + this.history.candidate_id + 
       "&store_id=" + this.history.store_id;
 
     if (this.start_date) {
@@ -108,12 +236,13 @@ export class CandidateAssignmentPage implements OnInit {
   loadData() {
     this.loading = true;
      
-    this.candidateWorkingHour.list(this.currentPage, this.getUrlParams()).subscribe(response => {
+    this.candidateService.listCandidateWorkingDates(this.currentPage, this.getUrlParams()).subscribe(response => {
+    //this.candidateWorkingHour.list(this.currentPage, this.getUrlParams()).subscribe(response => {
       this.loading =  false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-      this.candidateWorkingHourData = response.body;
+      this.candidateWorkingDates = response.body;
     });
   }
 
@@ -127,12 +256,14 @@ export class CandidateAssignmentPage implements OnInit {
 
     this.currentPage++;
  
-    this.candidateWorkingHour.list(this.currentPage, this.getUrlParams()).subscribe(response => {
+    this.candidateService.listCandidateWorkingDates(this.currentPage, this.getUrlParams()).subscribe(response => {
+    //this.candidateWorkingHour.list(this.currentPage, this.getUrlParams()).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-        this.candidateWorkingHourData = this.candidateWorkingHourData.concat(response.body);
+        
+        this.candidateWorkingDates = this.candidateWorkingDates.concat(response.body);
         event.target.complete();
     },
     error => { },

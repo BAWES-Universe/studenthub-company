@@ -79,6 +79,7 @@ export class LogDateListPage implements OnInit {
 
     this.currentPage++;
     const param = `&candidate_id=${this.candidate_id}&expand=health`;
+    
     this.candidateService.listCandidateWorkingDates(this.currentPage, param).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
