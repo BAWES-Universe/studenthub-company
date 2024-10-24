@@ -1,4 +1,6 @@
 {
+  "txt_candidate_work_log": "{{ candidate }}'s Work Logs",
+  "Store Assignment": "",
   "Select Date": "",
   "Filter by Date": "",
   "Tracking Method": "",

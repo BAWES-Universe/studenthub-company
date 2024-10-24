@@ -13,7 +13,8 @@
         (ionChange)="searchByName($event)"></ion-searchbar>
          
       <ion-buttons slot="end">
-        <ion-button class="ion-text-capitalize btn-filter" [class.active]="filters.session_status || filters.end_date || filters.start_date" (click)="filter()">
+        <ion-button class="ion-text-capitalize btn-filter" 
+        [class.active]="filters.session_status || filters.end_date || filters.start_date" (click)="filter()">
           <ion-icon name="options"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -23,6 +24,7 @@
 
     <!-- todo: list dates instead of hours -->
   </ion-toolbar>
+  <!--
   <ion-toolbar class="desktop-view">
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
       <ion-segment-button mode="md" value="details">
@@ -33,7 +35,7 @@
         <ion-label>{{ "Logs" | translate }}</ion-label>
       </ion-segment-button>
     </ion-segment>
-  </ion-toolbar>
+  </ion-toolbar>-->
 </ion-header>
 
 <ion-content [attr.dir]="translateService.direction()" scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
@@ -105,15 +107,16 @@
         <ion-spinner *ngIf="generatingExcel"></ion-spinner>
       </ion-button>
 
+      <!--
       <ion-button (click)="download(true)" class="btn-download" [disabled]="generatingApprovedExcel">
         <span *ngIf="!generatingApprovedExcel">{{ "Download approved as Excel" | translate }} </span>
         <ion-spinner *ngIf="generatingApprovedExcel"></ion-spinner>
-      </ion-button>
+      </ion-button>-->
 
       <div class="clearfix"></div>
 
-      <ion-card  *ngFor="let candidate of candidates" tappable (click)="toggleOpen(candidate, $event)">
-        <ion-item lines="none">
+      <ion-card  *ngFor="let candidate of candidates">
+        <ion-item lines="none" [routerLink]="'/candidate-view/' + candidate.candidate_id">
           <div tabindex="0"></div>
           <ion-avatar slot="start">
             <ion-img *ngIf="candidate.candidate_personal_photo"
@@ -129,64 +132,72 @@
             </ion-note>
           </ion-label>
 
-          <ion-button fill="clear" slot="end">
-            <ion-icon *ngIf="candidate.isOpen" mode="md" name="chevron-up-outline"></ion-icon>
-            <ion-icon *ngIf="!candidate.isOpen" mode="md" name="chevron-down-outline"></ion-icon>
-          </ion-button>
-
           <!--  
             *ngIf="!candidate.storeAssignmentRequest"-->
-          <ion-button fill="clear" slot="end" (click)="candidateOptions($event, candidate)">
-            <!-- stores.length > 1 && -->
-            <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-          </ion-button>
-
+            <ion-button fill="clear" slot="end" (click)="candidateOptions($event, candidate)">
+              <!-- stores.length > 1 && -->
+              <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+            </ion-button>
         </ion-item>
+ 
+        <!-- [routerLink]="['/log-hour-list', candidate.candidate_id, candidate.latestCandidateWorkingDate.date, 
+          candidate.latestCandidateWorkingDate.store_id]"-->
 
-        <!-- todo: load on open rather than preloading -->
-        
-        <ng-container *ngIf="candidate.isOpen">
-          <div [routerLink]="['/log-hour-list', candidate.candidate_id, candidate.latestCandidateWorkingDate.date, candidate.latestCandidateWorkingDate.store_id]" 
-            *ngIf="candidate.latestCandidateWorkingDate">
-              
-            <h4 class="txt-date">{{ candidate.latestCandidateWorkingDate.date | date : 'mediumDate': undefined: translateService.currentLang}}</h4>
+          <!-- routerLink="/candidate-assignment/{{ history.id }}" -->
+        <div class="work-log" tappable [routerLink]="['/log-date-list', candidate.candidate_id]"
+          *ngIf="candidate.latestCandidateWorkingDate">
+            
+          <h4 class="txt-date">{{ candidate.latestCandidateWorkingDate.date | date : 'mediumDate': undefined: translateService.currentLang}}</h4>
 
-            <ion-badge class="warning" *ngIf="candidate.latestCandidateWorkingDate.status == 0">
-              {{ "Pending" | translate }}
-            </ion-badge>
-            <ion-badge class="success" *ngIf="candidate.latestCandidateWorkingDate.status == 1">
-              {{ "Approved" | translate }}
-            </ion-badge>
-            <ion-badge class="warning" *ngIf="candidate.latestCandidateWorkingDate.status == 2">
-              {{ "Rejected" | translate }}
-            </ion-badge>
+          <ul *ngIf="candidate.latestCandidateWorkingDate.health" class="health-indicator">
+            <li *ngIf="candidate.latestCandidateWorkingDate.health[0] > 0" class="pending">
+              {{ candidate.latestCandidateWorkingDate.health[0] }}
+            </li>
+            <li *ngIf="candidate.latestCandidateWorkingDate.health[1] > 0" class="approved">
+              {{ candidate.latestCandidateWorkingDate.health[1] }}
+            </li>
+            <li *ngIf="candidate.latestCandidateWorkingDate.health[2] > 0" class="rejected">
+              {{ candidate.latestCandidateWorkingDate.health[2] }}
+            </li>
+          </ul>
 
-            <div class="clearfix"></div>
+          <!--
+          <ion-badge class="warning" *ngIf="candidate.latestCandidateWorkingDate.status == 0">
+            {{ "Pending" | translate }}
+          </ion-badge>
+          <ion-badge class="success" *ngIf="candidate.latestCandidateWorkingDate.status == 1">
+            {{ "Approved" | translate }}
+          </ion-badge>
+          <ion-badge class="warning" *ngIf="candidate.latestCandidateWorkingDate.status == 2">
+            {{ "Rejected" | translate }}
+          </ion-badge>-->
 
-            <div class="time-wrapper">
-              <b *ngIf="!candidate.latestCandidateWorkingDate.total_time">{{ "On-going" | translate }}</b>  
-              <b *ngIf="candidate.latestCandidateWorkingDate.total_time">{{ candidate.latestCandidateWorkingDate.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
-              <span> 
-                {{ translateService.toDate(candidate.latestCandidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang }} 
-                <ion-icon name="arrow-forward-outline"></ion-icon> 
-                <ng-container *ngIf="candidate.latestCandidateWorkingDate.end_time">
-                  {{ translateService.toDate(candidate.latestCandidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang }}
-                </ng-container>
-                <ng-container *ngIf="!candidate.latestCandidateWorkingDate.end_time">
-                  {{ "Now" | translate }}
-                </ng-container>
-              </span>
-            </div>
+          <div class="clearfix"></div>
 
-            <div class="clearfix"></div>
+          <div class="time-wrapper">
+            <b *ngIf="!candidate.latestCandidateWorkingDate.total_time">{{ "On-going" | translate }}</b>  
+            <b *ngIf="candidate.latestCandidateWorkingDate.total_time">{{ candidate.latestCandidateWorkingDate.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+            <span> 
+              {{ translateService.toDate(candidate.latestCandidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang }} 
+              <ion-icon name="arrow-forward-outline"></ion-icon> 
+              <ng-container *ngIf="candidate.latestCandidateWorkingDate.end_time">
+                {{ translateService.toDate(candidate.latestCandidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang }}
+              </ng-container>
+              <ng-container *ngIf="!candidate.latestCandidateWorkingDate.end_time">
+                {{ "Now" | translate }}
+              </ng-container>
+            </span>
           </div>
 
-          <ion-button class="btn-more-logs" (click)="preventDefault($event)"
-            [routerLink]="['/log-date-list', candidate.candidate_id]"
-            fill="clear" *ngIf="candidate.totalCandidateWorkingDate > 1"> 
-            {{ "txt_more_logs" | translate : { total: candidate.totalCandidateWorkingDate - 1 } }}
-          </ion-button>
-        </ng-container>
+          <div class="clearfix"></div>
+        </div>
+
+        <!--(click)="openAssignment(candidate)"  -->
+        <ion-button class="btn-more-logs" 
+          [routerLink]="['/log-date-list', candidate.candidate_id]"
+          fill="clear" *ngIf="candidate.totalCandidateWorkingDate > 1"> 
+          {{ "txt_more_logs" | translate : { total: candidate.totalCandidateWorkingDate - 1 } }}
+        </ion-button> 
       </ion-card>  
 
       <no-items *ngIf="candidates.length == 0 && !loading" message="~ No Employees Assigned Yet! ~"></no-items>

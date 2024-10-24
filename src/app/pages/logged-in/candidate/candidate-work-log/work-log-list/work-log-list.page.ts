@@ -51,7 +51,7 @@ export class WorkLogListPage implements OnInit {
 
   public stats: any; 
 
-  public segment: string = "details";
+  public segment: string = "logs";
 
   public interval;
 
@@ -76,17 +76,17 @@ export class WorkLogListPage implements OnInit {
   ngOnInit() {
     this.analyticService.page('Store View Page');
  
-    //this.loadData();
+    this.loadData();
     this.loadAllStores();
 
-    this.loadSummary();
+    //this.loadSummary();
   }
 
-  ionViewDidEnter() {
+  /*ionViewDidEnter() {
     this.interval = setInterval(() => {
       this.loadSummary();
     }, 1000);
-  }
+  }*/
 
   ionViewWillLeave() {
     this.analyticService.track('page_exit', {
@@ -393,7 +393,7 @@ export class WorkLogListPage implements OnInit {
    * Return url string to filter list
    */
   urlParams() {
-    let urlParams = 'expand=storeAssignmentRequest,latestCandidateWorkingDate,totalCandidateWorkingDate&with_session=1';
+    let urlParams = 'expand=storeAssignmentRequest,latestCandidateWorkingDate,latestCandidateWorkingDate.health,totalCandidateWorkingDate&with_session=1';
 
     if (this.filters.start_date) {
       urlParams += '&start_date=' + this.filters.start_date;
@@ -403,9 +403,9 @@ export class WorkLogListPage implements OnInit {
       urlParams += '&end_date=' + this.filters.end_date;
     }
     
-    if (this.filters.session_status) {
-      urlParams += '&session_status=' + this.filters.session_status;
-    }
+    //if (this.filters.session_status) {
+    //  urlParams += '&session_status=' + this.filters.session_status;
+    //}
 
     if (this.filters.name) {
       urlParams += '&q=' + this.filters.name;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { format } from 'date-fns';
 import {
   CalendarModal,
@@ -17,7 +17,10 @@ import { CandidateWorkHistory } from 'src/app/models/candidate-work-history';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { CandidateWorkingHourService } from 'src/app/providers/logged-in/candidate-working-hour.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { CandidateOptionComponent } from '../../store/store-list/candidate-option-component';
+import { SelectSearchPageComponent } from 'src/app/components/select-search/select-search-page/select-search-page.component';
 
 
 @Component({
@@ -41,6 +44,8 @@ export class CandidateAssignmentPage implements OnInit {
 
   public segment: string = "logs";
   
+  public allStores = [];
+  
   public end_date;
   public start_date;
   public startDateFormatted;
@@ -49,7 +54,10 @@ export class CandidateAssignmentPage implements OnInit {
   constructor(
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public activateRoute: ActivatedRoute,
+    public storeService: StoreService,
     public candidateService: CandidateService,
     public candidateWorkingHour: CandidateWorkingHourService,
     public analyticsService: AnalyticsService,
@@ -148,6 +156,130 @@ export class CandidateAssignmentPage implements OnInit {
 
   }
 
+
+  /**
+   * show candidate option 
+   * @param event 
+   * @param candidate 
+   */
+  async candidateOptions(event, candidate) {
+    event.stopPropagation();
+    event.preventDefault(); 
+
+    const popup = await this.popoverCtrl.create({
+      component : CandidateOptionComponent,
+      componentProps: {
+        candidate: candidate
+      },
+      event: event,
+      translucent: true
+    });
+    popup.onDidDismiss().then(e => {
+     
+      if(e && e.data && e.data.action) {
+        if(e.data.action == "change-store") {
+          this.assingToStore(candidate);
+        } else if(e.data.action == "un-assign") {
+          this.storeAssignmentRequest(candidate);
+        } else if(e.data.action == "cancel-request") {
+          this.cancelStoreAssignmentRequest(candidate);
+        }
+      }
+    });
+    await popup.present();
+  }
+
+  loadAllStores() {
+    this.storeService.listByCompanyStore(-1, "").subscribe(response => {
+      this.allStores = response.body;
+    });
+  }
+
+  /**
+   * open popup to select store
+   * @param ev
+   */
+  async assingToStore(candidate) {
+
+    /*if(this.allStores.length == 0) {
+      this.loadAllStores();
+    }*/
+
+    const selectPage = await this.popoverCtrl.create({
+      component: SelectSearchPageComponent,
+      componentProps: {
+        collection: this.allStores,
+        valueAttr: 'store_id',
+        labelAttr: 'store_name'
+      },
+      cssClass: 'select_search_store_id',
+      // event: ev,
+      translucent: true
+    });
+    selectPage.onDidDismiss().then(e => {
+
+      if (e.data && e.data.store_id != candidate.store_id) {
+        this.storeAssignmentRequest(candidate, e.data.store_id);
+      }
+    });
+    await selectPage.present();
+  }
+
+  cancelStoreAssignmentRequest(candidate) {
+    this.storeService.cancelAssignmentRequest(candidate.storeAssignmentRequest.sar_uuid).subscribe(async response => {
+      if( response.operation == "success") {
+
+        candidate.storeAssignmentRequest = null;
+
+        if(response.message) {
+          this.toastCtrl.create({
+            message: this.translateService.errorMessage(response.message),
+            duration: 3000,
+          // buttons: ['Okay']
+          }).then(prompt => {
+            prompt.present();
+          });
+        }
+        
+      } else {
+        let prompt = await this.alertCtrl.create({
+          message: this.translateService.errorMessage(response.message),
+          buttons: [this.translateService.transform('Okay')]
+        });
+        prompt.present();
+      }
+    }); 
+  }
+
+  /**
+   * request to change or remove store assignment
+   * @param candidate 
+   * @param store_id 
+   */
+  storeAssignmentRequest(candidate, store_id = null) {
+    this.storeService.storeAssignmentRequest(candidate.candidate_id, store_id).subscribe(async response => {
+      if( response.operation == "success") {
+        candidate.storeAssignmentRequest = response.storeAssignmentRequest;
+
+        if(response.message) {
+          this.toastCtrl.create({
+            message: this.translateService.errorMessage(response.message),
+            duration: 3000,
+          // buttons: ['Okay']
+          }).then(prompt => {
+            prompt.present();
+          });
+        }
+        
+      } else {
+        let prompt = await this.alertCtrl.create({
+          message: this.translateService.errorMessage(response.message),
+          buttons: [this.translateService.transform('Okay')]
+        });
+        prompt.present();
+      }
+    }); 
+  }
 
   async openCalendar() {
     const options: CalendarModalOptions = {

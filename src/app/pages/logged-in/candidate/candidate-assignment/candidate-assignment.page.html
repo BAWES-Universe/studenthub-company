@@ -5,15 +5,18 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar class="desktop-view">
-    <ion-title *ngIf="history && history.store"> 
-      {{ history.store.store_name }}
+    <ion-title *ngIf="history && history.candidate"> 
+      {{ "txt_candidate_work_log" | translate : {
+            candidate: translateService.langContent(history.candidate.candidate_name, history.candidate.candidate_name_ar) 
+          } 
+      }}
     </ion-title>
-    <ion-title *ngIf="history && !history.store">{{ history.company.company_name }}</ion-title>
-    <!-- todo: request move/ remove 
-    <ion-button slot="end">
-       <ion-icon name=""></ion-icon>
-    </ion-buttons>
--->
+    <ion-title *ngIf="history && !history.candidate">{{ history.company.company_name }}</ion-title>
+
+    <ion-button fill="clear" slot="end" (click)="candidateOptions($event, history.candidate)" *ngIf="history && history.candidate">
+      <!-- stores.length > 1 && -->
+      <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+    </ion-button>
   </ion-toolbar>
   <ion-toolbar class="desktop-view">
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
@@ -50,6 +53,16 @@
     <div class="detail-item">
       <div class="txt-label">{{ "Start Date" | translate }}</div>
       <div class="txt-value">{{ translateService.toDate(history.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang }} </div>
+    </div>
+
+    <div class="detail-item" *ngIf="history.candidate.storeAssignmentRequest">
+      <div class="txt-label">{{ "Store Assignment" | translate }}</div>
+      <div class="txt-value" *ngIf="history.candidate.storeAssignmentRequest.store_id">
+        {{ "Requested to change store" | translate }}
+      </div>  
+      <div class="txt-value" *ngIf="!history.candidate.storeAssignmentRequest.store_id">
+        {{ "Requested to remove" | translate }}
+      </div>  
     </div>
 
   </div>

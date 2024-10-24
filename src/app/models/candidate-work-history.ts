@@ -1,3 +1,4 @@
+import { Candidate } from "./candidate";
 import { Company } from "./company";
 import { Store } from "./store";
 
@@ -16,4 +17,5 @@ export class CandidateWorkHistory {
     transferCost: number;//effective transfer cost 
     company: Company;
     store: Store;
+    candidate: Candidate;
 }

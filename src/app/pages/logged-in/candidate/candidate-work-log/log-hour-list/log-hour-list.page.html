@@ -31,6 +31,19 @@
       
       <span class="txt-label">{{ "Total Time" | translate}}</span>
     
+      <ul *ngIf="stats.health" class="health-indicator">
+        <li *ngIf="stats.health[0] > 0" class="pending">
+          {{ stats.health[0] }}
+        </li>
+        <li *ngIf="stats.health[1] > 0" class="approved">
+          {{ stats.health[1] }}
+        </li>
+        <li *ngIf="stats.health[2] > 0" class="rejected">
+          {{ stats.health[2] }}
+        </li>
+      </ul>
+      
+      <!--
       <ion-badge class="warning" *ngIf="stats.status == 0">
         {{ "Pending" | translate }}
       </ion-badge>
@@ -39,7 +52,7 @@
       </ion-badge>
       <ion-badge class="warning" *ngIf="stats.status == 2">
         {{ "Rejected" | translate }}
-      </ion-badge>
+      </ion-badge>-->
 
       <div class="clearfix"></div>
       <h4 class="txt-time" *ngIf="stats && stats.totalTime">{{ stats.totalTime | secondsToTime }}</h4>  
@@ -63,6 +76,18 @@
 
         <div class="clearfix"></div>
       </div>
+
+      <ul *ngIf="stats.health" class="health-bar">
+        <li *ngIf="stats.health[0] > 0" class="pending">
+          {{ stats.health[0] }} {{ "Pending" | translate }}
+        </li>
+        <li *ngIf="stats.health[1] > 0" class="approved">
+          {{ stats.health[1] }} {{ "Approved" | translate }}
+        </li>
+        <li *ngIf="stats.health[2] > 0" class="rejected">
+          {{ stats.health[2] }} {{ "Rejected" | translate }}
+        </li>
+      </ul>
 
     </ion-card>
 

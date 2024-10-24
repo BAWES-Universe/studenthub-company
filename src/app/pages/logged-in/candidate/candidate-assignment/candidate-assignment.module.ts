@@ -11,6 +11,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { DatePickerModule } from 'src/app/components/date-picker/date-picker.module';
 import { CalendarModule } from 'ion2-calendar';
+import { CandidateOptionComponent } from '../../store/store-list/candidate-option-component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,8 @@ import { CalendarModule } from 'ion2-calendar';
     PipesModule,
     DatePickerModule,
     CalendarModule,
+   // SelectSearchPage
+   // CandidateOptionModule,
     TranslateModule.forChild(),
     CandidateAssignmentPageRoutingModule
   ],

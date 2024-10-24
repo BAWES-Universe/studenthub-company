@@ -9,6 +9,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
 import {PipesModule} from 'src/app/pipes/pipes.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
+import { WorkLogDateModule } from 'src/app/components/work-log-date/work-log-date.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
     LoadingModalModule,
     PipesModule,
     NoItemsModule,
+    WorkLogDateModule,
     TranslateModule.forChild(),
     LogDateListPageRoutingModule
   ],
