@@ -5,24 +5,26 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar class="desktop-view">
-    <ion-title *ngIf="history && history.store"> 
-      {{ history.store.store_name }}
+    <ion-title *ngIf="history && history.candidate"> 
+      {{ "txt_candidate_work_log" | translate : {
+            candidate: translateService.langContent(history.candidate.candidate_name, history.candidate.candidate_name_ar) 
+          } 
+      }}
     </ion-title>
-    <ion-title *ngIf="history && !history.store">{{ history.company.company_name }}</ion-title>
-    <!-- todo: request move/ remove 
-    <ion-button slot="end">
-       <ion-icon name=""></ion-icon>
-    </ion-buttons>
--->
+    <ion-title *ngIf="history && !history.candidate">{{ history.company.company_name }}</ion-title>
+
+    <ion-button fill="clear" slot="end" (click)="candidateOptions($event, history.candidate)" *ngIf="history && history.candidate">
+      <!-- stores.length > 1 && -->
+      <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+    </ion-button>
   </ion-toolbar>
   <ion-toolbar class="desktop-view">
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
-      <ion-segment-button mode="md" value="details">
-        <ion-label>{{ "Details" | translate }}</ion-label>
-      </ion-segment-button>
-
       <ion-segment-button mode="md" value="logs">
         <ion-label>{{ "Logs" | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button mode="md" value="details">
+        <ion-label>{{ "Details" | translate }}</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -45,7 +47,22 @@
 
     <div class="detail-item">
       <div class="txt-label">{{ "Compensation" | translate }}</div>
-      <div class="txt-value">{{ history.candidate_hourly_rate }}</div>
+
+      <div *ngIf="!history.contract" class="txt-value">{{ history.candidate_hourly_rate }}</div>
+
+      <ng-container *ngIf="history.contract && history.contract.amount">
+        <div class="txt-value" *ngIf=" history.contract.type == 'HOURLY'">
+          {{ history.contract.amount.candidate_hourly_rate | number:'1.0-3' }} {{ history.contract.currency_code }}/hr
+        </div>
+        
+        <div class="txt-value" *ngIf="history.contract.type == 'FIXED_PRICE'">
+          {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }} 
+        </div>
+        
+        <div class="txt-value" *ngIf="history.contract.type == 'MONTHLY_SALARY'">
+          {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }}/month
+        </div>
+      </ng-container>
     </div>
 
     <div class="detail-item">
@@ -53,39 +70,115 @@
       <div class="txt-value">{{ translateService.toDate(history.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang }} </div>
     </div>
 
+    <div class="detail-item" *ngIf="history.candidate.storeAssignmentRequest">
+      <div class="txt-label">{{ "Store Assignment" | translate }}</div>
+      <div class="txt-value" *ngIf="history.candidate.storeAssignmentRequest.store_id">
+        {{ "Requested to change store" | translate }}
+      </div>  
+      <div class="txt-value" *ngIf="!history.candidate.storeAssignmentRequest.store_id">
+        {{ "Requested to remove" | translate }}
+      </div>  
+    </div>
+
   </div>
 
   <div class="desktop-view session-wrapper" *ngIf="history && segment == 'logs'">
-    
-    <div class="date-wrapper" tappable *ngFor="let hour of candidateWorkingHourData" 
-    [routerLink]="['/log-hour-list', history.candidate_id, hour.date, history.store_id]">
-    
-      <h2>{{ hour.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
       
-      <ion-badge class="warning" *ngIf="hour.dateStatus == 0">
-        {{ "Pending" | translate }}
-      </ion-badge>
-      <ion-badge class="success" *ngIf="hour.dateStatus == 1">
-        {{ "Approved" | translate }}
-      </ion-badge>
-      <ion-badge class="warning" *ngIf="hour.dateStatus == 2">
-        {{ "Rejected" | translate }}
-      </ion-badge>
-
-      <div class="clearfix"></div>
-
-      <div class="time-wrapper">
-        <b>{{ hour.total_time | secondsToTime }}</b>  
-        <span>
-          {{ translateService.toDate(hour.checkIn) | date: "shortTime": undefined: translateService.currentLang}} 
-          <ion-icon name="arrow-forward-outline"></ion-icon> 
-          {{ translateService.toDate(hour.checkOut) | date: "shortTime": undefined: translateService.currentLang}}
-        </span>
-      </div>
+    <div class="message-wrapper warning" *ngIf="warningMsg">
+      <p class="message">{{ warningMsg }}</p>
     </div>
     
+    <div class="message-wrapper success" *ngIf="successMsg">
+      <p class="message">{{ successMsg }}</p>
+    </div>
+    
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button class="btn-date-range" (click)="openCalendar()" [class.active]="start_date || end_date">
+            <ion-icon src="assets/images/filter.svg"></ion-icon> {{ "Filter by Date" | translate }}
+          </button>
+        </ion-col>
+        <ion-col *ngIf="start_date">
+          <ion-item line="none"  (click)="selectStartDate($event)" >
+            <ion-label position="floating">{{ "Select Date" | translate }}</ion-label>
+            <ion-input readonly [value]="start_date"></ion-input>
+
+            <ion-button slot="end" fill="clear">
+              <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+            </ion-button>
+
+          </ion-item>
+        </ion-col>
+        <ion-col *ngIf="end_date">
+          <ion-item line="none" (click)="selectEndDate($event)">
+            <ion-label position="floating">{{ "Select Date" | translate }}</ion-label>
+            <ion-input readonly [value]="end_date"></ion-input>
+            <ion-button slot="end" fill="clear">
+              <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+     
+    <ng-container *ngFor="let group of candidateWorkingDates | groupByMonth : 'date'">
+      <h4 class="txt-date">{{ group.name }}</h4>
+
+      <!--<app-work-log-date [candidateWorkingDate]="candidateWorkingDate" 
+      *ngFor="let candidateWorkingDate of group.resources"></app-work-log-date>
+    -->
+      
+      <div class="date-wrapper" tappable *ngFor="let candidateWorkingDate of group.resources" 
+        [class.with-checkbox]="candidateWorkingDate.health[0] > 0"
+        [routerLink]="['/log-hour-list', candidateWorkingDate.candidate_id, candidateWorkingDate.date, candidateWorkingDate.store_id]">
+      
+        <div class="input-wrapper" *ngIf="candidateWorkingDate.health[0] > 0">
+          <ion-checkbox mode="md" (click)="toggleSelection(candidateWorkingDate, $event)"></ion-checkbox>
+        </div>
+        
+        <div class="details">
+          <h2>{{ candidateWorkingDate.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
+          
+          <ul *ngIf="candidateWorkingDate.health" class="health-indicator">
+            <li *ngIf="candidateWorkingDate.health[0] > 0" class="pending">
+              {{ candidateWorkingDate.health[0] }}
+            </li>
+            <li *ngIf="candidateWorkingDate.health[1] > 0" class="approved">
+              {{ candidateWorkingDate.health[1] }}
+            </li>
+            <li *ngIf="candidateWorkingDate.health[2] > 0" class="rejected">
+              {{ candidateWorkingDate.health[2] }}
+            </li>
+          </ul>
+          
+          <!--
+          <ion-badge class="warning" *ngIf="candidateWorkingDate.dateStatus == 0">
+            {{ "Pending" | translate }}
+          </ion-badge>
+          <ion-badge class="success" *ngIf="candidateWorkingDate.dateStatus == 1">
+            {{ "Approved" | translate }}
+          </ion-badge>
+          <ion-badge class="warning" *ngIf="candidateWorkingDate.dateStatus == 2">
+            {{ "Rejected" | translate }}
+          </ion-badge>-->
+
+          <div class="clearfix"></div>
+
+          <div class="time-wrapper">
+            <b>{{ candidateWorkingDate.total_time | secondsToTime }}</b>  
+            <span>
+              {{ translateService.toDate(candidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+              <ion-icon name="arrow-forward-outline"></ion-icon> 
+              {{ translateService.toDate(candidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+            </span>
+          </div>
+        </div>
+      </div> 
+    </ng-container>
+
     <!-- todo: replace with placeholder image -->
-    <p *ngIf="candidateWorkingHourData.length == 0 && !loading">
+    <p *ngIf="candidateWorkingDates.length == 0 && !loading">
       {{ "No record found" | translate }}
     </p>
 
@@ -95,3 +188,19 @@
     </ion-infinite-scroll>
   </div>
 </ion-content>
+
+<ion-footer *ngIf="arr_cwd_uuid.length > 0">
+  <div class="max-width">
+    <div class="btn-wrapper" >
+      <ion-button class="btn-reject" (click)="reject()"  fill="outline" color="danger">
+        {{ "Reject" | translate }}
+      </ion-button>
+    
+      <ion-button class="btn-approve" (click)="approve()">
+        {{ "Approve" | translate }}
+      </ion-button>
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</ion-footer>

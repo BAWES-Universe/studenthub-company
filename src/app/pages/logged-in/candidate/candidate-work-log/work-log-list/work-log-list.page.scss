@@ -43,6 +43,77 @@ ion-card {
     }
   }
   
+  .work-log {
+    border-radius: 8px;
+    background: var(--Neutral-0, #FFF);
+    box-shadow: 0px 0px 8px 0px rgba(35, 35, 38, 0.08), 0px 8px 16px 0px rgba(35, 35, 38, 0.06);
+    padding: 16px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+
+    .health-indicator {
+      float: var(--end);
+      margin: 0;
+      border-radius: 6px;
+      background: var(--Neutral-20, #F5F5F7);    
+      padding: 2px 6px;
+      
+    }
+
+    .health-bar {
+      padding: 0px;
+      margin-top: 12px;
+      margin-bottom: 0;
+      
+      li {
+          border-radius: 6px;
+          background: var(--Neutral-20, #F5F5F7);
+          padding: 2px 6px;
+      
+      }
+    }
+
+    .health-bar,
+    .health-indicator {
+      display: flex;
+      height: 24px;
+      align-items: center;
+      gap: 10px;
+      color: var(--Neutral-95, #23233D);
+      font-feature-settings: 'liga' off, 'clig' off;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 16px; /* 133.333% */
+      list-style: none;
+
+      li {
+          display: inline-flex;
+      }
+
+      li::before {
+          width: 14px;
+          height: 14px;
+          content: "";
+          display: inline-block;
+          border-radius: 100%;
+          margin-inline-end: 6px;    
+      }
+
+      li.pending::before { 
+          background: #F2994A;
+      }
+
+      li.approved::before { 
+          background: #29B564;
+      }
+
+      li.rejected::before { 
+          background: #EB5757;
+      }
+    }
+  }
+
   ion-badge {
     font-feature-settings: 'clig' off, 'liga' off;
     font-size: 14px;
@@ -161,24 +232,21 @@ ion-card {
 }
 
 .btn-more-logs {
-  color: #23233D;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px; /* 150% */
   text-transform: none;
   margin: 0;
   --padding-start: 0;
   --padding-bottom: 0;
   --padding-top: 0px;
+  color: var(--Neutral-70, #7D7D8D);
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+  position: relative;
+  top: -6px;
 }
-
-@media (max-width: 900px) {
-  ion-searchbar {
-    width: calc(100% - 24px) !important;
-  }
-}
+ 
 
 [dir=rtl] ion-button.active::after { 
   left: 0;

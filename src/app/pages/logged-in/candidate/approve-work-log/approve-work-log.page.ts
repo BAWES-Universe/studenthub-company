@@ -31,6 +31,8 @@ export class ApproveWorkLogPage implements OnInit {
 
   public saving: boolean = false; 
 
+  arr_cwd_uuid: string[] = [];
+
   constructor(
     private _alertCtrl: AlertController,
     private _fb: FormBuilder, 
@@ -46,7 +48,7 @@ export class ApproveWorkLogPage implements OnInit {
     this.form = this._fb.group({
       candidate_id: [this.candidate_id, Validators.required],
       store_id: [this.store_id, Validators.required],
-      date: [this.date, Validators.required],
+      date: [this.date],//, Validators.required],
       candidate_working_hour_uuid: [this.hour?.candidate_working_hour_uuid],
       status: [1],
       note: [""],//, Validators.required
@@ -64,7 +66,13 @@ export class ApproveWorkLogPage implements OnInit {
 
     this.updateModelFromForm();
 
-    this.cwhfService.save(this.model).subscribe(async res => {
+    let action;
+    if (this.arr_cwd_uuid && this.arr_cwd_uuid.length > 0) {
+      action = this.cwhfService.bulkSave(this.arr_cwd_uuid, this.model);
+    } else {
+      action =this.cwhfService.save(this.model);
+    }
+    action.subscribe(async res => {
 
       this.saving = false;
       
@@ -97,9 +105,7 @@ export class ApproveWorkLogPage implements OnInit {
   } 
 
   updateModelFromForm() {
-
-    console.log(this.form.value);
-
+ 
     if(!this.model) 
       this.model = new CandidateWorkLogFeedback;
 
@@ -110,6 +116,7 @@ export class ApproveWorkLogPage implements OnInit {
     this.model.note = this.form.value.note;
     this.model.is_public = this.form.value.is_public;
     this.model.rating = this.form.value.rating;
+    
     this.model.candidate_working_hour_uuid = this.form.value.candidate_working_hour_uuid;
   }
 

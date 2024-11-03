@@ -28,6 +28,8 @@ export class RejectWorkLogPage implements OnInit {
 
   public saving: boolean = false; 
 
+  arr_cwd_uuid : string[] = [];
+
   constructor(
     private _alertCtrl: AlertController,
     private _fb: FormBuilder, 
@@ -43,7 +45,7 @@ export class RejectWorkLogPage implements OnInit {
     this.form = this._fb.group({
       candidate_id: [this.candidate_id, Validators.required],
       store_id: [this.store_id, Validators.required],
-      date: [this.date, Validators.required],
+      date: [this.date],//, Validators.required],
       status: [2],
       candidate_working_hour_uuid: [this.hour?.candidate_working_hour_uuid],
       note: [""],//, Validators.required
@@ -60,7 +62,13 @@ export class RejectWorkLogPage implements OnInit {
 
     this.updateModelFromForm();
 
-    this.cwhfService.save(this.model).subscribe(async res => {
+    let action;
+    if (this.arr_cwd_uuid && this.arr_cwd_uuid.length > 0) {
+      action = this.cwhfService.bulkSave(this.arr_cwd_uuid, this.model);
+    } else {
+      action =this.cwhfService.save(this.model);
+    }
+    action.subscribe(async res => {
 
       this.saving = false;
       

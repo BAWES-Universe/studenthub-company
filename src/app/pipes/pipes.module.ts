@@ -8,10 +8,12 @@ import {CandidateAgePipe} from './candidate.age.pipe';
 import {TimeSpentPipe} from "./timespent.pipe";
 import { SecondsToTimePipe } from './secondToTime.pipe';
 import { ConvertToBoldPipe } from './convert-to-bold';
+import { GroupByMonthPipe } from './groupby-month.pipe';
 
 // import custom pipes here
 @NgModule({
     declarations: [
+        GroupByMonthPipe,
         GroupByPipe,
         StoreIdPipe,
         SortPipe,
@@ -24,6 +26,7 @@ import { ConvertToBoldPipe } from './convert-to-bold';
     ],
     imports: [],
     exports: [
+        GroupByMonthPipe,
         GroupByPipe,
         StoreIdPipe,
         SortPipe,
