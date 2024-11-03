@@ -85,6 +85,8 @@ export class LogHourListPage implements OnInit {
   loadData() {
     this.loading = true;
      
+    this.currentPage = 1;
+
     this.candidateWorkingHour.listByHour(this.currentPage, this.getUrlParams()).subscribe(response => {
       this.loading =  false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
@@ -158,6 +160,7 @@ export class LogHourListPage implements OnInit {
 
       if(e.data && e.data.refresh) {       
         this.loadStats();
+        this.loadData();
 
         if(e.data.message) {
           this.successMsg = e.data.message;
@@ -190,7 +193,8 @@ export class LogHourListPage implements OnInit {
 
       if(e.data && e.data.refresh) {       
         this.loadStats();
-
+        this.loadData();
+        
         if(e.data.message) {
           this.warningMsg = e.data.message;
         }
