@@ -65,3 +65,21 @@ To test for transfer
   - listing + details pages in all apps 
   
 - without parent 
+
+
+todo
+
+- separate page for monthly / fix contract 
+
+monthly /fix contract 
+- list candidates 
+- show candidate_total, company_total, transfer cost  
+
+validation in backend for monthly / fix contract 
+- company_total > candidate_total + transfer cost 
+
+on transfer edit > open page based on transfer contract type 
+
+on new transfer init > select contract > move to transfer form based on contract selection 
+
+

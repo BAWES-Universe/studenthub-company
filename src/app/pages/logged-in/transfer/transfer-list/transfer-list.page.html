@@ -4,8 +4,9 @@
     <section class="ion-padding no-transfers" *ngIf="!loading && transfers && transfers.length == 0">
       <ion-icon name="ios-filing-outline"></ion-icon>
       <h2>{{"Create a transfer to start salary distribution" | translate}}</h2>
-      <ion-button (click)="presentActionSheetForNewTransfer()">
-        {{"Create your first transfer" | translate}}
+      <!-- (click)="presentActionSheetForNewTransfer()" -->
+      <ion-button id="btn-fab">
+        {{ "Create your first transfer" | translate}}
       </ion-button>
     </section>
 
@@ -35,7 +36,7 @@
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
     <!--  (click)="presentActionSheetForNewTransfer()"-->
-    <ion-fab-button class="btn-fab" id="btn-fab" >
+    <ion-fab-button class="btn-fab" id="btn-fab">
       <ion-icon name="add"></ion-icon> {{ "Create New Transfer" | translate }}
     </ion-fab-button>
      <!--  <ion-fab-list side="top">

@@ -293,6 +293,17 @@ const routes: Routes = [
     canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/chat/chat-view/chat-view.module').then( m => m.ChatViewPageModule)
   },
+
+  {
+    path: 'contract-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/contract/contract-list/contract-list.module').then( m => m.ContractListPageModule)
+  },
+  {
+    path: 'contract-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/contract/contract-view/contract-view.module').then( m => m.ContractViewPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'

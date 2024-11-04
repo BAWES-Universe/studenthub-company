@@ -23,7 +23,7 @@
 
     <!-- Instructions for Create -->
     <section *ngIf="scenario == 'create'">
- 
+      
       <h4>{{"Step 1: Fill Start and End Date" | translate}}</h4>
 
       <h4>{{"I am transferring for work done in the following time period:" | translate}}</h4>
@@ -81,6 +81,11 @@
       <span *ngIf="!uploading">{{"Upload" | translate}}</span>
       <ion-spinner *ngIf="uploading">{{"Uploading..." | translate}}</ion-spinner>
     </ion-button>
+
+
+    <p *ngIf="transfer && transfer.contract">
+      <b>{{ "Contract detail" | translate }}</b>:  {{ transfer.contract.detail }}
+    </p>
   </div>
 
 </ion-content>

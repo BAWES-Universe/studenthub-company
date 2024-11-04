@@ -1,5 +1,6 @@
 import { TransferCandidate } from './transfer-candidate'
 import { Invoice } from './invoice'
+import { Contract } from './contract';
 
 export class Transfer {
     transfer_id: number;
@@ -14,8 +15,10 @@ export class Transfer {
     transfer_updated_at: string;
     transfer_updated_at_unix: string;
     currency_code: string;
-    
+    contract_uuid: string;
+
     // Related
     transferCandidates: TransferCandidate[];
     invoices: Invoice[];
+    contract: Contract;
 }

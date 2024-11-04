@@ -1,0 +1,52 @@
+<ion-header [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar  class="desktop-view">
+    <ion-buttons slot="start">
+      <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{"Contracts" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+  <div class="desktop-view">
+
+    <section class="ion-padding no-contracts" *ngIf="!loading && contracts && contracts.length == 0">
+      <ion-icon name="ios-filing-outline"></ion-icon>
+      <h2>{{  "Your contract(s) will be listed here" | translate}}</h2>
+    </section>
+
+    <!-- (click)="contractDetails(contract.contract_uuid)"-->
+    <ion-item class="item-contract" tappable *ngFor="let contract of contracts" 
+      [routerLink]="'/contract-view/' + contract.contract_uuid">
+      <div tabindex="0"></div>
+      <ion-label>
+        <p class="txt-time" *ngIf="contract.created_at">
+          {{ translateService.toDate(contract.created_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang }}
+        </p>
+  
+        <ng-container *ngIf="contract.amount">
+          <h5 class="txt-value" *ngIf=" contract.type == 'HOURLY'">
+            {{ contract.amount.candidate_hourly_rate | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "hour" | translate }}
+          </h5>
+          
+          <h5 class="txt-value" *ngIf="contract.type == 'FIXED_PRICE'">
+            {{ contract.amount.candidate_total | number:'1.0-3' }} {{ contract.currency_code }} 
+          </h5>
+          
+          <h5 class="txt-value" *ngIf="contract.type == 'MONTHLY_SALARY'">
+            {{ contract.amount.candidate_total | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "month" | translate }}
+          </h5>
+        </ng-container>
+
+        <p class="txt-id">#{{contract.contract_uuid}}</p>
+      </ion-label>
+    </ion-item>  
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
+
+  </div>
+
+</ion-content>
