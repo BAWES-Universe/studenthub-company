@@ -12,11 +12,65 @@
 </ion-header>
 <ion-content>
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="desktop-view session-wrapper">
      
+    <!--
     <app-work-log-date [candidateWorkingDate]="candidateWorkingDate" 
       *ngFor="let candidateWorkingDate of candidateWorkingDates"></app-work-log-date>
-    
+    -->
+
+    <!--[class.with-checkbox]="candidateWorkingDate.health[0] > 0" -->
+
+    <div class="date-wrapper" tappable *ngFor="let candidateWorkingDate of candidateWorkingDates" 
+        [routerLink]="['/log-hour-list', candidateWorkingDate.candidate_id, candidateWorkingDate.date, candidateWorkingDate.store_id]">
+      
+        <!-- <div class="input-wrapper" *ngIf="candidateWorkingDate.health[0] > 0">
+          <ion-checkbox mode="md" (click)="toggleSelection(candidateWorkingDate, $event)"></ion-checkbox>
+        </div>-->
+        
+        <div class="details">
+          <h2>{{ candidateWorkingDate.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
+          
+          <ul *ngIf="candidateWorkingDate.health" class="health-indicator">
+            <li *ngIf="candidateWorkingDate.health[0] > 0" class="pending">
+              {{ candidateWorkingDate.health[0] }}
+            </li>
+            <li *ngIf="candidateWorkingDate.health[1] > 0" class="approved">
+              {{ candidateWorkingDate.health[1] }}
+            </li>
+            <li *ngIf="candidateWorkingDate.health[2] > 0" class="rejected">
+              {{ candidateWorkingDate.health[2] }}
+            </li>
+          </ul>
+          
+          <!--
+          <ion-badge class="warning" *ngIf="candidateWorkingDate.dateStatus == 0">
+            {{ "Pending" | translate }}
+          </ion-badge>
+          <ion-badge class="success" *ngIf="candidateWorkingDate.dateStatus == 1">
+            {{ "Approved" | translate }}
+          </ion-badge>
+          <ion-badge class="warning" *ngIf="candidateWorkingDate.dateStatus == 2">
+            {{ "Rejected" | translate }}
+          </ion-badge>-->
+
+          <div class="clearfix"></div>
+
+          <div class="time-wrapper">
+            <b>{{ candidateWorkingDate.total_time | secondsToTime }}</b>  
+            <span>
+              {{ translateService.toDate(candidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+              <ion-icon name="arrow-forward-outline"></ion-icon> 
+              {{ translateService.toDate(candidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+            </span>
+          </div>
+        </div>
+    </div> 
+
     <!-- todo: replace with placeholder image -->
     <p *ngIf="candidateWorkingDates.length == 0 && !loading">
       {{ "No record found" | translate }}

@@ -46,6 +46,11 @@ export class LogDateListPage implements OnInit {
     });
   }
 
+  doRefresh(event) {
+    this.loadData();
+    event.target.complete();
+  }
+
   /**
    * load invitations for request
    */

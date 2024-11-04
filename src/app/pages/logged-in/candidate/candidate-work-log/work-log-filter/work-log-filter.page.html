@@ -21,17 +21,25 @@
 <ion-content class="ion-padding">
    
   <div class="desktop-view">
-    <!--
+    
     <h5>{{ "Session Status" | translate }}</h5>
 
     <ion-badge tappable color="primary" (click)="resetStatus()" [class.active]="[0, 1, 2].indexOf(filters.session_status) == -1">
       {{ "All" | translate }}
     </ion-badge>
 
-    <ion-badge tappable color="primary" (click)="filterByStatus($event, 0)" [class.active]="filters.session_status == 0">Pending</ion-badge>
-    <ion-badge tappable color="primary" (click)="filterByStatus($event, 1)" [class.active]="filters.session_status == 1">Approved</ion-badge>
-    <ion-badge tappable color="primary" (click)="filterByStatus($event, 2)" [class.active]="filters.session_status == 2">Rejected</ion-badge>
--->
+    <ion-badge tappable color="primary" (click)="filterByStatus($event, 0)" [class.active]="filters.session_status == 0">
+      {{ "Pending" | translate }}
+    </ion-badge>
+
+    <ion-badge tappable color="primary" (click)="filterByStatus($event, 1)" [class.active]="filters.session_status == 1">
+      {{ "Approved" | translate }}
+    </ion-badge>
+
+    <ion-badge tappable color="primary" (click)="filterByStatus($event, 2)" [class.active]="filters.session_status == 2">
+      {{ "Rejected" | translate }}
+    </ion-badge>
+ 
     <ion-grid class="request_filter">
       <ion-row>
         <ion-col size="6">
