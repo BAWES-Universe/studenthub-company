@@ -110,4 +110,5 @@ export class CandidateWorkingDate {
   updated_at: string;
   store: Store;
   candidate: Candidate;
+  health: any;
 }

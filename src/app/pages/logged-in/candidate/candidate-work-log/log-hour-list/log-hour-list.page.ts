@@ -79,6 +79,12 @@ export class LogHourListPage implements OnInit {
     });
   }
 
+  doRefresh(event) {
+    this.loadData();
+    this.loadStats();
+    event.target.complete();
+  } 
+
   /**
    * load invitations for request
    */

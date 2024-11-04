@@ -44,7 +44,7 @@ export class WorkLogListPage implements OnInit {
     start_date: string
   } = {
     name: null,
-    session_status: null,
+    session_status: 0,
     end_date: null,
     start_date: null
   };
@@ -95,6 +95,16 @@ export class WorkLogListPage implements OnInit {
 
     clearInterval(this.interval);
     this.interval = null;
+  }
+
+  doRefresh(event) {
+    if (this.segment == "logs") {
+      this.loadData();
+    } else {
+      this.loadSummary();
+    }
+
+    event.target.complete();
   }
 
   segmentChanged(event) {
@@ -403,9 +413,9 @@ export class WorkLogListPage implements OnInit {
       urlParams += '&end_date=' + this.filters.end_date;
     }
     
-    //if (this.filters.session_status) {
-    //  urlParams += '&session_status=' + this.filters.session_status;
-    //}
+    if ([0, 1, 2].indexOf(this.filters.session_status) > -1) {
+      urlParams += '&session_status=' + this.filters.session_status;
+    }
 
     if (this.filters.name) {
       urlParams += '&q=' + this.filters.name;

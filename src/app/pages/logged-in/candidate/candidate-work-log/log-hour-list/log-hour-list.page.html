@@ -9,6 +9,11 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-header class="max-width" *ngIf="candidateWorkingHourData" collapse="condense">
     <ion-toolbar>
       <ion-title>{{ date | date : 'mediumDate': undefined: translateService.currentLang}}</ion-title>

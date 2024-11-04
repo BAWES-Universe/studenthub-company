@@ -14,7 +14,7 @@
          
       <ion-buttons slot="end">
         <ion-button class="ion-text-capitalize btn-filter" 
-        [class.active]="filters.session_status || filters.end_date || filters.start_date" (click)="filter()">
+        [class.active]="[0, 1, 2].indexOf(filters.session_status) > -1 || filters.end_date || filters.start_date" (click)="filter()">
           <ion-icon name="options"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -39,6 +39,10 @@
 </ion-header>
 
 <ion-content [attr.dir]="translateService.direction()" scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <div class="desktop-view">
     
