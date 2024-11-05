@@ -106,7 +106,7 @@ export class ImportTransferFormPage implements OnInit {
         this.loadTransferData();
       } else {
         this.transfer = new Transfer;
-        this.transfer.currency_code = this.authService.currency_pref;
+        this.transfer.currency_code = state['contract']? state['contract']['currency_code']: this.authService.currency_pref;
         this.transfer.contract_uuid = state['contract']? state['contract']['contract_uuid']: null;
         this.transfer.contract = state['contract'];
       }

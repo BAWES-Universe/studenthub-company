@@ -89,13 +89,14 @@
 
     <ion-list *ngIf="contract && contract.amount && contract.type == 'FIXED_PRICE'">
  
+      <!-- 
       <ion-item>
         <div tabindex="0"></div>
         <ion-label>
           <h5>{{ "Candidate hourly rate" | translate }}</h5>
-          <p>{{ contract.amount.candidate_hourly_rate | number : '1.0-3' }}</p>
+          <p>{{ contract.amount.company_hourly_rate | number : '1.0-3' }}</p>
         </ion-label> 
-      </ion-item>
+      </ion-item>-->
 
       <ion-item>
         <div tabindex="0"></div>
@@ -109,13 +110,15 @@
 
     <ion-list *ngIf="contract && contract.amount && contract.type != 'FIXED_PRICE'">
  
+      <!-- 
       <ion-item>
         <div tabindex="0"></div>
         <ion-label>
           <h5>{{ "Candidate total" | translate }}</h5>
-          <p>{{ contract.amount.candidate_total | number : '1.0-3' }}</p>
+          <p>{{ contract.amount.company_total | number : '1.0-3' }}</p>
         </ion-label> 
-      </ion-item>
+      </ion-item>-->
+
       <ion-item>
         <div tabindex="0"></div>
         <ion-label>

@@ -25,15 +25,15 @@
   
         <ng-container *ngIf="contract.amount">
           <h5 class="txt-value" *ngIf=" contract.type == 'HOURLY'">
-            {{ contract.amount.candidate_hourly_rate | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "hour" | translate }}
+            {{ contract.amount.company_hourly_rate | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "hour" | translate }}
           </h5>
           
           <h5 class="txt-value" *ngIf="contract.type == 'FIXED_PRICE'">
-            {{ contract.amount.candidate_total | number:'1.0-3' }} {{ contract.currency_code }} 
+            {{ contract.amount.company_total | number:'1.0-3' }} {{ contract.currency_code }} 
           </h5>
           
           <h5 class="txt-value" *ngIf="contract.type == 'MONTHLY_SALARY'">
-            {{ contract.amount.candidate_total | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "month" | translate }}
+            {{ contract.amount.company_total | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "month" | translate }}
           </h5>
         </ng-container>
 

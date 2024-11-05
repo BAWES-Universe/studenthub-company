@@ -83,3 +83,5 @@ on transfer edit > open page based on transfer contract type
 on new transfer init > select contract > move to transfer form based on contract selection 
 
 
+import transfer excel candidates' validation if contract selected
+- should not have candidate belong to other contract or no contract 

@@ -119,7 +119,7 @@ export class CandidateAssignmentPage implements OnInit {
           text: this.translateService.transform('Reject'),
           cssClass: 'danger',
           handler: async (data) => {
-            window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+           // window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
             const modal = await this.modalCtrl.create({
               component: RejectWorkLogPage,
@@ -134,10 +134,10 @@ export class CandidateAssignmentPage implements OnInit {
             });
             modal.onDidDismiss().then(e => {
         
-              if (!e.data || e.data.from != 'native-back-btn') {
+              /*if (!e.data || e.data.from != 'native-back-btn') {
                 window['history-back-from'] = 'onDidDismiss';
                 window.history.back();
-              }
+              }*/
         
               if(e.data && e.data.refresh) {       
                 this.loadData();
@@ -173,7 +173,8 @@ export class CandidateAssignmentPage implements OnInit {
         }, {
           text: this.translateService.transform('Approve'),
           handler: async (data) => {
-            window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+            
+            //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
             const modal = await this.modalCtrl.create({
               component: ApproveWorkLogPage, 
@@ -189,10 +190,10 @@ export class CandidateAssignmentPage implements OnInit {
             });
             modal.onDidDismiss().then(e => {
         
-              if (!e.data || e.data.from != 'native-back-btn') {
+              /*if (!e.data || e.data.from != 'native-back-btn') {
                 window['history-back-from'] = 'onDidDismiss';
                 window.history.back();
-              }
+              }*/
         
               if(e.data && e.data.refresh) {       
                 this.loadData();
@@ -452,7 +453,8 @@ export class CandidateAssignmentPage implements OnInit {
   }
 
   async selectEndDate(event)  {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+    
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.popoverCtrl.create({
       component: DatePickerComponent, 
@@ -464,10 +466,10 @@ export class CandidateAssignmentPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
  
       if (e.data && e.data.date) {
         this.endDateFormatted = e.data.dateFormatted;
@@ -479,7 +481,7 @@ export class CandidateAssignmentPage implements OnInit {
 
   async selectStartDate(event) {
      
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.popoverCtrl.create({
       component: DatePickerComponent, 
@@ -491,10 +493,10 @@ export class CandidateAssignmentPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
  
       if (e.data && e.data.date) {
         this.startDateFormatted = e.data.dateFormatted;

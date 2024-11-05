@@ -7,13 +7,13 @@
 
     <ion-title>
       {{"Transfer" | translate}}
-      <span *ngIf="transferDetails?.company_total">
-        - {{ transferDetails.currency_code }} {{ transferDetails.company_total | number:'1.0-3' }}
+      <span *ngIf="transfer?.company_total">
+        - {{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}
       </span>
     </ion-title>
 
-    <ion-buttons slot="end" *ngIf="transferDetails && transferDetails.transfer_status==10">
-      <ion-button color="danger" (click)="delete(transferDetails)">
+    <ion-buttons slot="end" *ngIf="transfer && transfer.transfer_status==10">
+      <ion-button color="danger" (click)="delete(transfer)">
         {{"Delete" | translate}}
       </ion-button>
     </ion-buttons>
@@ -27,72 +27,72 @@
 
     <ng-container *ngIf="!loading">
 
-      <div class="ion-text-center ion-padding" *ngIf="transferDetails">
+      <div class="ion-text-center ion-padding" *ngIf="transfer">
         <h2 class="ion-text-center">
           {{transferStatus}}
         </h2>
         <div>{{transferStatusDescription}}</div>
 
-        <section class="ion-padding" *ngIf="transferDetails">
+        <section class="ion-padding" *ngIf="transfer">
 
           <ion-button fill="outline" (click)="markCancel()"
-          *ngIf="transferDetails.transfer_status == 10">
+          *ngIf="transfer.transfer_status == 10">
           <ion-icon name="cross-outline" slot="start"></ion-icon>
           {{ "Mark cancelled" | translate }}
         </ion-button>
         
           <!-- If Transfer Locked -->
-          <ion-button fill="outline" (click)="paymentSent(transferDetails)"
-            *ngIf="transferDetails && (transferDetails.transfer_status==5)">
+          <ion-button fill="outline" (click)="paymentSent(transfer)"
+            *ngIf="transfer && (transfer.transfer_status==5)">
             <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
             {{"Mark Payment Sent" | translate}}
           </ion-button>
 
           <!-- If Transfer Draft -->
-          <ion-button fill="outline" (click)="edit(transferDetails)"
-            *ngIf="transferDetails && transferDetails.transfer_status==10">
+          <ion-button fill="outline" (click)="edit(transfer)"
+            *ngIf="transfer && transfer.transfer_status==10">
             <ion-icon name="create" slot="start"></ion-icon>
             {{"Edit Transfer" | translate}}
           </ion-button>
 
-          <ion-button fill="outline" (click)="importTransfer(transferDetails)"
-            *ngIf="transferDetails && (transferDetails.transfer_status==10)">
+          <ion-button fill="outline" (click)="importTransfer(transfer)"
+            *ngIf="transfer && (transfer.transfer_status==10)">
             <ion-icon name="create" slot="start"></ion-icon>
             {{"Edit via Excel" | translate}}
           </ion-button>
 
-          <ion-button fill="outline" (click)="transferLock(transferDetails)"
-            *ngIf="transferDetails && (transferDetails.transfer_status==10)">
+          <ion-button fill="outline" (click)="transferLock(transfer)"
+            *ngIf="transfer && (transfer.transfer_status==10)">
             <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
             {{"Lock Transfer" | translate}}
           </ion-button>
         </section>
       </div>
 
-      <div *ngIf="transferDetails">
+      <div *ngIf="transfer">
         <ion-grid>
           <ion-row>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
-              <b>{{"Transfer ID" | translate}}</b> <br /> {{ transferDetails.transfer_id}}
+              <b>{{"Transfer ID" | translate}}</b> <br /> {{ transfer.transfer_id}}
             </ion-col>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
-              <b>{{"Transfer Total" | translate}}</b> <br /> {{ transferDetails.currency_code }} {{ transferDetails.company_total | number:'1.0-3' }}
+              <b>{{"Transfer Total" | translate}}</b> <br /> {{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}
             </ion-col>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
               <b>{{"Start Date" | translate}}</b> <br />
-              <span *ngIf="transferDetails.start_date">{{ toDate(transferDetails.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang}}</span>
-              <span *ngIf="!transferDetails.start_date">-</span>
+              <span *ngIf="transfer.start_date">{{ toDate(transfer.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang}}</span>
+              <span *ngIf="!transfer.start_date">-</span>
             </ion-col>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
               <b>{{"End Date" | translate}}</b> <br />
-              <span>{{ toDate(transferDetails.end_date) | date : 'MMMM d, y': undefined: translateService.currentLang }}</span>
-              <span *ngIf="!transferDetails.end_date">-</span>
+              <span>{{ toDate(transfer.end_date) | date : 'MMMM d, y': undefined: translateService.currentLang }}</span>
+              <span *ngIf="!transfer.end_date">-</span>
             </ion-col>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
-              <b>{{"Created on" | translate}}</b> <br /> {{ transferDetails.transfer_created_at}}
+              <b>{{"Created on" | translate}}</b> <br /> {{ transfer.transfer_created_at}}
             </ion-col>
             <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
-              <b>{{"Updated on" | translate}}</b> <br /> {{ transferDetails.transfer_updated_at}}
+              <b>{{"Updated on" | translate}}</b> <br /> {{ transfer.transfer_updated_at}}
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -105,7 +105,7 @@
           <ion-item tappable *ngFor="let invoice of invoices" (click)="downloadInvoice(invoice)">
             <div tabindex="0"></div>
             <ion-label>
-              {{"Download Invoice" | translate}} #{{ invoice.invoice_id }} - {{ transferDetails.currency_code }} {{ invoice.invoice_total |
+              {{"Download Invoice" | translate}} #{{ invoice.invoice_id }} - {{ transfer.currency_code }} {{ invoice.invoice_total |
               number:'1.0-3' }}
               <small>{{ invoice.company.company_name }}</small>
             </ion-label>
@@ -120,7 +120,7 @@
           <ion-item tappable *ngFor="let receipt of receipts" (click)="downloadReceipt(receipt)">
             <div tabindex="0"></div>
             <ion-label>
-              {{"Download Receipt" | translate}} #{{ receipt.invoice_id }} - {{ transferDetails.currency_code }} {{ receipt.invoice_total |
+              {{"Download Receipt" | translate}} #{{ receipt.invoice_id }} - {{ transfer.currency_code }} {{ receipt.invoice_total |
               number:'1.0-3' }}<br />
               <small>{{ receipt.company.company_name }}</small>
             </ion-label>
@@ -128,15 +128,48 @@
         </ion-list>
       </div>
 
+      <ng-container *ngIf="transfer && transfer.contract" >
+        <h5 class="txt-heading">{{ "Contract" | translate }}</h5>
+
+        <ion-item class="item-contract" tappable 
+          [routerLink]="'/contract-view/' + transfer.contract.contract_uuid">
+          <div tabindex="0"></div>
+          <ion-label>
+            <p class="txt-time" *ngIf="transfer.contract.created_at">
+              {{ translateService.toDate(transfer.contract.created_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang }}
+            </p>
+
+            <ng-container *ngIf="transfer.contract.amount">
+              <h5 class="txt-value" *ngIf=" transfer.contract.type == 'HOURLY'">
+                {{ transfer.contract.amount.company_hourly_rate | number:'1.0-3' }} {{ transfer.contract.currency_code }}/ {{ "hour" | translate }}
+              </h5>
+              
+              <h5 class="txt-value" *ngIf="transfer.contract.type == 'FIXED_PRICE'">
+                {{ transfer.contract.amount.company_total | number:'1.0-3' }} {{ transfer.contract.currency_code }} 
+              </h5>
+              
+              <h5 class="txt-value" *ngIf="transfer.contract.type == 'MONTHLY_SALARY'">
+                {{ transfer.contract.amount.company_total | number:'1.0-3' }} {{ transfer.contract.currency_code }}/ {{ "month" | translate }}
+              </h5>
+            </ng-container>
+
+            <p class="txt-id">#{{transfer.contract.contract_uuid}}</p>
+          </ion-label>
+        </ion-item>  
+      </ng-container>
+      
       <!-- Transfer Details made to each Candidate -->
-      <ion-list *ngIf="transferDetails">
+      <ion-list *ngIf="transfer">
         <!-- store_name pipe returns the transferCandidates grouped by store as object of following format: -->
         <!-- {name: string, resources: TransferCandidate[]} -->
-        <ion-item-group *ngFor="let group of transferDetails.transferCandidates | store_name">
+        <ion-item-group *ngFor="let group of transfer.transferCandidates | store_name">
           <ion-item-divider><b>{{group.name}}</b></ion-item-divider>
 
           <ion-item *ngFor="let resource of group.resources" tappable (click)="loadCandidateDetail(resource.candidate)"
-            [class.zeroHours]="transferDetails && (transferDetails.transfer_status==10) && (resource.hours == 0 && resource.minutes == 0 && resource.seconds == 0)">
+            [class.zeroHours]="
+              (!transfer.contract_type || transfer.contract_type == 'HOURLY') && 
+              (transfer.transfer_status==10) && 
+              (resource.hours == 0 && resource.minutes == 0 && resource.seconds == 0)">
             <div tabindex="0"></div>
 
             <ion-avatar slot="start">
@@ -158,6 +191,7 @@
               <p *ngIf="resource.bonus">
                 {{ "Bonus" | translate}} {{ resource.currency_code }} {{resource.bonus | number}}
               </p>
+
               <p *ngIf="resource.transfer_cost > 0">
                 {{ "Transfer Cost" | translate}} {{ resource.currency_code }} {{resource.transfer_cost | number}}
               </p>
@@ -166,13 +200,13 @@
               <!--  total(resource)-->
  
               <ion-badge slot="start" color="dark"
-                *ngIf="resource.paid != '1' && resource.company_total > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
+                *ngIf="resource.paid != '1' && resource.company_total > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
                 {{"Transfer in progress" | translate}}
               </ion-badge>
             </ion-label>
  
             <ion-badge slot="end" color="secondary"
-              *ngIf="resource.paid == '1' && resource.company_total > 0 && (transferDetails.transfer_status==3 || transferDetails.transfer_status==4)">
+              *ngIf="resource.paid == '1' && resource.company_total > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
               <ion-icon name="checkmark-circle-outline"></ion-icon>
             </ion-badge>
           </ion-item>

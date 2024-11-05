@@ -27,7 +27,7 @@ export class TransferService {
    * @returns {Observable<any>}
    */
   list(page: number): Observable<any> {
-    const url = `${this._transferEndpoint}?page=${page}`;
+    const url = `${this._transferEndpoint}?expand=contract&page=${page}`;
     return this._authhttp.getRaw(url);
   }
 
@@ -37,7 +37,7 @@ export class TransferService {
    * @returns {Observable<any>}
    */
   transferIdDetails(transfer_id: number): Observable<any> {
-    const url = `${this._transferEndpoint}/${transfer_id}?expand=transferCandidates,invoices`;
+    const url = `${this._transferEndpoint}/${transfer_id}?expand=contract,contract.amount,transferCandidates,invoices`;
     return this._authhttp.get(url);
   }
 

@@ -9,6 +9,7 @@ import {EventService} from '../../../../providers/event.service';
 import {TranslateLabelService} from "../../../../providers/translate-label.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { ContractModalComponent } from 'src/app/components/contract-modal/contract-modal.component';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class TransferListPage implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private candidateService: CandidateService,
     private eventService: EventService,
+    public authService: AuthService,
     public translateService: TranslateLabelService,
     public analyticService: AnalyticsService
   ) { 
@@ -189,6 +191,7 @@ export class TransferListPage implements OnInit {
     }
   }
 
+
   /**
    * Loads form to initiate a new transfer
    */
@@ -236,11 +239,25 @@ export class TransferListPage implements OnInit {
     actionSheet.present();
   }
  
+  /**
+   * select contract to list contract candidates and generate transfer 
+   * @param event 
+   * @param mode 
+   * @returns 
+   */
   async selectContract(event, mode = "import") {
+
+    if (
+      !this.authService.company.contracts || 
+      this.authService.company.contracts.length == 0
+    ) {
+      return this.openTransferCreatePage(mode);
+    }
+
     event.preventDefault();
     event.stopPropagation(); 
 
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: ContractModalComponent,
@@ -249,20 +266,24 @@ export class TransferListPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if (e.data && e.data.contract) {
-         if (mode == "import") {
-          this.importTransfer(e.data.contract);
-         } else {
-          this.createNewTransfer(e.data.contract);
-         }
+        this.openTransferCreatePage(mode, e.data.contract);
       }
     });
     await modal.present();
+  }
+
+  openTransferCreatePage(mode, contract = null) {
+    if (mode == "import") {
+      this.importTransfer(contract);
+     } else {
+      this.createNewTransfer(contract);
+     } 
   }
 
   loadTotalEmployee() {

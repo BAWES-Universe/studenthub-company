@@ -2,12 +2,12 @@
   <ion-toolbar class="desktop-view">
  
     <ion-buttons slot="start">
-      <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/transfer-list"></ion-back-button>
+      <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/view/transfer"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ pageTitle | translate }}</ion-title>
 
-    <ion-buttons slot="end">
-      <ion-select *ngIf="transfer" [(ngModel)]="transfer.currency_code">
+    <ion-buttons slot="end" *ngIf="transfer && !transfer.contract_uuid">
+      <ion-select [(ngModel)]="transfer.currency_code">
         <ion-select-option [value]="currency.code" *ngFor="let currency of authService.currencies">
           {{ currency.code }}
         </ion-select-option>
@@ -20,6 +20,7 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding ion-text-center">
 
   <div class="desktop-view">
+
 
     <!-- Instructions for Create -->
     <section *ngIf="scenario == 'create'">
@@ -45,18 +46,20 @@
       <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
         {{ "Download template" | translate }}
       </ion-button>
-      
+
       <ion-button color="primary" (click)="downloadTemplate('previousTransfer')">
         {{ "Download with previous transfer data" | translate }}  
       </ion-button>
 
-      <ion-button color="primary" (click)="downloadTemplate('workLog')" *ngIf="!start_date || !end_date">
-        {{ "Download with current month's work log" | translate }}  
-      </ion-button>
+      <ng-container *ngIf="transfer && (!transfer.contract || transfer.contract.type == 'HOURLY')">
+        <ion-button color="primary" (click)="downloadTemplate('workLog')" *ngIf="!start_date || !end_date">
+          {{ "Download with current month's work log" | translate }}  
+        </ion-button>
 
-      <ion-button color="primary" (click)="downloadTemplate('workLog')" *ngIf="start_date && end_date">
-        {{ "Download with work log for selected dates" | translate }}  
-      </ion-button>
+        <ion-button color="primary" (click)="downloadTemplate('workLog')" *ngIf="start_date && end_date">
+          {{ "Download with work log for selected dates" | translate }}  
+        </ion-button>
+      </ng-container>
 
       <!-- 
         
@@ -66,7 +69,6 @@
       <h4>{{"Step 4: Upload the updated Excel file" | translate}}</h4>
     </section>
 
-     
     <br />
 
     <!-- Instructions for Update -->
@@ -81,11 +83,36 @@
       <span *ngIf="!uploading">{{"Upload" | translate}}</span>
       <ion-spinner *ngIf="uploading">{{"Uploading..." | translate}}</ion-spinner>
     </ion-button>
+ 
+    <ng-container *ngIf="transfer && transfer.contract" >
+      <h5 class="txt-heading">{{ "Contract" | translate }}</h5>
 
+      <ion-item class="item-contract" tappable 
+        [routerLink]="'/contract-view/' + transfer.contract.contract_uuid">
+        <div tabindex="0"></div>
+        <ion-label>
+          <p class="txt-time" *ngIf="transfer.contract.created_at">
+            {{ translateService.toDate(transfer.contract.created_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang }}
+          </p>
 
-    <p *ngIf="transfer && transfer.contract">
-      <b>{{ "Contract detail" | translate }}</b>:  {{ transfer.contract.detail }}
-    </p>
+          <ng-container *ngIf="transfer.contract.amount">
+            <h5 class="txt-value" *ngIf=" transfer.contract.type == 'HOURLY'">
+              {{ transfer.contract.amount.company_hourly_rate | number:'1.0-3' }} {{ transfer.contract.currency_code }}/ {{ "hour" | translate }}
+            </h5>
+            
+            <h5 class="txt-value" *ngIf="transfer.contract.type == 'FIXED_PRICE'">
+              {{ transfer.contract.amount.company_total | number:'1.0-3' }} {{ transfer.contract.currency_code }} 
+            </h5>
+            
+            <h5 class="txt-value" *ngIf="transfer.contract.type == 'MONTHLY_SALARY'">
+              {{ transfer.contract.amount.company_total | number:'1.0-3' }} {{ transfer.contract.currency_code }}/ {{ "month" | translate }}
+            </h5>
+          </ng-container>
+
+          <p class="txt-id">#{{transfer.contract.contract_uuid}}</p>
+        </ion-label>
+      </ion-item>  
+    </ng-container>
   </div>
 
 </ion-content>
