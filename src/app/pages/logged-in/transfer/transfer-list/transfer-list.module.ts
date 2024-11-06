@@ -9,6 +9,7 @@ import { TransferListPageRoutingModule } from './transfer-list-routing.module';
 import { TransferListPage } from './transfer-list.page';
 import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
 import {TranslateModule} from "@ngx-translate/core";
+import { ContractModalModule } from 'src/app/components/contract-modal/contract-modal.module';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import {TranslateModule} from "@ngx-translate/core";
         IonicModule,
         TransferListPageRoutingModule,
         LoadingModalModule,
+        ContractModalModule,
         TranslateModule.forChild()
     ],
   declarations: [TransferListPage]

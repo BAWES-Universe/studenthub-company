@@ -180,9 +180,9 @@ export class CompanyContactListPage implements OnInit {
    */
   async openInviteStaffForm() {
 
-    window.history.pushState({
+   /* window.history.pushState({
       navigationId: window.history.state.navigationId
-    }, null, window.location.pathname);
+    }, null, window.location.pathname);*/
 
     const loginModal = await this.modalCtrl.create({
       component: ModalPopPage,
@@ -192,10 +192,10 @@ export class CompanyContactListPage implements OnInit {
     });
     loginModal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if (e.data && e.data.refresh) {
         // this.showSaveBtn = true;

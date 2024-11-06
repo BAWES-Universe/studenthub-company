@@ -89,3 +89,7 @@ ion-fab-list ion-fab-button {
 ion-popover {
   --offset-y: -100px;
 }
+
+ion-popover.with-contract {
+  --offset-y: -300px;
+}

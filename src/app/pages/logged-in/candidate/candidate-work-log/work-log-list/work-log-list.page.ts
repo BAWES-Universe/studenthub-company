@@ -358,7 +358,8 @@ export class WorkLogListPage implements OnInit {
    * Loads the create page
    */
   async filter() {
-    window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
+
+    //window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: WorkLogFilterPage,
@@ -369,10 +370,10 @@ export class WorkLogListPage implements OnInit {
     // Refresh List if required
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if (e && e.data && e.data.refresh) {
         this.filters = e.data.filter;

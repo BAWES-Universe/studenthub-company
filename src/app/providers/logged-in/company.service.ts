@@ -27,7 +27,7 @@ export class CompanyService {
    * @returns {Observable<any>}
    */
   list(): Observable<any> {
-    let url = this._companyEndpoint;
+    let url = this._companyEndpoint + "?expand=contracts";
     return this._authhttp.get(url);
   }
 

@@ -143,7 +143,8 @@ export class LogHourListPage implements OnInit {
   }
 
   async approve() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: ApproveWorkLogPage, 
@@ -159,10 +160,10 @@ export class LogHourListPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if(e.data && e.data.refresh) {       
         this.loadStats();
@@ -177,7 +178,8 @@ export class LogHourListPage implements OnInit {
   }
   
   async reject() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: RejectWorkLogPage,
@@ -192,10 +194,10 @@ export class LogHourListPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if(e.data && e.data.refresh) {       
         this.loadStats();
@@ -210,7 +212,8 @@ export class LogHourListPage implements OnInit {
   }
 
   async rejectSession(hour) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: RejectWorkLogPage,
@@ -226,10 +229,10 @@ export class LogHourListPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if(e.data && e.data.refresh) {       
         this.loadStats();
@@ -245,7 +248,8 @@ export class LogHourListPage implements OnInit {
   }
 
   async approveSession(hour) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: ApproveWorkLogPage, 
@@ -262,10 +266,10 @@ export class LogHourListPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+     /* if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if(e.data && e.data.refresh) {       
         this.loadStats();
