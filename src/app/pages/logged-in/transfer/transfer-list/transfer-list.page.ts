@@ -191,7 +191,6 @@ export class TransferListPage implements OnInit {
     }
   }
 
-
   /**
    * Loads form to initiate a new transfer
    */

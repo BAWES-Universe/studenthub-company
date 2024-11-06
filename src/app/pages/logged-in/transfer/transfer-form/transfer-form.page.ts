@@ -96,6 +96,7 @@ export class TransferFormPage implements OnInit {
     if (state.model) {
       this.transfer = state.model;
     }
+ 
 
 
     this.min = '1930/01/01';
@@ -114,8 +115,12 @@ export class TransferFormPage implements OnInit {
     this.analyticService.page('Transfer Form Page');
 
     if (!this.transfer_id) {
+      const state = window.history.state;
+
       this.transfer = new Transfer();
       this.transfer.currency_code = this.authService.currency_pref;
+      this.transfer.contract = state.contract;
+      this.transfer.contract_uuid = state.contract.contract_uuid;
     } else if (!this.transfer) {
       this.loadTransferDetail();
     }
@@ -159,7 +164,11 @@ export class TransferFormPage implements OnInit {
     const loader = await this._loadingCtrl.create();
     loader.present();
 
-    const params = "expand=store,company,currentWorkHistory,currentWorkHistory.transferCost";
+    let params = "expand=store,company,currentWorkHistory,currentWorkHistory.transferCost";
+
+    if (this.transfer.contract_uuid) {
+      params += "&contract_uuid=" + this.transfer.contract_uuid;
+    }
 
     this.candidateService.list(params).subscribe(response => {
       const allCandidatesAssignedToCompany: Candidate[] = response;
@@ -181,7 +190,8 @@ export class TransferFormPage implements OnInit {
       candidateTransferRecord.candidate = candidate;
       candidateTransferRecord.candidate_id = candidate.candidate_id;
       //candidateTransferRecord.currentWorkHistory = candidate.currentWorkHistory;
-      candidateTransferRecord.transfer_cost = candidate.currentWorkHistory?.transferCost; //effective transfer cost 
+      candidateTransferRecord.transfer_cost = 
+        this.transfer.contract? this.transfer.contract.transfer_cost: candidate.currentWorkHistory?.transferCost; //effective transfer cost 
 
       // Append the candidateTransferRecord into the allTransferCandidateRecordsMapped array
       allTransferCandidateRecordsMapped[candidate.candidate_id] = candidateTransferRecord;
@@ -342,8 +352,8 @@ export class TransferFormPage implements OnInit {
      * Otherwise create a new transfer
      */
     const action = this.transfer.transfer_id ?
-      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code) :
-      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code);
+      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code, this.transfer.contract_uuid) :
+      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code, this.transfer.contract_uuid);
 
     action.subscribe(async jsonResponse => {
       loader.dismiss();
@@ -531,6 +541,10 @@ export class TransferFormPage implements OnInit {
   }
 
   getCompanyHourlyRate(transferCandidateRecord) {
+
+    if (this.transfer && this.transfer.contract) {
+      return this.transfer.contract.amount.company_hourly_rate;
+    }
 
     if(!transferCandidateRecord.candidate) {
       transferCandidateRecord.company_hourly_rate;
