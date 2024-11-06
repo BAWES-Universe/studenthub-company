@@ -97,8 +97,6 @@ export class TransferFormPage implements OnInit {
       this.transfer = state.model;
     }
  
-
-
     this.min = '1930/01/01';
 
     const d = new Date();
@@ -150,7 +148,7 @@ export class TransferFormPage implements OnInit {
 
       this._toastCtrl.create({
         message: "Transfer hours, minutes, seconds updated from work log",
-          duration: 3000
+        duration: 3000
       }).then(t => t.present());
     });
   }
@@ -190,8 +188,13 @@ export class TransferFormPage implements OnInit {
       candidateTransferRecord.candidate = candidate;
       candidateTransferRecord.candidate_id = candidate.candidate_id;
       //candidateTransferRecord.currentWorkHistory = candidate.currentWorkHistory;
-      candidateTransferRecord.transfer_cost = 
-        this.transfer.contract? this.transfer.contract.transfer_cost: candidate.currentWorkHistory?.transferCost; //effective transfer cost 
+      if (this.transfer.contract) {
+        candidateTransferRecord.company_total = this.transfer.contract.amount.company_total;
+        //candidateTransferRecord.candidate_total = this.transfer.contract.candidate_total;
+        candidateTransferRecord.transfer_cost = this.transfer.contract.transfer_cost; //effective transfer cost 
+      } else {
+        candidateTransferRecord.transfer_cost = candidate.currentWorkHistory?.transferCost;
+      }
 
       // Append the candidateTransferRecord into the allTransferCandidateRecordsMapped array
       allTransferCandidateRecordsMapped[candidate.candidate_id] = candidateTransferRecord;
@@ -212,34 +215,43 @@ export class TransferFormPage implements OnInit {
       });
     }
 
-    // Re-index the TransferCandidate list to avoid issues array length and create required FormControls
-    const updatedTransferRecords = [];
     const formControls: any = {};
 
-    allTransferCandidateRecordsMapped.forEach(record => {
-      updatedTransferRecords.push(record);
+    // Re-index the TransferCandidate list to avoid issues array length and create required FormControls
+   
+      const updatedTransferRecords = [];
+   
+      allTransferCandidateRecordsMapped.forEach(record => {
+        updatedTransferRecords.push(record);
 
-      // Create Form Controls with validation for this TransferCandidate record
-      formControls['hours[' + record.candidate.candidate_id + ']'] = [record.hours, [
-        // Validators.required,
-        CustomValidator.negativeNumberValidator
-      ]];
+      if (!this.transfer.contract || this.transfer.contract.type == 'HOURLY') {
+        // Create Form Controls with validation for this TransferCandidate record
+        formControls['hours[' + record.candidate.candidate_id + ']'] = [record.hours, [
+          // Validators.required,
+          CustomValidator.negativeNumberValidator
+        ]];
 
-      formControls['minutes[' + record.candidate.candidate_id + ']'] = [record.minutes, [
-        // Validators.required,
-        CustomValidator.negativeNumberValidator
-      ]];
+        formControls['minutes[' + record.candidate.candidate_id + ']'] = [record.minutes, [
+          // Validators.required,
+          CustomValidator.negativeNumberValidator
+        ]];
 
-      formControls['seconds[' + record.candidate.candidate_id + ']'] = [record.seconds, [
-        // Validators.required,
-        CustomValidator.negativeNumberValidator
-      ]];
+        formControls['seconds[' + record.candidate.candidate_id + ']'] = [record.seconds, [
+          // Validators.required,
+          CustomValidator.negativeNumberValidator
+        ]];
 
-      formControls['bonus[' + record.candidate.candidate_id + ']'] = [record.bonus, [
-        CustomValidator.negativeNumberValidator
-      ]];
+        formControls['bonus[' + record.candidate.candidate_id + ']'] = [record.bonus, [
+          CustomValidator.negativeNumberValidator
+        ]];
+      }
     });
-    
+
+    // Replace the transferCandidates within the transfer with our up to date list
+    if (this.transfer) {
+      this.transfer.transferCandidates = updatedTransferRecords;
+    } 
+
     formControls.start_date = [(this.transfer && this.transfer.start_date) ? this.transfer.start_date : '', [
       Validators.required
     ]];
@@ -251,11 +263,6 @@ export class TransferFormPage implements OnInit {
     formControls.currency_code = [this.transfer ? this.transfer.currency_code : this.authService.currency_pref, [
       Validators.required
     ]];
-
-    // Replace the transferCandidates within the transfer with our up to date list
-    if (this.transfer) {
-      this.transfer.transferCandidates = updatedTransferRecords;
-    }
 
     // Setup the form to use our form controls
     this.form = this._fb.group(formControls);
@@ -272,47 +279,49 @@ export class TransferFormPage implements OnInit {
   async validate() {
     let error = '';
 
-    for (const entry of this.transfer.transferCandidates) {
+    if (!this.transfer.contract || this.transfer.contract.type == 'HOURLY') {
+      for (const entry of this.transfer.transferCandidates) {
 
-      // Check if any candidates have unset hours or 0 hours set
-      if (
-        (!entry.hours || entry.hours == 0) && 
-        (!entry.minutes || entry.minutes == 0) && 
-        (!entry.seconds || entry.seconds == 0)
-      ) {
-        error = this.translateService.transform('You have set that some employees haven\'t worked any hours. Are you sure?');
-      }
+        // Check if any candidates have unset hours or 0 hours set
+        if (
+          (!entry.hours || entry.hours == 0) && 
+          (!entry.minutes || entry.minutes == 0) && 
+          (!entry.seconds || entry.seconds == 0)
+        ) {
+          error = this.translateService.transform('You have set that some employees haven\'t worked any hours. Are you sure?');
+        }
 
-      // Check if any candidates have worked more than 180 hours
-      if (entry.hours > 180) {
-        error = this.translateService.transform('You have employees set to have worked for more than 180 hours. are you sure?');
-      }
+        // Check if any candidates have worked more than 180 hours
+        if (entry.hours > 180) {
+          error = this.translateService.transform('You have employees set to have worked for more than 180 hours. are you sure?');
+        }
 
-      // Prompt to show user where error is or Save if he knows about it.
-      if (error) {
-        const prompt = await this._alertCtrl.create({
-          message: error,
-          buttons: [
-            {
-              text: this.translateService.transform('Show me where'),
-              role: 'cancel',
-              handler: () => {
-                this.scrollTo('candidate_' + entry.candidate_id);
+        // Prompt to show user where error is or Save if he knows about it.
+        if (error) {
+          const prompt = await this._alertCtrl.create({
+            message: error,
+            buttons: [
+              {
+                text: this.translateService.transform('Show me where'),
+                role: 'cancel',
+                handler: () => {
+                  this.scrollTo('candidate_' + entry.candidate_id);
+                }
+              },
+              {
+                text: this.translateService.transform('Yes'),
+                handler: () => {
+                  this.save();
+                }
               }
-            },
-            {
-              text: this.translateService.transform('Yes'),
-              handler: () => {
-                this.save();
-              }
-            }
-          ]
-        });
-        prompt.present();
-        break; // Exit the loop
+            ]
+          });
+          prompt.present();
+          break; // Exit the loop
+        }
       }
     }
-
+    
     // Save if there are no errors
     if (!error) {
       this.save();
@@ -345,7 +354,9 @@ export class TransferFormPage implements OnInit {
      * Update the transfer data if it already exists
      * Otherwise create a new transfer
      */
-    this.removeUnaccountedUsers();
+    if (!this.transfer.contract || this.transfer.contract.type == 'HOURLY') {
+      this.removeUnaccountedUsers();
+    }
 
     /**
      * Update the transfer data if it already exists
@@ -427,20 +438,26 @@ export class TransferFormPage implements OnInit {
     if (this.transfer) {
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
 
-        const hours = this.parseNumber(transferCandidate.hours);
-        const minutes = this.parseNumber(transferCandidate.minutes);
-        const seconds = this.parseNumber(transferCandidate.seconds);
-        const rate = this.getCompanyHourlyRate(transferCandidate);
+        if (!this.transfer.contract || this.transfer.contract.type == 'HOURLY')
+        {
+          const hours = this.parseNumber(transferCandidate.hours);
+          const minutes = this.parseNumber(transferCandidate.minutes);
+          const seconds = this.parseNumber(transferCandidate.seconds);
+          const rate = this.getCompanyHourlyRate(transferCandidate);
 
-        const bonus = this.parseNumber(transferCandidate.bonus);
+          const bonus = this.parseNumber(transferCandidate.bonus);
 
-        const subTotal = (hours * rate) 
-          + (minutes * (rate / 60)) 
-          + (seconds * (rate / 3600)) 
-          + bonus;
+          const subTotal = (hours * rate) 
+            + (minutes * (rate / 60)) 
+            + (seconds * (rate / 3600)) 
+            + bonus;
 
-        if (subTotal > 0)
-          this.total += subTotal + this.parseNumber(transferCandidate.transfer_cost);
+          if (subTotal > 0)
+            this.total += subTotal + this.parseNumber(transferCandidate.transfer_cost);
+        }
+        else {
+          this.total += transferCandidate.company_total;
+        }
       });
     }
   }

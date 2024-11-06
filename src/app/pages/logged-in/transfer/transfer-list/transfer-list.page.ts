@@ -170,6 +170,12 @@ export class TransferListPage implements OnInit {
    */
   createNewTransfer(contract = null) {
     
+    this.navCtrl.navigateForward('transfer-form', {
+      state: {
+        contract: contract
+      }
+    });
+    /*
     if (!contract || contract.type == "HOURLY") {
       this.navCtrl.navigateForward('transfer-form', {
         state: {
@@ -188,7 +194,7 @@ export class TransferListPage implements OnInit {
           contract: contract
         }
       });
-    }
+    }*/
   }
 
   /**
