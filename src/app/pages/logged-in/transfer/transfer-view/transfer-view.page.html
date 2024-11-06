@@ -129,33 +129,11 @@
       </div>
 
       <ng-container *ngIf="transfer && transfer.contract" >
+        
         <h5 class="txt-heading">{{ "Contract" | translate }}</h5>
 
-        <ion-item class="item-contract" tappable 
-          [routerLink]="'/contract-view/' + transfer.contract.contract_uuid">
-          <div tabindex="0"></div>
-          <ion-label>
-            <p class="txt-time" *ngIf="transfer.contract.created_at">
-              {{ translateService.toDate(transfer.contract.created_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang }}
-            </p>
-
-            <ng-container *ngIf="transfer.contract.amount">
-              <h5 class="txt-value" *ngIf=" transfer.contract.type == 'HOURLY'">
-                {{ transfer.contract.amount.company_hourly_rate | number:'1.0-3' }} {{ transfer.contract.currency_code }}/ {{ "hour" | translate }}
-              </h5>
-              
-              <h5 class="txt-value" *ngIf="transfer.contract.type == 'FIXED_PRICE'">
-                {{ transfer.contract.amount.company_total | number:'1.0-3' }} {{ transfer.contract.currency_code }} 
-              </h5>
-              
-              <h5 class="txt-value" *ngIf="transfer.contract.type == 'MONTHLY_SALARY'">
-                {{ transfer.contract.amount.company_total | number:'1.0-3' }} {{ transfer.contract.currency_code }}/ {{ "month" | translate }}
-              </h5>
-            </ng-container>
-
-            <p class="txt-id">#{{transfer.contract.contract_uuid}}</p>
-          </ion-label>
-        </ion-item>  
+        <app-contract [contract]="transfer.contract"></app-contract>
+        
       </ng-container>
       
       <!-- Transfer Details made to each Candidate -->
