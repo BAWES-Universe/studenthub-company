@@ -158,7 +158,8 @@
             </ion-avatar>
 
             <ion-label>
-              <h2 class="candidate_name">{{ resource.candidate.candidate_name? resource.candidate.candidate_name:
+              <h2 class="candidate_name">
+                {{ resource.candidate.candidate_name? resource.candidate.candidate_name:
                 resource.candidate.candidate_name_ar }}</h2>
 
               <p *ngIf="resource.hours > 0 || resource.minutes > 0 || resource.seconds > 0">

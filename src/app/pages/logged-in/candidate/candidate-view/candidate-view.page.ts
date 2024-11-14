@@ -235,6 +235,13 @@ export class CandidateViewPage implements OnInit {
     event.target.complete();
   }  
 
+  viewContract(contract_uuid, event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.navCtrl.navigateForward('/contract-view/' + contract_uuid);
+  }
+
   applicationSelected(request) {
     this.navCtrl.navigateForward('/request-view/' + request.request_uuid, {
       state : {

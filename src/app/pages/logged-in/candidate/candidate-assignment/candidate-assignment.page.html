@@ -51,6 +51,7 @@
       <div *ngIf="!history.contract" class="txt-value">{{ history.candidate_hourly_rate }}</div>
 
       <ng-container *ngIf="history.contract && history.contract.amount">
+
         <div class="txt-value" *ngIf=" history.contract.type == 'HOURLY'">
           {{ history.contract.amount.company_hourly_rate | number:'1.0-3' }} {{ history.contract.currency_code }}/hr
         </div>
@@ -62,9 +63,24 @@
         <div class="txt-value" *ngIf="history.contract.type == 'MONTHLY_SALARY'">
           {{ history.contract.amount.company_total | number:'1.0-3' }} {{ history.contract.currency_code }}/month
         </div>
+
+        <a tappable (click)="viewContract(history.contract_uuid, $event)"  
+          *ngIf="history.contract_uuid && [history.company.company_id, history.company.parent_company_id].indexOf(authService.company_id) > -1">
+         {{ "View contract" | translate }}
+        </a>
       </ng-container>
     </div>
-
+<!-- 
+    <div class="detail-item">
+      <div class="txt-label">{{ "Contract" | translate }}</div
+      <div class="txt-value">
+        <a tappable (click)="viewContract(history.contract_uuid, $event)"  
+          *ngIf="history.contract_uuid && [history.company.company_id, history.company.parent_company_id].indexOf(authService.company_id) > -1">
+          View contract 
+        </a>
+      </div>
+    </div>>-->
+    
     <div class="detail-item">
       <div class="txt-label">{{ "Start Date" | translate }}</div>
       <div class="txt-value">{{ translateService.toDate(history.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang }} </div>

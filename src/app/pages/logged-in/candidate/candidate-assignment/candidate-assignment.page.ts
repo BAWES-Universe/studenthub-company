@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, ModalController, PopoverController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, NavController, PopoverController, ToastController } from '@ionic/angular';
 import { format } from 'date-fns';
 import {
   CalendarModal,
@@ -23,6 +23,7 @@ import { CandidateOptionComponent } from '../../store/store-list/candidate-optio
 import { SelectSearchPageComponent } from 'src/app/components/select-search/select-search-page/select-search-page.component';
 import { ApproveWorkLogPage } from '../approve-work-log/approve-work-log.page';
 import { RejectWorkLogPage } from '../reject-work-log/reject-work-log.page';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -61,10 +62,12 @@ export class CandidateAssignmentPage implements OnInit {
   constructor(
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
+    public navCtrl: NavController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public activateRoute: ActivatedRoute,
     public storeService: StoreService,
+    public authService: AuthService,
     public candidateService: CandidateService,
     public candidateWorkingHour: CandidateWorkingHourService,
     public analyticsService: AnalyticsService,
@@ -504,5 +507,13 @@ export class CandidateAssignmentPage implements OnInit {
       }
     });
     modal.present();
+  }
+
+
+  viewContract(contract_uuid, event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.navCtrl.navigateForward('/contract-view/' + contract_uuid);
   }
 }

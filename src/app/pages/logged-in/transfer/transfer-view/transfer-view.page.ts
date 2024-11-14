@@ -307,6 +307,7 @@ export class TransferViewPage implements OnInit {
    * Calculating Total per Candidate
    */
   total(candidate) {
+    
     return Number(
       (candidate.company_hourly_rate * candidate.hours) 
       + ((candidate.company_hourly_rate / 60) * candidate.minutes) 
