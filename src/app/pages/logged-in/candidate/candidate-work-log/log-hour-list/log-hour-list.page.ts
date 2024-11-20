@@ -13,6 +13,8 @@ import { CandidateWorkingHour } from 'src/app/models/candidate';
 //pages 
 import { ApproveWorkLogPage } from '../../approve-work-log/approve-work-log.page';
 import { RejectWorkLogPage } from '../../reject-work-log/reject-work-log.page';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { CandidateWorkHistory } from 'src/app/models/candidate-work-history';
 
 
 declare var window;
@@ -36,6 +38,7 @@ export class LogHourListPage implements OnInit {
   public candidate_id : any;
 
   public candidateWorkingHourData: CandidateWorkingHour[];
+  public candidateWorkHistories: CandidateWorkHistory[] = [];
 
   public stats: any; 
 
@@ -50,6 +53,7 @@ export class LogHourListPage implements OnInit {
     public authService: AuthService,
     public translateService: TranslateLabelService,
     public candidateWorkingHour: CandidateWorkingHourService,
+    public candidateService: CandidateService,
     public eventService: EventService,
     public analyticService: AnalyticsService
   ) { }
@@ -60,16 +64,26 @@ export class LogHourListPage implements OnInit {
     this.store_id = parseInt(this.activateRoute.snapshot.paramMap.get('store_id'));
 
     this.analyticService.page('Candidate Working Hours');
+    
   }
 
   ionViewWillEnter() {
     this.loadData();
     this.loadStats();
+    this.loadCandidate();
+  }
+ 
+  loadCandidate() {
+    this.candidateService.workHistory(this.candidate_id, this.store_id).subscribe(res => {
+      console.log(res)
+      this.candidateWorkHistories = res;
+    });
   }
 
   loadStats() {
     this.candidateWorkingHour.stats(this.getUrlParams()).subscribe(response => {
       this.stats = response;
+      this.candidateWorkHistories = response.candidateWorkHistories;
     });
   }
 
