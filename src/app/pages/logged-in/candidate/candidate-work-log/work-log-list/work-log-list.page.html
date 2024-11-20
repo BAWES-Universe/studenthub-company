@@ -196,12 +196,12 @@
           <div class="clearfix"></div>
         </div>
 
-        <!--(click)="openAssignment(candidate)"  -->
+        <!--(click)="openAssignment(candidate)"  
         <ion-button class="btn-more-logs" 
           [routerLink]="['/log-date-list', candidate.candidate_id]"
           fill="clear" *ngIf="candidate.totalCandidateWorkingDate > 1"> 
           {{ "txt_more_logs" | translate : { total: candidate.totalCandidateWorkingDate - 1 } }}
-        </ion-button> 
+        </ion-button> -->
       </ion-card>  
 
       <no-items *ngIf="candidates.length == 0 && !loading" message="~ No Employees Assigned Yet! ~"></no-items>
