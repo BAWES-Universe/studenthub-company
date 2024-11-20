@@ -404,7 +404,7 @@ export class WorkLogListPage implements OnInit {
    * Return url string to filter list
    */
   urlParams() {
-    let urlParams = 'expand=storeAssignmentRequest,latestCandidateWorkingDate,latestCandidateWorkingDate.health,totalCandidateWorkingDate&with_session=1';
+    let urlParams = 'expand=storeAssignmentRequest,latestCandidateWorkingDate,totalCandidateWorkingDate&with_session=1';
 
     if (this.filters.start_date) {
       urlParams += '&start_date=' + this.filters.start_date;

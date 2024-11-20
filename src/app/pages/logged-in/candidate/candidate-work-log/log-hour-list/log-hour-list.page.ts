@@ -9,7 +9,7 @@ import { CandidateWorkingHourService } from 'src/app/providers/logged-in/candida
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 // models
-import { CandidateWorkingHour } from 'src/app/models/candidate';
+import { CandidateWorkingDate, CandidateWorkingHour } from 'src/app/models/candidate';
 //pages 
 import { ApproveWorkLogPage } from '../../approve-work-log/approve-work-log.page';
 import { RejectWorkLogPage } from '../../reject-work-log/reject-work-log.page';
@@ -39,9 +39,8 @@ export class LogHourListPage implements OnInit {
 
   public candidateWorkingHourData: CandidateWorkingHour[];
   public candidateWorkHistories: CandidateWorkHistory[] = [];
-
-  public stats: any; 
-
+  public candidateWorkingDate: CandidateWorkingDate;
+   
   public warningMsg; 
   public successMsg;
 
@@ -68,7 +67,7 @@ export class LogHourListPage implements OnInit {
 
   ionViewWillEnter() {
     this.loadData();
-    this.loadStats();
+    this.loadDetail();
     this.loadCandidate();
   }
  
@@ -78,12 +77,18 @@ export class LogHourListPage implements OnInit {
     });
   }
 
-  loadStats() {
+  loadDetail() {
+    this.candidateWorkingHour.dateDetail(this.candidate_id, this.date, this.store_id).subscribe(res => {
+      this.candidateWorkingDate = res;
+    });
+  }
+
+  /*loadStats() {
     this.candidateWorkingHour.stats(this.getUrlParams()).subscribe(response => {
       this.stats = response;
       this.candidateWorkHistories = response.candidateWorkHistories;
     });
-  }
+  }*/
 
   ionViewWillLeave() {
     this.analyticService.track('page_exit', {
@@ -93,7 +98,7 @@ export class LogHourListPage implements OnInit {
 
   doRefresh(event) {
     this.loadData();
-    this.loadStats();
+    this.loadDetail();
     this.loadCandidate();
     event.target.complete();
   } 
@@ -168,7 +173,7 @@ export class LogHourListPage implements OnInit {
         candidate_id: this.candidate_id,
         date: this.date,
         store_id: this.store_id,
-        candidate: this.stats.candidate
+        candidate: this.candidateWorkingDate.candidate
       }
     });
     modal.onDidDismiss().then(e => {
@@ -179,7 +184,7 @@ export class LogHourListPage implements OnInit {
       }*/
 
       if(e.data && e.data.refresh) {       
-        this.loadStats();
+        this.loadDetail();
         this.loadData();
 
         if(e.data.message) {
@@ -213,7 +218,7 @@ export class LogHourListPage implements OnInit {
       }*/
 
       if(e.data && e.data.refresh) {       
-        this.loadStats();
+        this.loadDetail();
         this.loadData();
         
         if(e.data.message) {
@@ -248,7 +253,7 @@ export class LogHourListPage implements OnInit {
       }*/
 
       if(e.data && e.data.refresh) {       
-        this.loadStats();
+        this.loadDetail();
 
         if(e.data.message) {
           this.warningMsg = e.data.message;
@@ -273,7 +278,7 @@ export class LogHourListPage implements OnInit {
         candidate_id: this.candidate_id,
         date: this.date,
         store_id: this.store_id,
-        candidate: this.stats.candidate,
+        candidate: this.candidateWorkingDate.candidate,
         hour: hour
       }
     });
@@ -285,7 +290,7 @@ export class LogHourListPage implements OnInit {
       }*/
 
       if(e.data && e.data.refresh) {       
-        this.loadStats();
+        this.loadDetail();
 
         if(e.data.message) {
           this.successMsg = e.data.message;

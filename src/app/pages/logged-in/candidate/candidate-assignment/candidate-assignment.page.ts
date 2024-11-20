@@ -220,7 +220,7 @@ export class CandidateAssignmentPage implements OnInit {
   }
 
   getUrlParams() {
-    let url = '&expand=health&candidate_id=' + this.history.candidate_id + 
+    let url = '&expand=&candidate_id=' + this.history.candidate_id + 
       "&store_id=" + this.history.store_id;
 
     if (this.start_date) {

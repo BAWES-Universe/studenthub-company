@@ -53,16 +53,19 @@
     
     <div class="clearfix"></div>
 
-    <div class="btn-wrapper" *ngIf="hour.status == 0">
-      <ion-button class="btn-reject" (click)="onRejectClicked.emit()"  fill="outline" color="danger">
-        {{ "Reject" | translate }}
-      </ion-button>
-    
-      <ion-button class="btn-approve" fill="outline" (click)="onApproveClicked.emit()">
-        {{ "Approve" | translate }}
-      </ion-button>
-    </div>
+    <ng-container *ngIf="hour.end_time">
+      <div class="btn-wrapper" *ngIf="hour.status == 0">
+        <ion-button class="btn-reject" (click)="onRejectClicked.emit()"  fill="outline" color="danger">
+          {{ "Reject" | translate }}
+        </ion-button>
+      
+        <ion-button class="btn-approve" fill="outline" (click)="onApproveClicked.emit()">
+          {{ "Approve" | translate }}
+        </ion-button>
+      </div>
 
-    <div class="clearfix"></div>
+      <div class="clearfix"></div>
+    </ng-container>
+
   </ion-card-content>
 </ion-card>
