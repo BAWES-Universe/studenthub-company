@@ -156,7 +156,7 @@
         <div class="details">
           <h2>{{ candidateWorkingDate.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
           
-          <ul *ngIf="candidateWorkingDate.health" class="health-indicator">
+          <ul *ngIf="candidateWorkingDate.health && candidateWorkingDate.end_time" class="health-indicator">
             <li *ngIf="candidateWorkingDate.health[0] > 0" class="pending">
               {{ candidateWorkingDate.health[0] }}
             </li>
@@ -168,6 +168,11 @@
             </li>
           </ul>
           
+          <ul *ngIf="!candidateWorkingDate.end_time" class="health-indicator">
+            <li class="working">
+              {{ "Working" | translate }}
+            </li>
+          </ul>
           <!--
           <ion-badge class="warning" *ngIf="candidateWorkingDate.dateStatus == 0">
             {{ "Pending" | translate }}

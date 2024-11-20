@@ -153,7 +153,9 @@
             
           <h4 class="txt-date">{{ candidate.latestCandidateWorkingDate.date | date : 'mediumDate': undefined: translateService.currentLang}}</h4>
 
-          <ul *ngIf="candidate.latestCandidateWorkingDate.health" class="health-indicator">
+          <ul *ngIf="candidate.latestCandidateWorkingDate.health && candidate.latestCandidateWorkingDate.end_time" class="health-indicator">
+            
+
             <li *ngIf="candidate.latestCandidateWorkingDate.health[0] > 0" class="pending">
               {{ candidate.latestCandidateWorkingDate.health[0] }}
             </li>
@@ -162,6 +164,12 @@
             </li>
             <li *ngIf="candidate.latestCandidateWorkingDate.health[2] > 0" class="rejected">
               {{ candidate.latestCandidateWorkingDate.health[2] }}
+            </li>
+          </ul>
+
+          <ul *ngIf="!candidate.latestCandidateWorkingDate.end_time" class="health-indicator">
+            <li class="working">
+              {{ "Working" | translate }}
             </li>
           </ul>
 
@@ -179,8 +187,8 @@
           <div class="clearfix"></div>
 
           <div class="time-wrapper">
-            <b *ngIf="!candidate.latestCandidateWorkingDate.total_time">{{ "On-going" | translate }}</b>  
-            <b *ngIf="candidate.latestCandidateWorkingDate.total_time">{{ candidate.latestCandidateWorkingDate.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+            <b *ngIf="!candidate.latestCandidateWorkingDate.end_time">{{ "On-Going" | translate }}</b>  
+            <b *ngIf="candidate.latestCandidateWorkingDate.end_time">{{ candidate.latestCandidateWorkingDate.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
             <span> 
               {{ translateService.toDate(candidate.latestCandidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang }} 
               <ion-icon name="arrow-forward-outline"></ion-icon> 

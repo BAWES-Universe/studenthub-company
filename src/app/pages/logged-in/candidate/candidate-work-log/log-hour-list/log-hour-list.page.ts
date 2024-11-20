@@ -63,8 +63,7 @@ export class LogHourListPage implements OnInit {
     this.candidate_id = this.activateRoute.snapshot.paramMap.get('candidate_id');
     this.store_id = parseInt(this.activateRoute.snapshot.paramMap.get('store_id'));
 
-    this.analyticService.page('Candidate Working Hours');
-    
+    this.analyticService.page('Candidate Working Hours'); 
   }
 
   ionViewWillEnter() {
@@ -74,8 +73,7 @@ export class LogHourListPage implements OnInit {
   }
  
   loadCandidate() {
-    this.candidateService.workHistory(this.candidate_id, this.store_id).subscribe(res => {
-      console.log(res)
+    this.candidateService.workHistory(this.candidate_id, this.store_id, this.date).subscribe(res => {
       this.candidateWorkHistories = res;
     });
   }
@@ -96,6 +94,7 @@ export class LogHourListPage implements OnInit {
   doRefresh(event) {
     this.loadData();
     this.loadStats();
+    this.loadCandidate();
     event.target.complete();
   } 
 

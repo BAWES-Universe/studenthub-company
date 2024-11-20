@@ -290,6 +290,10 @@ ion-grid {
   li.rejected::before { 
       background: #EB5757;
   }
+
+  li.working::before { 
+    background: #4C70F2;
+  }
 }
 
 .message-wrapper {

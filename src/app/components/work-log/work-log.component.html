@@ -2,8 +2,8 @@
   <ion-card-content>
     
     <p *ngIf="hour.status == 0">
-      <b *ngIf="hour.total_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
-      <b *ngIf="!hour.total_time">{{ "On-going" | translate }}</b>
+      <b *ngIf="hour.end_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+      <b *ngIf="!hour.end_time">{{ "On-Going" | translate }}</b>
       <span>
         {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
         <ion-icon name="arrow-forward-outline"></ion-icon> 
@@ -18,8 +18,8 @@
 
     <ng-container *ngIf="hour.status != 0">
       <p> 
-        <b *ngIf="hour.total_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
-        <b *ngIf="!hour.total_time">{{ "On-going" | translate }}</b>
+        <b *ngIf="hour.end_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+        <b *ngIf="!hour.end_time">{{ "On-Going" | translate }}</b>
         
         <ion-badge class="warning" *ngIf="hour.status == 0">
           {{ "Pending" | translate }}
