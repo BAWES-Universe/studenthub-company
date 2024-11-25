@@ -21,6 +21,13 @@ export class CandidateWorkingHourService {
     return this._authhttp.getRaw(url);
   }
 
+  /**
+   * day summary
+   * @param candidate_id 
+   * @param date 
+   * @param store_id 
+   * @returns 
+   */
   dateDetail(candidate_id: number, date: string, store_id: number): Observable<any>{
     const url = this._endpoint + `/date-detail?candidate_id=${candidate_id}&date=${date}&store_id=${store_id}&expand=candidate`;
     return this._authhttp.get(url);

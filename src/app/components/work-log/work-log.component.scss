@@ -34,6 +34,11 @@ ion-card {
             background: var(--Orange-Tint-1, #FFF7F0);
         }
         
+        ion-badge.danger {
+            color: #EB5757;
+            background: #FFF2F2;
+        }
+        
         ion-badge.success {
             background: var(--Green-Tint-1, #EDFCF3);
             color: var(--Green-Tint-Main, #29B564);
