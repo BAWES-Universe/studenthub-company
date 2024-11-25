@@ -69,7 +69,6 @@ ion-card {
           border-radius: 6px;
           background: var(--Neutral-20, #F5F5F7);
           padding: 2px 6px;
-      
       }
     }
 
@@ -110,6 +109,10 @@ ion-card {
 
       li.rejected::before { 
           background: #EB5757;
+      }
+
+      li.working::before { 
+        background: #4C70F2;
       }
     }
   }

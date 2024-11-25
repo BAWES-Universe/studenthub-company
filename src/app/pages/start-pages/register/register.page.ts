@@ -181,19 +181,19 @@ export class RegisterPage implements OnDestroy {
 
   async openCountryList() {
 
-    window.history.pushState({
+   /* window.history.pushState({
       navigationId: window.history.state.navigationId
-    }, null, window.location.pathname);
+    }, null, window.location.pathname);*/
 
     const modal = await this.modelCtrl.create({
       component: CountryModalComponent,
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
     });
     await modal.present();
 

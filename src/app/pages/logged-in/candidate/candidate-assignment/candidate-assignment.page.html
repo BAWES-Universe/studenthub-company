@@ -51,20 +51,36 @@
       <div *ngIf="!history.contract" class="txt-value">{{ history.candidate_hourly_rate }}</div>
 
       <ng-container *ngIf="history.contract && history.contract.amount">
+
         <div class="txt-value" *ngIf=" history.contract.type == 'HOURLY'">
-          {{ history.contract.amount.candidate_hourly_rate | number:'1.0-3' }} {{ history.contract.currency_code }}/hr
+          {{ history.contract.amount.company_hourly_rate | number:'1.0-3' }} {{ history.contract.currency_code }}/hr
         </div>
         
         <div class="txt-value" *ngIf="history.contract.type == 'FIXED_PRICE'">
-          {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }} 
+          {{ history.contract.amount.company_total | number:'1.0-3' }} {{ history.contract.currency_code }} 
         </div>
         
         <div class="txt-value" *ngIf="history.contract.type == 'MONTHLY_SALARY'">
-          {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }}/month
+          {{ history.contract.amount.company_total | number:'1.0-3' }} {{ history.contract.currency_code }}/month
         </div>
+
+        <a tappable (click)="viewContract(history.contract_uuid, $event)"  
+          *ngIf="history.contract_uuid && [history.company.company_id, history.company.parent_company_id].indexOf(authService.company_id) > -1">
+         {{ "View contract" | translate }}
+        </a>
       </ng-container>
     </div>
-
+<!-- 
+    <div class="detail-item">
+      <div class="txt-label">{{ "Contract" | translate }}</div
+      <div class="txt-value">
+        <a tappable (click)="viewContract(history.contract_uuid, $event)"  
+          *ngIf="history.contract_uuid && [history.company.company_id, history.company.parent_company_id].indexOf(authService.company_id) > -1">
+          View contract 
+        </a>
+      </div>
+    </div>>-->
+    
     <div class="detail-item">
       <div class="txt-label">{{ "Start Date" | translate }}</div>
       <div class="txt-value">{{ translateService.toDate(history.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang }} </div>
@@ -123,6 +139,7 @@
     </ion-grid>
      
     <ng-container *ngFor="let group of candidateWorkingDates | groupByMonth : 'date'">
+
       <h4 class="txt-date">{{ group.name }}</h4>
 
       <!--<app-work-log-date [candidateWorkingDate]="candidateWorkingDate" 
@@ -130,28 +147,34 @@
     -->
       
       <div class="date-wrapper" tappable *ngFor="let candidateWorkingDate of group.resources" 
-        [class.with-checkbox]="candidateWorkingDate.health[0] > 0"
+        [class.with-checkbox]="candidateWorkingDate.total_pending > 0"
         [routerLink]="['/log-hour-list', candidateWorkingDate.candidate_id, candidateWorkingDate.date, candidateWorkingDate.store_id]">
       
-        <div class="input-wrapper" *ngIf="candidateWorkingDate.health[0] > 0">
+        <div class="input-wrapper" *ngIf="candidateWorkingDate.total_pending > 0">
           <ion-checkbox mode="md" (click)="toggleSelection(candidateWorkingDate, $event)"></ion-checkbox>
         </div>
         
         <div class="details">
           <h2>{{ candidateWorkingDate.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
           
-          <ul *ngIf="candidateWorkingDate.health" class="health-indicator">
-            <li *ngIf="candidateWorkingDate.health[0] > 0" class="pending">
-              {{ candidateWorkingDate.health[0] }}
+          <ul *ngIf="candidateWorkingDate.end_time" class="health-indicator">
+            <li *ngIf="candidateWorkingDate.total_pending > 0" class="pending">
+              {{ candidateWorkingDate.total_pending }}
             </li>
-            <li *ngIf="candidateWorkingDate.health[1] > 0" class="approved">
-              {{ candidateWorkingDate.health[1] }}
+            <li *ngIf="candidateWorkingDate.total_approved > 0" class="approved">
+              {{ candidateWorkingDate.total_approved }}
             </li>
-            <li *ngIf="candidateWorkingDate.health[2] > 0" class="rejected">
-              {{ candidateWorkingDate.health[2] }}
+            <li *ngIf="candidateWorkingDate.total_rejected > 0" class="rejected">
+              {{ candidateWorkingDate.total_rejected }}
             </li>
           </ul>
           
+          <ul *ngIf="!candidateWorkingDate.end_time" class="health-indicator">
+            <li class="working">
+              {{ "Working" | translate }}
+            </li>
+          </ul>
+
           <!--
           <ion-badge class="warning" *ngIf="candidateWorkingDate.dateStatus == 0">
             {{ "Pending" | translate }}
@@ -166,11 +189,19 @@
           <div class="clearfix"></div>
 
           <div class="time-wrapper">
-            <b>{{ candidateWorkingDate.total_time | secondsToTime }}</b>  
+            <b *ngIf="candidateWorkingDate.total_time">{{ candidateWorkingDate.total_time | secondsToTime }}</b>  
+            <b *ngIf="!candidateWorkingDate.total_time">{{ "On-Going" | translate }}</b>
+
             <span>
               {{ translateService.toDate(candidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
               <ion-icon name="arrow-forward-outline"></ion-icon> 
-              {{ translateService.toDate(candidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+
+              <ng-container *ngIf="candidateWorkingDate.end_time">
+                {{ translateService.toDate(candidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+              </ng-container>
+              <ng-container *ngIf="!candidateWorkingDate.end_time">
+                {{ "Now" | translate }}
+              </ng-container>
             </span>
           </div>
         </div>

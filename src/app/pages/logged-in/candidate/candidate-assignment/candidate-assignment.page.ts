@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, ModalController, PopoverController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, NavController, PopoverController, ToastController } from '@ionic/angular';
 import { format } from 'date-fns';
 import {
   CalendarModal,
@@ -23,6 +23,7 @@ import { CandidateOptionComponent } from '../../store/store-list/candidate-optio
 import { SelectSearchPageComponent } from 'src/app/components/select-search/select-search-page/select-search-page.component';
 import { ApproveWorkLogPage } from '../approve-work-log/approve-work-log.page';
 import { RejectWorkLogPage } from '../reject-work-log/reject-work-log.page';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -61,10 +62,12 @@ export class CandidateAssignmentPage implements OnInit {
   constructor(
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
+    public navCtrl: NavController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public activateRoute: ActivatedRoute,
     public storeService: StoreService,
+    public authService: AuthService,
     public candidateService: CandidateService,
     public candidateWorkingHour: CandidateWorkingHourService,
     public analyticsService: AnalyticsService,
@@ -119,7 +122,7 @@ export class CandidateAssignmentPage implements OnInit {
           text: this.translateService.transform('Reject'),
           cssClass: 'danger',
           handler: async (data) => {
-            window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+           // window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
             const modal = await this.modalCtrl.create({
               component: RejectWorkLogPage,
@@ -134,10 +137,10 @@ export class CandidateAssignmentPage implements OnInit {
             });
             modal.onDidDismiss().then(e => {
         
-              if (!e.data || e.data.from != 'native-back-btn') {
+              /*if (!e.data || e.data.from != 'native-back-btn') {
                 window['history-back-from'] = 'onDidDismiss';
                 window.history.back();
-              }
+              }*/
         
               if(e.data && e.data.refresh) {       
                 this.loadData();
@@ -173,7 +176,8 @@ export class CandidateAssignmentPage implements OnInit {
         }, {
           text: this.translateService.transform('Approve'),
           handler: async (data) => {
-            window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+            
+            //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
             const modal = await this.modalCtrl.create({
               component: ApproveWorkLogPage, 
@@ -189,10 +193,10 @@ export class CandidateAssignmentPage implements OnInit {
             });
             modal.onDidDismiss().then(e => {
         
-              if (!e.data || e.data.from != 'native-back-btn') {
+              /*if (!e.data || e.data.from != 'native-back-btn') {
                 window['history-back-from'] = 'onDidDismiss';
                 window.history.back();
-              }
+              }*/
         
               if(e.data && e.data.refresh) {       
                 this.loadData();
@@ -216,7 +220,7 @@ export class CandidateAssignmentPage implements OnInit {
   }
 
   getUrlParams() {
-    let url = '&expand=health&candidate_id=' + this.history.candidate_id + 
+    let url = '&expand=&candidate_id=' + this.history.candidate_id + 
       "&store_id=" + this.history.store_id;
 
     if (this.start_date) {
@@ -452,7 +456,8 @@ export class CandidateAssignmentPage implements OnInit {
   }
 
   async selectEndDate(event)  {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+    
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.popoverCtrl.create({
       component: DatePickerComponent, 
@@ -464,10 +469,10 @@ export class CandidateAssignmentPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
  
       if (e.data && e.data.date) {
         this.endDateFormatted = e.data.dateFormatted;
@@ -479,7 +484,7 @@ export class CandidateAssignmentPage implements OnInit {
 
   async selectStartDate(event) {
      
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.popoverCtrl.create({
       component: DatePickerComponent, 
@@ -491,10 +496,10 @@ export class CandidateAssignmentPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
  
       if (e.data && e.data.date) {
         this.startDateFormatted = e.data.dateFormatted;
@@ -502,5 +507,13 @@ export class CandidateAssignmentPage implements OnInit {
       }
     });
     modal.present();
+  }
+
+
+  viewContract(contract_uuid, event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.navCtrl.navigateForward('/contract-view/' + contract_uuid);
   }
 }

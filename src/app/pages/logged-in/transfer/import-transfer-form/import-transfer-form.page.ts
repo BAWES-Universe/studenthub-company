@@ -106,7 +106,9 @@ export class ImportTransferFormPage implements OnInit {
         this.loadTransferData();
       } else {
         this.transfer = new Transfer;
-        this.transfer.currency_code = this.authService.currency_pref;
+        this.transfer.currency_code = state['contract']? state['contract']['currency_code']: this.authService.currency_pref;
+        this.transfer.contract_uuid = state['contract']? state['contract']['contract_uuid']: null;
+        this.transfer.contract = state['contract'];
       }
     }
   }
@@ -200,7 +202,7 @@ export class ImportTransferFormPage implements OnInit {
    */
   async newTransferUpload(file) {
 
-    this.transferService.uploadTransferExcel(file, this.start_date, this.end_date, this.transfer.currency_code).subscribe(async data => {
+    this.transferService.uploadTransferExcel(file, this.start_date, this.end_date, this.transfer.currency_code, this.transfer.contract_uuid).subscribe(async data => {
 
       this.uploading = false;
 
@@ -241,7 +243,7 @@ export class ImportTransferFormPage implements OnInit {
   async editTransferUpload(file) {
 
     this.transferService
-      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.start_date, this.end_date, this.transfer.currency_code)
+      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.start_date, this.end_date, this.transfer.currency_code, this.transfer.contract_uuid)
       .subscribe(async data => {
 
         this.uploading = false;
@@ -291,7 +293,7 @@ export class ImportTransferFormPage implements OnInit {
       end_date = this.end_date;
     }
     
-    this.transferService.downloadTransferTemplate(preFilled, start_date, end_date).subscribe(response => {
+    this.transferService.downloadTransferTemplate(preFilled, start_date, end_date, this.transfer.contract_uuid).subscribe(response => {
       loader.dismiss();
     });
   }

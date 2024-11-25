@@ -9,10 +9,12 @@ import { CandidateWorkingHourService } from 'src/app/providers/logged-in/candida
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 // models
-import { CandidateWorkingHour } from 'src/app/models/candidate';
+import { CandidateWorkingDate, CandidateWorkingHour } from 'src/app/models/candidate';
 //pages 
 import { ApproveWorkLogPage } from '../../approve-work-log/approve-work-log.page';
 import { RejectWorkLogPage } from '../../reject-work-log/reject-work-log.page';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { CandidateWorkHistory } from 'src/app/models/candidate-work-history';
 
 
 declare var window;
@@ -36,9 +38,9 @@ export class LogHourListPage implements OnInit {
   public candidate_id : any;
 
   public candidateWorkingHourData: CandidateWorkingHour[];
-
-  public stats: any; 
-
+  public candidateWorkHistories: CandidateWorkHistory[] = [];
+  public candidateWorkingDate: CandidateWorkingDate;
+   
   public warningMsg; 
   public successMsg;
 
@@ -50,6 +52,7 @@ export class LogHourListPage implements OnInit {
     public authService: AuthService,
     public translateService: TranslateLabelService,
     public candidateWorkingHour: CandidateWorkingHourService,
+    public candidateService: CandidateService,
     public eventService: EventService,
     public analyticService: AnalyticsService
   ) { }
@@ -59,19 +62,33 @@ export class LogHourListPage implements OnInit {
     this.candidate_id = this.activateRoute.snapshot.paramMap.get('candidate_id');
     this.store_id = parseInt(this.activateRoute.snapshot.paramMap.get('store_id'));
 
-    this.analyticService.page('Candidate Working Hours');
+    this.analyticService.page('Candidate Working Hours'); 
   }
 
   ionViewWillEnter() {
     this.loadData();
-    this.loadStats();
+    this.loadDetail();
+    this.loadCandidate();
   }
-
-  loadStats() {
-    this.candidateWorkingHour.stats(this.getUrlParams()).subscribe(response => {
-      this.stats = response;
+ 
+  loadCandidate() {
+    this.candidateService.workHistory(this.candidate_id, this.store_id, this.date).subscribe(res => {
+      this.candidateWorkHistories = res;
     });
   }
+
+  loadDetail() {
+    this.candidateWorkingHour.dateDetail(this.candidate_id, this.date, this.store_id).subscribe(res => {
+      this.candidateWorkingDate = res;
+    });
+  }
+
+  /*loadStats() {
+    this.candidateWorkingHour.stats(this.getUrlParams()).subscribe(response => {
+      this.stats = response;
+      this.candidateWorkHistories = response.candidateWorkHistories;
+    });
+  }*/
 
   ionViewWillLeave() {
     this.analyticService.track('page_exit', {
@@ -81,7 +98,8 @@ export class LogHourListPage implements OnInit {
 
   doRefresh(event) {
     this.loadData();
-    this.loadStats();
+    this.loadDetail();
+    this.loadCandidate();
     event.target.complete();
   } 
 
@@ -143,7 +161,8 @@ export class LogHourListPage implements OnInit {
   }
 
   async approve() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: ApproveWorkLogPage, 
@@ -154,18 +173,18 @@ export class LogHourListPage implements OnInit {
         candidate_id: this.candidate_id,
         date: this.date,
         store_id: this.store_id,
-        candidate: this.stats.candidate
+        candidate: this.candidateWorkingDate.candidate
       }
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if(e.data && e.data.refresh) {       
-        this.loadStats();
+        this.loadDetail();
         this.loadData();
 
         if(e.data.message) {
@@ -177,7 +196,8 @@ export class LogHourListPage implements OnInit {
   }
   
   async reject() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: RejectWorkLogPage,
@@ -192,13 +212,13 @@ export class LogHourListPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if(e.data && e.data.refresh) {       
-        this.loadStats();
+        this.loadDetail();
         this.loadData();
         
         if(e.data.message) {
@@ -210,7 +230,8 @@ export class LogHourListPage implements OnInit {
   }
 
   async rejectSession(hour) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: RejectWorkLogPage,
@@ -226,13 +247,13 @@ export class LogHourListPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if(e.data && e.data.refresh) {       
-        this.loadStats();
+        this.loadDetail();
 
         if(e.data.message) {
           this.warningMsg = e.data.message;
@@ -245,7 +266,8 @@ export class LogHourListPage implements OnInit {
   }
 
   async approveSession(hour) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: ApproveWorkLogPage, 
@@ -256,19 +278,19 @@ export class LogHourListPage implements OnInit {
         candidate_id: this.candidate_id,
         date: this.date,
         store_id: this.store_id,
-        candidate: this.stats.candidate,
+        candidate: this.candidateWorkingDate.candidate,
         hour: hour
       }
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+     /* if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if(e.data && e.data.refresh) {       
-        this.loadStats();
+        this.loadDetail();
 
         if(e.data.message) {
           this.successMsg = e.data.message;

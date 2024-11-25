@@ -13,6 +13,22 @@ ion-content {
     }
 }
 
+ion-back-button {
+    margin-bottom: 14px;
+    margin-top: 8px;
+}
+
+.txt-candidate {
+    color: var(--Neutral-70, #7D7D8D);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+    margin-top: 4px;
+}
+
+
 .main-card {
 margin: 0;
 padding: 16px;
@@ -291,5 +307,10 @@ p {
 
     li.rejected::before { 
         background: #EB5757;
+        
     }
+
+    li.working::before { 
+        background: #4C70F2;
+      }
 }

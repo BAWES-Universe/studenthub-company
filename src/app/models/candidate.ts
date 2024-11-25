@@ -111,4 +111,7 @@ export class CandidateWorkingDate {
   store: Store;
   candidate: Candidate;
   health: any;
+  total_pending: number;
+  total_approved: number;
+  total_rejected: number;
 }

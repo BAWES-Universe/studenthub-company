@@ -49,6 +49,10 @@ export class CandidateService {
     return this._authhttp.getRaw(url);
   }
 
+  /**
+   * @param urlParams 
+   * @returns 
+   */
   downloadWorkLog(urlParams: string): Observable<any> {
     let url = `${this._candidateEndpoint}/work-log-excel?${urlParams}`;
     return this._authhttp.excelget(url, `transfer-template.xlsx`);
@@ -90,8 +94,17 @@ export class CandidateService {
    * return work history
    * @param candidate_id
    */
-  workHistory(candidate_id): Observable<any> {
+  workHistory(candidate_id, store_id = null, date = null): Observable<any> {
     let url = this._candidateEndpoint + '/work-history/' + candidate_id + '?expand=store,company';
+
+    if (store_id) {
+      url += ",candidate&store_id=" + store_id;
+    }
+
+    if (date) {
+      url += "&date=" + date;
+    }
+    
     return this._authhttp.get(url);
   }
 

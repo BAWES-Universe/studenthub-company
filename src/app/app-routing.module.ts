@@ -293,6 +293,28 @@ const routes: Routes = [
     canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/chat/chat-view/chat-view.module').then( m => m.ChatViewPageModule)
   },
+
+  {
+    path: 'contract-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/contract/contract-list/contract-list.module').then( m => m.ContractListPageModule)
+  },
+  {
+    path: 'contract-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/contract/contract-view/contract-view.module').then( m => m.ContractViewPageModule)
+  },
+
+  {
+    path: 'transfer-form-fixed',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-form-fixed/transfer-form-fixed.module').then( m => m.TransferFormFixedPageModule)
+  },
+  {
+    path: 'transfer-form-monthly',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-form-monthly/transfer-form-monthly.module').then( m => m.TransferFormMonthlyPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'

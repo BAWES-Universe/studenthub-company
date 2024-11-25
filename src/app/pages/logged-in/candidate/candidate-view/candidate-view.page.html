@@ -94,6 +94,7 @@
                 <span *ngIf="candidate.candidate_objective">{{ candidate.candidate_objective }}</span>
                 <span *ngIf="!candidate.candidate_objective">{{ "Objective(not set)" | translate}}</span>
               </div>
+
               <div class="work-history-wrapper">
                 <h5 class="heading" *ngIf="workHistory.length > 0">{{ "StudentHub Assignments" | translate}}</h5>
 
@@ -110,7 +111,13 @@
                       <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date : 'MMMM d, y': undefined: translateService.currentLang }}</ng-container>
                       <ng-container *ngIf="!history.end_date">{{"now" | translate}}</ng-container>
                     </p>
+
+                    <a tappable (click)="viewContract(history.contract_uuid, $event)"  
+                    *ngIf="history.contract_uuid && [history.company.company_id, history.company.parent_company_id].indexOf(authService.company_id) > -1">
+                    {{ "View contract" | translate }}
+                  </a>
                   </label>
+      
                 </ion-item>
               </div>
 

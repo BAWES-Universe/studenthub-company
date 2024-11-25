@@ -18,6 +18,36 @@
 
   <div class="desktop-view">
 
+    <ng-container *ngIf="transfer && transfer.contract" >
+      <h5 class="txt-heading">{{ "Contract" | translate }}</h5>
+
+      <ion-item class="item-contract" tappable 
+        [routerLink]="'/contract-view/' + transfer.contract.contract_uuid">
+        <div tabindex="0"></div>
+        <ion-label>
+          <p class="txt-time" *ngIf="transfer.contract.created_at">
+            {{ translateService.toDate(transfer.contract.created_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang }}
+          </p>
+
+          <ng-container *ngIf="transfer.contract.amount">
+            <h5 class="txt-value" *ngIf=" transfer.contract.type == 'HOURLY'">
+              {{ transfer.contract.amount.company_hourly_rate | number:'1.0-3' }} {{ transfer.contract.currency_code }}/ {{ "hour" | translate }}
+            </h5>
+            
+            <h5 class="txt-value" *ngIf="transfer.contract.type == 'FIXED_PRICE'">
+              {{ transfer.contract.amount.company_total | number:'1.0-3' }} {{ transfer.contract.currency_code }} 
+            </h5>
+            
+            <h5 class="txt-value" *ngIf="transfer.contract.type == 'MONTHLY_SALARY'">
+              {{ transfer.contract.amount.company_total | number:'1.0-3' }} {{ transfer.contract.currency_code }}/ {{ "month" | translate }}
+            </h5>
+          </ng-container>
+
+          <p class="txt-id">#{{transfer.contract.contract_uuid}}</p>
+        </ion-label>
+      </ion-item>  
+    </ng-container>
+
     <form [formGroup]="form" *ngIf="ready">
 
       <ion-card class="ion-padding card-date-range">
@@ -36,7 +66,9 @@
         </p>
       </ion-card>
       
-      <ion-button class="btn-approved-work-log" *ngIf="ready" (click)="approvedWorkLog()" [disabled]="!transfer.start_date || !transfer.end_date">
+      <ion-button class="btn-approved-work-log" (click)="approvedWorkLog()" 
+        *ngIf="ready && (!transfer.contract || transfer.contract.type == 'HOURLY')"
+        [disabled]="!transfer.start_date || !transfer.end_date">
         {{ "Set approved work log for provided date range" | translate }}
       </ion-button>
 
@@ -63,16 +95,21 @@
               <h5 class="candidate_name">
                 {{ transferCandidateRecord.candidate.candidate_name? transferCandidateRecord.candidate.candidate_name: transferCandidateRecord.candidate.candidate_name_ar }}
               </h5>
-              <p>
+
+              <p *ngIf="!transfer.contract || transfer.contract.type == 'HOURLY'">
                 {{ getCompanyHourlyRate(transferCandidateRecord) }} {{ form.value.currency_code }} {{ "per hour" | translate }}  
                 <ng-container *ngIf="transferCandidateRecord.transfer_cost > 0">
                   + {{ transferCandidateRecord.transfer_cost }} {{ form.value.currency_code }} {{ "transfer cost" | translate }}
                 </ng-container>  
               </p>
+
+              <p *ngIf="transfer.contract && transfer.contract.type != 'HOURLY'">
+                {{ transferCandidateRecord.company_total }} {{ form.value.currency_code }}
+              </p>
             </ion-label>
           </ion-item>
 
-          <ion-grid>
+          <ion-grid *ngIf="!transfer.contract || transfer.contract.type == 'HOURLY'"> 
             <ion-row>
               <!-- Hours Input Column -->
               <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">

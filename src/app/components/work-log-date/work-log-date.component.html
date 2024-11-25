@@ -3,15 +3,21 @@
       
   <span class="txt-label">{{ "Total Time" | translate}}</span>
 
-  <ul *ngIf="candidateWorkingDate.health" class="health-indicator">
-    <li *ngIf="candidateWorkingDate.health[0] > 0" class="pending">
-      {{ candidateWorkingDate.health[0] }}
+  <ul *ngIf="candidateWorkingDate.end_time" class="health-indicator">
+    <li *ngIf="candidateWorkingDate.total_pending > 0" class="pending">
+      {{ candidateWorkingDate.total_pending }}
     </li>
-    <li *ngIf="candidateWorkingDate.health[1] > 0" class="approved">
-      {{ candidateWorkingDate.health[1] }}
+    <li *ngIf="candidateWorkingDate.total_approved > 0" class="approved">
+      {{ candidateWorkingDate.total_approved }}
     </li>
-    <li *ngIf="candidateWorkingDate.health[2] > 0" class="rejected">
-      {{ candidateWorkingDate.health[2] }}
+    <li *ngIf="candidateWorkingDate.total_rejected > 0" class="rejected">
+      {{ candidateWorkingDate.total_rejected }}
+    </li>
+  </ul>
+
+  <ul *ngIf="!candidateWorkingDate.end_time" class="health-indicator">
+    <li class="working">
+      {{ "Working" | translate }}
     </li>
   </ul>
   
@@ -27,8 +33,8 @@
   </ion-badge>-->
 
   <div class="clearfix"></div>
-  <h4 class="txt-time" *ngIf="candidateWorkingDate.total_time">{{ candidateWorkingDate.total_time | secondsToTime }}</h4>  
-  <h4 class="txt-time" *ngIf="!candidateWorkingDate.total_time">00:00</h4>
+  <h4 class="txt-time" *ngIf="candidateWorkingDate.end_time">{{ candidateWorkingDate.total_time | secondsToTime }}</h4>  
+  <h4 class="txt-time" *ngIf="!candidateWorkingDate.end_time">{{ "Now" | translate }}</h4>
 
   <div class="time-wrapper">
     <div class="time-left">
@@ -36,7 +42,7 @@
 
       <span *ngIf="candidateWorkingDate.start_time">{{ 
         translateService.toDate(candidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang }}</span>  
-      <span *ngIf="!candidateWorkingDate.start_time">00:00</span>
+      <span *ngIf="!candidateWorkingDate.start_time">-</span>
     </div>  
 
     <div class="time-right">
@@ -49,17 +55,23 @@
     <div class="clearfix"></div>
   </div>
 
-  <ul *ngIf="candidateWorkingDate.health" class="health-bar">
-    <li *ngIf="candidateWorkingDate.health[0] > 0" class="pending">
-      {{ candidateWorkingDate.health[0] }} {{ "Pending" | translate }}
+  <ul *ngIf="candidateWorkingDate.end_time" class="health-bar">
+    <li *ngIf="candidateWorkingDate.total_pending > 0" class="pending">
+      {{ candidateWorkingDate.total_pending }} {{ "Pending" | translate }}
     </li>
-    <li *ngIf="candidateWorkingDate.health[1] > 0" class="approved">
-      {{ candidateWorkingDate.health[1] }} {{ "Approved" | translate }}
+    <li *ngIf="candidateWorkingDate.total_approved > 0" class="approved">
+      {{ candidateWorkingDate.total_approved }} {{ "Approved" | translate }}
     </li>
-    <li *ngIf="candidateWorkingDate.health[2] > 0" class="rejected">
-      {{ candidateWorkingDate.health[2] }} {{ "Rejected" | translate }}
+    <li *ngIf="candidateWorkingDate.total_rejected > 0" class="rejected">
+      {{ candidateWorkingDate.total_rejected }} {{ "Rejected" | translate }}
     </li>
   </ul>
 
+  <ul *ngIf="!candidateWorkingDate.end_time" class="health-bar">
+    <li class="working">
+      {{ "Working" | translate }}
+    </li>
+  </ul>
+  
 </ion-card>
  

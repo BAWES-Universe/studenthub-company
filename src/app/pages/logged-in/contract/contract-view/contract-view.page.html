@@ -1,0 +1,153 @@
+<ion-header [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar class="desktop-view">
+      <ion-buttons slot="start">
+        <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/contract-list"></ion-back-button>
+      </ion-buttons>
+      <ion-title *ngIf="contract">{{ "Contract" | translate }} #{{ contract.contract_uuid }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+  <div class="desktop-view">
+    <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
+    <ion-list *ngIf="contract">
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Type" | translate }}</h5>
+          <p *ngIf="contract.type == 'FIXED_PRICE'">{{ "Fixed price" | translate }}</p>
+          <p *ngIf="contract.type == 'HOURLY'">{{ "Hourly price" | translate }}</p>
+          <p *ngIf="contract.type == 'MONTHLY_SALARY'">{{ "Monthly salary" | translate }}</p>
+        </ion-label> 
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Start date" | translate }}</h5>
+          <p *ngIf="contract.start_date"> {{ translateService.toDate(contract.start_date) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang
+            }}</p>
+            <p *ngIf="!contract.start_date">-</p>   
+        </ion-label> 
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "End date" | translate }}</h5>
+          <p *ngIf="contract.end_date"> {{ translateService.toDate(contract.end_date) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang
+            }}</p>
+            <p *ngIf="!contract.end_date">-</p>   
+        </ion-label> 
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Transfer cost" | translate }}</h5>
+          <p> {{ contract.transfer_cost }}</p>
+        </ion-label> 
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Currency code" | translate }}</h5>
+          <p> {{ contract.currency_code }}</p>
+        </ion-label> 
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Detail" | translate }}</h5>
+          <p> {{ contract.detail }}</p>
+        </ion-label> 
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Created at" | translate }}</h5>
+          <p *ngIf="contract.created_at"> {{ translateService.toDate(contract.created_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang
+            }}</p>
+            <p *ngIf="!contract.created_at">-</p>   
+        </ion-label> 
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Updated at" | translate }}</h5>
+          <p *ngIf="contract.updated_at"> {{ translateService.toDate(contract.updated_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang
+            }}</p>
+            <p *ngIf="!contract.updated_at">-</p>   
+        </ion-label> 
+      </ion-item>
+    </ion-list>  
+
+    <ion-list *ngIf="contract && contract.amount && contract.type == 'FIXED_PRICE'">
+ 
+      <!-- 
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Candidate hourly rate" | translate }}</h5>
+          <p>{{ contract.amount.company_hourly_rate | number : '1.0-3' }}</p>
+        </ion-label> 
+      </ion-item>-->
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Company hourly rate" | translate }}</h5>
+          <p>{{ contract.amount.company_hourly_rate | number : '1.0-3' }}</p>
+        </ion-label> 
+      </ion-item>
+
+    </ion-list>
+
+    <ion-list *ngIf="contract && contract.amount && contract.type != 'FIXED_PRICE'">
+ 
+      <!-- 
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Candidate total" | translate }}</h5>
+          <p>{{ contract.amount.company_total | number : '1.0-3' }}</p>
+        </ion-label> 
+      </ion-item>-->
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Company total" | translate }}</h5>
+          <p>{{ contract.amount.company_total | number : '1.0-3' }}</p>
+        </ion-label> 
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Completion percentage" | translate }}</h5>
+          <p *ngIf="contract.amount.completion_percentage">{{ contract.amount.completion_percentage }}%</p>
+          <p *ngIf="!contract.amount.completion_percentage">-</p>
+        </ion-label> 
+      </ion-item>
+
+      <ion-item *ngIf="contract.amount.salary_day">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Salary day" | translate }}</h5>
+          <p>
+            {{ 
+              "txt_salary_date" | translate : { salary_day : contract.amount.salary_day }
+            }}
+          </p>
+        </ion-label> 
+      </ion-item>
+    </ion-list>
+  </div>
+
+</ion-content>

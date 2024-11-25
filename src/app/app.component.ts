@@ -259,9 +259,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
-
-      console.log("userLogined$ fired");
-      
+ 
       this._updateAlert();
 
       this.alertSubscribe();

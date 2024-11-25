@@ -1,0 +1,26 @@
+
+<ion-item class="item-contract" tappable 
+  [routerLink]="'/contract-view/' + contract.contract_uuid">
+  <div tabindex="0"></div>
+  <ion-label>
+    <p class="txt-time" *ngIf="contract.created_at">
+      {{ translateService.toDate(contract.created_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang }}
+    </p>
+
+    <ng-container *ngIf="contract.amount">
+      <h5 class="txt-value" *ngIf=" contract.type == 'HOURLY'">
+        {{ contract.amount.company_hourly_rate | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "hour" | translate }}
+      </h5>
+      
+      <h5 class="txt-value" *ngIf="contract.type == 'FIXED_PRICE'">
+        {{ contract.amount.company_total | number:'1.0-3' }} {{ contract.currency_code }} 
+      </h5>
+      
+      <h5 class="txt-value" *ngIf="contract.type == 'MONTHLY_SALARY'">
+        {{ contract.amount.company_total | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "month" | translate }}
+      </h5>
+    </ng-container>
+
+    <p class="txt-id">#{{contract.contract_uuid}}</p>
+  </ion-label>
+</ion-item>  

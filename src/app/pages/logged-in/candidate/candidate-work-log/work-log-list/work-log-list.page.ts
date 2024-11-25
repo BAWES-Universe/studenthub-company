@@ -358,7 +358,8 @@ export class WorkLogListPage implements OnInit {
    * Loads the create page
    */
   async filter() {
-    window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
+
+    //window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: WorkLogFilterPage,
@@ -369,10 +370,10 @@ export class WorkLogListPage implements OnInit {
     // Refresh List if required
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if (e && e.data && e.data.refresh) {
         this.filters = e.data.filter;
@@ -403,7 +404,7 @@ export class WorkLogListPage implements OnInit {
    * Return url string to filter list
    */
   urlParams() {
-    let urlParams = 'expand=storeAssignmentRequest,latestCandidateWorkingDate,latestCandidateWorkingDate.health,totalCandidateWorkingDate&with_session=1';
+    let urlParams = 'expand=storeAssignmentRequest,latestCandidateWorkingDate,totalCandidateWorkingDate&with_session=1';
 
     if (this.filters.start_date) {
       urlParams += '&start_date=' + this.filters.start_date;

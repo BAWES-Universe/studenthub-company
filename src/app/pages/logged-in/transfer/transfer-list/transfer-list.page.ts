@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, NavController, PopoverController } from '@ionic/angular';
+import { ActionSheetController, ModalController, NavController, PopoverController } from '@ionic/angular';
 // models
 import { Transfer } from 'src/app/models/transfer';
 // services
 import { TransferService } from 'src/app/providers/logged-in/transfer.service';
 import {CandidateService} from '../../../../providers/logged-in/candidate.service';
 import {EventService} from '../../../../providers/event.service';
-import {TranslateService} from "@ngx-translate/core";
 import {TranslateLabelService} from "../../../../providers/translate-label.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { ContractModalComponent } from 'src/app/components/contract-modal/contract-modal.component';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -43,10 +44,12 @@ export class TransferListPage implements OnInit {
   constructor(
     public popoverCtrl: PopoverController,
     public navCtrl: NavController,
+    public modalCtrl: ModalController,
     public transferService: TransferService,
     private actionSheetCtrl: ActionSheetController,
     private candidateService: CandidateService,
     private eventService: EventService,
+    public authService: AuthService,
     public translateService: TranslateLabelService,
     public analyticService: AnalyticsService
   ) { 
@@ -165,15 +168,44 @@ export class TransferListPage implements OnInit {
   /**
    * Loads form to initiate a new transfer
    */
-  createNewTransfer() {
-    this.navCtrl.navigateForward('transfer-form');
+  createNewTransfer(contract = null) {
+    
+    this.navCtrl.navigateForward('transfer-form', {
+      state: {
+        contract: contract
+      }
+    });
+    /*
+    if (!contract || contract.type == "HOURLY") {
+      this.navCtrl.navigateForward('transfer-form', {
+        state: {
+          contract: contract
+        }
+      });
+    } else if (contract.type == "FIXED_PRICE") {
+      this.navCtrl.navigateForward('transfer-form-fixed', {
+        state: {
+          contract: contract
+        }
+      });
+    } else if (contract.type == "MONTHLY_SALARY") {
+      this.navCtrl.navigateForward('transfer-form-monthly', {
+        state: {
+          contract: contract
+        }
+      });
+    }*/
   }
 
   /**
    * Loads form to initiate a new transfer
    */
-  importTransfer() {
-    this.navCtrl.navigateForward('import-transfer-form');
+  importTransfer(contract = null) {
+    this.navCtrl.navigateForward('import-transfer-form', {
+      state: {
+        contract: contract
+      }
+    });
   }
 
   /**
@@ -210,6 +242,53 @@ export class TransferListPage implements OnInit {
     });
 
     actionSheet.present();
+  }
+ 
+  /**
+   * select contract to list contract candidates and generate transfer 
+   * @param event 
+   * @param mode 
+   * @returns 
+   */
+  async selectContract(event, mode = "import") {
+
+    if (
+      !this.authService.company.contracts || 
+      this.authService.company.contracts.length == 0
+    ) {
+      return this.openTransferCreatePage(mode);
+    }
+
+    event.preventDefault();
+    event.stopPropagation(); 
+
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: ContractModalComponent,
+      componentProps: { 
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      /*if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }*/
+
+      if (e.data && e.data.contract) {
+        this.openTransferCreatePage(mode, e.data.contract);
+      }
+    });
+    await modal.present();
+  }
+
+  openTransferCreatePage(mode, contract = null) {
+    if (mode == "import") {
+      this.importTransfer(contract);
+     } else {
+      this.createNewTransfer(contract);
+     } 
   }
 
   loadTotalEmployee() {
