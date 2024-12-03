@@ -108,6 +108,14 @@ export class CandidateAssignmentPage implements OnInit {
     }
   }
 
+  selectAll() {
+    this.candidateWorkingDates.forEach((candidateWorkingDate: any) => {
+      if (this.arr_cwd_uuid.indexOf(candidateWorkingDate.cwd_uuid) == -1) {
+        this.arr_cwd_uuid.push(candidateWorkingDate.cwd_uuid);
+      }
+    });
+  }
+
   async reject() {
 
     const alertConfirm = await this.alertCtrl.create({
