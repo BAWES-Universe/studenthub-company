@@ -3,6 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="selectAll()">
+        Select All 
+      </ion-button>
+    </ion-buttons>  
   </ion-toolbar>
   <ion-toolbar class="desktop-view">
     <ion-title *ngIf="history && history.candidate"> 
@@ -151,7 +156,8 @@
         [routerLink]="['/log-hour-list', candidateWorkingDate.candidate_id, candidateWorkingDate.date, candidateWorkingDate.store_id]">
       
         <div class="input-wrapper" *ngIf="candidateWorkingDate.total_pending > 0">
-          <ion-checkbox mode="md" (click)="toggleSelection(candidateWorkingDate, $event)"></ion-checkbox>
+          <ion-checkbox mode="md" (click)="toggleSelection(candidateWorkingDate, $event)"
+            [checked]="arr_cwd_uuid.indexOf(candidateWorkingDate.cwd_uuid) > -1"></ion-checkbox>
         </div>
         
         <div class="details">
