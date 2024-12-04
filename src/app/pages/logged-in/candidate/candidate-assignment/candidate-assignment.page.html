@@ -157,7 +157,7 @@
       
         <div class="input-wrapper" *ngIf="candidateWorkingDate.total_pending > 0">
           <ion-checkbox mode="md" (click)="toggleSelection(candidateWorkingDate, $event)"
-            [checked]="arr_cwd_uuid.indexOf(candidateWorkingDate.cwd_uuid) > -1"></ion-checkbox>
+            [checked]="arr_cwd_uuid.indexOf(candidateWorkingDate.cwd_uuid) > -1? true: false"></ion-checkbox>
         </div>
         
         <div class="details">
