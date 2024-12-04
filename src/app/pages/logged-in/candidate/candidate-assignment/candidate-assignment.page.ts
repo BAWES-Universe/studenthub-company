@@ -101,11 +101,13 @@ export class CandidateAssignmentPage implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.arr_cwd_uuid.indexOf(candidateWorkingDate.cwd_uuid) > -1) {
-      this.arr_cwd_uuid = this.arr_cwd_uuid.filter(e => e != candidateWorkingDate.cwd_uuid);
-    } else {
-      this.arr_cwd_uuid.push(candidateWorkingDate.cwd_uuid)
-    }
+    setTimeout(() => {
+      if (this.arr_cwd_uuid.indexOf(candidateWorkingDate.cwd_uuid) > -1) {
+        this.arr_cwd_uuid = this.arr_cwd_uuid.filter(e => e != candidateWorkingDate.cwd_uuid);
+      } else {
+        this.arr_cwd_uuid.push(candidateWorkingDate.cwd_uuid)
+      }
+    }, 200);
   }
 
   selectAll() {
