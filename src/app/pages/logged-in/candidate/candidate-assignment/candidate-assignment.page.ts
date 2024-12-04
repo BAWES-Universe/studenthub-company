@@ -485,6 +485,10 @@ export class CandidateAssignmentPage implements OnInit {
       if (e.data && e.data.date) {
         this.endDateFormatted = e.data.dateFormatted;
         this.end_date = e.data.date;
+
+        if (this.start_date && this.end_date) {
+          this.loadData();
+        }
       }
     });
     modal.present();
@@ -512,11 +516,14 @@ export class CandidateAssignmentPage implements OnInit {
       if (e.data && e.data.date) {
         this.startDateFormatted = e.data.dateFormatted;
         this.start_date = e.data.date;
+
+        if (this.start_date && this.end_date) {
+          this.loadData();
+        }
       }
     });
     modal.present();
   }
-
 
   viewContract(contract_uuid, event) {
     event.preventDefault();

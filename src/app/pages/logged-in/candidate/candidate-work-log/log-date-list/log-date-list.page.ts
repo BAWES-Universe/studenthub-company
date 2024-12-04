@@ -1,11 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import { format } from 'date-fns';
+import {
+  CalendarModal,
+  CalendarModalOptions,
+  DayConfig,
+  CalendarResult,
+  CalendarComponentOptions
+} from 'ion2-calendar';
 // services
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service'; 
 // models
 import {CandidateWorkingDate } from 'src/app/models/candidate';
+import { DatePickerComponent } from 'src/app/components/date-picker/date-picker.component';
+import { ModalController, PopoverController } from '@ionic/angular';
  
 
 @Component({
@@ -24,10 +34,17 @@ export class LogDateListPage implements OnInit {
 
   public candidateWorkingDates: CandidateWorkingDate[] = [];
 
+  public end_date;
+  public start_date;
+  public startDateFormatted;
+  public endDateFormatted;
+
   constructor(
     public candidateService: CandidateService,
     public translateService: TranslateLabelService,
     public activateRoute: ActivatedRoute,
+    public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
     public analyticService: AnalyticsService
   ) { }
 
@@ -51,13 +68,129 @@ export class LogDateListPage implements OnInit {
     event.target.complete();
   }
 
+
+  async openCalendar() {
+    const options: CalendarModalOptions = {
+      canBackwardsSelected: true,
+      pickMode: 'range',
+      title: '',
+      defaultScrollTo : new Date(this.end_date ? this.end_date : new Date()),
+      defaultDateRange: {
+        from: new Date(this.start_date ? this.start_date : ''),
+        to: new Date(this.end_date ? this.end_date : '')
+      }
+    };
+
+    const myCalendar = await this.modalCtrl.create({
+      component: CalendarModal,
+      componentProps: { options }
+    });
+
+    myCalendar.present();
+
+    const event: any = await myCalendar.onDidDismiss();
+    const date = event.data;
+    if (date) {
+      const from: CalendarResult = date.from;
+      const to: CalendarResult = date.to;
+      if (from.string) {
+        this.start_date = from.string;
+        this.startDateFormatted = format(from.dateObj, 'dd/MM/yyyy');
+      }
+      if (to.string) {
+        this.end_date = to.string;
+        this.endDateFormatted = format(to.dateObj, 'dd/MM/yyyy');
+      }
+
+      if (from.string || to.string) {
+        this.loadData();
+      }
+    }
+  }
+
+  async selectEndDate(event)  {
+    
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    const modal = await this.popoverCtrl.create({
+      component: DatePickerComponent, 
+      event: event,
+      componentProps: { 
+        dateFormatted: this.endDateFormatted,
+        date: this.end_date
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      /*if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }*/
+ 
+      if (e.data && e.data.date) {
+        this.endDateFormatted = e.data.dateFormatted;
+        this.end_date = e.data.date;
+
+        if (this.start_date && this.end_date) {
+          this.loadData();
+        }
+      }
+    });
+    modal.present();
+  }
+
+  async selectStartDate(event) {
+     
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    const modal = await this.popoverCtrl.create({
+      component: DatePickerComponent, 
+      event: event,
+      componentProps: { 
+        dateFormatted: this.startDateFormatted,
+        date: this.start_date
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      /*if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }*/
+ 
+      if (e.data && e.data.date) {
+        this.startDateFormatted = e.data.dateFormatted;
+        this.start_date = e.data.date;
+
+        if (this.start_date && this.end_date) {
+          this.loadData();
+        }
+      }
+    });
+    modal.present();
+  }
+
+  getUrlParams() {
+    let url = '&expand=&candidate_id=' + this.candidate_id;
+     // "&store_id=" + this.history.store_id;
+
+    if (this.start_date) {
+      url += "&start_date=" + this.start_date;
+    }
+  
+    if (this.end_date) {
+      url += "&end_date=" + this.end_date;
+    }
+
+    return url;
+  }
+
   /**
    * load invitations for request
    */
   loadData() {
-    this.loading = true;
-    const param = `&candidate_id=${this.candidate_id}&expand=`;
-    this.candidateService.listCandidateWorkingDates(this.currentPage, param).subscribe(response => {
+    this.loading = true; 
+    this.candidateService.listCandidateWorkingDates(this.currentPage, this.getUrlParams()).subscribe(response => {
       this.loading =  false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -83,9 +216,8 @@ export class LogDateListPage implements OnInit {
     this.loading = true;
 
     this.currentPage++;
-    const param = `&candidate_id=${this.candidate_id}&expand=`;
     
-    this.candidateService.listCandidateWorkingDates(this.currentPage, param).subscribe(response => {
+    this.candidateService.listCandidateWorkingDates(this.currentPage, this.getUrlParams()).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
