@@ -95,10 +95,10 @@ export class CandidateService {
    * @param candidate_id
    */
   workHistory(candidate_id, store_id = null, date = null): Observable<any> {
-    let url = this._candidateEndpoint + '/work-history/' + candidate_id + '?expand=store,company';
+    let url = this._candidateEndpoint + '/work-history/' + candidate_id + '?expand=store,company,candidate';
 
     if (store_id) {
-      url += ",candidate&store_id=" + store_id;
+      url += "&store_id=" + store_id;
     }
 
     if (date) {

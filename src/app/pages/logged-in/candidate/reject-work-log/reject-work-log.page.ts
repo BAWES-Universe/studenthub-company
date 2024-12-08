@@ -44,7 +44,7 @@ export class RejectWorkLogPage implements OnInit {
 
     this.form = this._fb.group({
       candidate_id: [this.candidate_id, Validators.required],
-      store_id: [this.store_id, Validators.required],
+      store_id: [this.store_id],//, Validators.required
       date: [this.date],//, Validators.required],
       status: [2],
       candidate_working_hour_uuid: [this.hour?.candidate_working_hour_uuid],
