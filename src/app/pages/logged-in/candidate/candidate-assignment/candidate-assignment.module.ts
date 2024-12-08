@@ -22,7 +22,7 @@ import { WorkLogDateModule } from 'src/app/components/work-log-date/work-log-dat
     PipesModule,
     DatePickerModule,
     CalendarModule,
-    //WorkLogDateModule,
+    WorkLogDateModule,
    // SelectSearchPage
    // CandidateOptionModule,
     TranslateModule.forChild(),

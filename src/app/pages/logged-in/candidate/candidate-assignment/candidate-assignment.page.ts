@@ -97,9 +97,9 @@ export class CandidateAssignmentPage implements OnInit {
     })
   }
 
-  toggleSelection(candidateWorkingDate, event) {
-    event.preventDefault();
-    event.stopPropagation();
+  toggleSelection(candidateWorkingDate) {
+   // event.preventDefault();
+   // event.stopPropagation();
 
     setTimeout(() => {
       if (this.arr_cwd_uuid.indexOf(candidateWorkingDate.cwd_uuid) > -1) {
