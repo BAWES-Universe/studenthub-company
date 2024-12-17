@@ -85,3 +85,6 @@ on new transfer init > select contract > move to transfer form based on contract
 
 import transfer excel candidates' validation if contract selected
 - should not have candidate belong to other contract or no contract 
+
+# update tailwind css 
+npx tailwindcss -i ./src/tailwind.css -o ./src/output.css --watch
