@@ -53,6 +53,11 @@
     
     <div class="clearfix"></div>
 
+    <div class="text-[#22223d] text-sm leading-none mb-2" *ngIf="hour.note">
+      <span class="font-medium">{{ "Reason" | translate }}:</span>
+      <span class="font-normal"> {{ hour.note }}</span>
+    </div>
+
     <ng-container *ngIf="hour.end_time">
       <div class="btn-wrapper" *ngIf="hour.status == 0">
         <ion-button class="btn-reject" (click)="onRejectClicked.emit()"  fill="outline" color="danger">
