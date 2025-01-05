@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CandidateWorkLogFeedback } from 'src/app/models/candidate-work-log-feedback';
 //services
 import { AuthHttpService } from './authhttp.service';
+import { CandidateWorkingHour } from 'src/app/models/candidate';
 
 
 @Injectable({
@@ -35,6 +36,11 @@ export class CandidateWorkLogFeedbackService {
       ...model,
       arr_cwd_uuid
     });
+  }
+
+  undo(hour: CandidateWorkingHour) {
+    let url = this._endpoint + '/undo/' + hour.candidate_working_hour_uuid;
+    return this._authhttp.patch(url, {});
   }
 
   save(model: CandidateWorkLogFeedback) {

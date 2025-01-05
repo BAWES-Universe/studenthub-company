@@ -127,7 +127,9 @@
         </span>
       </p>-->
 
-      <app-work-log (onApproveClicked)="approveSession(hour)" (onRejectClicked)="rejectSession(hour)" 
+      <app-work-log (onApproveClicked)="approveSession(hour)" 
+        (onUndoClicked) ="loadDetail()"
+        (onRejectClicked)="rejectSession(hour)" 
         [hour]="hour" *ngFor="let hour of candidateWorkingHourData">
       </app-work-log>
 
