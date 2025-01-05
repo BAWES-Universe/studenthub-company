@@ -59,16 +59,24 @@
     </div>
 
     <ng-container *ngIf="hour.end_time">
-      <div class="btn-wrapper" *ngIf="hour.status == 0">
-        <ion-button class="btn-reject" (click)="onRejectClicked.emit()"  fill="outline" color="danger">
-          {{ "Reject" | translate }}
-        </ion-button>
-      
-        <ion-button class="btn-approve" fill="outline" (click)="onApproveClicked.emit()">
-          {{ "Approve" | translate }}
-        </ion-button>
-      </div>
+      <div class="btn-wrapper">
 
+        <ion-button *ngIf="hour.status != 0" class="btn-reject" 
+          (click)="undoFeedback()" fill="outline" color="danger">
+          {{ "Undo" | translate }}
+        </ion-button>
+        
+        <ng-container *ngIf="hour.status == 0">
+          <ion-button class="btn-reject" (click)="onRejectClicked.emit()"  fill="outline" color="danger">
+            {{ "Reject" | translate }}
+          </ion-button>
+        
+          <ion-button class="btn-approve" fill="outline" (click)="onApproveClicked.emit()">
+            {{ "Approve" | translate }}
+          </ion-button>
+        </ng-container>
+        
+      </div>
       <div class="clearfix"></div>
     </ng-container>
 
