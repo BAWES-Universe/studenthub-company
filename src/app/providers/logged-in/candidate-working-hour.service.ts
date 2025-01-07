@@ -29,7 +29,7 @@ export class CandidateWorkingHourService {
    * @returns 
    */
   dateDetail(candidate_id: number, date: string, store_id: number): Observable<any>{
-    const url = this._endpoint + `/date-detail?candidate_id=${candidate_id}&date=${date}&store_id=${store_id}&expand=candidate`;
+    const url = this._endpoint + `/date-detail?candidate_id=${candidate_id}&date=${date}&store_id=${store_id}&expand=candidate,isWorking`;
     return this._authhttp.get(url);
   }
 

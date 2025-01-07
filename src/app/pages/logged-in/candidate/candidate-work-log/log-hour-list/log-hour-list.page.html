@@ -85,7 +85,7 @@
 
         <div class="clearfix"></div>
       </div>
-
+      
       <ul *ngIf="candidateWorkingDate.end_time" class="health-bar">
         <li *ngIf="candidateWorkingDate.total_pending > 0" class="pending">
           {{ candidateWorkingDate.total_pending }} {{ "Pending" | translate }}
@@ -146,7 +146,7 @@
 </ion-content> 
 <!-- if pending count > 0 -->
  
-<ion-footer *ngIf="candidateWorkingDate && candidateWorkingDate.total_pending > 0">
+<ion-footer *ngIf="candidateWorkingDate && candidateWorkingDate.total_pending > 0 && !candidateWorkingDate.isWorking">
   <div class="max-width">
     <div class="btn-wrapper" >
       <ion-button class="btn-reject" (click)="reject()"  fill="outline" color="danger">
