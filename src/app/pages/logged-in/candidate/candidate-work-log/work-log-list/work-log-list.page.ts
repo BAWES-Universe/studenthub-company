@@ -57,7 +57,8 @@ export class WorkLogListPage implements OnInit {
 
   public generatingExcel: boolean = false; 
   public generatingApprovedExcel: boolean = false; 
-
+  public generatingDetailedExcel: boolean = false; 
+  
   constructor(
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
@@ -131,6 +132,27 @@ export class WorkLogListPage implements OnInit {
   searchByName(event) {
     this.filters.name = event.detail.value;
     this.loadData(); // reload all result
+  }
+
+  downloadDetailed(approved = null) {
+    if (approved) {
+      this.generatingApprovedExcel = true;
+    } else {
+      this.generatingDetailedExcel = true;
+    }
+
+    let urlParams = this.urlParams();
+
+    if (approved)
+      urlParams += "&approved=" + approved;
+
+    this.candidateService.downloadWorkLogDetailed(urlParams).subscribe(result => {
+      if (approved) {
+        this.generatingApprovedExcel = false;
+      } else {
+        this.generatingDetailedExcel = false;
+      }
+    });
   }
 
   download(approved = null) {

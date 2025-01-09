@@ -55,7 +55,16 @@ export class CandidateService {
    */
   downloadWorkLog(urlParams: string): Observable<any> {
     let url = `${this._candidateEndpoint}/work-log-excel?${urlParams}`;
-    return this._authhttp.excelget(url, `transfer-template.xlsx`);
+    return this._authhttp.excelget(url, `work-log.xlsx`);
+  }
+
+  /**
+   * @param urlParams 
+   * @returns 
+   */
+  downloadWorkLogDetailed(urlParams: string): Observable<any> {
+    let url = `${this._candidateEndpoint}/work-log-detailed-excel?${urlParams}`;
+    return this._authhttp.excelget(url, `work-log-detailed.xlsx`);
   }
 
   /**
