@@ -20,7 +20,9 @@
         <ion-label>
           <h4>
             <span class="you" *ngIf="contact.contact_email == authService.email">You&nbsp;•&nbsp;</span>
-            {{ contact.contact.contact_name }}
+            <ng-container *ngIf="contact.contact">
+              {{ contact.contact.contact_name }}
+            </ng-container>
           </h4>
 
           <p *ngIf="contact.contact_position">

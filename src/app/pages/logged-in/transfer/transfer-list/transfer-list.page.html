@@ -49,7 +49,7 @@
     </ion-fab-list>-->
   </ion-fab>
 
-  <ion-popover [class.with-contract]="authService.company.contracts &&
+  <ion-popover [class.with-contract]="authService.company && authService.company.contracts &&
     authService.company.contracts.length > 0" trigger="btn-fab" side="top" reference="trigger" triggerAction="click">
     <ng-template>
 
@@ -69,7 +69,7 @@
         </ion-label>
       </ion-item>
 
-      <ng-container *ngIf="authService.company.contracts && authService.company.contracts.length > 0">
+      <ng-container *ngIf="authService.company && authService.company.contracts && authService.company.contracts.length > 0">
           
         <ion-list-header>
           With contract 
