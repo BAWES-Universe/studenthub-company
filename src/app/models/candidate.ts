@@ -114,4 +114,5 @@ export class CandidateWorkingDate {
   total_pending: number;
   total_approved: number;
   total_rejected: number;
+  isWorking: boolean; 
 }

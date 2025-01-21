@@ -52,7 +52,9 @@
             {{ chat.staff.staff_name }} 
           </span>
 
-          <p> {{ chat.recentMessage.message }}</p>
+          <p *ngIf="chat.recentMessage && chat.recentMessage.message"> 
+            {{ chat.recentMessage.message }}
+          </p>
 
           <span *ngIf="chat.created_at" class="date-added">
             {{ chat.created_at | timeAgo }}

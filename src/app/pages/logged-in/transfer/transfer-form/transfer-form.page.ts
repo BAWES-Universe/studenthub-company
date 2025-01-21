@@ -118,7 +118,7 @@ export class TransferFormPage implements OnInit {
       this.transfer = new Transfer();
       this.transfer.currency_code = this.authService.currency_pref;
       this.transfer.contract = state.contract;
-      this.transfer.contract_uuid = state.contract.contract_uuid;
+      this.transfer.contract_uuid = state.contract?.contract_uuid;
     } else if (!this.transfer) {
       this.loadTransferDetail();
     }
