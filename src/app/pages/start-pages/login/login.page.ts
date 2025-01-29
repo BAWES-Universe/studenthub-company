@@ -13,6 +13,7 @@ import { TranslateLabelService } from "../../../providers/translate-label.servic
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 
+declare let grecaptcha: any;
 
 @Component({
   selector: 'app-login',
@@ -76,12 +77,20 @@ export class LoginPage implements OnInit {
    * Attempts to login with the provided email and password
    */
   onSubmit() {
+    grecaptcha.ready(() => {
+      grecaptcha.execute('6Lei9R4pAAAAAEJYoXxoIvP2Uu0oq8iXkCVfmy6V', {action: 'submit'}).then((token: string) => {
+        this.onValidCaptcha(token);
+      });
+    });
+  }
+
+  onValidCaptcha(token: string) {
     this.isLoading = true;
 
     const email = this.oldEmailInput = this.loginForm.value.email;
     const password = this.oldPasswordInput = this.loginForm.value.password;
 
-    this.authService.basicAuth(email, password).subscribe(res => {
+    this.authService.basicAuth(email, password, token).subscribe(res => {
 
       this.isLoading = false;
 
