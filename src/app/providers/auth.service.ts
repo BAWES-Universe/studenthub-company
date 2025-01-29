@@ -655,7 +655,7 @@ export class AuthService {
       Authorization: 'Basic ' + btoa(`${email}:${password}`),
       'g-recaptcha-response': token
     });
-    const url = environment.apiEndpoint + this._urlBasicAuth + '?token=' + token;
+    const url = environment.apiEndpoint + this._urlBasicAuth;// + '?token=' + token;
     return this.http.get(url, {
       headers: authHeader,
     }).pipe(
