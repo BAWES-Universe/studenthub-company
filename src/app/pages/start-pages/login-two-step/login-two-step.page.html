@@ -1,0 +1,40 @@
+<ion-content class='contentArea ion-padding' [attr.dir]="translateService.direction()">
+
+  <div class='brand'>
+    <ion-img src="assets/logo.png"></ion-img>
+    <!-- <h3>{{ "Employer Portal" | translate }}</h3> -->
+  </div>
+
+  <ion-card class='loginCard'>
+    <ion-card-content class='authArea'>
+ 
+      <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()"  class="classicInput" novalidate>
+        <ion-item lines="none">
+          <ion-label position="floating">{{'OTP' | translate}}</ion-label>
+          <ion-input  
+            formControlName="otp">
+          </ion-input>
+        </ion-item>
+
+        <div class="ion-text-center submit-btn">
+          <ion-button expand="block" type="submit" class="btn-login"
+                  [disabled]="!form.valid">
+            <ion-spinner *ngIf="isLoading"></ion-spinner>
+            <span *ngIf="!isLoading">{{ "Submit" | translate}}</span>
+          </ion-button>
+        </div>
+
+      </form>
+       
+      <br />
+      
+      <div class="ion-text-center" *ngIf="!isLoading" tappable>
+        <a *ngIf="translateService.currentLang == 'ar'" (click)="changeLanguage($event)">English</a>
+        <a *ngIf="translateService.currentLang == 'en'" (click)="changeLanguage($event)">عربى</a>
+      </div>
+      
+    </ion-card-content>
+  </ion-card>
+ 
+
+</ion-content>

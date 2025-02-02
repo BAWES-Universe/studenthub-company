@@ -35,6 +35,10 @@
           <ion-toggle slot="end" formControlName="receive_email"></ion-toggle>
         </ion-item>
 
+        <ion-item>  
+          <ion-label>{{ "Enable Two Step Auth?" | translate}}</ion-label>
+          <ion-toggle (ionChange)="onTwoStepAuthChange($event)" slot="end" formControlName="enable_two_step_auth"></ion-toggle>
+        </ion-item>
 
         <!--
         <ion-item>
