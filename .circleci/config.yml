@@ -153,9 +153,20 @@ jobs:
                 command: sudo pip install awscli
             - run:
                 name: Deploy to S3
-                command: aws s3 sync ~/completed-build/www/ s3://studenthub-company-staging/
+                command: aws s3 sync ~/completed-build/www/ s3://studenthub-company-prod/
 
+            - run:
+                name: Set Cache-Control headers for specific files
+                command: |
+                  aws s3 cp s3://studenthub-company-prod/index.html s3://studenthub-company-prod/index.html \
+                    --metadata-directive REPLACE \
+                    --cache-control "no-store, no-cache, must-revalidate, max-age=0" \
+                    --content-type "text/html"
 
+            - run:
+                name: Invalidate Cloudfront Cache
+                command: aws cloudfront create-invalidation --distribution-id E3NL2XSKDK9UYF --paths '/*'
+            
 # Define Workflows
 workflows:
     version: 2
