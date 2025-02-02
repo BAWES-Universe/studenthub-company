@@ -102,6 +102,7 @@ export class AccountPage implements OnInit {
       receive_notification: [this.model.contact_receive_notification],
       emails: new FormArray(emailCtrls),
       phones: new FormArray(phoneCtrls),
+      enable_two_step_auth: [this.model.enable_two_step_auth],
     });
   }
 
@@ -121,6 +122,7 @@ export class AccountPage implements OnInit {
     //this.model.contact_position = this.form.value.position;
     this.model.contactEmails = this.form.value.emails;
     this.model.contactPhones = this.form.value.phones;
+    this.model.enable_two_step_auth = this.form.value.enable_two_step_auth;
   }
 
   removeEmail(index) {
@@ -165,6 +167,13 @@ export class AccountPage implements OnInit {
     }
   }
 
+  onTwoStepAuthChange($event) {
+    this.model.enable_two_step_auth = $event.detail.checked;
+    this.form.patchValue({
+      enable_two_step_auth: this.model.enable_two_step_auth
+    });
+  }
+  
   /**
    * Save the model
    */

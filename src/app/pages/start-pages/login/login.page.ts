@@ -96,7 +96,12 @@ export class LoginPage implements OnInit {
 
       if (res.operation == 'success') {
         // Successfully logged in, set the access token within AuthService
-        this.authService.setAccessToken(res);
+
+        if (res.token_status == 0) {
+          this.router.navigateByUrl('/login-two-step/' + res.token);
+        } else {
+          this.authService.setAccessToken(res, true);
+        }
 
       } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
 

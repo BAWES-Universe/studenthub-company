@@ -36,6 +36,7 @@ export class AccountService {
       email: model.contact_email,
       receive_email: model.contact_receive_email,
       receive_notification: model.contact_receive_notification,
+      enable_two_step_auth: model.enable_two_step_auth,
       emails: model.contactEmails,
       phones: model.contactPhones
     };

@@ -315,6 +315,11 @@ const routes: Routes = [
     canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/transfer/transfer-form-monthly/transfer-form-monthly.module').then( m => m.TransferFormMonthlyPageModule)
   },
+
+  {
+    path: 'login-two-step',
+    loadChildren: () => import('./pages/start-pages/login-two-step/login-two-step.module').then( m => m.LoginTwoStepPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'
