@@ -242,7 +242,7 @@
                     <span *ngIf="candidate.candidate_driving_license == 1"
                           [innerHtml]="'Has <b>driving license</b>' | translate"></span>
                     <span *ngIf="candidate.candidate_driving_license == 2"
-                          [innerHtml]="'Has <b>no driving license</b> | translate'"></span>
+                          [innerHtml]="'Has <b>no driving license</b>' | translate"></span>
                     <p *ngIf="!candidate.candidate_driving_license">{{ "Driving licence (not set)" | translate}} </p>
                   </ion-label>
                 </ion-item>
