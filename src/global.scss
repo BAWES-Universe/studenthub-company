@@ -29,6 +29,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
 .brand ion-img {
     margin: auto;
     display: block;
