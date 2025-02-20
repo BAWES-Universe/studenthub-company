@@ -1,0 +1,159 @@
+---
+title: "Mintlify Documentation Configuration"
+description: "Learn how to configure your Mintlify documentation setup to align with the new structure and tooling."
+---
+
+## Overview
+
+This guide details the configuration changes for the Mintlify documentation setup, reflecting a shift in documentation structure and tooling. The configuration is defined in a JSON file, `docs.json`, which specifies themes, navigation, and other settings for your documentation site.
+
+## Configuration Schema
+
+The `docs.json` file follows a specific schema designed to customize and organize your documentation effectively. Below is an overview of the key components in the configuration file.
+
+### Theme and Appearance
+
+```json
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Mint Starter Kit",
+  "colors": {
+    "primary": "#16A34A",
+    "light": "#07C983",
+    "dark": "#15803D"
+  },
+  "favicon": "/favicon.svg"
+}
+```
+
+- `$schema`: URL to the schema definition for the configuration file.
+- `theme`: Specifies the theme for the documentation site.
+- `name`: The name of your documentation site or project.
+- `colors`: Defines the color scheme for the site.
+- `favicon`: Path to the favicon for the site.
+
+### Navigation
+
+The navigation structure is defined under the `navigation` key, organizing content into tabs and groups for better accessibility.
+
+```json
+"navigation": {
+  "tabs": [
+    {
+      "tab": "Guides",
+      "groups": [
+        {
+          "group": "Get Started",
+          "pages": [
+            "introduction",
+            "quickstart",
+            "development"
+          ]
+        },
+        {
+          "group": "Essentials",
+          "pages": [
+            "essentials/markdown",
+            "essentials/code",
+            "essentials/images",
+            "essentials/settings",
+            "essentials/navigation",
+            "essentials/reusable-snippets"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "API Reference",
+      "groups": [
+        {
+          "group": "API Documentation",
+          "pages": [
+            "api-reference/introduction"
+          ]
+        },
+        {
+          "group": "Endpoint Examples",
+          "pages": [
+            "api-reference/endpoint/get",
+            "api-reference/endpoint/create",
+            "api-reference/endpoint/delete"
+          ]
+        }
+      ]
+    }
+  ],
+  "global": {
+    "anchors": [
+      {
+        "anchor": "Documentation",
+        "href": "https://mintlify.com/docs",
+        "icon": "book-open-cover"
+      },
+      {
+        "anchor": "Community",
+        "href": "https://mintlify.com/community",
+        "icon": "slack"
+      },
+      {
+        "anchor": "Blog",
+        "href": "https://mintlify.com/blog",
+        "icon": "newspaper"
+      }
+    ]
+  }
+}
+```
+
+- `tabs`: Organizes content into main categories or tabs.
+- `groups`: Further divides tabs into groups for detailed organization.
+- `pages`: Lists the pages under each group.
+- `global`: Defines global navigation links accessible from any page.
+
+### Logo and Navigation Bar
+
+Customize the logo and navigation bar links to match your branding and provide quick access to important links.
+
+```json
+"logo": {
+  "light": "/logo/light.svg",
+  "dark": "/logo/dark.svg"
+},
+"navbar": {
+  "links": [
+    {
+      "label": "Support",
+      "href": "mailto:hi@mintlify.com"
+    }
+  ],
+  "primary": {
+    "type": "button",
+    "label": "Dashboard",
+    "href": "https://dashboard.mintlify.com"
+  }
+}
+```
+
+- `logo`: Specifies the paths to the light and dark versions of your logo.
+- `navbar`: Configures the navigation bar with links and a primary button.
+
+### Footer
+
+The footer configuration allows you to add social media links and other important links at the bottom of your documentation site.
+
+```json
+"footer": {
+  "socials": {
+    "x": "https://x.com/mintlify",
+    "github": "https://github.com/mintlify",
+    "linkedin": "https://linkedin.com/company/mintlify"
+  }
+}
+```
+
+- `socials`: Links to your project or company's social media profiles.
+
+## Conclusion
+
+The `docs.json` configuration file is a powerful tool for customizing the structure and appearance of your Mintlify documentation site. By adjusting the settings in this file, you can create a documentation experience that is both user-friendly and aligned with your project's branding.
