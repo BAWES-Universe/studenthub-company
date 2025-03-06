@@ -28,6 +28,12 @@ export class ContractModalComponent implements OnInit {
 
   public borderLimit;
 
+  public filter: {
+    type: string | null;
+  } = {
+    type: null
+  };
+
   constructor(
     public modalCtrl: ModalController,
     public contractService: ContractService,
@@ -60,6 +66,25 @@ export class ContractModalComponent implements OnInit {
     })
   }
 
+  filterByType(event, type) {
+    this.filter.type = type;
+    this.loadData(1);
+  }
+
+  getUrlParams() {
+    let url = "";
+
+    if (this.query) {
+      url += `&keyword=${this.query}`;
+    }
+
+    if (this.filter.type) {
+      url += `&type=${this.filter.type}`;
+    }
+
+    return url;
+  }
+
   /**
    * Load contract Data
    */
@@ -69,7 +94,7 @@ export class ContractModalComponent implements OnInit {
     if (this.contracts.length == 0)
       this.loading = true;
 
-    this.contractService.list(this.query, page).subscribe(response => {
+    this.contractService.list(page, this.getUrlParams()).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
 
@@ -90,7 +115,7 @@ export class ContractModalComponent implements OnInit {
 
     this.loading = true;
 
-    this.contractService.list(this.query, this.currentPage).subscribe(response => {
+    this.contractService.list(this.currentPage, this.getUrlParams()).subscribe(response => {
       this.loading = false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));

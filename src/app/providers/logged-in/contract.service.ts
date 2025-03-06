@@ -16,8 +16,8 @@ export class ContractService {
    * @param page
    * @param searchParams
    */
-  list(keyword: string = '', page = null): Observable<any> {
-    let url = this._endpoint + '?expand=amount&keyword=' + keyword;
+  list(page = null, urlParams = ''): Observable<any> {
+    let url = this._endpoint + '?expand=amount,candidate,store&' + urlParams;
 
     if(page) {
       url += '&page=' + page;
@@ -32,7 +32,7 @@ export class ContractService {
    * @param contract_uuid
    */
   view(contract_uuid): Observable<any> {
-    const url = this._endpoint + '/' + contract_uuid + '?expand=amount';
+    const url = this._endpoint + '/' + contract_uuid + '?expand=amount,candidate,store';
     return this.authhttp.get(url);
   }
 }

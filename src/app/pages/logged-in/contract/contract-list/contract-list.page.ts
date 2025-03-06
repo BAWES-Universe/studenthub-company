@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Candidate } from 'src/app/models/candidate';
 //models
 import { Contract } from 'src/app/models/contract';
 //services
@@ -27,10 +29,17 @@ export class ContractListPage implements OnInit {
 
   public borderLimit;
 
+  public filter: {
+    type: string | null;
+  } = {
+    type: null
+  };
+
   constructor(
     public contractService: ContractService,
     public translateService: TranslateLabelService,
-    public analyticService: AnalyticsService
+      public analyticService: AnalyticsService,
+    public router: Router
   ) {
   }
 
@@ -48,6 +57,39 @@ export class ContractListPage implements OnInit {
     this.loadData(1);
   }
 
+  candidateSelected(candidate: Candidate) {
+    this.router.navigate(['/candidate-view', candidate.candidate_id]);
+  }
+
+  doRefresh(event) {
+    this.loadData(1);
+    event.target.complete();
+  }
+
+  onSearch(event) {
+    this.query = event.target.value;
+    this.loadData(1);
+  }
+
+  filterByType(event, type) {
+    this.filter.type = type;
+    this.loadData(1);
+  }
+
+  getUrlParams() {
+    let url = "";
+
+    if (this.query) {
+      url += `&keyword=${this.query}`;
+    }
+
+    if (this.filter.type) {
+      url += `&type=${this.filter.type}`;
+    }
+
+    return url;
+  }
+
   /**
    * Load contract Data
    */
@@ -57,7 +99,7 @@ export class ContractListPage implements OnInit {
     if (this.contracts.length == 0)
       this.loading = true;
 
-    this.contractService.list(this.query, page).subscribe(response => {
+    this.contractService.list(page, this.getUrlParams()).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
 
@@ -78,7 +120,7 @@ export class ContractListPage implements OnInit {
 
     this.loading = true;
 
-    this.contractService.list(this.query, this.currentPage).subscribe(response => {
+    this.contractService.list(this.currentPage, this.getUrlParams()).subscribe(response => {
       this.loading = false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
