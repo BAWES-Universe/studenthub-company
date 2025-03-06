@@ -162,10 +162,15 @@ export class TransferFormPage implements OnInit {
     const loader = await this._loadingCtrl.create();
     loader.present();
 
-    let params = "expand=store,company,currentWorkHistory,currentWorkHistory.transferCost";
+    let params = "expand=currentContract,currentContract.amount";
+    //store,company,currentWorkHistory,currentWorkHistory.transferCost,currentContract,currentContract.amount";
 
     if (this.transfer.contract_uuid) {
       params += "&contract_uuid=" + this.transfer.contract_uuid;
+    }
+
+    if (this.transfer.contract_type) {
+      params += "&contract_type=" + this.transfer.contract_type;
     }
 
     this.candidateService.list(params).subscribe(response => {
@@ -175,11 +180,18 @@ export class TransferFormPage implements OnInit {
     });
   }
 
+  onTransferTypeChange(event) {
+    console.log('event', event);
+    this.transfer.contract_type = event.detail.value;
+    this._loadCandidateListThenInitialize()
+  }
+
   /**
    * Initialize the TransferCandidate list required for this transfer.
    * @param { Candidate[] } allCandidatesAssignedToCompany
    */
   private _initTransferCandidateList(allCandidatesAssignedToCompany: Candidate[]) {
+
     const allTransferCandidateRecordsMapped: TransferCandidate[] = [];
 
     // Map all candidate records to an empty TransferCandidate record for a new transfer.
@@ -192,8 +204,12 @@ export class TransferFormPage implements OnInit {
         candidateTransferRecord.company_total = this.transfer.contract.amount.company_total;
         //candidateTransferRecord.candidate_total = this.transfer.contract.candidate_total;
         candidateTransferRecord.transfer_cost = this.transfer.contract.transfer_cost; //effective transfer cost 
+      } else if (candidate.currentContract) {
+        candidateTransferRecord.company_total = candidate.currentContract.amount.company_total;
+        //candidateTransferRecord.candidate_total = candidate.currentContract.candidate_total;
+        candidateTransferRecord.transfer_cost = candidate.currentContract.transfer_cost; //effective transfer cost 
       } else {
-        candidateTransferRecord.transfer_cost = candidate.currentWorkHistory?.transferCost;
+        candidateTransferRecord.transfer_cost = 0;//candidate.currentWorkHistory?.transferCost;
       }
 
       // Append the candidateTransferRecord into the allTransferCandidateRecordsMapped array
@@ -219,12 +235,12 @@ export class TransferFormPage implements OnInit {
 
     // Re-index the TransferCandidate list to avoid issues array length and create required FormControls
    
-      const updatedTransferRecords = [];
+    const updatedTransferRecords = [];
    
-      allTransferCandidateRecordsMapped.forEach(record => {
+    allTransferCandidateRecordsMapped.forEach(record => {
         updatedTransferRecords.push(record);
 
-      if (!this.transfer.contract || this.transfer.contract.type == 'HOURLY') {
+      if (!record.candidate.currentContract || record.candidate.currentContract.type == 'HOURLY') {
         // Create Form Controls with validation for this TransferCandidate record
         formControls['hours[' + record.candidate.candidate_id + ']'] = [record.hours, [
           // Validators.required,
@@ -251,7 +267,7 @@ export class TransferFormPage implements OnInit {
     if (this.transfer) {
       this.transfer.transferCandidates = updatedTransferRecords;
     } 
-
+ 
     formControls.start_date = [(this.transfer && this.transfer.start_date) ? this.transfer.start_date : '', [
       Validators.required
     ]];
@@ -263,7 +279,7 @@ export class TransferFormPage implements OnInit {
     formControls.currency_code = [this.transfer ? this.transfer.currency_code : this.authService.currency_pref, [
       Validators.required
     ]];
-
+ 
     // Setup the form to use our form controls
     this.form = this._fb.group(formControls);
 
@@ -279,11 +295,12 @@ export class TransferFormPage implements OnInit {
   async validate() {
     let error = '';
 
-    if (!this.transfer.contract || this.transfer.contract.type == 'HOURLY') {
+    //if (!this.transfer.contract || this.transfer.contract.type == 'HOURLY') {
       for (const entry of this.transfer.transferCandidates) {
 
         // Check if any candidates have unset hours or 0 hours set
         if (
+          entry.candidate.currentContract?.type == 'HOURLY' &&
           (!entry.hours || entry.hours == 0) && 
           (!entry.minutes || entry.minutes == 0) && 
           (!entry.seconds || entry.seconds == 0)
@@ -320,7 +337,7 @@ export class TransferFormPage implements OnInit {
           break; // Exit the loop
         }
       }
-    }
+    //}
     
     // Save if there are no errors
     if (!error) {
@@ -338,8 +355,10 @@ export class TransferFormPage implements OnInit {
    * remove those not paying candidates
    */
   removeUnaccountedUsers() {
-    this.transfer.transferCandidates = this.transfer.transferCandidates.filter((candidates, index) => {
-      return (candidates.bonus > 0 || candidates.hours > 0 || candidates.minutes > 0 || candidates.seconds > 0);
+    this.transfer.transferCandidates = this.transfer.transferCandidates.filter((transferCandidate, index) => {
+      return (transferCandidate.candidate.currentContract?.type != 'HOURLY' || 
+        (transferCandidate.bonus > 0 || transferCandidate.hours > 0 || transferCandidate.minutes > 0 || transferCandidate.seconds > 0)
+      );
     });
   }
 
@@ -354,17 +373,19 @@ export class TransferFormPage implements OnInit {
      * Update the transfer data if it already exists
      * Otherwise create a new transfer
      */
-    if (!this.transfer.contract || this.transfer.contract.type == 'HOURLY') {
+    //if (!this.transfer.contract || this.transfer.contract.type == 'HOURLY') {
       this.removeUnaccountedUsers();
-    }
+    //}
 
     /**
      * Update the transfer data if it already exists
      * Otherwise create a new transfer
      */
     const action = this.transfer.transfer_id ?
-      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code, this.transfer.contract_uuid) :
-      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code, this.transfer.contract_uuid);
+      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, 
+        this.form.value.end_date, this.form.value.currency_code, this.transfer.contract_uuid, this.transfer.contract_type) :
+      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date, 
+        this.form.value.currency_code, this.transfer.contract_uuid, this.transfer.contract_type);
 
     action.subscribe(async jsonResponse => {
       loader.dismiss();
@@ -434,12 +455,17 @@ export class TransferFormPage implements OnInit {
    * Calculate the transfer total based on data input
    */
   calculateTotal() {
+    
     this.total = 0;
+
     if (this.transfer) {
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
 
-        if (!this.transfer.contract || this.transfer.contract.type == 'HOURLY')
-        {
+        if (
+          !transferCandidate.candidate.currentContract || 
+          transferCandidate.candidate.currentContract.type == 'HOURLY'
+        ) {
+       
           const hours = this.parseNumber(transferCandidate.hours);
           const minutes = this.parseNumber(transferCandidate.minutes);
           const seconds = this.parseNumber(transferCandidate.seconds);
@@ -505,6 +531,11 @@ export class TransferFormPage implements OnInit {
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
       loading.dismiss();
       this.transfer = response;
+      
+      if (!this.transfer.contract_type) {
+        this.transfer.contract_type = 'ALL';
+      }
+
     });
   }
 
@@ -559,17 +590,19 @@ export class TransferFormPage implements OnInit {
 
   getCompanyHourlyRate(transferCandidateRecord) {
 
-    if (this.transfer && this.transfer.contract) {
-      return this.transfer.contract.amount.company_hourly_rate;
+    if (transferCandidateRecord.candidate.currentContract) {
+      return transferCandidateRecord.candidate.currentContract.amount.company_hourly_rate;
     }
 
     if(!transferCandidateRecord.candidate) {
-      transferCandidateRecord.company_hourly_rate;
+      return transferCandidateRecord.company_hourly_rate;
     }
 
-    return (transferCandidateRecord.candidate.currentWorkHistory && transferCandidateRecord.candidate.currentWorkHistory.company_hourly_rate > 0) ? 
+    console.log('transferCandidateRecord', transferCandidateRecord.candidate.currentContract)
+
+    return 0;/*(transferCandidateRecord.candidate.currentWorkHistory && transferCandidateRecord.candidate.currentWorkHistory.company_hourly_rate > 0) ? 
         transferCandidateRecord.candidate.currentWorkHistory.company_hourly_rate :
-        transferCandidateRecord.candidate.company.company_hourly_rate;
+        transferCandidateRecord.candidate.company.company_hourly_rate;*/
   }
 
   scrollToTop() {

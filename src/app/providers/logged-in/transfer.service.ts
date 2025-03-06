@@ -91,14 +91,15 @@ export class TransferService {
    * @param { Transfer } transfer
    * @returns {Observable<any>}
    */
-  save(transfer: Transfer, start_date, end_date, currency_code = null, contract_uuid = null): Observable<any> {
+  save(transfer: Transfer, start_date, end_date, currency_code = null, contract_uuid = null, contract_type = null): Observable<any> {
     const postUrl = `${this._transferEndpoint}`;
     const params = {
       candidates: transfer.transferCandidates,
       start_date: start_date,
       end_date: end_date,
       currency_code: currency_code,
-      contract_uuid: contract_uuid
+      contract_uuid: contract_uuid,
+      contract_type: contract_type
     };
     return this._authhttp.post(postUrl, params);
   }
@@ -108,14 +109,15 @@ export class TransferService {
    * @param { Transfer } transfer
    * @returns { Observable<any> }
    */
-  updateTransfer(transfer: Transfer, start_date, end_date, currency_code = null, contract_uuid = null): Observable<any> {
+  updateTransfer(transfer: Transfer, start_date, end_date, currency_code = null, contract_uuid = null, contract_type = null): Observable<any> {
     const postUrl = `${this._transferEndpoint}/${transfer.transfer_id}`;
     const params = {
       candidates: transfer.transferCandidates,
       start_date: start_date,
       end_date: end_date,
       currency_code: currency_code,
-      contract_uuid: contract_uuid
+      contract_uuid: contract_uuid,
+      contract_type: contract_type
     };
     return this._authhttp.patch(postUrl, params);
   }

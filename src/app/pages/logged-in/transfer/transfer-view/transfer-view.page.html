@@ -145,9 +145,8 @@
 
           <ion-item *ngFor="let resource of group.resources" tappable (click)="loadCandidateDetail(resource.candidate)"
             [class.zeroHours]="
-              (!transfer.contract_type || transfer.contract_type == 'HOURLY') && 
               (transfer.transfer_status==10) && 
-              (resource.hours == 0 && resource.minutes == 0 && resource.seconds == 0)">
+              (resource.candidate_total == 0 || resource.company_total == 0)">
             <div tabindex="0"></div>
 
             <ion-avatar slot="start">
