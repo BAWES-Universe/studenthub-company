@@ -22,9 +22,25 @@
   <div class="desktop-view">
 
 
+    <ion-card class="ion-padding card-date-range" *ngIf="transfer">
+
+      <h4>{{"Transfer Type" | translate}}</h4>
+
+      <!-- (ionChange)="onTransferTypeChange($event)"-->
+      <ion-select [(ngModel)]="transfer.contract_type" >
+        <ion-select-option value="ALL">{{"All" | translate}}</ion-select-option>  
+        <ion-select-option value="HOURLY">{{"Hourly" | translate}}</ion-select-option>
+        <ion-select-option value="FIXED_PRICE">{{"Fixed Price" | translate}}</ion-select-option>
+        <ion-select-option value="MONTHLY_SALARY">{{"Monthly Salary" | translate}}</ion-select-option>
+      </ion-select>
+
+      <p *ngIf="transfer && transfer.transferCandidates">Total candidates: {{ transfer.transferCandidates.length }}</p>
+
+    </ion-card>
+    
     <!-- Instructions for Create -->
     <section *ngIf="scenario == 'create'">
-      
+        
       <h4>{{"Step 1: Fill Start and End Date" | translate}}</h4>
 
       <h4>{{"I am transferring for work done in the following time period:" | translate}}</h4>

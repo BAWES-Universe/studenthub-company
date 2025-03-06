@@ -134,7 +134,7 @@ export class TransferService {
   /**
    * download transfer Template
    */
-  downloadTransferTemplate(preFilled = null, start_date = null, end_date = null, contract_uuid = null): Observable<any> {
+  downloadTransferTemplate(preFilled = null, start_date = null, end_date = null, contract_uuid = null, contract_type = null): Observable<any> {
     let url = `${this._transferEndpoint}/transfer-excel-template?`;
 
     if (preFilled) {
@@ -153,6 +153,10 @@ export class TransferService {
       url += "&contract_uuid=" + contract_uuid;
     }
 
+    if (contract_type) {
+      url += "&contract_type=" + contract_type;
+    }
+
     return this._authhttp.excelget(url, `transfer-template.xlsx`);
   }
 
@@ -160,14 +164,15 @@ export class TransferService {
    * upload excel file to create new transfer
    * @param file
    */
-  uploadTransferExcel(file: string, start_date, end_date, currency_code = null, contract_uuid = null): Observable<any> {
+  uploadTransferExcel(file: string, start_date, end_date, currency_code = null, contract_uuid = null, contract_type = null): Observable<any> {
     const url = this._transferEndpoint + '/create-by-excel';
     return this._authhttp.uploadFile(url, {
       excel: file,
       start_date: start_date,
       end_date: end_date,
       currency_code: currency_code,
-      contract_uuid: contract_uuid
+      contract_uuid: contract_uuid,
+      contract_type: contract_type
     });
   }
 
@@ -176,14 +181,15 @@ export class TransferService {
    * @param file
    * @param transfer_id
    */
-  updateTransferUploadExcel(file: string, transfer_id, start_date, end_date, currency_code = null, contract_uuid = null): Observable<any> {
+  updateTransferUploadExcel(file: string, transfer_id, start_date, end_date, currency_code = null, contract_uuid = null, contract_type = null): Observable<any> {
     const url = this._transferEndpoint + '/edit-by-excel/' + transfer_id;
     return this._authhttp.patch(url, {
       excel: file,
       start_date: start_date,
       end_date: end_date,
       currency_code: currency_code,
-      contract_uuid: contract_uuid
+      contract_uuid: contract_uuid,
+      contract_type: contract_type
     });
   }
 
