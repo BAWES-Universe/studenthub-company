@@ -89,3 +89,44 @@
   ion-popover {
     --offset-y: -100px;
   }
+
+
+
+.filter-wrapper {
+  margin: 0 15px 15px;
+
+   ion-chip {
+      --color: var(--ion-color-light-contrast);
+      color: var(--ion-color-light-contrast);
+      --background: var(--ion-color-light);
+  }
+
+  ion-chip.active {
+      --color: #fff;
+      color: #fff;
+      --background: var(--ion-color-primary);
+  }
+}
+
+
+ion-searchbar {
+  width: 100%;
+  --border-radius: 8px;
+  --background: var(--Neutral-20, #F5F5F7); 
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+  --placeholder-color: #7D7D8D;
+  color: var(--ion-color-custom-10);
+  --box-shadow: none;
+  --min-height: 40px;
+  --height: 40px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  --icon-color: rgba(125, 125, 141, 0.7);
+}

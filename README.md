@@ -88,3 +88,23 @@ import transfer excel candidates' validation if contract selected
 
 # update tailwind css 
 npx tailwindcss -i ./src/tailwind.css -o ./src/output.css --watch
+
+
+-------------
+
+have transfer type dropdown
+on selection filter candidate with that contract type
+on transfer excel, pass the contract type and have excel candidates with that contract type
+
+that way we will able to generate transfer excel with correct candidates 
+
+also show contract details in transfer form 
+
+remove start date/ end date from candidate contract 
+
+test
+- all the transfer type and check if calculations 
+
+
+
+

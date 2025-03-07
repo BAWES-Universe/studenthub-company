@@ -138,10 +138,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.platform.ready().then(() => {
 
       //in case login event not getting fired 
-      if (this.auth.isLogged) {
+     /* if (this.auth.isLogged) {
         this._updateAlert();
         this.alertSubscribe();
-      }
+      }*/
 
       this.loadCurrencies();
 
@@ -252,17 +252,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
     /**
      * Update alert count
-     */
+     *
     this.eventService.alertUpdate$.subscribe(() => {
       this._updateAlert();
-    });
+    });*/
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
  
-      this._updateAlert();
+      //this._updateAlert();
 
-      this.alertSubscribe();
+      //this.alertSubscribe();
 
       this.analyticsService.user(this.auth.id, {
         name: this.auth.profile_name,

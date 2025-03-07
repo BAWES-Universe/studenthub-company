@@ -49,14 +49,15 @@
     </ion-fab-list>-->
   </ion-fab>
 
-  <ion-popover [class.with-contract]="authService.company && authService.company.contracts &&
-    authService.company.contracts.length > 0" trigger="btn-fab" side="top" reference="trigger" triggerAction="click">
+  <!-- [class.with-contract]="authService.company && authService.company.contracts &&
+    authService.company.contracts.length > 0"-->
+  <ion-popover  trigger="btn-fab" side="top" reference="trigger" triggerAction="click">
     <ng-template>
-
+<!--
       <ion-list-header>
         Without contract (legacy)
       </ion-list-header>
-
+-->
       <ion-item tappable (click)="dismissPopup();createNewTransfer()">
         <ion-label>
           {{ "Manual input of hours" | translate }}  
@@ -69,6 +70,7 @@
         </ion-label>
       </ion-item>
 
+      <!--
       <ng-container *ngIf="authService.company && authService.company.contracts && authService.company.contracts.length > 0">
           
         <ion-list-header>
@@ -86,7 +88,7 @@
             {{ "Excel sheet upload for contract" | translate }}
           </ion-label>
         </ion-item>
-      </ng-container>
+      </ng-container>-->
         
     </ng-template>
   </ion-popover>

@@ -109,6 +109,7 @@ export class ImportTransferFormPage implements OnInit {
         this.transfer.currency_code = state['contract']? state['contract']['currency_code']: this.authService.currency_pref;
         this.transfer.contract_uuid = state['contract']? state['contract']['contract_uuid']: null;
         this.transfer.contract = state['contract'];
+        this.transfer.contract_type = 'ALL';
       }
     }
   }
@@ -202,7 +203,10 @@ export class ImportTransferFormPage implements OnInit {
    */
   async newTransferUpload(file) {
 
-    this.transferService.uploadTransferExcel(file, this.start_date, this.end_date, this.transfer.currency_code, this.transfer.contract_uuid).subscribe(async data => {
+    this.transferService.uploadTransferExcel(file, this.start_date, this.end_date, 
+      this.transfer.currency_code, this.transfer.contract_uuid,
+      this.transfer.contract_type
+    ).subscribe(async data => {
 
       this.uploading = false;
 
@@ -243,7 +247,10 @@ export class ImportTransferFormPage implements OnInit {
   async editTransferUpload(file) {
 
     this.transferService
-      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.start_date, this.end_date, this.transfer.currency_code, this.transfer.contract_uuid)
+      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.start_date, this.end_date, 
+        this.transfer.currency_code, this.transfer.contract_uuid,
+        this.transfer.contract_type
+      )
       .subscribe(async data => {
 
         this.uploading = false;
@@ -293,7 +300,13 @@ export class ImportTransferFormPage implements OnInit {
       end_date = this.end_date;
     }
     
-    this.transferService.downloadTransferTemplate(preFilled, start_date, end_date, this.transfer.contract_uuid).subscribe(response => {
+    this.transferService.downloadTransferTemplate(
+      preFilled, 
+      start_date, 
+      end_date, 
+      this.transfer.contract_uuid,
+      this.transfer.contract_type
+    ).subscribe(response => {
       loader.dismiss();
     });
   }

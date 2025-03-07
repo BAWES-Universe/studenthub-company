@@ -6,6 +6,7 @@ import { Area } from './area';
 import { RequestApplication } from './request-application';
 import { StoreAssignmentRequest } from './store-assignment-request';
 import { CandidateWorkHistory } from './candidate-work-history';
+import { Contract } from './contract';
 
 export class Candidate {
   employee_id: number;
@@ -75,6 +76,8 @@ export class Candidate {
   storeAssignmentRequest: StoreAssignmentRequest;
   currentWorkHistory: CandidateWorkHistory;
   candidateWorkingDates: CandidateWorkingDate[];
+  currentContract: Contract;
+  contracts: Contract[];
 }
 
 export class CandidateWorkingHour {

@@ -19,11 +19,16 @@ export class CandidateService {
    * List of all candidates
    * @returns {Observable<any>}
    */
-  list(urlParams = "expand=store,company,currentWorkHistory"): Observable<any> {
+  list(urlParams = "expand=store,company,currentWorkHistory,currentWorkHistory.contract"): Observable<any> {
     let url = `${this._candidateEndpoint}?${urlParams}`;
     return this._authhttp.get(url);
   }
 
+  /**
+   * Work log stats
+   * @param urlParams 
+   * @returns 
+   */
   workLogStats(urlParams: string = "") : Observable<any> {
     let url = `${this._candidateEndpoint}/work-log-stats?${urlParams}`;
     return this._authhttp.get(url);

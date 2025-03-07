@@ -5,9 +5,36 @@
     </ion-buttons>
     <ion-title>{{"Contracts" | translate}}</ion-title>
   </ion-toolbar>
+  <ion-toolbar class="desktop-view">
+    <div class="searchbar-wrapper filter-wrapper">
+
+      <ion-searchbar debounce="500" placeholder="{{ 'Search...' | translate }}" 
+        (ionChange)="onSearch($event)"></ion-searchbar>
+
+      <ion-chip tappable (click)="filterByType($event, null)" 
+        [class.active]="filter.type == null">All</ion-chip>
+      
+      <ion-chip tappable (click)="filterByType($event, 'FIXED_PRICE')" 
+        [class.active]="filter.type == 'FIXED_PRICE'">Fixed Price</ion-chip>
+      
+      <ion-chip tappable (click)="filterByType($event, 'HOURLY')" 
+        [class.active]="filter.type == 'HOURLY'">Hourly</ion-chip>
+      
+      <ion-chip tappable (click)="filterByType($event, 'MONTHLY_SALARY')" 
+        [class.active]="filter.type == 'MONTHLY_SALARY'">Monthly Salary</ion-chip>
+   
+    </div>
+  </ion-toolbar>
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="desktop-view">
+
+
 
     <section class="ion-padding no-contracts" *ngIf="!loading && contracts && contracts.length == 0">
       <ion-icon name="ios-filing-outline"></ion-icon>
@@ -15,31 +42,41 @@
     </section>
 
     <!-- (click)="contractDetails(contract.contract_uuid)"-->
-    <ion-item class="item-contract" tappable *ngFor="let contract of contracts" 
-      [routerLink]="'/contract-view/' + contract.contract_uuid">
-      <div tabindex="0"></div>
-      <ion-label>
-        <p class="txt-time" *ngIf="contract.created_at">
-          {{ translateService.toDate(contract.created_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang }}
-        </p>
-  
-        <ng-container *ngIf="contract.amount">
-          <h5 class="txt-value" *ngIf=" contract.type == 'HOURLY'">
-            {{ contract.amount.company_hourly_rate | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "hour" | translate }}
-          </h5>
-          
-          <h5 class="txt-value" *ngIf="contract.type == 'FIXED_PRICE'">
-            {{ contract.amount.company_total | number:'1.0-3' }} {{ contract.currency_code }} 
-          </h5>
-          
-          <h5 class="txt-value" *ngIf="contract.type == 'MONTHLY_SALARY'">
-            {{ contract.amount.company_total | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "month" | translate }}
-          </h5>
-        </ng-container>
 
-        <p class="txt-id">#{{contract.contract_uuid}}</p>
-      </ion-label>
-    </ion-item>  
+    <ion-card *ngFor="let contract of contracts">
+      <ion-card-header *ngIf="contract.candidate">
+        <candidate tappable (click)="candidateSelected(contract.candidate)" type='candidate-list' 
+          [candidate]="contract.candidate" ></candidate>
+      </ion-card-header>
+      <ion-card-content>
+                    
+        <ion-item class="item-contract" tappable 
+          [routerLink]="'/contract-view/' + contract.contract_uuid">
+          <div tabindex="0"></div>
+          <ion-label>
+            <p class="txt-time" *ngIf="contract.created_at">
+              {{ translateService.toDate(contract.created_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang }}
+            </p>
+      
+            <ng-container *ngIf="contract.amount">
+              <h5 class="txt-value" *ngIf=" contract.type == 'HOURLY'">
+                {{ contract.amount.company_hourly_rate | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "hour" | translate }}
+              </h5>
+              
+              <h5 class="txt-value" *ngIf="contract.type == 'FIXED_PRICE'">
+                {{ contract.amount.company_total | number:'1.0-3' }} {{ contract.currency_code }} 
+              </h5>
+              
+              <h5 class="txt-value" *ngIf="contract.type == 'MONTHLY_SALARY'">
+                {{ contract.amount.company_total | number:'1.0-3' }} {{ contract.currency_code }}/ {{ "month" | translate }}
+              </h5>
+            </ng-container>
+
+            <p class="txt-id">#{{contract.contract_uuid}}</p>
+          </ion-label>
+        </ion-item>  
+      </ion-card-content>
+    </ion-card>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
