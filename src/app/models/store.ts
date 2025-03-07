@@ -18,6 +18,7 @@ export class Store {
     mall: Mall;
     brand: Brand;
 
+    totalCandidates: number;
     //for ui 
     isOpen: boolean;
 }

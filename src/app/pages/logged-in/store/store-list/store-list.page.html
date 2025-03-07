@@ -21,7 +21,7 @@
         </ion-label>
 
         <ng-container *ngIf="store.isOpen">
-          <h4 class="txt-staffs">{{ "Staff" | translate }} ({{ store.store_total_candidates }})</h4>
+          <h4 class="txt-staffs">{{ "Staff" | translate }} ({{ store.totalCandidates }})</h4>
           
           <ion-item lines="none" tappable (click)="candidateSelected(candidate)" 
             *ngFor="let candidate of store.candidatesSummary">
@@ -46,8 +46,8 @@
             </ion-button>
           </ion-item>
         
-          <ion-button routerLink="/store-view/{{store.store_id }}" fill="clear" class="btn-view-more" *ngIf="store.store_total_candidates - 3 > 0">
-            {{ "txt_total_more" | translate : { total: store.store_total_candidates - 3 } }} <ion-icon name="chevron-forward-outline"></ion-icon>
+          <ion-button routerLink="/store-view/{{store.store_id }}" fill="clear" class="btn-view-more" *ngIf="store.totalCandidates - 3 > 0">
+            {{ "txt_total_more" | translate : { total: store.totalCandidates - 3 } }} <ion-icon name="chevron-forward-outline"></ion-icon>
           </ion-button> 
         </ng-container>
       </ion-card-content>
