@@ -124,13 +124,20 @@
                 </ng-container>  
               </p>
 
-              <p *ngIf="transferCandidateRecord.candidate.currentContract && transferCandidateRecord.candidate.currentContract.type != 'HOURLY'">
-                {{ transferCandidateRecord.company_total }} {{ form.value.currency_code }}
+              <p *ngIf="transferCandidateRecord.candidate.currentContract && 
+                transferCandidateRecord.candidate.currentContract.type != 'HOURLY'">
+                {{ transferCandidateRecord['contract_company_total'] }} {{ form.value.currency_code }}
               </p>
             </ion-label>
+             
+            <ion-input *ngIf="transferCandidateRecord.candidate.currentContract && 
+              transferCandidateRecord.candidate.currentContract.type != 'HOURLY'" type="number" 
+              inputmode="numeric" min="0" (ionChange)="onOverrideContractAmountChange(transferCandidateRecord, $event)" 
+              placeholder="Enter amount to override the contract amount"></ion-input> 
           </ion-item>
 
-          <ion-grid *ngIf="!transferCandidateRecord.candidate.currentContract || transferCandidateRecord.candidate.currentContract.type == 'HOURLY'"> 
+          <ion-grid *ngIf="!transferCandidateRecord.candidate.currentContract || 
+          transferCandidateRecord.candidate.currentContract.type == 'HOURLY'"> 
             <ion-row>
               <!-- Hours Input Column -->
               <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">

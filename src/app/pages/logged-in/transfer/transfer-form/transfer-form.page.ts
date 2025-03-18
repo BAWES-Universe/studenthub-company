@@ -174,8 +174,8 @@ export class TransferFormPage implements OnInit {
     }
 
     this.candidateService.list(params).subscribe(response => {
-      const allCandidatesAssignedToCompany: Candidate[] = response;
-      this._initTransferCandidateList(allCandidatesAssignedToCompany);
+      //const allCandidatesAssignedToCompany: Candidate[] = response;
+      this._initTransferCandidateList(response);
       loader.dismiss();
     });
   }
@@ -202,10 +202,12 @@ export class TransferFormPage implements OnInit {
       //candidateTransferRecord.currentWorkHistory = candidate.currentWorkHistory;
       if (this.transfer.contract) {
         candidateTransferRecord.company_total = this.transfer.contract.amount.company_total;
+        candidateTransferRecord['contract_company_total'] = this.transfer.contract.amount.company_total;
         //candidateTransferRecord.candidate_total = this.transfer.contract.candidate_total;
         candidateTransferRecord.transfer_cost = this.transfer.contract.transfer_cost; //effective transfer cost 
       } else if (candidate.currentContract) {
         candidateTransferRecord.company_total = candidate.currentContract.amount.company_total;
+        candidateTransferRecord['contract_company_total'] = candidate.currentContract.amount.company_total;
         //candidateTransferRecord.candidate_total = candidate.currentContract.candidate_total;
         candidateTransferRecord.transfer_cost = candidate.currentContract.transfer_cost; //effective transfer cost 
       } else {
@@ -287,6 +289,24 @@ export class TransferFormPage implements OnInit {
     this.calculateTotal();
 
     this.ready = true;
+  }
+
+  onOverrideContractAmountChange(transferCandidateRecord, $event) {
+    console.log('transferCandidateRecord', transferCandidateRecord);
+    console.log('$event', $event);
+
+    if (Number($event.target.value) > Number(transferCandidateRecord['contract_company_total'])) {
+      $event.target.value = Number(transferCandidateRecord['contract_company_total']);
+      return;
+    }
+
+    if (Number($event.target.value) > 0) {
+      transferCandidateRecord.company_total = Number($event.target.value);
+    } else {
+      transferCandidateRecord.company_total = Number(transferCandidateRecord['contract_company_total']);
+    }
+
+    this.calculateTotal();
   }
 
   /**
