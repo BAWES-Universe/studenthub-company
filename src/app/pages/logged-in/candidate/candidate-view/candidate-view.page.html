@@ -228,11 +228,23 @@
                   </ion-label>
                 </ion-item>
 
-                <ion-item class="university" [class.required]="!candidate.university">
+                <ion-item class="university" [class.required]="!(candidate.candidateEducations && candidate.candidateEducations.length > 0)">
                   <div tabindex="0"></div>
                   <ion-label>
-                    <b *ngIf="candidate.university">{{ candidate.university.university_name_en}}</b>
-                    <p *ngIf="!candidate.university">{{ "University (not set)" | translate}}</p>
+                    <ng-container *ngIf="candidate.candidateEducations && candidate.candidateEducations.length > 0">
+                      <ng-container *ngFor="let education of candidate.candidateEducations">
+                        <p>
+                          <ng-container *ngIf="education.education_type === 'standard'">
+                            {{ education.university.university_name_en }}
+                            <span *ngIf="!education.university.university_name_en">{{ education.university.university_name_ar }}</span>
+                          </ng-container>
+                          <ng-container *ngIf="education.education_type === 'custom_university' || education.education_type === 'studying_abroad'">
+                            {{ education.custom_institution_name }}
+                          </ng-container>
+                        </p>
+                      </ng-container>
+                    </ng-container>
+                    <p *ngIf="!candidate.candidateEducations || candidate.candidateEducations.length === 0">{{ "University (not set)" | translate}}</p>
                   </ion-label>
                 </ion-item>
 
