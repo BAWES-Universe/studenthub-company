@@ -141,6 +141,14 @@
                 }
               ]
             },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "./src/environments/environment.ts",
+                  "with": "./src/environments/environment.local.ts"
+                }
+              ]
+            },
             "ci": {
               "progress": false
             }
@@ -184,6 +192,9 @@
             },
             "saoud": {
               "browserTarget": "app:build:saoud"
+            },
+            "local": {
+              "browserTarget": "app:build:local"
             },
             "ci": {
               "progress": false
