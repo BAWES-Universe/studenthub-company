@@ -25,7 +25,8 @@ export class SentryErrorhandlerService extends ErrorHandler {
       this.sentryLoggingEnabled = true;
       
       Sentry.init({
-        dsn: 'https://7d4f6518641748b8935291e9057883b5@o70039.ingest.sentry.io/5339283',
+        dsn: environment.sentryDsn,
+        environment: environment.production ? 'production' : 'development',
         // TryCatch has to be configured to disable XMLHttpRequest wrapping, as we are going to handle
         // http module exceptions manually in Angular's ErrorHandler and we don't want it to capture the same error twice.
         // Please note that TryCatch configuration requires at least @sentry/browser v5.16.0.
