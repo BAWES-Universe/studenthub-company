@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   envName: 'dev',
+  sentryDsn: 'https://bfc8361efe651450288425dfc0562f38@o70039.ingest.us.sentry.io/4511495403667456',
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
   algoliaCandidateIndex: 'dev_candidate_public',
   algoliaCacheDuration: 5 * 60 * 1000, // 5 min in millisecond
