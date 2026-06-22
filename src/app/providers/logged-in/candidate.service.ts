@@ -136,7 +136,22 @@ export class CandidateService {
    * @param candidate_id
    */
   view(candidate_id): Observable<any> {
-    const url = this._candidateEndpoint + '/' + candidate_id + '?expand=isInvitedForCompany,invitedCount,store,university,nationality,country,area,company,candidateSkills,candidateExperiences';
+    const expandParams = [
+      'isInvitedForCompany',
+      'invitedCount',
+      'store',
+      'university',
+      'nationality',
+      'country',
+      'area',
+      'company',
+      'candidateSkills',
+      'candidateEducations',
+      'candidateExperiences',
+      'candidateEducations.university'
+    ].join(',');
+    
+    const url = `${this._candidateEndpoint}/${candidate_id}?expand=${expandParams}`;
     return this._authhttp.get(url);
   }
 }
