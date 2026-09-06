@@ -29,9 +29,9 @@
             {{ contact.contact_position }}
           </p>
 
-          <p *ngIf="contact.contact.contact_email">
-            <a (click)="doNothing($event)" href="mailto:{{ contact.contact.contact_email }}">
-              <ion-icon name="mail-outline"></ion-icon> {{ contact.contact.contact_email }}
+          <p *ngIf="contact.contact?.contact_email">
+            <a (click)="doNothing($event)" href="mailto:{{ contact.contact?.contact_email }}">
+              <ion-icon name="mail-outline"></ion-icon> {{ contact.contact?.contact_email }}
             </a>
           </p>
 
