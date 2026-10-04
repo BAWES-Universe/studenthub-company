@@ -68,12 +68,19 @@ function stillHasSignedMaterial(value: string): boolean {
     const lower = value.toLowerCase();
     return SENSITIVE_QUERY_KEYS.some((key) => {
         const marker = key + '=';
-        const at = lower.indexOf(marker);
-        if (at === -1) {
-            return false;
+        let from = 0;
+        while (from < lower.length) {
+            const at = lower.indexOf(marker, from);
+            if (at === -1) {
+                return false;
+            }
+            const rest = lower.slice(at + marker.length);
+            if (rest.indexOf('[redacted]') !== 0 && rest.indexOf('%5bredacted%5d') !== 0) {
+                return true;
+            }
+            from = at + marker.length;
         }
-        const rest = lower.slice(at + marker.length);
-        return rest.indexOf('[redacted]') !== 0 && rest.indexOf('%5bredacted%5d') !== 0;
+        return false;
     });
 }
 

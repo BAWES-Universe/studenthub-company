@@ -1,3 +1,4 @@
+import { redactPresignedUploadBreadcrumb } from '../src/app/providers/sentry-presign-redaction';
 import { TEMP_UPLOAD_HOST, uploadTemporaryFile } from '../src/app/providers/temp-upload-session';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -159,9 +160,13 @@ async function main() {
             }).subscribe({
                 next: () => {},
                 error: (err) => {
-                    assert(posted === false, 'oversized file requested an upload');
-                    assert(err.message.indexOf('18MB') !== -1, 'Employer size message was hidden');
-                    resolve();
+                    try {
+                        assert(posted === false, 'oversized file requested an upload');
+                        assert(err.message.indexOf('18MB') !== -1, 'Employer size message was hidden');
+                        resolve();
+                    } catch (assertionError) {
+                        reject(assertionError);
+                    }
                 },
                 complete: () => reject(new Error('oversized upload completed'))
             });
@@ -191,13 +196,48 @@ async function main() {
             }).subscribe({
                 next: () => {},
                 error: (err) => {
-                    assert(posted === false, 'unsupported file requested an upload');
-                    assert(err.message.indexOf('Accepted formats:') !== -1, 'accepted formats were hidden');
-                    resolve();
+                    try {
+                        assert(posted === false, 'unsupported file requested an upload');
+                        assert(err.message.indexOf('Accepted formats:') !== -1, 'accepted formats were hidden');
+                        resolve();
+                    } catch (assertionError) {
+                        reject(assertionError);
+                    }
                 },
                 complete: () => reject(new Error('unsupported upload completed'))
             });
         });
+    });
+
+    await check('a later raw signature in the same breadcrumb does not survive', () => {
+        const signed = 'https://' + TEMP_UPLOAD_HOST
+            + '/logo.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Expires=600&X-Amz-Signature=first-signature';
+        const second = 'second-raw-signature-value';
+        const combined = redactPresignedUploadBreadcrumb({
+            category: 'console',
+            message: 'upload ' + signed + ' x-amz-signature=' + second
+        });
+        const serialized = JSON.stringify(combined);
+        assert(serialized.indexOf(second) === -1, 'second signature survived');
+        assert(serialized.indexOf('first-signature') === -1, 'url signature survived');
+
+        const ordinary = redactPresignedUploadBreadcrumb({
+            category: 'xhr',
+            type: 'http',
+            data: {
+                method: 'PUT',
+                url: signed,
+                status_code: 200
+            }
+        });
+        assert(ordinary !== null, 'ordinary upload breadcrumb was dropped');
+        assert(ordinary.data.method === 'PUT', 'ordinary method was dropped');
+        assert(ordinary.data.status_code === 200, 'ordinary status was dropped');
+        assert(ordinary.data.url.indexOf('first-signature') === -1, 'ordinary signature survived');
+        assert(ordinary.data.url.indexOf('X-Amz-Expires=600') !== -1, 'ordinary expiry was dropped');
+
+        const unrelated = { category: 'ui', message: 'opened activate' };
+        assert(redactPresignedUploadBreadcrumb(unrelated) === unrelated, 'unrelated breadcrumb was changed');
     });
 
     await check('employer sources no longer load browser credentials', () => {
