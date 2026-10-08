@@ -2,7 +2,8 @@ import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2, ViewChild} 
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {ActionSheetController, AlertController, Platform} from '@ionic/angular';
 import {CameraService} from '../../providers/camera.service';
-import {AwsService} from '../../providers/aws.service';
+import {ActivationUploadAuth, AwsService} from '../../providers/aws.service';
+import {BACKEND_IMAGE_EXTENSIONS, acceptAttribute, uploadAlertMessage} from '../../providers/upload-formats';
 
 @Component({
   selector: 'app-image-upload',
@@ -30,6 +31,9 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   @Input() icon = 'image-outline';
   // File prefix when uploading to S3
   @Input() prefix = 'image';
+  @Input() activationAuth: ActivationUploadAuth = null;
+
+  public acceptedFormats = acceptAttribute(BACKEND_IMAGE_EXTENSIONS);
 
   @Input() iconSrc;
   
@@ -148,7 +152,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       const file = fileList.item(0);
 
       // Upload The File
-      const uploadObservable = this._awsService.uploadFile(file);
+      const uploadObservable = this._awsService.uploadFile(file, BACKEND_IMAGE_EXTENSIONS, this.activationAuth);
       this.processFileUpload(uploadObservable);
     }
   }
@@ -160,7 +164,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
    */
   uploadFileViaNativeFilePath(path){
     // Upload and process for progress
-    this._awsService.uploadNativePath(path)
+    this._awsService.uploadNativePath(path, BACKEND_IMAGE_EXTENSIONS, this.activationAuth)
       .then((uploadObservable) => {
         this.processFileUpload(uploadObservable);
       })
@@ -208,9 +212,14 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
         //}, 200);
       }
 
-    }, (err) => { 
+    }, async (err) => {
       this.newUpload.status = 'error';
-      // Hide File Upload Indicator based on which file is being uploaded
+      const alert = await this._alertCtrl.create({
+        header: 'Error',
+        message: uploadAlertMessage(err, 'Error while uploading file!'),
+        buttons: ['Okay']
+      });
+      await alert.present();
       this.isUploading = false;
     }, () => {
       this.onUploadComplete();

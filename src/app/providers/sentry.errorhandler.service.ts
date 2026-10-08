@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { sentryRelease } from '../../environments/sentry-release';
 import * as Sentry from '@sentry/browser';
+import { redactPresignedUploadBreadcrumb } from './sentry-presign-redaction';
 
 
 @Injectable({
@@ -35,6 +36,7 @@ export class SentryErrorhandlerService extends ErrorHandler {
         integrations: [new Sentry.Integrations.TryCatch({
           XMLHttpRequest: false,
         })],
+        beforeBreadcrumb: (breadcrumb) => redactPresignedUploadBreadcrumb(breadcrumb),
       });
     }
   }

@@ -1,84 +1,45 @@
-import { Injectable } from "@angular/core";
-import { File as NativeFile, Entry, FileEntry }  from '@ionic-native/file/ngx';
-import { Observable, Observer } from "rxjs";
-import * as AWS from 'aws-sdk';
+import { Injectable } from '@angular/core';
+import { File as NativeFile, Entry, FileEntry } from '@ionic-native/file/ngx';
+import { Observable } from 'rxjs';
 import { Platform, AlertController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
-import { HttpClient } from "@angular/common/http";
+import { Filesystem } from '@capacitor/filesystem';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { TEMP_UPLOAD_HOST, uploadTemporaryFile } from './temp-upload-session';
 
+export interface ActivationUploadAuth {
+    contact_auth_key: string;
+    contact_email: string;
+    company_id: string;
+}
 
 @Injectable({
     providedIn: 'root'
 })
 export class AwsService {
-    //https://studenthub-public-anyone-can-upload-24hr-expiry.s3.amazonaws.com/
-    
-    //https://studenthub-uploads-dev-server.s3.amazonaws.com/
-    
-    //https://studenthub-uploads.s3.amazonaws.com/
-   
+    // https://studenthub-public-anyone-can-upload-24hr-expiry.s3.amazonaws.com/
+
+    // https://studenthub-uploads-dev-server.s3.amazonaws.com/
+
+    // https://studenthub-uploads.s3.amazonaws.com/
+
     public permanentBucketUrl = environment.permanentBucketUrl;
     public bucketUrl = 'https://studenthub-public-anyone-can-upload-24hr-expiry.s3.amazonaws.com/';
-    //eu-west-2.
+    // eu-west-2.
     public cloudinaryUrl = environment.cloudinaryUrl;
 
-    private _region = "eu-west-2"; //London
-    private _access_key_id = "";
-    private _secret_access_key = "";
-    private _bucket_name = "studenthub-public-anyone-can-upload-24hr-expiry";
-
-    public maxUploadSize = 18874368;//18 MB
+    public maxUploadSize = 18874368; // 18 MB
 
     public txtMaxUploadSize = '18MB';
 
     constructor(
         private http: HttpClient,
+        private authService: AuthService,
         public platform: Platform,
         public alertController: AlertController,
         private _file: NativeFile
     ) {
-       // this.initAwsService();
-    }
-
-    /**
-     * get temp aws access/ todo: can also get authorised link  
-     * @returns 
-     */
-    getConfig(): Observable<any> {
-        let url = environment.apiEndpoint + `/aws/config`;
-        return this.http.get(url);
-    }
-
-    /**
-     * @param config 
-     */
-    setConfig() {
-        return new Promise((resolve, reject) => {
-            this.getConfig().subscribe(config => {
-                this._region = config.region;
-                this._access_key_id = config.key;
-                this._secret_access_key = config.secret;
-                this._bucket_name = config.bucket;
-
-                AWS.config.region = this._region;
-                AWS.config.accessKeyId = this._access_key_id;
-                AWS.config.secretAccessKey = this._secret_access_key;
-
-                resolve(true);
-            }, err => {
-                reject(err);
-            });
-        });
-    }
-
-    /**
-     * Initialize the AWS Service
-     */
-    initAwsService(){
-        AWS.config.region = this._region;
-        AWS.config.accessKeyId = this._access_key_id;
-        AWS.config.secretAccessKey = this._secret_access_key;
     }
 
     /**
@@ -88,175 +49,127 @@ export class AwsService {
      * @param  { any } nativeFilePath
      * @returns Promise
      */
-    uploadNativePath(nativeFilePath): Promise<Observable<any>>{
+    uploadNativePath(nativeFilePath, allowedExtensions: string[] = null, activation: ActivationUploadAuth = null): Promise<Observable<any>>{
         return new Promise((resolve, reject) => {
 
             // Resolve File Path on System
 
             this._file.resolveLocalFilesystemUrl(nativeFilePath).then((entry: Entry) => {
-                 
+
                 // Convert entry into File Entry which can output a JS File object
-                let fileEntry =  entry as FileEntry;
+                const fileEntry =  entry as FileEntry;
 
                 // Return a File object that represents the current state of the file that this FileEntry represents
                 fileEntry.file(async (file: any) => {
-  
+
                     // Store File Details for later use
-                    let fileName = file.name;
-                    let fileType = file.type;
-                    let fileLastModified = file.lastModifiedDate;
+                    const fileName = file.name;
+                    const fileType = file.type;
+                    const fileLastModified = file.lastModifiedDate;
 
                     let fileReadResult;
-                    
-                    try 
-                    { 
+
+                    try
+                    {
                         fileReadResult = await Filesystem.readFile({
                             path: nativeFilePath,
-                            //encoding: FilesystemEncoding.UTF8
+                            // encoding: FilesystemEncoding.UTF8
                         });
-                    } 
-                    catch(err) 
-                    { 
-                        let message = err && err.message? err.message: "Error reading file"; 
- 
+                    }
+                    catch (err)
+                    {
+                        const message = err && err.message ? err.message : 'Error reading file';
+
                         const alert = await this.alertController.create({
-                            header: 'Error', 
-                            message: message,
+                            header: 'Error',
+                            message,
                             buttons: ['Okay']
                         });
-                      
+
                         await alert.present();
 
-                        return reject("Error reading file: " + JSON.stringify(err));
-                    } 
+                        return reject('Error reading file: ' + JSON.stringify(err));
+                    }
 
-                    //var blob = new Blob([fileReadResult.data], { type: fileType });
-                    var file: any = this.b64toBlob(fileReadResult.data, fileType);// blob;//, fileType);//blob;
-                    file.name = fileName;
-                    file.lastModifiedDate = fileLastModified;
+                    // var blob = new Blob([fileReadResult.data], { type: fileType });
+                    const blobFile: any = this.b64toBlob(fileReadResult.data, fileType); // blob;//, fileType);//blob;
+                    blobFile.name = fileName;
+                    blobFile.lastModifiedDate = fileLastModified;
 
                     // Resolve an Observable for File Uploading
-                    
-                    resolve(this.uploadFile(file)); 
-                    
-                }, (error) => { 
-                    reject("Unable to retrieve file properties: " + JSON.stringify(error));
+
+                    resolve(this.uploadFile(blobFile, allowedExtensions, activation));
+
+                }, (error) => {
+                    reject('Unable to retrieve file properties: ' + JSON.stringify(error));
                 });
-            }).catch(err => { 
-                reject("Error resolving file: " + JSON.stringify(err));
+            }).catch(err => {
+                reject('Error resolving file: ' + JSON.stringify(err));
             });
         });
     }
 
     /**
-     * convert base64 data to Blob object 
-     * @param b64Data 
-     * @param contentType 
-     * @param sliceSize 
+     * convert base64 data to Blob object
+     * @param b64Data
+     * @param contentType
+     * @param sliceSize
      */
     b64toBlob(b64Data, contentType = '', sliceSize = 512) {
-       
-        var byteCharacters = atob(b64Data);
-        var byteArrays = [];
-      
-        for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-          var slice = byteCharacters.slice(offset, offset + sliceSize);
-      
-          var byteNumbers = new Array(slice.length);
-          for (var i = 0; i < slice.length; i++) {
+
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+          const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+          const byteNumbers = new Array(slice.length);
+          for (let i = 0; i < slice.length; i++) {
             byteNumbers[i] = slice.charCodeAt(i);
           }
-      
-          var byteArray = new Uint8Array(byteNumbers);
-      
+
+          const byteArray = new Uint8Array(byteNumbers);
+
           byteArrays.push(byteArray);
         }
-          
-        var blob = new Blob(byteArrays, {type: contentType});
+
+        const blob = new Blob(byteArrays, {type: contentType});
         return blob;
     }
 
     /**
-     * Upload file to Amazon S3, return an observable to monitor progress 
+     * Upload file to Amazon S3, return an observable to monitor progress
      * @param { File } file
      * @returns { Observable<any> }
      */
-    uploadFile(file: File = null): Observable<any> {
+    uploadFile(file: File = null, allowedExtensions: string[] = null, activation: ActivationUploadAuth = null): Observable<any> {
+        const activationFields = this.activationFields(activation);
 
-        let s3 = new AWS.S3({
-            apiVersion: '2006-03-01'
+        return uploadTemporaryFile({
+            file,
+            maxBytes: this.maxUploadSize,
+            oversizedMessage: 'File size should not exceed ' + this.txtMaxUploadSize + '!',
+            presignUrl: environment.apiEndpoint + (activationFields ? '/temp-upload/activate' : '/temp-upload/url'),
+            token: activationFields ? '' : (this.authService.getAccessToken() || ''),
+            extraBody: activationFields || undefined,
+            uploadHost: TEMP_UPLOAD_HOST,
+            allowedExtensions,
+            post: (url, body, headers) => this.http.post(url, body, {
+                headers: new HttpHeaders(headers)
+            })
         });
+    }
 
-        let extension = this._getFileExtension(file.name);
-
-        let prefix = this._getFileNameWithoutExtension(file.name);
-
-        if(!prefix) {
-            prefix = 'file';
+    private activationFields(activation: ActivationUploadAuth): Record<string, string> | null {
+        if (!activation) {
+            return null;
         }
 
-        let key = prefix + "-" + Date.now() + "." + extension;
-
-        let params = { 
-            Body: file, // the actual file file
-            ACL: "public-read", // to allow public access to the file
-            Bucket: this._bucket_name, //bucket name
-            Key: key, //file name
-            ContentType: file.type, //(String) A standard MIME type describing the format of the object file
-        } 
-
-        return Observable.create((observer: Observer<any>) => {
-
-            if(file.size > this.maxUploadSize) {
-                return observer.error('File size should not exceed ' + this.txtMaxUploadSize + '!');
-            } 
-
-            s3.upload(params).on('httpUploadProgress', (progress: ProgressEvent) => {
-                observer.next(progress);
-            }).send((err, data) => {
-                
-                if(err) {
-                    observer.error(err);
-                } else {
-                    observer.next(data);
-                }
-            });
-        });
+        return {
+            contact_auth_key: activation.contact_auth_key || '',
+            contact_email: activation.contact_email || '',
+            company_id: String(activation.company_id || '')
+        };
     }
 
-    /**
-     * Take file name / path and return the file name without extension.
-     */
-    private _getFileNameWithoutExtension(path) {
-        let basename = path.split(/[\\/]/).pop(),  // extract file name from full path ... (supports `\\` and `/` separators)
-
-        pos = basename.lastIndexOf(".");       // get last position of `.`
-
-        if (basename === "" || pos < 1)            // if file name is empty or ...
-            return "";                             //  `.` not found (-1) or comes first (0)
-
-        return this.normalizeFileName(basename.slice(0, pos));            // extract file name ignoring `.` without extension
-    }
-
-    /**
-     * replace space in name with `-`
-     * @param fileName 
-     */
-    normalizeFileName(fileName) {
-        return fileName.replace(/ /g, "-").replace(/%20/g, "-").replace(/([^a-z0-9 ]+)/gi, '-');
-    }
-
-    /**
-     * Take file name / path and return the file extension.
-     */
-    private _getFileExtension(path) {
-        var basename = path.split(/[\\/]/).pop(),  // extract file name from full path ...
-                                                // (supports `\\` and `/` separators)
-            pos = basename.lastIndexOf(".");       // get last position of `.`
-
-        if (basename === "" || pos < 1)            // if file name is empty or ...
-            return "";                             //  `.` not found (-1) or comes first (0)
-
-        return basename.slice(pos + 1);            // extract extension ignoring `.`
-    }
 }
