@@ -12,7 +12,7 @@
     <ion-icon [src]="iconSrc" *ngIf="iconSrc"></ion-icon>
     <ion-icon [name]="icon" *ngIf="!iconSrc"></ion-icon>
     
-    <img [src]="displaySrc()" *ngIf="displaySrc()"/><br/>
+    <img [src]="displaySrc()" *ngIf="displaySrc() && !previewBroken()" (error)="onPreviewError()"/><br/>
 
   </ion-thumbnail>
 

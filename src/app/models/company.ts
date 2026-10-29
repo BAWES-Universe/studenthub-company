@@ -16,6 +16,7 @@ export class Company {
     company_logo: string;
     company_logo_url?: string | null;
     logo_unavailable?: boolean;
+    logo_failed_src?: string | null;
     commercial_licence: string;
     commercial_licence_url?: string;
     company_hourly_rate: number;

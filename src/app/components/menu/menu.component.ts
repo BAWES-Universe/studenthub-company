@@ -3,6 +3,8 @@ import { MenuController, NavController } from '@ionic/angular';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { resolvedStoredImageUrl } from 'src/app/providers/stored-image-url';
+import { Company } from 'src/app/models/company';
 import { EventService } from 'src/app/providers/event.service';
 import {TranslateLabelService} from "../../providers/translate-label.service";
 
@@ -29,6 +31,19 @@ export class MenuComponent implements OnInit {
     this.eventService.alertCount$.subscribe((data: any) => {
       this.totalUnread = data.total;
     })
+  }
+
+  logoSrc(company: Company): string | null {
+    return resolvedStoredImageUrl(company?.company_logo_url, company?.company_logo, this.awsService.cloudinaryUrl);
+  }
+
+  showLogo(company: Company): boolean {
+    const src = this.logoSrc(company);
+    return !!src && company?.logo_failed_src !== src;
+  }
+
+  markLogoFailed(company: Company) {
+    company.logo_failed_src = this.logoSrc(company);
   }
 
   /**
