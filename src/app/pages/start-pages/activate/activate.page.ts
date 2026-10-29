@@ -57,8 +57,6 @@ export class ActivatePage implements OnInit {
       contact_email: [this.activatedRoute.snapshot.paramMap.get('contact_email'), Validators.required],
       password: ['', Validators.required],
       company_id: [this.activatedRoute.snapshot.paramMap.get('company_id'), Validators.required],
-      company_logo: [''], 
-      commercial_licence: ['', Validators.required],
       description: [''],
       website: ['']
     });
