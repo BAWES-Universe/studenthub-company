@@ -14,7 +14,9 @@ export class Company {
     company_website: string;
     company_email: string;
     company_logo: string;
+    company_logo_url?: string;
     commercial_licence: string;
+    commercial_licence_url?: string;
     company_hourly_rate: number;
     company_bonus_commission: number;
     company_followup: any;

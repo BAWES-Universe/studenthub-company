@@ -69,18 +69,34 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
     this.bucketUrl = this._bucketUrlPermanent;
   }
 
+  /** Resolved URL for a licence or logo already stored by the API. */
+  @Input() previewUrl: string;
+
   ngOnInit() {
     if (this.prefix == 'photo') {
       this.bucketUrl = this._awsService.cloudinaryUrl + 'candidate-photo/';
     }
+  }
 
-    else if (this.prefix == 'logo') {
-      this.bucketUrl = this._awsService.cloudinaryUrl;
+  displaySrc(): string {
+    if (
+      (this.prefix === 'logo' || this.prefix === 'commercial_licence') &&
+      this.value &&
+      this.value.indexOf('/') === -1
+    ) {
+      return this._bucketUrlTemporary + this.value;
     }
 
-    else if (this.prefix == 'commercial_licence') {
-      this.bucketUrl = this._awsService.cloudinaryUrl;
+    if (this.bucketUrl === this._bucketUrlTemporary && this.value) {
+      return this._bucketUrlTemporary + this.value;
     }
+    if (this.previewUrl) {
+      return this.previewUrl;
+    }
+    if (this.prefix === 'logo' || this.prefix === 'commercial_licence') {
+      return '';
+    }
+    return this.value ? this.bucketUrl + this.value : '';
   }
 
   /**
