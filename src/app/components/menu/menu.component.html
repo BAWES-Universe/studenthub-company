@@ -2,11 +2,11 @@
 
   <ion-toolbar class="toolbar" *ngIf="auth.company">
     <div class="company-logo">
-      <ion-avatar [class.no-logo]="!auth.company.company_logo">
-        <ion-icon *ngIf="!auth.company.company_logo" class="no-logo main-logo" name="business">
+      <ion-avatar [class.no-logo]="!showLogo(auth.company)">
+        <ion-icon *ngIf="!showLogo(auth.company)" class="no-logo main-logo" name="business">
         </ion-icon>
-        <ion-img src="{{ awsService.cloudinaryUrl + auth.company.company_logo }}" class="company-logo"
-          *ngIf="auth.company.company_logo" (ionError)="auth.company.company_logo = null;"></ion-img>
+        <ion-img [src]="logoSrc(auth.company)" class="company-logo"
+          *ngIf="showLogo(auth.company)" (ionError)="markLogoFailed(auth.company)"></ion-img>
       </ion-avatar>
 
     </div>
@@ -78,11 +78,11 @@
     <ng-container *ngFor="let model of auth.companies" class="list-header">
       <ion-item *ngIf="model.company_id != auth.company_id" tappable (click)='changeCompany(model)'>
         <div tabindex="0"></div>
-        <ion-avatar slot="start" [class.no-logo]="!model.company_logo">
-          <ion-icon *ngIf="!model.company_logo" class="no-logo company-logo" name="business">
+        <ion-avatar slot="start" [class.no-logo]="!showLogo(model)">
+          <ion-icon *ngIf="!showLogo(model)" class="no-logo company-logo" name="business">
           </ion-icon>
-          <ion-img src="{{ awsService.cloudinaryUrl + model.company_logo }}" class="company-logo"
-            *ngIf="model.company_logo" (ionError)="model.company_logo = null;"></ion-img>
+          <ion-img [src]="logoSrc(model)" class="company-logo"
+            *ngIf="showLogo(model)" (ionError)="markLogoFailed(model)"></ion-img>
         </ion-avatar>
         <ion-label>
           {{ model.company_common_name_en?model.company_common_name_en: model.company_name }}
